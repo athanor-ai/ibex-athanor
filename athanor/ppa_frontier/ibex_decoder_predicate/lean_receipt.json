@@ -1,6 +1,6 @@
 {
   "artifact_ref": "artifacts/IbexDecoderMultdivPredicate.lean",
-  "artifact_sha256": "2c59938b138e63ff028d28231f985ce383a3b63ac9b05e11300ae7c44c60df8a",
+  "artifact_sha256": "68f816ca7c84d28ee86635896f875b0b3fcb0cf94c6a4a772e94aeb278e85d64",
   "conditions": 3,
   "is_design_specific": true,
   "kernel_result": "pass",
