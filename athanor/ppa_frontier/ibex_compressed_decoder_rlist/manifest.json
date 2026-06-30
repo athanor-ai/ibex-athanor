@@ -2,7 +2,7 @@
   "artifacts": {
     "area.json": {
       "path": "area.json",
-      "sha256": "df45f849702e437a5f617361c274c8d98dd7669c0d6a8e3070b4486c3462d6aa"
+      "sha256": "3f3b6bcd6db9032816d64765612043bcf52a864056009cdfa228fa0c96841e07"
     },
     "artifacts/gate_v2001.v": {
       "path": "artifacts/gate_v2001.v",
@@ -20,71 +20,25 @@
       "path": "artifacts/ibex_compressed_decoder_rlist_init_formula.sv",
       "sha256": "6c4e43c9913320c27a9963444c564fc2211279e578ca33f0751b3ad9fe9a9fc5"
     },
-    "evidence.json": {
-      "path": "evidence.json",
-      "sha256": "d7865c444e1577f5f2553c56c3d8c7bec0e40142031c7dfa7d6237ff2bd7b6d4"
-    },
     "formal_cert.json": {
       "path": "formal_cert.json",
-      "sha256": "247326f4ff87e8859a9283eaa25965f300db1e73998402a7ec5244a5a6ff6956"
+      "sha256": "1ad89a19aea3de3621c93000a5be7aaba0b93a6132c259aa5142db115c91ce1a"
     },
     "lean_receipt.json": {
       "path": "lean_receipt.json",
       "sha256": "3dd227ad814f451941dbd38446baeecb979aca8e2c9129606f607707b8731cc8"
     },
-    "logs/gate_flatten_area.log": {
-      "path": "logs/gate_flatten_area.log",
-      "sha256": "2f63eef596bd2613995d39c1f1a5dab84b068a955c74aa536fb33d4241eeee8a"
-    },
-    "logs/gate_timing.log": {
-      "path": "logs/gate_timing.log",
-      "sha256": "cb0a88d751987c7646dae20391cc62e10216b9f87d62907b7856292c7995d01c"
-    },
-    "logs/gold_flatten_area.log": {
-      "path": "logs/gold_flatten_area.log",
-      "sha256": "8b0c2f0211ed2fe5a7f0373db695ad4b21546c33521fd46d9d8ec3acd1db07ea"
-    },
-    "logs/gold_timing.log": {
-      "path": "logs/gold_timing.log",
-      "sha256": "473ecd7f9e97cf23ad7344da27fad0ecd45b2d76ee6da4c6957498d1935fb745"
-    },
-    "logs/tight_gate_2.75.log": {
-      "path": "logs/tight_gate_2.75.log",
-      "sha256": "0ac350037ad00966f1e6756b5bae30a0b9ce2c56f5cbf52afe165516975dea20"
-    },
-    "logs/tight_gold_2.75.log": {
-      "path": "logs/tight_gold_2.75.log",
-      "sha256": "2d0e2e012acb73b0fa01fb39e267c5a26bf4e62a0685145d80113af6adc8614c"
-    },
     "power.json": {
       "path": "power.json",
-      "sha256": "3d4e1bbb9a867412c60ac15d68febe08dd3259d5812dae6b4d6cdced9a577861"
-    },
-    "replay_summary.json": {
-      "path": "replay_summary.json",
-      "sha256": "944004eb357b3f4622d43471ba27d5797147deff6d9a3478b94ebfb4c368d792"
+      "sha256": "3119ef0c5ee6743678f6fb8ec37a2bd91708f96e4f24243eaab3c243313b0018"
     },
     "timing.json": {
       "path": "timing.json",
-      "sha256": "28d829696023e2ef3b376b2e78b661c1cb7c35d44e571df028ca80bd70cf6bf7"
-    },
-    "toggle/toggle_audit_summary.json": {
-      "path": "toggle/toggle_audit_summary.json",
-      "sha256": "c926b8af4ee6894c74568ee98e29d0923f5d46241f15e238046d8cd851e86816"
-    },
-    "toggle/toggle_summary.json": {
-      "path": "toggle/toggle_summary.json",
-      "sha256": "8ca2be0a012e5752765a855dea426ab082f876a55e0f8e56e99af4ff9288a6c4"
+      "sha256": "a1b6ea752dc9d248442f937acfa75457dc6c129ca79fb1979c31e6cd96a2b8fd"
     }
   },
-  "claim": {
-    "customer_claim_ready": false,
-    "receipt_gaps": [
-      "managed_optimize_checkpoint_replay_missing",
-      "portable_synthesis_flow_claim_not_supported"
-    ]
-  },
   "module": "ibex_compressed_decoder",
-  "schema": "ibex_compressed_decoder_rlist_replay_v1",
+  "schema": "public_frontier_manifest_v1",
+  "status": "formal_pass_yosys09_pinned_ppa_positive_cross_tool_sensitive",
   "transform_class": "zcmp_helper_formula"
 }

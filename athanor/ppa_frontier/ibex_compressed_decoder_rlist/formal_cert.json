@@ -4,7 +4,7 @@
   "gold_sha256": "91186cc0b90e190fcb6c261a6bccf03c422e328aa5e0e6c4c5853865900eea96",
   "gate_sha256": "6c4e43c9913320c27a9963444c564fc2211279e578ca33f0751b3ad9fe9a9fc5",
   "independent_verification": {
-    "agent": "quan",
+    "replay_id": "formal_replay_a",
     "engine": "ABC PDR via SBY, oss-cad-suite Yosys 0.45",
     "properties": [
       "instr_o",

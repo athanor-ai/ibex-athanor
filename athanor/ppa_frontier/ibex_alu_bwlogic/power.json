@@ -1,10 +1,12 @@
 {
   "compile_file_order": {
     "gate": [
-      "/workdir/_tmp/ath2467-expression-ab/_sv2v_yosys/top=ibex_alu_gat/ibex_pkg_v2001.v"
+      "artifacts/ibex_pkg.sv",
+      "artifacts/ibex_alu_bwlogic_or_from_xor_and.sv"
     ],
     "gold": [
-      "/workdir/_tmp/kairos-ath2467-ab/examples/ibex/_sv2v_yosys/top=ibex_alu:def/ibex_pkg_v2001.v"
+      "artifacts/ibex_pkg.sv",
+      "artifacts/ibex_alu.sv"
     ]
   },
   "gate_toggles": 5977,

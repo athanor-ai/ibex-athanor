@@ -6,23 +6,23 @@
     "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
     "metric_note": "Pinned Yosys 0.9 recipe: hierarchy; proc; flatten; synth; dfflibmap -liberty; abc -liberty; stat -liberty."
   },
-  "cross_agent_replays": [
+  "independent_replays": [
     {
-      "agent": "dexter",
+      "replay_id": "replay_a",
       "chip_area_delta_pct": -2.38095,
       "gate_area": 4668.2272,
       "gold_area": 4782.0864,
       "toolchain": "Yosys 0.9"
     },
     {
-      "agent": "ronald",
+      "replay_id": "replay_b",
       "chip_area_delta_pct": -2.38095,
       "gate_area": 4668.2272,
       "gold_area": 4782.0864,
       "toolchain": "Yosys 0.9"
     },
     {
-      "agent": "quan",
+      "replay_id": "replay_c",
       "chip_area_delta_pct": -3.11,
       "gate_area": 4720.78,
       "gold_area": 4872.17,
@@ -40,7 +40,7 @@
   "toolchain_sensitivity": {
     "classification": "cross_tool_sensitive",
     "yosys_0_45": {
-      "agent": "quan",
+      "replay_id": "cross_tool_replay",
       "chip_area_delta_pct": 1.19,
       "gate_area": 5019.81,
       "gold_area": 4961.01,

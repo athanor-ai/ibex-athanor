@@ -67,7 +67,7 @@
   "gate_toggles": 800,
   "gold_toggles": 800,
   "independent_replay": {
-    "agent": "quan",
+    "replay_id": "toggle_replay_a",
     "cycles": 200,
     "gate_toggles": 3423,
     "gold_toggles": 3423,

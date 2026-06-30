@@ -1,51 +1,36 @@
 {
   "artifacts": {
-    "area": {
+    "area.json": {
       "path": "area.json",
       "sha256": "b7379d8b354f6e5c3931514a8ef3ce1e772429dae6022e72cc0f600ccab38913"
     },
-    "evidence": {
-      "path": "evidence.json",
-      "sha256": "4d889f3e8a9a7a6f9d5334f0a2c72d0f8e551c421c91d272cb54261606d80ae3"
-    },
-    "formal_cert": {
-      "path": "formal_cert.json",
-      "sha256": "be252776d2e0aa4974a3a6f3553a38d18741d5ee1181df7e32d78c4567036638"
-    },
-    "gate_rtl": {
-      "path": "artifacts/ibex_decoder_multdiv_predicate.sv",
-      "sha256": "c4cbfee6ad449673292f890dfb12c013392dba5614bc310b0bbb2fe79040fed8"
-    },
-    "gold_rtl": {
+    "artifacts/ibex_decoder.sv": {
       "path": "artifacts/ibex_decoder.sv",
       "sha256": "ba04566d91209d1f58d70a63405b137cfa28d76207d2e5bebdd5dcbf2d9fd88a"
     },
-    "lean_receipt": {
+    "artifacts/ibex_decoder_multdiv_predicate.sv": {
+      "path": "artifacts/ibex_decoder_multdiv_predicate.sv",
+      "sha256": "c4cbfee6ad449673292f890dfb12c013392dba5614bc310b0bbb2fe79040fed8"
+    },
+    "formal_cert.json": {
+      "path": "formal_cert.json",
+      "sha256": "be252776d2e0aa4974a3a6f3553a38d18741d5ee1181df7e32d78c4567036638"
+    },
+    "lean_receipt.json": {
       "path": "lean_receipt.json",
       "sha256": "8f01607c1312a42eb7015a266a9058d8da535d90a335be773723f2f7ada3e750"
     },
-    "power": {
+    "power.json": {
       "path": "power.json",
       "sha256": "11bb14a959a897a222862bd48ba1ff76e796fbad0b963967b28f4c61f6e7a704"
     },
-    "replay_summary": {
-      "path": "replay_summary.json",
-      "sha256": "80e2b32d9543907f6633a913614224160af4b623d0bf76bd1b1b23cc1c04efb3"
-    },
-    "timing": {
+    "timing.json": {
       "path": "timing.json",
       "sha256": "137272bf737aa35c7ef46b445cf25e3880f8cf8a5918fe57bd5e37ab31423d51"
     }
   },
-  "claim": {
-    "customer_claim_ready": true,
-    "derived_by": "build_candidate_evidence",
-    "receipt_gaps": []
-  },
-  "command": "python scripts/replay_decoder_multdiv_predicate.py",
-  "main_sha": "5fb0e08d622d5516b88deddc0fcb302e377164d1",
   "module": "ibex_decoder",
-  "schema": "decoder_multdiv_replay_v1",
-  "source_prep_contract": "shared_prepare_yosys_sources",
+  "schema": "public_frontier_manifest_v1",
+  "status": "formal_pass_yosys09_pinned_ppa_positive",
   "transform_class": "decoder_multdiv_predicate_factor"
 }

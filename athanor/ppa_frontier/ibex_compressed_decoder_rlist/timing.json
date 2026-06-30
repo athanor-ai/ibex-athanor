@@ -14,7 +14,7 @@
     "status": "measured_pass"
   },
   "independent_replay": {
-    "agent": "quan",
+    "replay_id": "timing_replay_a",
     "gate_slack_ns": 8.11,
     "gold_slack_ns": 7.98,
     "slack_delta_ns": 0.13
