@@ -4,6 +4,10 @@
       "path": "area.json",
       "sha256": "b7379d8b354f6e5c3931514a8ef3ce1e772429dae6022e72cc0f600ccab38913"
     },
+    "artifacts/IbexDecoderMultdivPredicate.lean": {
+      "path": "artifacts/IbexDecoderMultdivPredicate.lean",
+      "sha256": "2c59938b138e63ff028d28231f985ce383a3b63ac9b05e11300ae7c44c60df8a"
+    },
     "artifacts/ibex_decoder.sv": {
       "path": "artifacts/ibex_decoder.sv",
       "sha256": "ba04566d91209d1f58d70a63405b137cfa28d76207d2e5bebdd5dcbf2d9fd88a"
@@ -18,7 +22,7 @@
     },
     "lean_receipt.json": {
       "path": "lean_receipt.json",
-      "sha256": "8f01607c1312a42eb7015a266a9058d8da535d90a335be773723f2f7ada3e750"
+      "sha256": "3823a4a8f2a85374bf27b86635d7aef10e612d80be1498f66abf63bcfaf78402"
     },
     "power.json": {
       "path": "power.json",
