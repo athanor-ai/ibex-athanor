@@ -3,7 +3,7 @@
   "artifact_sha256": null,
   "is_design_specific": true,
   "kernel_result": "pass",
-  "proof_scope_note": "Ronald PR #3873 records the local Zcmp cm_rlist_init identity. The Lean helper receipt supports the transform rationale but does not replace whole-module sequential equivalence.",
+  "proof_scope_note": "The local Zcmp cm_rlist_init identity is machine-checked separately from the whole-module sequential equivalence receipt. The Lean helper receipt supports the transform rationale but does not replace whole-module sequential equivalence.",
   "route": "helper_identity",
   "theorem_family": "IbexCompressedDecoder/rlist_init_formula",
   "theorem_names": [
