@@ -1,9 +1,9 @@
 {
-  "artifact_ref": null,
-  "artifact_sha256": null,
+  "artifact_ref": "artifacts/IbexCompressedDecoderRlistInit.lean",
+  "artifact_sha256": "7e9551388278fab68a7bf0a356f884ac89175826021ba29c96bc32f8e634a04b",
   "is_design_specific": true,
   "kernel_result": "pass",
-  "proof_scope_note": "The local Zcmp cm_rlist_init identity is machine-checked separately from the whole-module sequential equivalence receipt. The Lean helper receipt supports the transform rationale but does not replace whole-module sequential equivalence.",
+  "proof_scope_note": "The Lean helper receipt records the local Zcmp cm_rlist_init identity. The helper proof supports the transform rationale but does not replace whole-module sequential equivalence.",
   "route": "helper_identity",
   "theorem_family": "IbexCompressedDecoder/rlist_init_formula",
   "theorem_names": [
