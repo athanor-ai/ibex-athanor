@@ -1099,27 +1099,35 @@ module ibex_decoder #(
             // RV32M instructions, all use the same ALU operation
             {7'b000_0001, 3'b000}: begin // mul
               alu_operator_o = ALU_ADD;
+              mult_sel_o     = (RV32M == RV32MNone) ? 1'b0 : 1'b1;
             end
             {7'b000_0001, 3'b001}: begin // mulh
               alu_operator_o = ALU_ADD;
+              mult_sel_o     = (RV32M == RV32MNone) ? 1'b0 : 1'b1;
             end
             {7'b000_0001, 3'b010}: begin // mulhsu
               alu_operator_o = ALU_ADD;
+              mult_sel_o     = (RV32M == RV32MNone) ? 1'b0 : 1'b1;
             end
             {7'b000_0001, 3'b011}: begin // mulhu
               alu_operator_o = ALU_ADD;
+              mult_sel_o     = (RV32M == RV32MNone) ? 1'b0 : 1'b1;
             end
             {7'b000_0001, 3'b100}: begin // div
               alu_operator_o = ALU_ADD;
+              div_sel_o      = (RV32M == RV32MNone) ? 1'b0 : 1'b1;
             end
             {7'b000_0001, 3'b101}: begin // divu
               alu_operator_o = ALU_ADD;
+              div_sel_o      = (RV32M == RV32MNone) ? 1'b0 : 1'b1;
             end
             {7'b000_0001, 3'b110}: begin // rem
               alu_operator_o = ALU_ADD;
+              div_sel_o      = (RV32M == RV32MNone) ? 1'b0 : 1'b1;
             end
             {7'b000_0001, 3'b111}: begin // remu
               alu_operator_o = ALU_ADD;
+              div_sel_o      = (RV32M == RV32MNone) ? 1'b0 : 1'b1;
             end
 
             default: ;
@@ -1178,12 +1186,6 @@ module ibex_decoder #(
       end
       default: ;
     endcase
-
-    if ((opcode_alu == OPCODE_OP) && (instr_alu[31:25] == 7'b000_0001) &&
-        (RV32M != RV32MNone)) begin
-      mult_sel_o = ~instr_alu[14];
-      div_sel_o  = instr_alu[14];
-    end
   end
 
   // do not enable multdiv in case of illegal instruction exceptions

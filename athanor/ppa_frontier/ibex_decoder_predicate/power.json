@@ -1,8 +1,0 @@
-{
-  "gate_toggles": 4769,
-  "gold_toggles": 4769,
-  "power_status": "measured",
-  "sim_cycles": 200,
-  "toggle_delta_pct": 0.0,
-  "toggle_source_kind": "sv2v_normalized"
-}

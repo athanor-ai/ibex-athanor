@@ -1,8 +1,0 @@
-{
-  "detail": "equiv_induct proved 388 cells, 0 unproven",
-  "elapsed_seconds": 0.518588428851217,
-  "method": "yosys_equiv_induct",
-  "proved": true,
-  "proven_cells": 388,
-  "unproven_cells": 0
-}
