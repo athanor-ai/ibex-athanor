@@ -15,7 +15,7 @@ import Std.Tactic.BVDecide
   cm_sp_offset_q before the candidate can become accepted PPA evidence.
 -/
 
-namespace Kairos.ConeEquiv.IbexCompressedDecoderRlistInit
+namespace Athanor.Frontier.IbexCompressedDecoderRlistInit
 
 def originalRlistInit (instrRlist : BitVec 4) : BitVec 5 :=
   let rlist : BitVec 5 := instrRlist.setWidth 5
@@ -41,4 +41,4 @@ theorem rlist_init_formula_maps_fifteen :
   unfold rewrittenRlistInit
   bv_decide
 
-end Kairos.ConeEquiv.IbexCompressedDecoderRlistInit
+end Athanor.Frontier.IbexCompressedDecoderRlistInit
