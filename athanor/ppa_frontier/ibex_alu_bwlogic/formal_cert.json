@@ -1,0 +1,10 @@
+{
+  "detail": "yosys_sat_miter status pass",
+  "independent_verification": {
+    "formal": "1627 cells, 0 unproven",
+    "note": "Independent replay reproduced the formal and PPA metrics.",
+    "ppa": "reproduced full transform metrics"
+  },
+  "method": "yosys_sat_miter",
+  "proved": true
+}

@@ -1,0 +1,15 @@
+{
+  "artifact_ref": "artifacts/IbexDecoderMultdivPredicate.lean",
+  "artifact_sha256": "68f816ca7c84d28ee86635896f875b0b3fcb0cf94c6a4a772e94aeb278e85d64",
+  "conditions": 3,
+  "is_design_specific": true,
+  "kernel_result": "pass",
+  "route": "design_specific_rewrite",
+  "source_chars": 1325,
+  "theorem_family": "IbexDecoderMultdivPredicate",
+  "theorem_names": [
+    "mult_sel_predicate_equiv",
+    "div_sel_predicate_equiv",
+    "mult_div_mutually_exclusive"
+  ]
+}

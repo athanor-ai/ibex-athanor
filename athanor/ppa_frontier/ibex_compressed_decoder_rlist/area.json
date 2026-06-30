@@ -1,0 +1,50 @@
+{
+  "abc_mapped_cells": {
+    "delta_pct": -4.444444444444445,
+    "gate_cells": 774,
+    "gold_cells": 810,
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+    "metric_note": "Pinned Yosys 0.9 recipe: hierarchy; proc; flatten; synth; dfflibmap -liberty; abc -liberty; stat -liberty."
+  },
+  "independent_replays": [
+    {
+      "replay_id": "replay_a",
+      "chip_area_delta_pct": -2.38095,
+      "gate_area": 4668.2272,
+      "gold_area": 4782.0864,
+      "toolchain": "Yosys 0.9"
+    },
+    {
+      "replay_id": "replay_b",
+      "chip_area_delta_pct": -2.38095,
+      "gate_area": 4668.2272,
+      "gold_area": 4782.0864,
+      "toolchain": "Yosys 0.9"
+    },
+    {
+      "replay_id": "replay_c",
+      "chip_area_delta_pct": -3.11,
+      "gate_area": 4720.78,
+      "gold_area": 4872.17,
+      "toolchain": "Yosys 0.9, independent V2001/parameter path"
+    }
+  ],
+  "generic_cells": null,
+  "stat_liberty_chip_area": {
+    "delta_pct": -2.38095,
+    "gate_area": 4668.2272,
+    "gold_area": 4782.0864,
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+    "metric_note": "Pinned-toolchain area metric. This row is cross-tool sensitive and is not a portable synthesis-flow claim."
+  },
+  "toolchain_sensitivity": {
+    "classification": "cross_tool_sensitive",
+    "yosys_0_45": {
+      "replay_id": "cross_tool_replay",
+      "chip_area_delta_pct": 1.19,
+      "gate_area": 5019.81,
+      "gold_area": 4961.01,
+      "status": "regression"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "artifacts": {
+    "area.json": {
+      "path": "area.json",
+      "sha256": "b7379d8b354f6e5c3931514a8ef3ce1e772429dae6022e72cc0f600ccab38913"
+    },
+    "artifacts/IbexDecoderMultdivPredicate.lean": {
+      "path": "artifacts/IbexDecoderMultdivPredicate.lean",
+      "sha256": "68f816ca7c84d28ee86635896f875b0b3fcb0cf94c6a4a772e94aeb278e85d64"
+    },
+    "artifacts/ibex_decoder.sv": {
+      "path": "artifacts/ibex_decoder.sv",
+      "sha256": "ba04566d91209d1f58d70a63405b137cfa28d76207d2e5bebdd5dcbf2d9fd88a"
+    },
+    "artifacts/ibex_decoder_multdiv_predicate.sv": {
+      "path": "artifacts/ibex_decoder_multdiv_predicate.sv",
+      "sha256": "c4cbfee6ad449673292f890dfb12c013392dba5614bc310b0bbb2fe79040fed8"
+    },
+    "formal_cert.json": {
+      "path": "formal_cert.json",
+      "sha256": "be252776d2e0aa4974a3a6f3553a38d18741d5ee1181df7e32d78c4567036638"
+    },
+    "lean_receipt.json": {
+      "path": "lean_receipt.json",
+      "sha256": "07f3e507480ea54796a52b73ed7a1b5202aafb8e9eb84a1bc76ab5eb2257ce77"
+    },
+    "power.json": {
+      "path": "power.json",
+      "sha256": "11bb14a959a897a222862bd48ba1ff76e796fbad0b963967b28f4c61f6e7a704"
+    },
+    "timing.json": {
+      "path": "timing.json",
+      "sha256": "137272bf737aa35c7ef46b445cf25e3880f8cf8a5918fe57bd5e37ab31423d51"
+    }
+  },
+  "module": "ibex_decoder",
+  "schema": "public_frontier_manifest_v1",
+  "status": "formal_pass_yosys09_pinned_ppa_positive",
+  "transform_class": "decoder_multdiv_predicate_factor"
+}

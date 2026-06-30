@@ -1,0 +1,18 @@
+{
+  "compile_file_order": {
+    "gate": [
+      "artifacts/ibex_pkg.sv",
+      "artifacts/ibex_alu_bwlogic_or_from_xor_and.sv"
+    ],
+    "gold": [
+      "artifacts/ibex_pkg.sv",
+      "artifacts/ibex_alu.sv"
+    ]
+  },
+  "gate_toggles": 5977,
+  "gold_toggles": 5977,
+  "power_method": "iverilog_toggle",
+  "status": "measured_pass",
+  "toggle_delta_pct": 0.0,
+  "toggle_source_kind": "sv2v_normalized"
+}

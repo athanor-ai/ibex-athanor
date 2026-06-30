@@ -1,0 +1,13 @@
+{
+  "artifact_ref": "artifacts/BwlogicOrFromXorAnd.lean",
+  "artifact_sha256": "0dc7a91f24c7beb13a15765df817afef01d940fb64dbdb00e13273e3ce95eb5c",
+  "is_design_specific": false,
+  "kernel_result": "pass",
+  "proof_scope_note": "The Lean proof covers the Boolean identity. The PPA win also requires the coupled selector-shape rewrite recorded in the replay summary.",
+  "route": "rewrite_rule",
+  "theorem_family": "BitVec/or_eq_xor_xor_and",
+  "theorem_names": [
+    "or_eq_xor_xor_and_32",
+    "or_eq_xor_xor_and_64"
+  ]
+}

@@ -6,7 +6,7 @@
 /**
  * Arithmetic logic unit
  */
-module ibex_alu_gate #(
+module ibex_alu #(
   parameter ibex_pkg::rv32b_e RV32B = ibex_pkg::RV32BNone
 ) (
   input  ibex_pkg::alu_op_e operator_i,
@@ -381,17 +381,18 @@ module ibex_alu_gate #(
 
   assign bwlogic_operand_b = bwlogic_op_b_negate ? operand_b_neg[32:1] : operand_b_i;
 
+  assign bwlogic_or_result  = operand_a_i | bwlogic_operand_b;
   assign bwlogic_and_result = operand_a_i & bwlogic_operand_b;
   assign bwlogic_xor_result = operand_a_i ^ bwlogic_operand_b;
-  assign bwlogic_or_result  = bwlogic_xor_result ^ bwlogic_and_result;
 
   assign bwlogic_or  = (operator_i == ALU_OR)  | (operator_i == ALU_ORN);
   assign bwlogic_and = (operator_i == ALU_AND) | (operator_i == ALU_ANDN);
 
   always_comb begin
     unique case (1'b1)
+      bwlogic_or:  bwlogic_result = bwlogic_or_result;
       bwlogic_and: bwlogic_result = bwlogic_and_result;
-      default:     bwlogic_result = bwlogic_xor_result ^ ({32{bwlogic_or}} & bwlogic_and_result);
+      default:     bwlogic_result = bwlogic_xor_result;
     endcase
   end
 

@@ -1,0 +1,44 @@
+{
+  "artifacts": {
+    "area.json": {
+      "path": "area.json",
+      "sha256": "e4936cb8ad384b2ba50b0ccb6e8bc6f82fce28bd2ea6e951e4752478f1618663"
+    },
+    "artifacts/BwlogicOrFromXorAnd.lean": {
+      "path": "artifacts/BwlogicOrFromXorAnd.lean",
+      "sha256": "0dc7a91f24c7beb13a15765df817afef01d940fb64dbdb00e13273e3ce95eb5c"
+    },
+    "artifacts/ibex_alu.sv": {
+      "path": "artifacts/ibex_alu.sv",
+      "sha256": "06ce1c3ce30807f715478cf9e3bc279cac1c1cc2fb95d289516169fadcf7b7dc"
+    },
+    "artifacts/ibex_alu_bwlogic_or_from_xor_and.sv": {
+      "path": "artifacts/ibex_alu_bwlogic_or_from_xor_and.sv",
+      "sha256": "1a6b6237d0bfecbebadc75cc71a2ba68d817cb864a08825ab3e3c01e3bad20bf"
+    },
+    "artifacts/ibex_pkg.sv": {
+      "path": "artifacts/ibex_pkg.sv",
+      "sha256": "d4e240442dab1080a7cc3a7c63368ad7f725e560fa8397ff05410242c67dabb8"
+    },
+    "formal_cert.json": {
+      "path": "formal_cert.json",
+      "sha256": "91bf09b52e894ebe00d56287f1c7ce3aae0a998a05a130ab8491a252de4fcff3"
+    },
+    "lean_receipt.json": {
+      "path": "lean_receipt.json",
+      "sha256": "a62643dced090175db39d5c4931b186a903c786e30d8dce95d87787f9bb95c14"
+    },
+    "power.json": {
+      "path": "power.json",
+      "sha256": "7c4b077ab7a58e0d31e1ceb51441baec385b570bbcf6400d0b6ae6feea6cc9d6"
+    },
+    "timing.json": {
+      "path": "timing.json",
+      "sha256": "1336860fb2bcd3a9e398f35973e300db33257c927a922e9aeb1b3f911be35efa"
+    }
+  },
+  "module": "ibex_alu",
+  "schema": "public_frontier_manifest_v1",
+  "status": "formal_pass_yosys09_pinned_ppa_positive",
+  "transform_class": "bitwise_consolidation"
+}
