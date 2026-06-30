@@ -1,0 +1,28 @@
+{
+  "activity_file": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle/toggle_power/gate_toggle.vcd",
+  "compile_file_order": {
+    "gate": [
+      "/workdir/_tmp/dexter-compressed-decoder-canonical/gate_v2001.v"
+    ],
+    "gold": [
+      "/workdir/_tmp/dexter-compressed-decoder-canonical/gold_v2001.v"
+    ]
+  },
+  "gate_saif_path": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle/gate.saif",
+  "gate_toggles": 800,
+  "gate_vcd_path": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle/toggle_power/gate_toggle.vcd",
+  "gold_saif_path": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle/gold.saif",
+  "gold_toggles": 800,
+  "gold_vcd_path": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle/toggle_power/gold_toggle.vcd",
+  "power_evidence_type": "toggle_proxy",
+  "power_gate_simulator": "iverilog",
+  "power_gold_simulator": "iverilog",
+  "power_method": "iverilog_toggle",
+  "power_status": "measured",
+  "sim_cycles": 200,
+  "source_prep_defines": null,
+  "source_prep_include_dirs": [],
+  "switching_activity_source": "saif",
+  "toggle_delta_pct": 0.0,
+  "toggle_source_kind": "raw_sv"
+}

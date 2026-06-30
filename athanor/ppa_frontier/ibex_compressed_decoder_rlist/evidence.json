@@ -1,0 +1,71 @@
+{
+  "candidates": [
+    {
+      "candidate_index": 0,
+      "cone_id": "cm_rlist_init",
+      "customer_claim_ready": false,
+      "engine_receipts": [
+        {
+          "detail": "ABC PDR via SBY with ResetAll=1 on canonical gate over instr_o, is_compressed_o, gets_expanded_o, and illegal_instr_o.",
+          "engine": "abc_pdr_via_sby",
+          "foundation": "yosys_sby_abc",
+          "status": "pass"
+        }
+      ],
+      "gate_sha256": "6c4e43c9913320c27a9963444c564fc2211279e578ca33f0751b3ad9fe9a9fc5",
+      "lean_receipts": [
+        {
+          "artifact_ref": null,
+          "artifact_sha256": null,
+          "is_design_specific": true,
+          "kernel_result": "pass",
+          "proof_scope_note": "Local helper identity only; whole-module authority comes from the ABC PDR receipt.",
+          "route": "helper_identity",
+          "theorem_family": "IbexCompressedDecoder/rlist_init_formula",
+          "theorem_names": [
+            "cm_rlist_init_formula"
+          ]
+        }
+      ],
+      "outcome": "canonical_formal_closed_yosys09_pinned_full_ppa_positive_cross_agent",
+      "ppa": {
+        "area": {
+          "mapped_cells": {
+            "delta_pct": -4.444444444444445,
+            "gate_cells": 774,
+            "gold_cells": 810
+          },
+          "stat_liberty_chip_area": {
+            "delta_pct": -2.38095,
+            "gate_area": 4668.2272,
+            "gold_area": 4782.0864
+          }
+        },
+        "timing": {
+          "gate_max_path_data_arrival_ns": 2.55,
+          "gold_max_path_data_arrival_ns": 3.0,
+          "method": "OpenSTA on pinned Yosys 0.9 mapped netlists",
+          "status": "measured_pass"
+        },
+        "toggle": {
+          "gate_toggles": 800,
+          "gold_toggles": 800,
+          "method": "source-level iverilog/VCD activity proxy",
+          "status": "measured_pass",
+          "toggle_delta_pct": 0.0
+        }
+      },
+      "receipt_gaps": [
+        "managed_optimize_checkpoint_replay_missing",
+        "portable_synthesis_flow_claim_not_supported"
+      ],
+      "toolchain_sensitivity": {
+        "canonical_toolchain": "Yosys 0.9",
+        "noncanonical_yosys_0_45_result": "area_regression_reported_by_quan"
+      },
+      "transform_class": "zcmp_helper_formula"
+    }
+  ],
+  "run_id": "local-compressed-decoder-rlist-pinned-yosys09",
+  "source_module": "ibex_compressed_decoder"
+}

@@ -1,0 +1,21 @@
+{
+  "detail": "ABC PDR via SBY on canonical gate with ResetAll=1 over instr_o, is_compressed_o, gets_expanded_o, and illegal_instr_o.",
+  "engine": "abc_pdr_via_sby",
+  "gold_sha256": "91186cc0b90e190fcb6c261a6bccf03c422e328aa5e0e6c4c5853865900eea96",
+  "gate_sha256": "6c4e43c9913320c27a9963444c564fc2211279e578ca33f0751b3ad9fe9a9fc5",
+  "independent_verification": {
+    "agent": "quan",
+    "engine": "ABC PDR via SBY, oss-cad-suite Yosys 0.45",
+    "properties": [
+      "instr_o",
+      "is_compressed_o",
+      "gets_expanded_o",
+      "illegal_instr_o"
+    ],
+    "reset_model": "ResetAll=1 on both instances",
+    "status": "pass"
+  },
+  "method": "sequential_equivalence_pdr",
+  "proved": true,
+  "proof_scope_note": "Whole-module output equivalence for the listed outputs under the recorded ResetAll=1 miter. The local Lean helper identity is separate and is not whole-module authority by itself."
+}

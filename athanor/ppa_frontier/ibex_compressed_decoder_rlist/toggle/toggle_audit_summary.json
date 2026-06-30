@@ -1,0 +1,83 @@
+[
+  {
+    "cycles": 200,
+    "delta_pct": 0.0,
+    "gate": 762,
+    "gate_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_200_seed_1/gate_toggle.vcd",
+    "gold": 762,
+    "gold_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_200_seed_1/gold_toggle.vcd",
+    "seed": 1
+  },
+  {
+    "cycles": 200,
+    "delta_pct": 0.0,
+    "gate": 800,
+    "gate_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_200_seed_42/gate_toggle.vcd",
+    "gold": 800,
+    "gold_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_200_seed_42/gold_toggle.vcd",
+    "seed": 42
+  },
+  {
+    "cycles": 200,
+    "delta_pct": 0.0,
+    "gate": 791,
+    "gate_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_200_seed_123456789/gate_toggle.vcd",
+    "gold": 791,
+    "gold_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_200_seed_123456789/gold_toggle.vcd",
+    "seed": 123456789
+  },
+  {
+    "cycles": 1000,
+    "delta_pct": 0.0,
+    "gate": 3966,
+    "gate_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_1000_seed_1/gate_toggle.vcd",
+    "gold": 3966,
+    "gold_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_1000_seed_1/gold_toggle.vcd",
+    "seed": 1
+  },
+  {
+    "cycles": 1000,
+    "delta_pct": 0.0,
+    "gate": 4008,
+    "gate_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_1000_seed_42/gate_toggle.vcd",
+    "gold": 4008,
+    "gold_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_1000_seed_42/gold_toggle.vcd",
+    "seed": 42
+  },
+  {
+    "cycles": 1000,
+    "delta_pct": 0.0,
+    "gate": 3921,
+    "gate_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_1000_seed_123456789/gate_toggle.vcd",
+    "gold": 3921,
+    "gold_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_1000_seed_123456789/gold_toggle.vcd",
+    "seed": 123456789
+  },
+  {
+    "cycles": 5000,
+    "delta_pct": 0.0,
+    "gate": 19986,
+    "gate_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_5000_seed_1/gate_toggle.vcd",
+    "gold": 19986,
+    "gold_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_5000_seed_1/gold_toggle.vcd",
+    "seed": 1
+  },
+  {
+    "cycles": 5000,
+    "delta_pct": 0.0,
+    "gate": 19989,
+    "gate_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_5000_seed_42/gate_toggle.vcd",
+    "gold": 19989,
+    "gold_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_5000_seed_42/gold_toggle.vcd",
+    "seed": 42
+  },
+  {
+    "cycles": 5000,
+    "delta_pct": 0.0,
+    "gate": 19901,
+    "gate_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_5000_seed_123456789/gate_toggle.vcd",
+    "gold": 19901,
+    "gold_vcd": "/workdir/_tmp/dexter-compressed-decoder-canonical/toggle_audit/cycles_5000_seed_123456789/gold_toggle.vcd",
+    "seed": 123456789
+  }
+]

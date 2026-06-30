@@ -1,0 +1,81 @@
+{
+  "audit_runs": [
+    {
+      "cycles": 200,
+      "gate_toggles": 762,
+      "gold_toggles": 762,
+      "seed": 1,
+      "toggle_delta_pct": 0.0
+    },
+    {
+      "cycles": 200,
+      "gate_toggles": 800,
+      "gold_toggles": 800,
+      "seed": 42,
+      "toggle_delta_pct": 0.0
+    },
+    {
+      "cycles": 200,
+      "gate_toggles": 791,
+      "gold_toggles": 791,
+      "seed": 123456789,
+      "toggle_delta_pct": 0.0
+    },
+    {
+      "cycles": 1000,
+      "gate_toggles": 3966,
+      "gold_toggles": 3966,
+      "seed": 1,
+      "toggle_delta_pct": 0.0
+    },
+    {
+      "cycles": 1000,
+      "gate_toggles": 4008,
+      "gold_toggles": 4008,
+      "seed": 42,
+      "toggle_delta_pct": 0.0
+    },
+    {
+      "cycles": 1000,
+      "gate_toggles": 3921,
+      "gold_toggles": 3921,
+      "seed": 123456789,
+      "toggle_delta_pct": 0.0
+    },
+    {
+      "cycles": 5000,
+      "gate_toggles": 19986,
+      "gold_toggles": 19986,
+      "seed": 1,
+      "toggle_delta_pct": 0.0
+    },
+    {
+      "cycles": 5000,
+      "gate_toggles": 19989,
+      "gold_toggles": 19989,
+      "seed": 42,
+      "toggle_delta_pct": 0.0
+    },
+    {
+      "cycles": 5000,
+      "gate_toggles": 19901,
+      "gold_toggles": 19901,
+      "seed": 123456789,
+      "toggle_delta_pct": 0.0
+    }
+  ],
+  "gate_toggles": 800,
+  "gold_toggles": 800,
+  "independent_replay": {
+    "agent": "quan",
+    "cycles": 200,
+    "gate_toggles": 3423,
+    "gold_toggles": 3423,
+    "toggle_delta_pct": 0.0
+  },
+  "power_method": "iverilog_vcd_toggle_proxy",
+  "status": "measured_pass",
+  "toggle_delta_pct": 0.0,
+  "toggle_source_kind": "source_level_v2001",
+  "warning": "This is RTL/VCD activity evidence, not gate-level capacitance or silicon power evidence."
+}

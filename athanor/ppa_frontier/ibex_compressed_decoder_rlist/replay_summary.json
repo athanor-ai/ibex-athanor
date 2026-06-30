@@ -1,0 +1,71 @@
+{
+  "area": {
+    "abc_mapped_cells": {
+      "delta_pct": -4.444444444444445,
+      "gate_cells": 774,
+      "gold_cells": 810,
+      "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
+    },
+    "stat_liberty_chip_area": {
+      "delta_pct": -2.38095,
+      "gate_area": 4668.2272,
+      "gold_area": 4782.0864,
+      "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
+    }
+  },
+  "candidate": "rlist_init_formula",
+  "created_at": "2026-06-30T16:49:29Z",
+  "customer_claim_ready": false,
+  "expression_unit_id": "cm_rlist_init",
+  "formal": {
+    "detail": "ABC PDR via SBY on canonical gate with ResetAll=1 over instr_o, is_compressed_o, gets_expanded_o, and illegal_instr_o.",
+    "engine": "abc_pdr_via_sby",
+    "method": "sequential_equivalence_pdr",
+    "proved": true
+  },
+  "frontier_status": "pinned_toolchain_frontier_pending_managed_checkpoint_replay",
+  "gate_path": "artifacts/ibex_compressed_decoder_rlist_init_formula.sv",
+  "gate_sha256": "6c4e43c9913320c27a9963444c564fc2211279e578ca33f0751b3ad9fe9a9fc5",
+  "gold_path": "artifacts/ibex_compressed_decoder.sv",
+  "gold_sha256": "91186cc0b90e190fcb6c261a6bccf03c422e328aa5e0e6c4c5853865900eea96",
+  "lean": {
+    "proof_scope_note": "Helper identity only; whole-module equivalence is recorded by formal.engine.",
+    "theorem_family": "IbexCompressedDecoder/rlist_init_formula"
+  },
+  "module": "ibex_compressed_decoder",
+  "next_action": "emit_managed_checkpoint_replay_with_yosys09_toolchain_pins",
+  "receipt_gaps": [
+    "managed_optimize_checkpoint_replay_missing",
+    "portable_synthesis_flow_claim_not_supported"
+  ],
+  "schema": "ibex_compressed_decoder_rlist_replay_v1",
+  "timing": {
+    "gate_max_path_data_arrival_ns": 2.55,
+    "gate_tns_ns": 0.0,
+    "gate_wns_ns": 0.0,
+    "gold_max_path_data_arrival_ns": 3.0,
+    "gold_tns_ns": 0.0,
+    "gold_wns_ns": 0.0,
+    "method": "OpenSTA on pinned Yosys 0.9 mapped netlists",
+    "status": "measured_pass"
+  },
+  "toggle": {
+    "gate_toggles": 800,
+    "gold_toggles": 800,
+    "power_method": "iverilog_vcd_toggle_proxy",
+    "status": "measured_pass",
+    "toggle_delta_pct": 0.0,
+    "warning": "RTL/VCD activity proxy, not gate-level power."
+  },
+  "toolchain": {
+    "abc": "/usr/bin/yosys-abc",
+    "area_recipe": "hierarchy; proc; flatten; synth; dfflibmap -liberty; abc -liberty; stat -liberty",
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+    "yosys": "Yosys 0.9 (git sha1 1979e0b)"
+  },
+  "toolchain_sensitivity": {
+    "note": "Quan reported Yosys 0.45 area regression on the same canonical gate. This row is a pinned Yosys 0.9 result.",
+    "yosys_0_45_chip_area_delta_pct": 1.19
+  },
+  "transform_class": "zcmp_helper_formula"
+}

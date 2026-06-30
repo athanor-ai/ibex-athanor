@@ -1,0 +1,61 @@
+{
+  "opensta_10ns": {
+    "gate_tns_ns": 0.0,
+    "gate_wns_ns": 0.0,
+    "gold_tns_ns": 0.0,
+    "gold_wns_ns": 0.0,
+    "path_data_arrival_ns": {
+      "gate_max": 2.55,
+      "gate_min": 0.06,
+      "gold_max": 3.0,
+      "gold_min": 0.06
+    },
+    "sdc_status": "OpenSTA liberty timing on pinned Yosys 0.9 mapped netlists with virtual 10 ns clock",
+    "status": "measured_pass"
+  },
+  "independent_replay": {
+    "agent": "quan",
+    "gate_slack_ns": 8.11,
+    "gold_slack_ns": 7.98,
+    "slack_delta_ns": 0.13
+  },
+  "status": "measured_pass",
+  "tight_clock_audit": [
+    {
+      "gate_tns_ns": 0.0,
+      "gate_wns_ns": 0.45,
+      "gold_tns_ns": 0.0,
+      "gold_wns_ns": 0.0,
+      "period_ns": 3.0
+    },
+    {
+      "gate_tns_ns": 0.0,
+      "gate_wns_ns": 0.0,
+      "gold_tns_ns": -1.1,
+      "gold_wns_ns": -0.25,
+      "period_ns": 2.75
+    },
+    {
+      "gate_tns_ns": 0.0,
+      "gate_wns_ns": 0.0,
+      "gold_tns_ns": -2.9,
+      "gold_wns_ns": -0.45,
+      "period_ns": 2.55
+    },
+    {
+      "gate_tns_ns": -0.13,
+      "gate_wns_ns": -0.05,
+      "gold_tns_ns": -3.45,
+      "gold_wns_ns": -0.5,
+      "period_ns": 2.5
+    },
+    {
+      "gate_tns_ns": -3.19,
+      "gate_wns_ns": -0.3,
+      "gold_tns_ns": -6.89,
+      "gold_wns_ns": -0.75,
+      "period_ns": 2.25
+    }
+  ],
+  "warning": "This is a pinned mapped-netlist OpenSTA timing proxy, not a portable timing claim across synthesis flows."
+}

@@ -14,3 +14,7 @@ Each module directory should include:
 Only rows that pass the current verification bar should be added here.
 PPA-positive filters with incomplete formal proof belong in the research
 ledger, not in this frontier branch.
+
+Rows with synthesis-flow sensitivity must pin the exact accepted toolchain and
+record divergent toolchain results in their replay summary. They are not
+portable synthesis-flow claims.
