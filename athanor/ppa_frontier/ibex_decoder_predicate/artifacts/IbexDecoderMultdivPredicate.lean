@@ -5,7 +5,7 @@ import Std.Tactic.BVDecide
   rewrite. The selector is {instr_alu[31:25], instr_alu[14:12]}.
 -/
 
-namespace Kairos.ConeEquiv.IbexDecoderMultdivPredicate
+namespace Athanor.Frontier.IbexDecoderMultdivPredicate
 
 def mult_case (sel : BitVec 10) : Bool :=
   sel == 0b0000001000#10 ||
@@ -42,4 +42,4 @@ theorem mult_div_mutually_exclusive (sel : BitVec 10) :
   unfold mult_predicate div_predicate
   bv_decide
 
-end Kairos.ConeEquiv.IbexDecoderMultdivPredicate
+end Athanor.Frontier.IbexDecoderMultdivPredicate
