@@ -1,5 +1,5 @@
 {
-  "artifact_ref": "specs/lean/IbexDecoderMultdivPredicate.lean",
+  "artifact_ref": "artifacts/IbexDecoderMultdivPredicate.lean",
   "artifact_sha256": "2c59938b138e63ff028d28231f985ce383a3b63ac9b05e11300ae7c44c60df8a",
   "conditions": 3,
   "is_design_specific": true,
