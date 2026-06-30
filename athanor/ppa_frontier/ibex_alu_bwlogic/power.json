@@ -1,0 +1,16 @@
+{
+  "compile_file_order": {
+    "gate": [
+      "/workdir/_tmp/ath2467-expression-ab/_sv2v_yosys/top=ibex_alu_gat/ibex_pkg_v2001.v"
+    ],
+    "gold": [
+      "/workdir/_tmp/kairos-ath2467-ab/examples/ibex/_sv2v_yosys/top=ibex_alu:def/ibex_pkg_v2001.v"
+    ]
+  },
+  "gate_toggles": 5977,
+  "gold_toggles": 5977,
+  "power_method": "iverilog_toggle",
+  "status": "measured_pass",
+  "toggle_delta_pct": 0.0,
+  "toggle_source_kind": "sv2v_normalized"
+}

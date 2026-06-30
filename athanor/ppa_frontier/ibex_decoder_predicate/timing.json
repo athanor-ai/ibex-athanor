@@ -1,0 +1,10 @@
+{
+  "degradation_pct": 0.0,
+  "error": null,
+  "gate_tns": 0.0,
+  "gate_wns": 0.0,
+  "gold_tns": 0.0,
+  "gold_wns": 0.0,
+  "sdc_status": "opensta_liberty (opensta; source_prep=sv2v_normalized)",
+  "timing_met": true
+}

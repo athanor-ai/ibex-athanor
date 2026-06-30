@@ -1,0 +1,303 @@
+{
+  "target_module": "ibex_decoder",
+  "gold_module": "ibex_decoder",
+  "gate_module": "ibex_decoder_gate",
+  "gold_sv": "inputs/ibex_decoder.sv",
+  "dep_files": [
+    "inputs/ibex_pkg.sv",
+    "inputs/prim_assert.sv"
+  ],
+  "ports": [
+    {
+      "name": "clk_i",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "rst_ni",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "illegal_insn_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "ebrk_insn_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "mret_insn_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "dret_insn_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "ecall_insn_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "wfi_insn_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "jump_set_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "branch_taken_i",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "icache_inval_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "instr_first_cycle_i",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "instr_rdata_i",
+      "direction": "input",
+      "width": 32
+    },
+    {
+      "name": "instr_rdata_alu_i",
+      "direction": "input",
+      "width": 32
+    },
+    {
+      "name": "illegal_c_insn_i",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "imm_a_mux_sel_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "imm_b_mux_sel_o",
+      "direction": "output",
+      "width": 3
+    },
+    {
+      "name": "bt_a_mux_sel_o",
+      "direction": "output",
+      "width": 2
+    },
+    {
+      "name": "bt_b_mux_sel_o",
+      "direction": "output",
+      "width": 3
+    },
+    {
+      "name": "imm_i_type_o",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "imm_s_type_o",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "imm_b_type_o",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "imm_u_type_o",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "imm_j_type_o",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "zimm_rs1_type_o",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "rf_wdata_sel_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "rf_we_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "rf_raddr_a_o",
+      "direction": "output",
+      "width": 5
+    },
+    {
+      "name": "rf_raddr_b_o",
+      "direction": "output",
+      "width": 5
+    },
+    {
+      "name": "rf_waddr_o",
+      "direction": "output",
+      "width": 5
+    },
+    {
+      "name": "rf_ren_a_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "rf_ren_b_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "alu_operator_o",
+      "direction": "output",
+      "width": 7
+    },
+    {
+      "name": "alu_op_a_mux_sel_o",
+      "direction": "output",
+      "width": 2
+    },
+    {
+      "name": "alu_op_b_mux_sel_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "alu_multicycle_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "mult_en_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "div_en_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "mult_sel_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "div_sel_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "multdiv_operator_o",
+      "direction": "output",
+      "width": 2
+    },
+    {
+      "name": "multdiv_signed_mode_o",
+      "direction": "output",
+      "width": 2
+    },
+    {
+      "name": "csr_access_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "csr_op_o",
+      "direction": "output",
+      "width": 2
+    },
+    {
+      "name": "csr_addr_o",
+      "direction": "output",
+      "width": 12
+    },
+    {
+      "name": "data_req_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "data_we_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "data_type_o",
+      "direction": "output",
+      "width": 2
+    },
+    {
+      "name": "data_sign_extension_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "jump_in_dec_o",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "branch_in_dec_o",
+      "direction": "output",
+      "width": 1
+    }
+  ],
+  "parameters": [],
+  "clock_port": "clk_i",
+  "reset_port": "",
+  "reset_active_low": true,
+  "formal_invariants_primer": [],
+  "proposer_hints": [],
+  "frontend_normalization": {
+    "converter": "sv2v",
+    "converter_version": "sv2v v0.0.13",
+    "command": "sv2v -D YOSYS -D SYNTHESIS -I /workdir/_tmp/ath2490-prod-sweep/ibex/rtl -I /workdir/_tmp/ath2490-prod-sweep/ibex/vendor/lowrisc_ip/dv/sv/dv_utils -I /workdir/_tmp/ath2490-prod-sweep/ibex/vendor/lowrisc_ip/ip/prim/rtl --top ibex_decoder ibex_decoder.sv ibex_pkg.sv prim_assert.sv",
+    "defines": [
+      "YOSYS",
+      "SYNTHESIS"
+    ],
+    "include_dirs": [
+      "/workdir/_tmp/ath2490-prod-sweep/ibex/rtl",
+      "/workdir/_tmp/ath2490-prod-sweep/ibex/vendor/lowrisc_ip/dv/sv/dv_utils",
+      "/workdir/_tmp/ath2490-prod-sweep/ibex/vendor/lowrisc_ip/ip/prim/rtl"
+    ],
+    "source_hashes": {
+      "ibex_decoder.sv": "ba04566d91209d1f",
+      "ibex_pkg.sv": "d4e240442dab1080",
+      "prim_assert.sv": "d717d5dbcba3b5aa"
+    },
+    "output_hash": "fb713b4569d8ebec",
+    "output_file": "ibex_decoder_v2001.v"
+  },
+  "source_prep": {
+    "defines": [
+      "SYNTHESIS"
+    ],
+    "include_dirs": [
+      "/workdir/_tmp/ath2490-prod-sweep/ibex/vendor/lowrisc_ip/ip/prim/rtl",
+      "/workdir/_tmp/ath2490-prod-sweep/ibex/vendor/lowrisc_ip/dv/sv/dv_utils"
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "artifacts": {
+    "area.json": {
+      "path": "area.json",
+      "sha256": "e4936cb8ad384b2ba50b0ccb6e8bc6f82fce28bd2ea6e951e4752478f1618663"
+    },
+    "artifacts/BwlogicOrFromXorAnd.lean": {
+      "path": "artifacts/BwlogicOrFromXorAnd.lean",
+      "sha256": "0dc7a91f24c7beb13a15765df817afef01d940fb64dbdb00e13273e3ce95eb5c"
+    },
+    "artifacts/ibex_alu.sv": {
+      "path": "artifacts/ibex_alu.sv",
+      "sha256": "06ce1c3ce30807f715478cf9e3bc279cac1c1cc2fb95d289516169fadcf7b7dc"
+    },
+    "artifacts/ibex_alu_bwlogic_or_from_xor_and.sv": {
+      "path": "artifacts/ibex_alu_bwlogic_or_from_xor_and.sv",
+      "sha256": "1a6b6237d0bfecbebadc75cc71a2ba68d817cb864a08825ab3e3c01e3bad20bf"
+    },
+    "artifacts/ibex_pkg.sv": {
+      "path": "artifacts/ibex_pkg.sv",
+      "sha256": "d4e240442dab1080a7cc3a7c63368ad7f725e560fa8397ff05410242c67dabb8"
+    },
+    "artifacts/raw_measurement_summary.json": {
+      "path": "artifacts/raw_measurement_summary.json",
+      "sha256": "d9fd2089628e2b4e0a58b866554809dcd1bd29edf07bdafa31a8dc514c352adb"
+    },
+    "evidence.json": {
+      "path": "evidence.json",
+      "sha256": "9f5279b82219e3c951f4cac1553b05195643d6d32c1571f1f634ab5e40269475"
+    },
+    "formal_cert.json": {
+      "path": "formal_cert.json",
+      "sha256": "6ce4702bb2649889e719b0f67a6791c1e8c426e5e863d07f478f142afee01d36"
+    },
+    "lean_receipt.json": {
+      "path": "lean_receipt.json",
+      "sha256": "a62643dced090175db39d5c4931b186a903c786e30d8dce95d87787f9bb95c14"
+    },
+    "power.json": {
+      "path": "power.json",
+      "sha256": "d52e671cdbc8035d9354000746e7ab32728fcccbef9823a1f929bcfc6dff7332"
+    },
+    "replay_summary.json": {
+      "path": "replay_summary.json",
+      "sha256": "24e35b34048b36e031020ca0358137ba21d76fefa6d8bcbb3ee0e7e28df91179"
+    },
+    "timing.json": {
+      "path": "timing.json",
+      "sha256": "1336860fb2bcd3a9e398f35973e300db33257c927a922e9aeb1b3f911be35efa"
+    }
+  },
+  "claim": {
+    "customer_claim_ready": false,
+    "receipt_gaps": [
+      "supabase_traced_optimize_replay_missing"
+    ]
+  },
+  "module": "ibex_alu",
+  "schema": "ibex_alu_bwlogic_replay_v1",
+  "transform_class": "bitwise_consolidation"
+}

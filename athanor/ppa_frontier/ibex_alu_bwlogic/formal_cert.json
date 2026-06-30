@@ -1,0 +1,11 @@
+{
+  "detail": "yosys_sat_miter status pass",
+  "independent_verification": {
+    "formal": "1627 cells, 0 unproven",
+    "note": "Slack-reported independent verification; external artifact path not included in this local package.",
+    "ppa": "reproduced full transform metrics on separate container",
+    "verifier": "quan"
+  },
+  "method": "yosys_sat_miter",
+  "proved": true
+}

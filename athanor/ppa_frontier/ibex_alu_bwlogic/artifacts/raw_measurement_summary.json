@@ -1,0 +1,88 @@
+{
+  "ticket": "manual-ibex-ppa",
+  "candidate": "ibex_alu_bwlogic_or_from_xor_and",
+  "expression_unit_id": "bwlogic_result",
+  "parent_cone_id": "result_o",
+  "optimization_surface": "bwlogic_result",
+  "transform_class": "bitwise_consolidation",
+  "rewrite_count": 1,
+  "source_files": {
+    "gold": "/workdir/_tmp/kairos-ath2467-ab/examples/ibex/ibex_alu.sv",
+    "gate": "/workdir/_tmp/ath2467-expression-ab/ibex_alu_bwlogic_or_from_xor_and_gate.sv",
+    "deps": [
+      "/workdir/_tmp/kairos-ath2467-ab/examples/ibex/ibex_pkg.sv"
+    ]
+  },
+  "status": "evaluated",
+  "engine_receipts": [
+    {
+      "engine": "yosys_sat_miter",
+      "status": "pass",
+      "foundation": "yosys",
+      "detail": "yosys_sat_miter status pass"
+    }
+  ],
+  "lean_receipts": [
+    {
+      "route": "rewrite_rule",
+      "theorem_family": "BitVec/or_eq_xor_xor_and",
+      "kernel_result": "not_attempted",
+      "is_design_specific": false
+    }
+  ],
+  "gold_cells": 1030,
+  "gate_cells": 1027,
+  "area_delta_pct": -0.291,
+  "ppa_receipts": {
+    "area": {
+      "status": "measured_pass",
+      "delta_pct": -0.291
+    },
+    "toggle": {
+      "status": "measured_pass",
+      "toggle_delta_pct": 0.0,
+      "gold_toggles": 5977,
+      "gate_toggles": 5977,
+      "power_method": "iverilog_toggle",
+      "toggle_source_kind": "sv2v_normalized",
+      "compile_file_order": {
+        "gold": [
+          "/workdir/_tmp/kairos-ath2467-ab/examples/ibex/_sv2v_yosys/top=ibex_alu:def/ibex_pkg_v2001.v"
+        ],
+        "gate": [
+          "/workdir/_tmp/ath2467-expression-ab/_sv2v_yosys/top=ibex_alu_gat/ibex_pkg_v2001.v"
+        ]
+      }
+    },
+    "timing": {
+      "status": "measured_pass",
+      "gold_wns_ns": -4.29,
+      "gate_wns_ns": -3.75,
+      "gold_tns_ns": -151.67,
+      "gate_tns_ns": -98.26,
+      "timing_delta_pct": -12.587412587412588,
+      "sdc_status": "opensta_liberty (opensta_virtual_sdc; source_prep=sv2v_normalized)",
+      "error": null
+    },
+    "liberty_area": {
+      "status": "measured_pass",
+      "delta_pct": -6.77,
+      "gold_cells": 842,
+      "gate_cells": 785,
+      "cell_mapping": "sky130_liberty"
+    }
+  },
+  "measurement_provenance": {
+    "gold_converted": "/workdir/_tmp/kairos-ath2467-ab/examples/ibex/_sv2v_yosys/top=ibex_alu:def/ibex_pkg_v2001.v",
+    "gate_converted": "/workdir/_tmp/ath2467-expression-ab/_sv2v_yosys/top=ibex_alu_gat/ibex_pkg_v2001.v",
+    "deps_ordered_before_top": true,
+    "liberty_file": "/workdir/_tmp/pr-ath2521-failure-receipts/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib"
+  },
+  "frontier_status": "novel",
+  "next_action": "prepare_customer_receipts_or_compound",
+  "customer_claim_ready": false,
+  "elapsed_sec": 6.91,
+  "liberty_gold_cells": 842,
+  "liberty_gate_cells": 785,
+  "liberty_area_delta_pct": -6.77
+}

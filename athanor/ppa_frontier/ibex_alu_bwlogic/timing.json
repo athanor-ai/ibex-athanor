@@ -1,0 +1,10 @@
+{
+  "error": null,
+  "gate_tns_ns": -98.26,
+  "gate_wns_ns": -3.75,
+  "gold_tns_ns": -151.67,
+  "gold_wns_ns": -4.29,
+  "sdc_status": "opensta_liberty (opensta_virtual_sdc; source_prep=sv2v_normalized)",
+  "status": "measured_pass",
+  "timing_delta_pct": -12.587412587412588
+}

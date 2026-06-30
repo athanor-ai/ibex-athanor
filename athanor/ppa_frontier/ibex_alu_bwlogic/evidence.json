@@ -1,0 +1,87 @@
+{
+  "candidates": [
+    {
+      "candidate_index": 0,
+      "cone_id": "bwlogic_result",
+      "customer_claim_ready": false,
+      "engine_receipts": [
+        {
+          "detail": "yosys_sat_miter status pass",
+          "engine": "yosys_sat_miter",
+          "foundation": "yosys",
+          "status": "pass"
+        }
+      ],
+      "gate_sha256": "1a6b6237d0bfecbebadc75cc71a2ba68d817cb864a08825ab3e3c01e3bad20bf",
+      "lean_receipts": [
+        {
+          "artifact_ref": "artifacts/BwlogicOrFromXorAnd.lean",
+          "artifact_sha256": "0dc7a91f24c7beb13a15765df817afef01d940fb64dbdb00e13273e3ce95eb5c",
+          "is_design_specific": false,
+          "kernel_result": "pass",
+          "proof_scope_note": "The Lean proof covers the Boolean identity. The PPA win also requires the coupled selector-shape rewrite recorded in the replay summary.",
+          "route": "rewrite_rule",
+          "theorem_family": "BitVec/or_eq_xor_xor_and",
+          "theorem_names": [
+            "or_eq_xor_xor_and_32",
+            "or_eq_xor_xor_and_64"
+          ]
+        }
+      ],
+      "outcome": "accepted_local_frontier",
+      "ppa": {
+        "abc_mapped_cells": {
+          "delta_pct": -6.77,
+          "gate_cells": 785,
+          "gold_cells": 842,
+          "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+          "metric_note": "Mapped cell count from synth; abc -liberty; stat."
+        },
+        "generic_area": {
+          "delta_pct": -0.291,
+          "gate_cells": 1027,
+          "gold_cells": 1030
+        },
+        "stat_liberty_chip_area": {
+          "delta_pct": -1.863,
+          "gate_area": 5271.3056,
+          "gold_area": 5371.4016,
+          "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+          "metric_note": "Customer-facing area metric for this local replay."
+        },
+        "timing": {
+          "error": null,
+          "gate_tns_ns": -98.26,
+          "gate_wns_ns": -3.75,
+          "gold_tns_ns": -151.67,
+          "gold_wns_ns": -4.29,
+          "sdc_status": "opensta_liberty (opensta_virtual_sdc; source_prep=sv2v_normalized)",
+          "status": "measured_pass",
+          "timing_delta_pct": -12.587412587412588
+        },
+        "toggle": {
+          "compile_file_order": {
+            "gate": [
+              "/workdir/_tmp/ath2467-expression-ab/_sv2v_yosys/top=ibex_alu_gat/ibex_pkg_v2001.v"
+            ],
+            "gold": [
+              "/workdir/_tmp/kairos-ath2467-ab/examples/ibex/_sv2v_yosys/top=ibex_alu:def/ibex_pkg_v2001.v"
+            ]
+          },
+          "gate_toggles": 5977,
+          "gold_toggles": 5977,
+          "power_method": "iverilog_toggle",
+          "status": "measured_pass",
+          "toggle_delta_pct": 0.0,
+          "toggle_source_kind": "sv2v_normalized"
+        }
+      },
+      "receipt_gaps": [
+        "supabase_traced_optimize_replay_missing"
+      ],
+      "transform_class": "bitwise_consolidation"
+    }
+  ],
+  "run_id": "local-bwlogic-replay-pending-supabase",
+  "source_module": "ibex_alu"
+}
