@@ -6,7 +6,7 @@
     },
     "artifacts/IbexCompressedDecoderRlistInit.lean": {
       "path": "artifacts/IbexCompressedDecoderRlistInit.lean",
-      "sha256": "7e9551388278fab68a7bf0a356f884ac89175826021ba29c96bc32f8e634a04b"
+      "sha256": "876d35ee7425b565b8679f0de8e14c64a6d273ff88c426ff54ca3ef80409579d"
     },
     "artifacts/gate_v2001.v": {
       "path": "artifacts/gate_v2001.v",
@@ -30,7 +30,7 @@
     },
     "lean_receipt.json": {
       "path": "lean_receipt.json",
-      "sha256": "66d822449564f14a955d18464d76d0bc63f400e41e8e48798a854df3920478b7"
+      "sha256": "64726583977b3e6ea3b88fdd4b35347a7f2bdf6ec3f447d145fd32e24da5606d"
     },
     "power.json": {
       "path": "power.json",
