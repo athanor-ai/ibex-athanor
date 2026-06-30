@@ -4,6 +4,10 @@
       "path": "area.json",
       "sha256": "3f3b6bcd6db9032816d64765612043bcf52a864056009cdfa228fa0c96841e07"
     },
+    "artifacts/IbexCompressedDecoderRlistInit.lean": {
+      "path": "artifacts/IbexCompressedDecoderRlistInit.lean",
+      "sha256": "7e9551388278fab68a7bf0a356f884ac89175826021ba29c96bc32f8e634a04b"
+    },
     "artifacts/gate_v2001.v": {
       "path": "artifacts/gate_v2001.v",
       "sha256": "6c4e43c9913320c27a9963444c564fc2211279e578ca33f0751b3ad9fe9a9fc5"
@@ -26,7 +30,7 @@
     },
     "lean_receipt.json": {
       "path": "lean_receipt.json",
-      "sha256": "eae49207e65ed6f5078cd15e21f302bb01f4ab843b6cb74adfef17e69e7a776b"
+      "sha256": "66d822449564f14a955d18464d76d0bc63f400e41e8e48798a854df3920478b7"
     },
     "power.json": {
       "path": "power.json",
