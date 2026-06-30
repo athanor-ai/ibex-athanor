@@ -6,7 +6,7 @@
     },
     "artifacts/IbexDecoderMultdivPredicate.lean": {
       "path": "artifacts/IbexDecoderMultdivPredicate.lean",
-      "sha256": "2c59938b138e63ff028d28231f985ce383a3b63ac9b05e11300ae7c44c60df8a"
+      "sha256": "68f816ca7c84d28ee86635896f875b0b3fcb0cf94c6a4a772e94aeb278e85d64"
     },
     "artifacts/ibex_decoder.sv": {
       "path": "artifacts/ibex_decoder.sv",
@@ -22,7 +22,7 @@
     },
     "lean_receipt.json": {
       "path": "lean_receipt.json",
-      "sha256": "3823a4a8f2a85374bf27b86635d7aef10e612d80be1498f66abf63bcfaf78402"
+      "sha256": "07f3e507480ea54796a52b73ed7a1b5202aafb8e9eb84a1bc76ab5eb2257ce77"
     },
     "power.json": {
       "path": "power.json",
