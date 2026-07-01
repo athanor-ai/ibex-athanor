@@ -23,6 +23,17 @@ combinational propagation delay regresses. It remains useful area-optimization
 evidence and an explicit area/timing tradeoff for customers to evaluate against
 their clock budget.
 
+## Current Candidate Artifacts
+
+The following parameter-specialization candidates are pushed as auditable
+artifact packages. They are not promoted into `athanor/ppa_frontier/` until the
+toggle/power convention and final customer promotion bar are settled.
+
+| Module | Transform | Area | Timing | Formal | Toggle status | Artifacts |
+| --- | --- | ---: | ---: | --- | --- | --- |
+| `ibex_if_stage` | specialize default `BranchPredictor=0` prefetch branch path | 16821.1328 -> 16756.0704, -0.3868% | top data arrival 9.2829ns -> 8.9149ns, -3.9654%; WNS/TNS met | Yosys 0.66 replay: 1956/1956 `$equiv` cells proven | quick internal-VCD smoke reported flat; final convention pending | [`athanor_artifacts/if_stage_no_bp_prefetch_direct/`](athanor_artifacts/if_stage_no_bp_prefetch_direct/) |
+| `ibex_id_stage` | specialize default `WritebackStage=0` controller exception priority | 7791.2224 -> 7741.1744, -0.6424% | top data arrival 7.5917ns -> 5.5358ns, -27.08%; WNS/TNS met | Yosys 0.66 replay included in package | quick internal-VCD smoke +1.27%; realistic/convention replay pending | [`athanor_artifacts/id_stage_no_wb_prio_assign/`](athanor_artifacts/id_stage_no_wb_prio_assign/) |
+
 ## Rebaseline In Progress
 
 `ibex_compressed_decoder` / `rlist_init_formula` remains formally proven and
@@ -34,6 +45,8 @@ complete.
 ## Receipt Layout
 
 - Public frontier receipts: [`athanor/ppa_frontier/`](athanor/ppa_frontier/)
+- Candidate artifact packages:
+  [`athanor_artifacts/`](athanor_artifacts/)
 - Selected toolchain policy:
   [`athanor/toolchain_policy.json`](athanor/toolchain_policy.json)
 - Public manifest verifier:

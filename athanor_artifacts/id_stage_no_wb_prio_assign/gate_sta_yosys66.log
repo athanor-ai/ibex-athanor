@@ -1,0 +1,73 @@
+OpenSTA 2.2.0 02b129d48f Copyright (c) 2019, Parallax Software, Inc.
+License GPLv3: GNU GPL version 3 <http://gnu.org/licenses/gpl.html>
+
+This is free software, and you are free to change and redistribute it
+under certain conditions; type `show_copying' for details. 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show_warranty'.
+Error: <local_path>, line 2807 syntax error.
+Warning: <local_path>, line 8658 assign left hand side size 1 not equal right hand size 32.
+Startpoint: instr_rdata_i[26] (input port clocked by clk)
+Endpoint: instr_valid_clear_o (output port clocked by clk)
+Path Group: clk
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                  0.00    0.00    0.00   clock clk (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                          2.00    2.00 v input external delay
+                  0.00    0.00    2.00 v instr_rdata_i[26] (in)
+     9    0.02                           instr_rdata_i[26] (net)
+                  0.00    0.00    2.00 v _2581_/A (sky130_fd_sc_hd__or4_1)
+                  0.13    0.56    2.56 v _2581_/X (sky130_fd_sc_hd__or4_1)
+     4    0.01                           _2098_ (net)
+                  0.13    0.00    2.56 v _2750_/C (sky130_fd_sc_hd__nor4b_1)
+                  0.58    0.50    3.06 ^ _2750_/Y (sky130_fd_sc_hd__nor4b_1)
+     4    0.01                           _2248_ (net)
+                  0.58    0.00    3.06 ^ _2759_/A (sky130_fd_sc_hd__nand2_1)
+                  0.14    0.12    3.18 v _2759_/Y (sky130_fd_sc_hd__nand2_1)
+     2    0.00                           _2254_ (net)
+                  0.14    0.00    3.19 v _3156_/B (sky130_fd_sc_hd__and4_1)
+                  0.04    0.20    3.39 v _3156_/X (sky130_fd_sc_hd__and4_1)
+     1    0.00                           _1934_ (net)
+                  0.04    0.00    3.39 v _3174_/B (sky130_fd_sc_hd__or4_1)
+                  0.22    0.63    4.02 v _3174_/X (sky130_fd_sc_hd__or4_1)
+    10    0.02                           _1952_ (net)
+                  0.22    0.00    4.02 v _3177_/B (sky130_fd_sc_hd__nor2_1)
+                  0.19    0.21    4.23 ^ _3177_/Y (sky130_fd_sc_hd__nor2_1)
+     3    0.01                           _1954_ (net)
+                  0.19    0.00    4.24 ^ _3181_/A2 (sky130_fd_sc_hd__o211ai_1)
+                  0.08    0.10    4.34 v _3181_/Y (sky130_fd_sc_hd__o211ai_1)
+     1    0.00                           _1958_ (net)
+                  0.09    0.00    4.34 v _3183_/A3 (sky130_fd_sc_hd__a31o_1)
+                  0.08    0.26    4.60 v _3183_/X (sky130_fd_sc_hd__a31o_1)
+     4    0.01                           _1959_ (net)
+                  0.08    0.00    4.60 v _3199_/A1 (sky130_fd_sc_hd__a2111oi_0)
+                  0.34    0.37    4.97 ^ _3199_/Y (sky130_fd_sc_hd__a2111oi_0)
+     2    0.00                           _1331_ (net)
+                  0.34    0.00    4.97 ^ _3221_/A1 (sky130_fd_sc_hd__a21o_1)
+                  0.18    0.25    5.22 ^ _3221_/X (sky130_fd_sc_hd__a21o_1)
+     7    0.02                           _1992_ (net)
+                  0.18    0.00    5.22 ^ _3225_/A2 (sky130_fd_sc_hd__a21oi_1)
+                  0.08    0.10    5.32 v _3225_/Y (sky130_fd_sc_hd__a21oi_1)
+     2    0.00                           _1996_ (net)
+                  0.08    0.00    5.33 v _3258_/SLEEP (sky130_fd_sc_hd__lpflow_inputiso1p_1)
+                  0.03    0.21    5.54 v _3258_/X (sky130_fd_sc_hd__lpflow_inputiso1p_1)
+     1    0.00                           _1609_ (net)
+                  0.03    0.00    5.54 v instr_valid_clear_o (out)
+                                  5.54   data arrival time
+
+                  0.00   10.00   10.00   clock clk (rise edge)
+                          0.00   10.00   clock network delay (ideal)
+                          0.00   10.00   clock reconvergence pessimism
+                         -2.00    8.00   output external delay
+                                  8.00   data required time
+-----------------------------------------------------------------------------
+                                  8.00   data required time
+                                 -5.54   data arrival time
+-----------------------------------------------------------------------------
+                                  2.46   slack (MET)
+
+
+tns 0.00
+wns 0.00

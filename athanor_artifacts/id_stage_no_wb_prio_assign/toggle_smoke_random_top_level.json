@@ -1,0 +1,10 @@
+{
+  "gate_toggles": 26468,
+  "gate_vcd": "<local_path>",
+  "gold_toggles": 26137,
+  "gold_vcd": "<local_path>",
+  "method": "random_top_level_toggle_smoke",
+  "sim_cycles": 200,
+  "simulator": "iverilog_toggle",
+  "toggle_delta_pct": 1.27
+}

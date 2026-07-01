@@ -1,0 +1,31 @@
+read_verilog <local_path>
+hierarchy -top ibex_id_stage
+proc
+memory_map
+flatten
+opt_clean
+rename ibex_id_stage gold
+select gold
+design -stash gold_design
+
+design -reset
+read_verilog <local_path>
+hierarchy -top ibex_id_stage
+proc
+memory_map
+flatten
+opt_clean
+rename ibex_id_stage gate
+select gate
+design -stash gate_design
+
+design -reset
+design -copy-from gold_design -as gold gold
+design -copy-from gate_design -as gate gate
+equiv_make gold gate equiv
+hierarchy -top equiv
+async2sync
+opt_clean
+equiv_induct -undef -seq 32
+equiv_simple
+equiv_status

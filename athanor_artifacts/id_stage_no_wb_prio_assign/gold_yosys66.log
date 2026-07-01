@@ -1,0 +1,2503 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+
+-- Running command `read_verilog <local_path>; hierarchy -top ibex_id_stage; proc; flatten; synth -top ibex_id_stage; dfflibmap -liberty <local_path>; abc -liberty <local_path>; stat -liberty <local_path>; write_verilog -noattr <local_path>' --
+
+1. Executing Verilog-2005 frontend: <local_path>
+Parsing Verilog input from `<local_path>' to AST representation.
+Generating RTLIL representation for module `\ibex_decoder'.
+Generating RTLIL representation for module `\ibex_controller'.
+Generating RTLIL representation for module `\ibex_id_stage'.
+Successfully finished Verilog frontend.
+
+2. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1. Analyzing design hierarchy..
+Top module:  \ibex_id_stage
+Used module:     \ibex_controller
+Used module:     \ibex_decoder
+Parameter \WritebackStage = 1'0
+Parameter \BranchPredictor = 1'0
+Parameter \MemECC = 1'0
+
+2.2. Executing AST frontend in derive mode using pre-parsed AST for module `\ibex_controller'.
+Parameter \WritebackStage = 1'0
+Parameter \BranchPredictor = 1'0
+Parameter \MemECC = 1'0
+Generating RTLIL representation for module `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0'.
+Parameter \RV32E = 1'0
+Parameter \RV32M = 2
+Parameter \RV32B = 0
+Parameter \BranchTargetALU = 1'0
+
+2.3. Executing AST frontend in derive mode using pre-parsed AST for module `\ibex_decoder'.
+Parameter \RV32E = 1'0
+Parameter \RV32M = 2
+Parameter \RV32B = 0
+Parameter \BranchTargetALU = 1'0
+Generating RTLIL representation for module `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder'.
+
+2.4. Analyzing design hierarchy..
+Top module:  \ibex_id_stage
+Used module:     $paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0
+Used module:     $paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder
+
+2.5. Analyzing design hierarchy..
+Top module:  \ibex_id_stage
+Used module:     $paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0
+Used module:     $paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder
+Removing unused module `\ibex_controller'.
+Removing unused module `\ibex_decoder'.
+Removed 2 unused modules.
+
+3. Executing PROC pass (convert processes to netlists).
+
+3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\ibex_id_stage.$proc$<local_path>'.
+Found and cleaned up 3 empty switches in `\ibex_id_stage.$proc$<local_path>'.
+Found and cleaned up 1 empty switch in `\ibex_id_stage.$proc$<local_path>'.
+Found and cleaned up 1 empty switch in `\ibex_id_stage.$proc$<local_path>'.
+Found and cleaned up 43 empty switches in `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Found and cleaned up 4 empty switches in `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Found and cleaned up 1 empty switch in `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Found and cleaned up 1 empty switch in `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Found and cleaned up 3 empty switches in `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Found and cleaned up 1 empty switch in `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Cleaned up 59 empty switches.
+
+3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$<local_path> in module ibex_id_stage.
+Marked 1 switch rules as full_case in process $proc$<local_path> in module ibex_id_stage.
+Marked 1 switch rules as full_case in process $proc$<local_path> in module ibex_id_stage.
+Removed 1 dead cases from process $proc$<local_path> in module ibex_id_stage.
+Marked 4 switch rules as full_case in process $proc$<local_path> in module ibex_id_stage.
+Marked 1 switch rules as full_case in process $proc$<local_path> in module ibex_id_stage.
+Marked 1 switch rules as full_case in process $proc$<local_path> in module ibex_id_stage.
+Removed 1 dead cases from process $proc$<local_path> in module ibex_id_stage.
+Removed 1 dead cases from process $proc$<local_path> in module ibex_id_stage.
+Removed 1 dead cases from process $proc$<local_path> in module $paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.
+Marked 9 switch rules as full_case in process $proc$<local_path> in module $paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.
+Removed 1 dead cases from process $proc$<local_path> in module $paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.
+Marked 15 switch rules as full_case in process $proc$<local_path> in module $paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.
+Marked 1 switch rules as full_case in process $proc$<local_path> in module $paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.
+Marked 6 switch rules as full_case in process $proc$<local_path> in module $paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.
+Marked 1 switch rules as full_case in process $proc$<local_path> in module $paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.
+Marked 26 switch rules as full_case in process $proc$<local_path> in module $paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.
+Marked 1 switch rules as full_case in process $proc$<local_path> in module $paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.
+Marked 15 switch rules as full_case in process $proc$<local_path> in module $paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.
+Removed a total of 5 dead cases.
+
+3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 12 redundant assignments.
+Promoted 91 assignments to connections.
+
+3.4. Executing PROC_INIT pass (extract init attributes).
+
+3.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_ni in `\ibex_id_stage.$proc$<local_path>'.
+Found async reset \rst_ni in `\ibex_id_stage.$proc$<local_path>'.
+Found async reset \rst_ni in `\ibex_id_stage.$proc$<local_path>'.
+Found async reset \rst_ni in `\ibex_id_stage.$proc$<local_path>'.
+Found async reset \rst_ni in `\ibex_id_stage.$proc$<local_path>'.
+Found async reset \rst_ni in `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Found async reset \rst_ni in `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+
+3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 1 switch.
+<suppressed ~102 debug messages>
+
+3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\ibex_id_stage.$proc$<local_path>'.
+Creating decoders for process `\ibex_id_stage.$proc$<local_path>'.
+     1/1: $0\g_branch_set_flop.branch_set_raw_q[0:0]
+Creating decoders for process `\ibex_id_stage.$proc$<local_path>'.
+     1/1: $0\imd_val_q[33:0]
+Creating decoders for process `\ibex_id_stage.$proc$<local_path>'.
+     1/1: $0\imd_val_q[67:34]
+Creating decoders for process `\ibex_id_stage.$proc$<local_path>'.
+     1/1: $1\imm_b[31:0]
+Creating decoders for process `\ibex_id_stage.$proc$<local_path>'.
+Creating decoders for process `\ibex_id_stage.$proc$<local_path>'.
+Creating decoders for process `\ibex_id_stage.$proc$<local_path>'.
+     1/36: $6\id_fsm_d[0:0]
+     2/36: $4\stall_jump[0:0]
+     3/36: $4\stall_branch[0:0]
+     4/36: $5\stall_multdiv[0:0]
+     5/36: $5\rf_we_raw[0:0]
+     6/36: $4\stall_multdiv[0:0]
+     7/36: $4\rf_we_raw[0:0]
+     8/36: $5\id_fsm_d[0:0]
+     9/36: $4\id_fsm_d[0:0]
+    10/36: $3\id_fsm_d[0:0]
+    11/36: $3\stall_alu[0:0]
+    12/36: $3\rf_we_raw[0:0]
+    13/36: $3\stall_jump[0:0]
+    14/36: $3\stall_branch[0:0]
+    15/36: $3\stall_multdiv[0:0]
+    16/36: $3\jump_set_raw[0:0]
+    17/36: $3\branch_set_raw_d[0:0]
+    18/36: $3\perf_branch_o[0:0]
+    19/36: $2\id_fsm_d[0:0]
+    20/36: $2\stall_alu[0:0]
+    21/36: $2\rf_we_raw[0:0]
+    22/36: $2\stall_jump[0:0]
+    23/36: $2\stall_branch[0:0]
+    24/36: $2\stall_multdiv[0:0]
+    25/36: $2\jump_set_raw[0:0]
+    26/36: $2\branch_set_raw_d[0:0]
+    27/36: $2\perf_branch_o[0:0]
+    28/36: $1\id_fsm_d[0:0]
+    29/36: $1\stall_alu[0:0]
+    30/36: $1\rf_we_raw[0:0]
+    31/36: $1\stall_jump[0:0]
+    32/36: $1\stall_branch[0:0]
+    33/36: $1\stall_multdiv[0:0]
+    34/36: $1\jump_set_raw[0:0]
+    35/36: $1\branch_set_raw_d[0:0]
+    36/36: $1\perf_branch_o[0:0]
+Creating decoders for process `\ibex_id_stage.$proc$<local_path>'.
+     1/1: $0\id_fsm_q[0:0]
+Creating decoders for process `\ibex_id_stage.$proc$<local_path>'.
+     1/1: $0\branch_jump_set_done_q[0:0]
+Creating decoders for process `\ibex_id_stage.$proc$<local_path>'.
+     1/1: $1\rf_wdata_id_o[31:0]
+Creating decoders for process `\ibex_id_stage.$proc$<local_path>'.
+     1/1: $1\alu_operand_a[31:0]
+Creating decoders for process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Creating decoders for process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Creating decoders for process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+     1/49: $9\alu_op_a_mux_sel_o[1:0]
+     2/49: $9\alu_op_b_mux_sel_o[0:0]
+     3/49: $8\alu_op_a_mux_sel_o[1:0]
+     4/49: $2\imm_a_mux_sel_o[0:0]
+     5/49: $15\alu_operator_o[6:0]
+     6/49: $8\imm_b_mux_sel_o[2:0]
+     7/49: $8\alu_op_b_mux_sel_o[0:0]
+     8/49: $7\alu_op_a_mux_sel_o[1:0]
+     9/49: $7\alu_op_b_mux_sel_o[0:0]
+    10/49: $6\alu_op_a_mux_sel_o[1:0]
+    11/49: $14\alu_operator_o[6:0]
+    12/49: $7\imm_b_mux_sel_o[2:0]
+    13/49: $13\alu_operator_o[6:0]
+    14/49: $3\div_sel_o[0:0]
+    15/49: $3\mult_sel_o[0:0]
+    16/49: $2\div_sel_o[0:0]
+    17/49: $2\mult_sel_o[0:0]
+    18/49: $12\alu_operator_o[6:0]
+    19/49: $11\alu_operator_o[6:0]
+    20/49: $10\alu_operator_o[6:0]
+    21/49: $9\alu_operator_o[6:0]
+    22/49: $8\alu_operator_o[6:0]
+    23/49: $7\alu_operator_o[6:0]
+    24/49: $6\alu_op_b_mux_sel_o[0:0]
+    25/49: $6\imm_b_mux_sel_o[2:0]
+    26/49: $6\alu_operator_o[6:0]
+    27/49: $5\imm_b_mux_sel_o[2:0]
+    28/49: $5\alu_op_b_mux_sel_o[0:0]
+    29/49: $5\alu_op_a_mux_sel_o[1:0]
+    30/49: $4\alu_op_b_mux_sel_o[0:0]
+    31/49: $4\alu_op_a_mux_sel_o[1:0]
+    32/49: $5\alu_operator_o[6:0]
+    33/49: $4\imm_b_mux_sel_o[2:0]
+    34/49: $4\alu_operator_o[6:0]
+    35/49: $3\alu_operator_o[6:0]
+    36/49: $3\imm_b_mux_sel_o[2:0]
+    37/49: $3\alu_op_b_mux_sel_o[0:0]
+    38/49: $3\alu_op_a_mux_sel_o[1:0]
+    39/49: $2\alu_operator_o[6:0]
+    40/49: $2\imm_b_mux_sel_o[2:0]
+    41/49: $2\alu_op_b_mux_sel_o[0:0]
+    42/49: $2\alu_op_a_mux_sel_o[1:0]
+    43/49: $1\alu_op_b_mux_sel_o[0:0]
+    44/49: $1\alu_op_a_mux_sel_o[1:0]
+    45/49: $1\alu_operator_o[6:0]
+    46/49: $1\imm_b_mux_sel_o[2:0]
+    47/49: $1\div_sel_o[0:0]
+    48/49: $1\mult_sel_o[0:0]
+    49/49: $1\imm_a_mux_sel_o[0:0]
+Creating decoders for process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+     1/88: $3\csr_access_o[0:0]
+     2/88: $2\branch_in_dec_o[0:0]
+     3/88: $6\jump_set_o[0:0]
+     4/88: $3\jump_in_dec_o[0:0]
+     5/88: $2\data_we_o[0:0]
+     6/88: $2\data_req_o[0:0]
+     7/88: $6\rf_we[0:0]
+     8/88: $24\illegal_insn[0:0]
+     9/88: $3\csr_op[1:0]
+    10/88: $3\csr_illegal[0:0]
+    11/88: $3\rf_ren_a_o[0:0]
+    12/88: $23\illegal_insn[0:0]
+    13/88: $3\ecall_insn_o[0:0]
+    14/88: $22\illegal_insn[0:0]
+    15/88: $3\wfi_insn_o[0:0]
+    16/88: $3\dret_insn_o[0:0]
+    17/88: $3\mret_insn_o[0:0]
+    18/88: $3\ebrk_insn_o[0:0]
+    19/88: $21\illegal_insn[0:0]
+    20/88: $2\wfi_insn_o[0:0]
+    21/88: $2\ecall_insn_o[0:0]
+    22/88: $2\dret_insn_o[0:0]
+    23/88: $2\mret_insn_o[0:0]
+    24/88: $2\ebrk_insn_o[0:0]
+    25/88: $2\csr_op[1:0]
+    26/88: $5\rf_we[0:0]
+    27/88: $2\csr_illegal[0:0]
+    28/88: $2\csr_access_o[0:0]
+    29/88: $2\rf_ren_a_o[0:0]
+    30/88: $2\rf_wdata_sel_o[0:0]
+    31/88: $3\icache_inval_o[0:0]
+    32/88: $5\jump_set_o[0:0]
+    33/88: $4\rf_we[0:0]
+    34/88: $20\illegal_insn[0:0]
+    35/88: $2\jump_in_dec_o[0:0]
+    36/88: $2\icache_inval_o[0:0]
+    37/88: $4\jump_set_o[0:0]
+    38/88: $19\illegal_insn[0:0]
+    39/88: $3\multdiv_signed_mode_o[1:0]
+    40/88: $3\multdiv_operator_o[1:0]
+    41/88: $18\illegal_insn[0:0]
+    42/88: $2\multdiv_signed_mode_o[1:0]
+    43/88: $2\multdiv_operator_o[1:0]
+    44/88: $17\illegal_insn[0:0]
+    45/88: $16\illegal_insn[0:0]
+    46/88: $15\illegal_insn[0:0]
+    47/88: $14\illegal_insn[0:0]
+    48/88: $13\illegal_insn[0:0]
+    49/88: $12\illegal_insn[0:0]
+    50/88: $11\illegal_insn[0:0]
+    51/88: $10\illegal_insn[0:0]
+    52/88: $9\illegal_insn[0:0]
+    53/88: $8\illegal_insn[0:0]
+    54/88: $7\illegal_insn[0:0]
+    55/88: $3\data_type_o[1:0]
+    56/88: $6\illegal_insn[0:0]
+    57/88: $2\data_type_o[1:0]
+    58/88: $5\illegal_insn[0:0]
+    59/88: $4\illegal_insn[0:0]
+    60/88: $3\illegal_insn[0:0]
+    61/88: $2\illegal_insn[0:0]
+    62/88: $3\jump_set_o[0:0]
+    63/88: $3\rf_we[0:0]
+    64/88: $2\jump_set_o[0:0]
+    65/88: $2\rf_we[0:0]
+    66/88: $1\rf_we[0:0]
+    67/88: $1\jump_set_o[0:0]
+    68/88: $1\jump_in_dec_o[0:0]
+    69/88: $1\csr_op[1:0]
+    70/88: $1\csr_illegal[0:0]
+    71/88: $1\illegal_insn[0:0]
+    72/88: $1\branch_in_dec_o[0:0]
+    73/88: $1\data_sign_extension_o[0:0]
+    74/88: $1\data_type_o[1:0]
+    75/88: $1\data_we_o[0:0]
+    76/88: $1\data_req_o[0:0]
+    77/88: $1\csr_access_o[0:0]
+    78/88: $1\multdiv_signed_mode_o[1:0]
+    79/88: $1\multdiv_operator_o[1:0]
+    80/88: $1\rf_ren_b_o[0:0]
+    81/88: $1\rf_ren_a_o[0:0]
+    82/88: $1\rf_wdata_sel_o[0:0]
+    83/88: $1\icache_inval_o[0:0]
+    84/88: $1\wfi_insn_o[0:0]
+    85/88: $1\ecall_insn_o[0:0]
+    86/88: $1\dret_insn_o[0:0]
+    87/88: $1\mret_insn_o[0:0]
+    88/88: $1\ebrk_insn_o[0:0]
+Creating decoders for process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+     1/1: $1\csr_op_o[1:0]
+Creating decoders for process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Creating decoders for process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+     1/21: $6\load_err_prio[0:0]
+     2/21: $5\store_err_prio[0:0]
+     3/21: $5\load_err_prio[0:0]
+     4/21: $4\ebrk_insn_prio[0:0]
+     5/21: $4\load_err_prio[0:0]
+     6/21: $4\store_err_prio[0:0]
+     7/21: $3\ecall_insn_prio[0:0]
+     8/21: $3\load_err_prio[0:0]
+     9/21: $3\store_err_prio[0:0]
+    10/21: $3\ebrk_insn_prio[0:0]
+    11/21: $2\illegal_insn_prio[0:0]
+    12/21: $2\load_err_prio[0:0]
+    13/21: $2\store_err_prio[0:0]
+    14/21: $2\ebrk_insn_prio[0:0]
+    15/21: $2\ecall_insn_prio[0:0]
+    16/21: $1\instr_fetch_err_prio[0:0]
+    17/21: $1\load_err_prio[0:0]
+    18/21: $1\store_err_prio[0:0]
+    19/21: $1\ebrk_insn_prio[0:0]
+    20/21: $1\ecall_insn_prio[0:0]
+    21/21: $1\illegal_insn_prio[0:0]
+Creating decoders for process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+     1/9: $0\illegal_insn_q[0:0]
+     2/9: $0\exc_req_q[0:0]
+     3/9: $0\store_err_q[0:0]
+     4/9: $0\load_err_q[0:0]
+     5/9: $0\enter_debug_mode_prio_q[0:0]
+     6/9: $0\debug_mode_q[0:0]
+     7/9: $0\do_single_step_q[0:0]
+     8/9: $0\nmi_mode_q[0:0]
+     9/9: $0\ctrl_fsm_cs[3:0]
+Creating decoders for process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+     1/110: $8\halt_if[0:0]
+     2/110: $17\ctrl_fsm_ns[3:0]
+     3/110: $16\ctrl_fsm_ns[3:0]
+     4/110: $4\csr_restore_dret_id_o[0:0]
+     5/110: $4\debug_mode_d[0:0]
+     6/110: $8\pc_set_o[0:0]
+     7/110: $4\pc_mux_o[2:0]
+     8/110: $15\ctrl_fsm_ns[3:0]
+     9/110: $6\nmi_mode_d[0:0]
+    10/110: $5\nmi_mode_d[0:0]
+    11/110: $3\csr_restore_mret_id_o[0:0]
+    12/110: $7\pc_set_o[0:0]
+    13/110: $3\pc_mux_o[2:0]
+    14/110: $3\debug_mode_d[0:0]
+    15/110: $14\ctrl_fsm_ns[3:0]
+    16/110: $3\csr_restore_dret_id_o[0:0]
+    17/110: $4\flush_id[0:0]
+    18/110: $13\ctrl_fsm_ns[3:0]
+    19/110: $6\csr_save_cause_o[0:0]
+    20/110: $6\csr_save_id_o[0:0]
+    21/110: $6\pc_set_o[0:0]
+    22/110: $9\exc_cause_o[6:0]
+    23/110: $6\csr_mtval_o[31:0]
+    24/110: $8\exc_cause_o[6:0]
+    25/110: $3\flush_id[0:0]
+    26/110: $12\ctrl_fsm_ns[3:0]
+    27/110: $5\csr_save_cause_o[0:0]
+    28/110: $5\csr_save_id_o[0:0]
+    29/110: $5\pc_set_o[0:0]
+    30/110: $4\csr_save_id_o[0:0]
+    31/110: $2\flush_id[0:0]
+    32/110: $11\ctrl_fsm_ns[3:0]
+    33/110: $5\csr_mtval_o[31:0]
+    34/110: $4\csr_save_cause_o[0:0]
+    35/110: $3\csr_save_id_o[0:0]
+    36/110: $7\exc_cause_o[6:0]
+    37/110: $4\pc_set_o[0:0]
+    38/110: $2\exc_pc_mux_o[1:0]
+    39/110: $2\pc_mux_o[2:0]
+    40/110: $2\debug_mode_d[0:0]
+    41/110: $4\nmi_mode_d[0:0]
+    42/110: $2\csr_restore_dret_id_o[0:0]
+    43/110: $2\csr_restore_mret_id_o[0:0]
+    44/110: $2\debug_csr_save_o[0:0]
+    45/110: $2\csr_save_id_o[0:0]
+    46/110: $3\csr_save_cause_o[0:0]
+    47/110: $6\exc_cause_o[6:0]
+    48/110: $5\exc_cause_o[6:0]
+    49/110: $4\exc_cause_o[6:0]
+    50/110: $4\sv2v_cast_5$func$<local_path>
+    51/110: $4\sv2v_cast_5$func$<local_path>
+    52/110: $4\csr_mtval_o[31:0]
+    53/110: $3\nmi_mode_d[0:0]
+    54/110: $3\csr_mtval_o[31:0]
+    55/110: $3\exc_cause_o[6:0]
+    56/110: $3\sv2v_cast_5$func$<local_path>
+    57/110: $3\sv2v_cast_5$func$<local_path>
+    58/110: $2\sv2v_cast_5$func$<local_path>
+    59/110: $2\sv2v_cast_5$func$<local_path>
+    60/110: $2\nmi_mode_d[0:0]
+    61/110: $2\csr_mtval_o[31:0]
+    62/110: $2\exc_cause_o[6:0]
+    63/110: $2\csr_save_cause_o[0:0]
+    64/110: $2\csr_save_if_o[0:0]
+    65/110: $3\pc_set_o[0:0]
+    66/110: $7\halt_if[0:0]
+    67/110: $10\ctrl_fsm_ns[3:0]
+    68/110: $6\halt_if[0:0]
+    69/110: $9\ctrl_fsm_ns[3:0]
+    70/110: $5\halt_if[0:0]
+    71/110: $8\ctrl_fsm_ns[3:0]
+    72/110: $4\halt_if[0:0]
+    73/110: $2\perf_jump_o[0:0]
+    74/110: $2\perf_tbranch_o[0:0]
+    75/110: $2\pc_set_o[0:0]
+    76/110: $7\ctrl_fsm_ns[3:0]
+    77/110: $6\ctrl_fsm_ns[3:0]
+    78/110: $2\retain_id[0:0]
+    79/110: $3\halt_if[0:0]
+    80/110: $5\ctrl_fsm_ns[3:0]
+    81/110: $2\halt_if[0:0]
+    82/110: $4\ctrl_fsm_ns[3:0]
+    83/110: $3\ctrl_fsm_ns[3:0]
+    84/110: $2\ctrl_fsm_ns[3:0]
+    85/110: $2\ctrl_busy_o[0:0]
+    86/110: $1\ctrl_fsm_ns[3:0]
+    87/110: $1\pc_set_o[0:0]
+    88/110: $1\pc_mux_o[2:0]
+    89/110: $1\instr_req_o[0:0]
+    90/110: $1\sv2v_cast_5$func$<local_path>
+    91/110: $1\sv2v_cast_5$func$<local_path>
+    92/110: $1\flush_id[0:0]
+    93/110: $1\retain_id[0:0]
+    94/110: $1\halt_if[0:0]
+    95/110: $1\debug_mode_d[0:0]
+    96/110: $1\nmi_mode_d[0:0]
+    97/110: $1\perf_tbranch_o[0:0]
+    98/110: $1\perf_jump_o[0:0]
+    99/110: $1\csr_mtval_o[31:0]
+   100/110: $1\csr_save_cause_o[0:0]
+   101/110: $1\csr_restore_dret_id_o[0:0]
+   102/110: $1\csr_restore_mret_id_o[0:0]
+   103/110: $1\csr_save_id_o[0:0]
+   104/110: $1\csr_save_if_o[0:0]
+   105/110: $1\debug_mode_entering_o[0:0]
+   106/110: $1\debug_csr_save_o[0:0]
+   107/110: $1\exc_cause_o[6:0]
+   108/110: $1\exc_pc_mux_o[1:0]
+   109/110: $1\controller_run_o[0:0]
+   110/110: $1\ctrl_busy_o[0:0]
+Creating decoders for process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+     1/1: $0\debug_cause_q[2:0]
+Creating decoders for process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+     1/15: $15\mfip_id[3:0]
+     2/15: $14\mfip_id[3:0]
+     3/15: $13\mfip_id[3:0]
+     4/15: $12\mfip_id[3:0]
+     5/15: $11\mfip_id[3:0]
+     6/15: $10\mfip_id[3:0]
+     7/15: $9\mfip_id[3:0]
+     8/15: $8\mfip_id[3:0]
+     9/15: $7\mfip_id[3:0]
+    10/15: $6\mfip_id[3:0]
+    11/15: $5\mfip_id[3:0]
+    12/15: $4\mfip_id[3:0]
+    13/15: $3\mfip_id[3:0]
+    14/15: $2\mfip_id[3:0]
+    15/15: $1\mfip_id[3:0]
+
+3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\ibex_id_stage.\_sv2v_0' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\imm_b' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\bt_b_operand_o' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\bt_a_operand_o' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\perf_branch_o' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\branch_set_raw_d' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\branch_not_set' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\jump_set_raw' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\stall_multdiv' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\stall_branch' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\stall_jump' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\rf_we_raw' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\stall_alu' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\id_fsm_d' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\rf_wdata_id_o' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `\ibex_id_stage.\alu_operand_a' from process `\ibex_id_stage.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\_sv2v_0' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\use_rs3_q' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\imm_a_mux_sel_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\imm_b_mux_sel_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\bt_a_mux_sel_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\bt_b_mux_sel_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\alu_operator_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\alu_op_a_mux_sel_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\alu_op_b_mux_sel_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\alu_multicycle_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\mult_sel_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\div_sel_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\use_rs3_d' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\opcode_alu' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\ebrk_insn_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\mret_insn_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\dret_insn_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\ecall_insn_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\wfi_insn_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\jump_set_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\icache_inval_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\rf_wdata_sel_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\rf_ren_a_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\rf_ren_b_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\multdiv_operator_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\multdiv_signed_mode_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\csr_access_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\data_req_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\data_we_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\data_type_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\data_sign_extension_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\jump_in_dec_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\branch_in_dec_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\illegal_insn' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\csr_illegal' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\rf_we' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\csr_op' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\opcode' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.\csr_op_o' from process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\_sv2v_0' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\instr_fetch_err_prio' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\illegal_insn_prio' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\ecall_insn_prio' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\ebrk_insn_prio' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\store_err_prio' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\load_err_prio' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\ctrl_busy_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\controller_run_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\instr_req_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\pc_set_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\pc_mux_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\nt_branch_mispredict_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\exc_pc_mux_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\exc_cause_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\debug_csr_save_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\debug_mode_entering_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\csr_save_if_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\csr_save_id_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\csr_save_wb_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\csr_restore_mret_id_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\csr_restore_dret_id_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\csr_save_cause_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\csr_mtval_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\perf_jump_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\perf_tbranch_o' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\ctrl_fsm_ns' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\nmi_mode_d' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\debug_mode_d' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\halt_if' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\retain_id' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\flush_id' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\mfip_id' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+No latch inferred for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\gen_mfip_id.sv2v_autoblock_1.i' from process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+
+3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\ibex_id_stage.\g_branch_set_flop.branch_set_raw_q' using process `\ibex_id_stage.$proc$<local_path>'.
+  created $adff cell `$procdff$3376' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_id_stage.\imd_val_q [33:0]' using process `\ibex_id_stage.$proc$<local_path>'.
+  created $adff cell `$procdff$3381' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_id_stage.\imd_val_q [67:34]' using process `\ibex_id_stage.$proc$<local_path>'.
+  created $adff cell `$procdff$3386' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_id_stage.\id_fsm_q' using process `\ibex_id_stage.$proc$<local_path>'.
+  created $adff cell `$procdff$3391' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_id_stage.\branch_jump_set_done_q' using process `\ibex_id_stage.$proc$<local_path>'.
+  created $adff cell `$procdff$3396' with positive edge clock and positive level reset.
+Creating register for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\ctrl_fsm_cs' using process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+  created $adff cell `$procdff$3401' with positive edge clock and positive level reset.
+Creating register for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\nmi_mode_q' using process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+  created $adff cell `$procdff$3406' with positive edge clock and positive level reset.
+Creating register for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\debug_mode_q' using process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+  created $adff cell `$procdff$3411' with positive edge clock and positive level reset.
+Creating register for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\load_err_q' using process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+  created $adff cell `$procdff$3416' with positive edge clock and positive level reset.
+Creating register for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\store_err_q' using process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+  created $adff cell `$procdff$3421' with positive edge clock and positive level reset.
+Creating register for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\exc_req_q' using process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+  created $adff cell `$procdff$3426' with positive edge clock and positive level reset.
+Creating register for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\illegal_insn_q' using process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+  created $adff cell `$procdff$3431' with positive edge clock and positive level reset.
+Creating register for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\do_single_step_q' using process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+  created $adff cell `$procdff$3436' with positive edge clock and positive level reset.
+Creating register for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\enter_debug_mode_prio_q' using process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+  created $adff cell `$procdff$3441' with positive edge clock and positive level reset.
+Creating register for signal `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.\debug_cause_q' using process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+  created $adff cell `$procdff$3446' with positive edge clock and positive level reset.
+
+3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `ibex_id_stage.$proc$<local_path>'.
+Removing empty process `ibex_id_stage.$proc$<local_path>'.
+Found and cleaned up 1 empty switch in `\ibex_id_stage.$proc$<local_path>'.
+Removing empty process `ibex_id_stage.$proc$<local_path>'.
+Found and cleaned up 1 empty switch in `\ibex_id_stage.$proc$<local_path>'.
+Removing empty process `ibex_id_stage.$proc$<local_path>'.
+Found and cleaned up 1 empty switch in `\ibex_id_stage.$proc$<local_path>'.
+Removing empty process `ibex_id_stage.$proc$<local_path>'.
+Removing empty process `ibex_id_stage.$proc$<local_path>'.
+Removing empty process `ibex_id_stage.$proc$<local_path>'.
+Found and cleaned up 6 empty switches in `\ibex_id_stage.$proc$<local_path>'.
+Removing empty process `ibex_id_stage.$proc$<local_path>'.
+Found and cleaned up 1 empty switch in `\ibex_id_stage.$proc$<local_path>'.
+Removing empty process `ibex_id_stage.$proc$<local_path>'.
+Removing empty process `ibex_id_stage.$proc$<local_path>'.
+Found and cleaned up 1 empty switch in `\ibex_id_stage.$proc$<local_path>'.
+Removing empty process `ibex_id_stage.$proc$<local_path>'.
+Found and cleaned up 1 empty switch in `\ibex_id_stage.$proc$<local_path>'.
+Removing empty process `ibex_id_stage.$proc$<local_path>'.
+Removing empty process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Removing empty process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Found and cleaned up 14 empty switches in `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Removing empty process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Found and cleaned up 27 empty switches in `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Removing empty process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Found and cleaned up 1 empty switch in `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Removing empty process `$paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.$proc$<local_path>'.
+Removing empty process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Found and cleaned up 6 empty switches in `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Removing empty process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Removing empty process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Found and cleaned up 28 empty switches in `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Removing empty process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Removing empty process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Found and cleaned up 15 empty switches in `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Removing empty process `$paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.$proc$<local_path>'.
+Cleaned up 103 empty switches.
+
+3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+<suppressed ~79 debug messages>
+Optimizing module $paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.
+<suppressed ~38 debug messages>
+Optimizing module $paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.
+<suppressed ~52 debug messages>
+
+4. Executing FLATTEN pass (flatten design).
+Deleting now unused module $paramod$84261d804587eb0ae51174310d90890db16d9f6a\ibex_decoder.
+Deleting now unused module $paramod\ibex_controller\WritebackStage=1'0\BranchPredictor=1'0\MemECC=1'0.
+<suppressed ~2 debug messages>
+
+5. Executing SYNTH pass.
+
+5.1. Executing HIERARCHY pass (managing design hierarchy).
+
+5.1.1. Analyzing design hierarchy..
+Top module:  \ibex_id_stage
+
+5.1.2. Analyzing design hierarchy..
+Top module:  \ibex_id_stage
+Removed 0 unused modules.
+
+5.2. Executing PROC pass (convert processes to netlists).
+
+5.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+5.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+5.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 0 assignments to connections.
+
+5.2.4. Executing PROC_INIT pass (extract init attributes).
+
+5.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+5.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+5.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+
+5.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+5.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+5.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+5.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+5.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+<suppressed ~3 debug messages>
+
+5.3. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+
+5.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 79 unused cells and 1072 unused wires.
+<suppressed ~84 debug messages>
+
+5.5. Executing CHECK pass (checking for obvious problems).
+Checking module ibex_id_stage...
+Found and reported 0 problems.
+
+5.6. Executing OPT pass (performing simple optimizations).
+
+5.6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+
+5.6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 1421 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 996 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 992 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 991 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+<suppressed ~1290 debug messages>
+Removed a total of 430 cells.
+
+5.6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_id_stage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port A of cell $flatten\controller_i.$procmux$2370: \controller_i.nmi_mode_q -> 1'0
+      Replacing known input bits on port A of cell $procmux$471: \id_fsm_q -> 1'1
+      Replacing known input bits on port B of cell $procmux$546: \id_fsm_q -> 1'0
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2305.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2312.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2315.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2317.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2324.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2327.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2329.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2336.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2339.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2341.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2348.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2351.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2353.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2360.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2363.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2365.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2372.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2375.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2377.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2384.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2386.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2393.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2395.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2402.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2404.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2411.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2413.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2420.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2422.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2429.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2431.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2438.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2440.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$760.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$762.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$767.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2450.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$773.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2452.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$779.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$784.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$786.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$791.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2454.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$793.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$798.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$800.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2464.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$805.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2466.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$807.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2468.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$814.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2478.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$822.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2480.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2482.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$830.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$837.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$862.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$864.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2492.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2494.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2496.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$876.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$878.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2506.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2508.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2119.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$894.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2510.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$896.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$904.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$912.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2520.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$920.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$930.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$932.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$934.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2522.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$943.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2122.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$945.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2524.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$951.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$953.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$960.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$962.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2534.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2125.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$977.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$990.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2536.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1003.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1015.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1017.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1029.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1031.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1043.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1045.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1057.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1059.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1073.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1087.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1101.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1115.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2548.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2128.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2550.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2559.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2131.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1134.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1148.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2561.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1163.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1177.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1192.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1207.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2570.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1223.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1238.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2572.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1253.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2581.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2137.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2583.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2592.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2140.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2594.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2603.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2143.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2605.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2609.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2146.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2611.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2617.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2152.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2623.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2155.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2629.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2158.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2635.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2161.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2641.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1343.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1345.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2647.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2167.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1354.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2653.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1356.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1363.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1365.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1372.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2170.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1374.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1385.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2659.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1387.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1398.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2173.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1400.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2665.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1407.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1409.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1417.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2671.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1419.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1428.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2179.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1430.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2677.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1440.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1442.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2182.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1448.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2683.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1454.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1460.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2185.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1466.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2689.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1472.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1478.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1484.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2696.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1490.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2703.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1502.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1508.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2191.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1514.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1522.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1524.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2710.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1532.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1534.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2721.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1541.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2724.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2727.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2729.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1549.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2731.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1556.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2742.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1563.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2745.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2747.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1570.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1587.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1589.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2194.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2749.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2760.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1602.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2762.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1604.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2197.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2764.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1619.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1621.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1629.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1637.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1645.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1655.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1658.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1660.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1662.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1670.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1673.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2804.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1675.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2806.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1677.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1686.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1689.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1691.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2808.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1693.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1702.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1705.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2818.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1707.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2203.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1709.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2820.
+    dead port 1/2 on $mux $flatten\decoder_i.$procmux$1722.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2830.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1724.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2206.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1726.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2832.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1735.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1737.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2842.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1748.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1750.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2844.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1752.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1763.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1765.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1767.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1779.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1781.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1791.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1804.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1806.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1820.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2212.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2895.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1834.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2215.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2904.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1849.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2913.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1864.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2221.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1877.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2922.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2224.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2931.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1891.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1906.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2940.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1921.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1936.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1952.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2952.
+    dead port 2/2 on $mux $flatten\decoder_i.$procmux$1968.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2954.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2956.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2968.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2970.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2230.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2972.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2983.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2233.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2985.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2996.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2998.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2239.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3008.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3018.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2245.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3028.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3038.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2251.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3048.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3058.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3069.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2257.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3071.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3081.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2263.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3091.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3102.
+    dead port 2/2 on $mux $procmux$719.
+    dead port 2/2 on $mux $procmux$716.
+    dead port 2/2 on $mux $procmux$710.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3113.
+    dead port 2/2 on $mux $procmux$704.
+    dead port 2/2 on $mux $procmux$698.
+    dead port 2/2 on $mux $procmux$692.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3124.
+    dead port 2/2 on $mux $procmux$686.
+    dead port 2/2 on $mux $procmux$680.
+    dead port 2/2 on $mux $procmux$674.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3135.
+    dead port 2/2 on $mux $procmux$668.
+    dead port 2/2 on $mux $procmux$662.
+    dead port 1/2 on $mux $procmux$660.
+    dead port 2/2 on $mux $procmux$651.
+    dead port 1/2 on $mux $procmux$649.
+    dead port 2/2 on $mux $procmux$640.
+    dead port 1/2 on $mux $procmux$638.
+    dead port 2/2 on $mux $procmux$630.
+    dead port 1/2 on $mux $procmux$628.
+    dead port 2/2 on $mux $procmux$618.
+    dead port 1/2 on $mux $procmux$616.
+    dead port 2/2 on $mux $procmux$607.
+    dead port 1/2 on $mux $procmux$605.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3146.
+    dead port 2/2 on $mux $procmux$597.
+    dead port 1/2 on $mux $procmux$595.
+    dead port 1/3 on $pmux $procmux$592.
+    dead port 2/2 on $mux $procmux$587.
+    dead port 1/2 on $mux $procmux$585.
+    dead port 2/2 on $mux $procmux$578.
+    dead port 1/2 on $mux $procmux$576.
+    dead port 1/6 on $pmux $procmux$570.
+    dead port 2/2 on $mux $procmux$565.
+    dead port 1/2 on $mux $procmux$563.
+    dead port 2/2 on $mux $procmux$561.
+    dead port 2/2 on $mux $procmux$552.
+    dead port 1/2 on $mux $procmux$550.
+    dead port 2/2 on $mux $procmux$548.
+    dead port 2/2 on $mux $procmux$537.
+    dead port 1/2 on $mux $procmux$535.
+    dead port 2/2 on $mux $procmux$533.
+    dead port 2/2 on $mux $procmux$522.
+    dead port 1/2 on $mux $procmux$520.
+    dead port 2/2 on $mux $procmux$518.
+    dead port 2/2 on $mux $procmux$507.
+    dead port 2/2 on $mux $procmux$505.
+    dead port 2/2 on $mux $procmux$499.
+    dead port 2/2 on $mux $procmux$497.
+    dead port 2/2 on $mux $procmux$491.
+    dead port 2/2 on $mux $procmux$489.
+    dead port 2/2 on $mux $procmux$483.
+    dead port 2/2 on $mux $procmux$481.
+    dead port 2/2 on $mux $procmux$475.
+    dead port 2/2 on $mux $procmux$473.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2297.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3158.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$3170.
+    dead port 2/2 on $mux $flatten\controller_i.$procmux$2290.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2300.
+    dead port 1/2 on $mux $flatten\controller_i.$procmux$2303.
+Removed 379 multiplexer ports.
+<suppressed ~799 debug messages>
+
+5.6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_id_stage.
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1392: $auto$opt_reduce.cc:135:opt_pmux$3450
+    New ctrl vector for $pmux cell $flatten\controller_i.$procmux$3222: { $flatten\controller_i.$procmux$2291_CMP $auto$opt_reduce.cc:135:opt_pmux$3452 }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$827: $auto$opt_reduce.cc:135:opt_pmux$3454
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$843: { $auto$opt_reduce.cc:135:opt_pmux$3456 $flatten\decoder_i.$procmux$852_CMP $flatten\decoder_i.$procmux$853_CMP $flatten\decoder_i.$procmux$854_CMP $flatten\decoder_i.$procmux$855_CMP $flatten\decoder_i.$procmux$856_CMP $flatten\decoder_i.$procmux$857_CMP $flatten\decoder_i.$procmux$858_CMP $flatten\decoder_i.$procmux$859_CMP }
+    New ctrl vector for $pmux cell $flatten\controller_i.$procmux$3201: $auto$opt_reduce.cc:135:opt_pmux$3458
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$870: $auto$opt_reduce.cc:135:opt_pmux$3460
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1546: $auto$opt_reduce.cc:135:opt_pmux$3462
+    New ctrl vector for $pmux cell $flatten\controller_i.$procmux$3293: $auto$opt_reduce.cc:135:opt_pmux$3464
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$888: $auto$opt_reduce.cc:135:opt_pmux$3466
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1576: $auto$opt_reduce.cc:135:opt_pmux$3468
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1596: { $auto$opt_reduce.cc:135:opt_pmux$3470 $flatten\decoder_i.$procmux$1582_CMP }
+    New ctrl vector for $pmux cell $flatten\controller_i.$procmux$3306: { $flatten\controller_i.$procmux$2291_CMP $auto$opt_reduce.cc:135:opt_pmux$3472 }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1610: { $auto$opt_reduce.cc:135:opt_pmux$3478 $auto$opt_reduce.cc:135:opt_pmux$3476 $auto$opt_reduce.cc:135:opt_pmux$3474 }
+    New ctrl vector for $pmux cell $flatten\controller_i.$procmux$3236: { $auto$opt_reduce.cc:135:opt_pmux$3480 $flatten\controller_i.$procmux$2957_CMP $flatten\controller_i.$procmux$3103_CMP }
+    New ctrl vector for $pmux cell $flatten\controller_i.$procmux$2529: { $auto$opt_reduce.cc:135:opt_pmux$3482 \controller_i.illegal_insn_prio \controller_i.instr_fetch_err_prio }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1717: { $auto$opt_reduce.cc:135:opt_pmux$3484 $flatten\decoder_i.$procmux$1720_CTRL }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1830: { $flatten\decoder_i.$procmux$1340_CMP $auto$opt_reduce.cc:135:opt_pmux$3486 }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1860: $auto$opt_reduce.cc:135:opt_pmux$3488
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1971: { $flatten\decoder_i.$procmux$2111_CMP $flatten\decoder_i.$procmux$1525_CMP $auto$opt_reduce.cc:135:opt_pmux$3490 $flatten\decoder_i.$procmux$1907_CMP $flatten\decoder_i.$procmux$1953_CMP }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1988: { $flatten\decoder_i.$procmux$1525_CMP $auto$opt_reduce.cc:135:opt_pmux$3492 }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1999: { $flatten\decoder_i.$procmux$2111_CMP $flatten\decoder_i.$procmux$1525_CMP $flatten\decoder_i.$procmux$1590_CMP $flatten\decoder_i.$procmux$1663_CMP $auto$opt_reduce.cc:135:opt_pmux$3494 $flatten\decoder_i.$procmux$1807_CMP $flatten\decoder_i.$procmux$1850_CMP $flatten\decoder_i.$procmux$1892_CMP $flatten\decoder_i.$procmux$1907_CMP }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1256: { $auto$opt_reduce.cc:135:opt_pmux$3496 $flatten\decoder_i.$procmux$787_CMP $flatten\decoder_i.$procmux$865_CMP $flatten\decoder_i.$procmux$991_CMP $flatten\decoder_i.$procmux$1018_CMP }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$2058: $auto$opt_reduce.cc:135:opt_pmux$3498
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$2077: $auto$opt_reduce.cc:135:opt_pmux$3500
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$2082: { $flatten\decoder_i.$procmux$2111_CMP $auto$opt_reduce.cc:135:opt_pmux$3502 }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1265: { $flatten\decoder_i.$procmux$763_CMP $flatten\decoder_i.$procmux$787_CMP $auto$opt_reduce.cc:135:opt_pmux$3506 $auto$opt_reduce.cc:135:opt_pmux$3504 $flatten\decoder_i.$procmux$1018_CMP $flatten\decoder_i.$procmux$1149_CMP }
+    New ctrl vector for $pmux cell $flatten\controller_i.$procmux$3194: { $flatten\controller_i.$procmux$2291_CMP $auto$opt_reduce.cc:135:opt_pmux$3508 $flatten\controller_i.$procmux$2957_CMP }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1278: { $flatten\decoder_i.$procmux$787_CMP $flatten\decoder_i.$procmux$865_CMP $flatten\decoder_i.$procmux$935_CMP $auto$opt_reduce.cc:135:opt_pmux$3510 $flatten\decoder_i.$procmux$1018_CMP }
+    New ctrl vector for $pmux cell $procmux$671: $auto$opt_reduce.cc:135:opt_pmux$3512
+    New ctrl vector for $pmux cell $flatten\controller_i.$procmux$3243: { $flatten\controller_i.$procmux$2291_CMP $auto$opt_reduce.cc:135:opt_pmux$3514 }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1291: { $flatten\decoder_i.$procmux$787_CMP $auto$opt_reduce.cc:135:opt_pmux$3516 $flatten\decoder_i.$procmux$991_CMP $flatten\decoder_i.$procmux$1018_CMP $flatten\decoder_i.$procmux$1149_CMP $flatten\decoder_i.$procmux$1208_CMP }
+    New ctrl vector for $pmux cell $procmux$570: { $auto$opt_reduce.cc:135:opt_pmux$3518 \branch_in_dec \multdiv_en_dec }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1349: $auto$opt_reduce.cc:135:opt_pmux$3520
+    New ctrl vector for $pmux cell $flatten\controller_i.$procmux$3173: { $flatten\controller_i.$procmux$2291_CMP $auto$opt_reduce.cc:135:opt_pmux$3522 $flatten\controller_i.$procmux$2957_CMP $flatten\controller_i.$procmux$3103_CMP $flatten\controller_i.$procmux$3159_CMP $flatten\controller_i.$procmux$3181_CMP $flatten\controller_i.$procmux$3182_CMP $flatten\controller_i.$procmux$3183_CMP }
+    New ctrl vector for $pmux cell $flatten\controller_i.$procmux$3185: { $flatten\controller_i.$procmux$2291_CMP $auto$opt_reduce.cc:135:opt_pmux$3524 $flatten\controller_i.$procmux$2732_CMP $flatten\controller_i.$procmux$2957_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:129:opt_pmux$3467: { $flatten\decoder_i.$procmux$1577_CMP $flatten\decoder_i.$procmux$1578_CMP $flatten\decoder_i.$procmux$1579_CMP $flatten\decoder_i.$procmux$1580_CMP $flatten\decoder_i.$procmux$1581_CMP $flatten\decoder_i.$procmux$1582_CMP $flatten\decoder_i.$procmux$1583_CMP $flatten\decoder_i.$procmux$1584_CMP $flatten\decoder_i.$procmux$1585_CMP }
+  Optimizing cells in module \ibex_id_stage.
+Performed a total of 36 changes.
+
+5.6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 652 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 628 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 624 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+<suppressed ~84 debug messages>
+Removed a total of 28 cells.
+
+5.6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 1 unused cells and 830 unused wires.
+<suppressed ~2 debug messages>
+
+5.6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+<suppressed ~11 debug messages>
+
+5.6.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.6.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_id_stage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~419 debug messages>
+
+5.6.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_id_stage.
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1971: { $auto$opt_reduce.cc:135:opt_pmux$3526 $auto$opt_reduce.cc:135:opt_pmux$3490 $flatten\decoder_i.$procmux$1525_CMP $flatten\decoder_i.$procmux$1346_CMP }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1982: { $flatten\decoder_i.$procmux$1525_CMP $auto$opt_reduce.cc:135:opt_pmux$3528 }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$2038: $auto$opt_reduce.cc:135:opt_pmux$3530
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1256: { $flatten\decoder_i.$procmux$1018_CMP $flatten\decoder_i.$procmux$1004_CMP $flatten\decoder_i.$procmux$1259_CMP $auto$opt_reduce.cc:135:opt_pmux$3532 }
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1265: { $auto$opt_reduce.cc:135:opt_pmux$3534 $auto$opt_reduce.cc:135:opt_pmux$3504 $auto$opt_reduce.cc:135:opt_pmux$3506 $flatten\decoder_i.$procmux$1258_CMP $flatten\decoder_i.$procmux$1257_CMP }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:129:opt_pmux$3531: { $flatten\decoder_i.$procmux$1149_CMP $flatten\decoder_i.$procmux$1208_CMP $flatten\decoder_i.$procmux$1257_CMP $flatten\decoder_i.$procmux$1258_CMP }
+  Optimizing cells in module \ibex_id_stage.
+Performed a total of 6 changes.
+
+5.6.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 617 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 614 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+<suppressed ~9 debug messages>
+Removed a total of 3 cells.
+
+5.6.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.6.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 1 unused cells and 14 unused wires.
+<suppressed ~2 debug messages>
+
+5.6.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+
+5.6.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.6.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_id_stage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~415 debug messages>
+
+5.6.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_id_stage.
+Performed a total of 0 changes.
+
+5.6.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 613 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Removed a total of 0 cells.
+
+5.6.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.6.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+
+5.6.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+
+5.6.23. Finished fast OPT passes. (There is nothing left to do.)
+
+5.7. Executing FSM pass (extract and optimize FSM).
+
+5.7.1. Executing FSM_DETECT pass (finding FSMs in design).
+Not marking ibex_id_stage.controller_i.debug_cause_q as FSM state register:
+    Register is connected to module port.
+    Users of register don't seem to benefit from recoding.
+Found FSM state register ibex_id_stage.controller_i.ctrl_fsm_cs.
+
+5.7.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+Extracting FSM `\controller_i.ctrl_fsm_cs' from module `\ibex_id_stage'.
+  found $adff cell for state register: $flatten\controller_i.$procdff$3401
+  root of input selection tree: \controller_i.ctrl_fsm_ns
+  found reset state: 4'0000 (from async reset)
+  found ctrl input: $flatten\controller_i.$procmux$3183_CMP
+  found ctrl input: $flatten\controller_i.$procmux$3182_CMP
+  found ctrl input: $flatten\controller_i.$procmux$3181_CMP
+  found ctrl input: $flatten\controller_i.$procmux$3159_CMP
+  found ctrl input: $flatten\controller_i.$procmux$3103_CMP
+  found ctrl input: $flatten\controller_i.$procmux$2957_CMP
+  found ctrl input: $auto$opt_reduce.cc:135:opt_pmux$3508
+  found ctrl input: $flatten\controller_i.$procmux$2291_CMP
+  found state code: 4'0001
+  found state code: 4'0100
+  found state code: 4'0011
+  found ctrl input: $flatten\controller_i.$logic_or$<local_path>
+  found ctrl input: \controller_i.enter_debug_mode
+  found ctrl input: \controller_i.handle_irq
+  found ctrl input: \id_in_ready_o
+  found state code: 4'0101
+  found state code: 4'0111
+  found state code: 4'1000
+  found ctrl input: $flatten\controller_i.$logic_and$<local_path>
+  found ctrl input: \controller_i.special_req
+  found ctrl input: \ready_wb_i
+  found state code: 4'0110
+  found ctrl input: $flatten\controller_i.$logic_and$<local_path>
+  found ctrl input: $flatten\controller_i.$logic_or$<local_path>
+  found ctrl input: \controller_i.mret_insn
+  found ctrl input: \controller_i.dret_insn
+  found ctrl input: \controller_i.wfi_insn
+  found state code: 4'0010
+  found ctrl input: \controller_i.ebrk_insn_prio
+  found ctrl input: $flatten\controller_i.$or$<local_path>
+  found state code: 4'1001
+  found ctrl output: $flatten\controller_i.$procmux$3183_CMP
+  found ctrl output: $flatten\controller_i.$procmux$3182_CMP
+  found ctrl output: $flatten\controller_i.$procmux$3181_CMP
+  found ctrl output: $flatten\controller_i.$procmux$3176_CMP
+  found ctrl output: $flatten\controller_i.$procmux$3159_CMP
+  found ctrl output: $flatten\controller_i.$procmux$3103_CMP
+  found ctrl output: $flatten\controller_i.$procmux$2957_CMP
+  found ctrl output: $flatten\controller_i.$procmux$2732_CMP
+  found ctrl output: $flatten\controller_i.$procmux$2697_CMP
+  found ctrl output: $flatten\controller_i.$procmux$2291_CMP
+  found ctrl output: $flatten\controller_i.$ne$<local_path>
+  ctrl inputs: { \controller_i.ebrk_insn_prio \controller_i.special_req \controller_i.enter_debug_mode \controller_i.handle_irq \controller_i.mret_insn \controller_i.dret_insn \controller_i.wfi_insn $flatten\controller_i.$logic_or$<local_path> $flatten\controller_i.$logic_and$<local_path> $flatten\controller_i.$logic_or$<local_path> $flatten\controller_i.$or$<local_path> $flatten\controller_i.$logic_and$<local_path> \ready_wb_i \id_in_ready_o $auto$opt_reduce.cc:135:opt_pmux$3508 }
+  ctrl outputs: { \controller_i.ctrl_fsm_ns $flatten\controller_i.$ne$<local_path> $flatten\controller_i.$procmux$2291_CMP $flatten\controller_i.$procmux$2697_CMP $flatten\controller_i.$procmux$2732_CMP $flatten\controller_i.$procmux$2957_CMP $flatten\controller_i.$procmux$3103_CMP $flatten\controller_i.$procmux$3159_CMP $flatten\controller_i.$procmux$3176_CMP $flatten\controller_i.$procmux$3181_CMP $flatten\controller_i.$procmux$3182_CMP $flatten\controller_i.$procmux$3183_CMP }
+  transition:     4'0000 15'--------------- ->     4'0001 15'000110000000001
+  transition:     4'1000 15'--------------- ->     4'0101 15'010110000001000
+  transition:     4'0100 15'--00---------0- ->     4'0100 15'010010000100000
+  transition:     4'0100 15'--00---------1- ->     4'0101 15'010110000100000
+  transition:     4'0100 15'--01----------- ->     4'0111 15'011110000100000
+  transition:     4'0100 15'--1------------ ->     4'1000 15'100010000100000
+  transition:     4'0010 15'--------------- ->     4'0011 15'001110000000100
+  transition:     4'0110 15'----000--0-0--- ->     4'0101 15'010101000000000
+  transition:     4'0110 15'----001--0-0--- ->     4'0010 15'001001000000000
+  transition:     4'0110 15'----01---0-0--- ->     4'0101 15'010101000000000
+  transition:     4'0110 15'----1----0-0--- ->     4'0101 15'010101000000000
+  transition:     4'0110 15'0--------1-0--- ->     4'0101 15'010101000000000
+  transition:     4'0110 15'1--------100--- ->     4'0101 15'010101000000000
+  transition:     4'0110 15'1--------110--- ->     4'1001 15'100101000000000
+  transition:     4'0110 15'-----------1--- ->     4'1000 15'100001000000000
+  transition:     4'0001 15'--------------- ->     4'0100 15'010010000000010
+  transition:     4'1001 15'--------------- ->     4'0101 15'010110100000000
+  transition:     4'0101 15'-0------0------ ->     4'0101 15'010110001000000
+  transition:     4'0101 15'-1------0---0-- ->     4'0101 15'010110001000000
+  transition:     4'0101 15'-1------0---1-- ->     4'0110 15'011010001000000
+  transition:     4'0101 15'-000----1------ ->     4'0101 15'010110001000000
+  transition:     4'0101 15'-100----1---0-- ->     4'0101 15'010110001000000
+  transition:     4'0101 15'-100----1---1-- ->     4'0110 15'011010001000000
+  transition:     4'0101 15'--01----1------ ->     4'0111 15'011110001000000
+  transition:     4'0101 15'--1-----1------ ->     4'1000 15'100010001000000
+  transition:     4'0011 15'-------0------- ->     4'0011 15'001110000010000
+  transition:     4'0011 15'-------1------- ->     4'0100 15'010010000010000
+  transition:     4'0111 15'--------------- ->     4'0101 15'010110010000000
+
+5.7.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+Optimizing FSM `$fsm$\controller_i.ctrl_fsm_cs$3535' from module `\ibex_id_stage'.
+  Removing unused input signal $auto$opt_reduce.cc:135:opt_pmux$3508.
+
+5.7.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 29 unused cells and 29 unused wires.
+<suppressed ~30 debug messages>
+
+5.7.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+Optimizing FSM `$fsm$\controller_i.ctrl_fsm_cs$3535' from module `\ibex_id_stage'.
+  Removing unused output signal \controller_i.ctrl_fsm_ns [0].
+  Removing unused output signal \controller_i.ctrl_fsm_ns [1].
+  Removing unused output signal \controller_i.ctrl_fsm_ns [2].
+  Removing unused output signal \controller_i.ctrl_fsm_ns [3].
+
+5.7.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+Recoding FSM `$fsm$\controller_i.ctrl_fsm_cs$3535' from module `\ibex_id_stage' using `auto' encoding:
+  mapping auto encoding to `one-hot` for this FSM.
+  0000 -> ---------1
+  1000 -> --------1-
+  0100 -> -------1--
+  0010 -> ------1---
+  0110 -> -----1----
+  0001 -> ----1-----
+  1001 -> ---1------
+  0101 -> --1-------
+  0011 -> -1--------
+  0111 -> 1---------
+
+5.7.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+FSM `$fsm$\controller_i.ctrl_fsm_cs$3535' from module `ibex_id_stage':
+-------------------------------------
+
+  Information on FSM $fsm$\controller_i.ctrl_fsm_cs$3535 (\controller_i.ctrl_fsm_cs):
+
+  Number of input signals:   14
+  Number of output signals:  11
+  Number of state bits:      10
+
+  Input signals:
+    0: \id_in_ready_o
+    1: \ready_wb_i
+    2: $flatten\controller_i.$logic_and$<local_path>
+    3: $flatten\controller_i.$or$<local_path>
+    4: $flatten\controller_i.$logic_or$<local_path>
+    5: $flatten\controller_i.$logic_and$<local_path>
+    6: $flatten\controller_i.$logic_or$<local_path>
+    7: \controller_i.wfi_insn
+    8: \controller_i.dret_insn
+    9: \controller_i.mret_insn
+   10: \controller_i.handle_irq
+   11: \controller_i.enter_debug_mode
+   12: \controller_i.special_req
+   13: \controller_i.ebrk_insn_prio
+
+  Output signals:
+    0: $flatten\controller_i.$procmux$3183_CMP
+    1: $flatten\controller_i.$procmux$3182_CMP
+    2: $flatten\controller_i.$procmux$3181_CMP
+    3: $flatten\controller_i.$procmux$3176_CMP
+    4: $flatten\controller_i.$procmux$3159_CMP
+    5: $flatten\controller_i.$procmux$3103_CMP
+    6: $flatten\controller_i.$procmux$2957_CMP
+    7: $flatten\controller_i.$procmux$2732_CMP
+    8: $flatten\controller_i.$procmux$2697_CMP
+    9: $flatten\controller_i.$procmux$2291_CMP
+   10: $flatten\controller_i.$ne$<local_path>
+
+  State encoding:
+    0: 10'---------1  <RESET STATE>
+    1: 10'--------1-
+    2: 10'-------1--
+    3: 10'------1---
+    4: 10'-----1----
+    5: 10'----1-----
+    6: 10'---1------
+    7: 10'--1-------
+    8: 10'-1--------
+    9: 10'1---------
+
+  Transition Table (state_in, ctrl_in, state_out, ctrl_out):
+      0:     0 14'--------------   ->     5 11'10000000001
+      1:     1 14'--------------   ->     7 11'10000001000
+      2:     2 14'--1-----------   ->     1 11'10000100000
+      3:     2 14'--00---------0   ->     2 11'10000100000
+      4:     2 14'--00---------1   ->     7 11'10000100000
+      5:     2 14'--01----------   ->     9 11'10000100000
+      6:     3 14'--------------   ->     8 11'10000000100
+      7:     4 14'-----------1--   ->     1 11'01000000000
+      8:     4 14'----001--0-0--   ->     3 11'01000000000
+      9:     4 14'1--------110--   ->     6 11'01000000000
+     10:     4 14'1--------100--   ->     7 11'01000000000
+     11:     4 14'----000--0-0--   ->     7 11'01000000000
+     12:     4 14'----01---0-0--   ->     7 11'01000000000
+     13:     4 14'----1----0-0--   ->     7 11'01000000000
+     14:     4 14'0--------1-0--   ->     7 11'01000000000
+     15:     5 14'--------------   ->     2 11'10000000010
+     16:     6 14'--------------   ->     7 11'10100000000
+     17:     7 14'--1-----1-----   ->     1 11'10001000000
+     18:     7 14'-1------0---1-   ->     4 11'10001000000
+     19:     7 14'-100----1---1-   ->     4 11'10001000000
+     20:     7 14'-1------0---0-   ->     7 11'10001000000
+     21:     7 14'-100----1---0-   ->     7 11'10001000000
+     22:     7 14'-0------0-----   ->     7 11'10001000000
+     23:     7 14'-000----1-----   ->     7 11'10001000000
+     24:     7 14'--01----1-----   ->     9 11'10001000000
+     25:     8 14'-------1------   ->     2 11'10000010000
+     26:     8 14'-------0------   ->     8 11'10000010000
+     27:     9 14'--------------   ->     7 11'10010000000
+
+-------------------------------------
+
+5.7.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+Mapping FSM `$fsm$\controller_i.ctrl_fsm_cs$3535' from module `\ibex_id_stage'.
+
+5.8. Executing OPT pass (performing simple optimizations).
+
+5.8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+<suppressed ~7 debug messages>
+
+5.8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 633 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Removed a total of 0 cells.
+
+5.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_id_stage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~392 debug messages>
+
+5.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_id_stage.
+Performed a total of 0 changes.
+
+5.8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 633 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Removed a total of 0 cells.
+
+5.8.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$3381 ($adff) from module ibex_id_stage (D = \imd_val_d_ex_i [33:0], Q = \imd_val_q [33:0]).
+Adding EN signal on $procdff$3391 ($adff) from module ibex_id_stage (D = \id_fsm_d, Q = \id_fsm_q).
+Adding EN signal on $procdff$3386 ($adff) from module ibex_id_stage (D = \imd_val_d_ex_i [67:34], Q = \imd_val_q [67:34]).
+Adding EN signal on $flatten\controller_i.$procdff$3406 ($adff) from module ibex_id_stage (D = \controller_i.nmi_mode_d, Q = \controller_i.nmi_mode_q).
+Adding EN signal on $flatten\controller_i.$procdff$3411 ($adff) from module ibex_id_stage (D = \controller_i.debug_mode_d, Q = \controller_i.debug_mode_q).
+
+5.8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 3 unused cells and 19 unused wires.
+<suppressed ~5 debug messages>
+
+5.8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+<suppressed ~2 debug messages>
+
+5.8.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.8.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_id_stage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~387 debug messages>
+
+5.8.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_id_stage.
+Performed a total of 0 changes.
+
+5.8.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 641 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 640 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+<suppressed ~3 debug messages>
+Removed a total of 1 cells.
+
+5.8.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.8.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 0 unused cells and 1 unused wires.
+<suppressed ~1 debug messages>
+
+5.8.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+
+5.8.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.8.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_id_stage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~387 debug messages>
+
+5.8.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_id_stage.
+Performed a total of 0 changes.
+
+5.8.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 640 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Removed a total of 0 cells.
+
+5.8.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.8.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+
+5.8.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+
+5.8.23. Finished fast OPT passes. (There is nothing left to do.)
+
+5.9. Executing WREDUCE pass (reducing word size of cells).
+Removed top 27 address bits (of 32) from memory init port ibex_id_stage.$flatten\decoder_i.$auto$mem.cc:351:emit$455 ($flatten\decoder_i.$auto$proc_rom.cc:155:do_switch$453).
+Removed top 1 bits (of 2) from port B of cell ibex_id_stage.$auto$fsm_map.cc:77:implement_pattern_cache$3642 ($eq).
+Removed top 1 bits (of 3) from port B of cell ibex_id_stage.$auto$fsm_map.cc:77:implement_pattern_cache$3638 ($eq).
+Removed top 3 bits (of 4) from port B of cell ibex_id_stage.$auto$fsm_map.cc:77:implement_pattern_cache$3628 ($eq).
+Removed top 1 bits (of 3) from port B of cell ibex_id_stage.$auto$fsm_map.cc:77:implement_pattern_cache$3620 ($eq).
+Removed top 1 bits (of 4) from port B of cell ibex_id_stage.$auto$fsm_map.cc:77:implement_pattern_cache$3612 ($eq).
+Removed top 2 bits (of 3) from port B of cell ibex_id_stage.$auto$fsm_map.cc:77:implement_pattern_cache$3592 ($eq).
+Removed top 2 bits (of 5) from port B of cell ibex_id_stage.$auto$fsm_map.cc:77:implement_pattern_cache$3575 ($eq).
+Removed top 27 bits (of 32) from mux cell ibex_id_stage.$ternary$<local_path> ($mux).
+Removed top 2 bits (of 12) from port B of cell ibex_id_stage.$eq$<local_path> ($eq).
+Removed top 2 bits (of 12) from port B of cell ibex_id_stage.$eq$<local_path> ($eq).
+Removed top 1 bits (of 2) from port B of cell ibex_id_stage.$eq$<local_path> ($eq).
+Removed top 29 bits (of 32) from mux cell ibex_id_stage.$ternary$<local_path> ($mux).
+Removed top 1 bits (of 3) from port B of cell ibex_id_stage.$procmux$465_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell ibex_id_stage.$procmux$466_CMP0 ($eq).
+Removed top 2 bits (of 3) from port B of cell ibex_id_stage.$procmux$467_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell ibex_id_stage.$procmux$753_CMP0 ($eq).
+Removed top 1 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1977_CMP0 ($eq).
+Removed top 2 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1976_CMP0 ($eq).
+Removed top 1 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1850_CMP0 ($eq).
+Removed top 5 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1807_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1790_CMP2 ($eq).
+Removed top 1 bits (of 3) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1790_CMP1 ($eq).
+Removed top 4 bits (of 5) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1764_CMP0 ($eq).
+Removed top 1 bits (of 5) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1749_CMP0 ($eq).
+Removed top 1 bits (of 5) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1720_CMP1 ($eq).
+Removed top 1 bits (of 5) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1687_CMP0 ($eq).
+Removed top 2 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1663_CMP0 ($eq).
+Removed top 2 bits (of 5) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1656_CMP0 ($eq).
+Removed top 1 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1590_CMP0 ($eq).
+Removed top 1 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1585_CMP9 ($eq).
+Removed top 7 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1585_CMP8 ($eq).
+Removed top 9 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1585_CMP7 ($eq).
+Removed top 7 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1585_CMP6 ($eq).
+Removed top 7 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1585_CMP5 ($eq).
+Removed top 7 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1585_CMP4 ($eq).
+Removed top 8 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1585_CMP3 ($eq).
+Removed top 8 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1585_CMP2 ($eq).
+Removed top 1 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1585_CMP1 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1584_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1583_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1582_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1581_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1580_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1579_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1578_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1577_CMP0 ($eq).
+Removed top 3 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1525_CMP0 ($eq).
+Removed top 2 bits (of 3) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1523_CMP0 ($eq).
+Removed top 11 bits (of 12) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1396_CMP0 ($eq).
+Removed top 2 bits (of 12) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1395_CMP0 ($eq).
+Removed top 1 bits (of 12) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1394_CMP0 ($eq).
+Removed top 3 bits (of 12) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1393_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1341_CMP0 ($eq).
+Removed top 1 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1283_CMP0 ($eq).
+Removed top 5 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1271_CMP0 ($eq).
+Removed top 2 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$1270_CMP0 ($eq).
+Removed top 2 bits (of 3) from mux cell ibex_id_stage.$flatten\decoder_i.$procmux$1221 ($mux).
+Removed top 1 bits (of 7) from mux cell ibex_id_stage.$flatten\decoder_i.$procmux$1127 ($pmux).
+Removed top 1 bits (of 3) from mux cell ibex_id_stage.$flatten\decoder_i.$procmux$1113 ($mux).
+Removed top 1 bits (of 7) from mux cell ibex_id_stage.$flatten\decoder_i.$procmux$1099 ($mux).
+Removed top 2 bits (of 3) from mux cell ibex_id_stage.$flatten\decoder_i.$procmux$1001 ($mux).
+Removed top 1 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$991_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$975_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$974_CMP0 ($eq).
+Removed top 2 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$935_CMP0 ($eq).
+Removed top 1 bits (of 7) from mux cell ibex_id_stage.$flatten\decoder_i.$procmux$927 ($mux).
+Removed top 1 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$865_CMP0 ($eq).
+Removed top 1 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$859_CMP0 ($eq).
+Removed top 8 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$858_CMP0 ($eq).
+Removed top 7 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$857_CMP0 ($eq).
+Removed top 7 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$856_CMP0 ($eq).
+Removed top 7 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$855_CMP0 ($eq).
+Removed top 9 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$854_CMP0 ($eq).
+Removed top 7 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$853_CMP0 ($eq).
+Removed top 1 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$852_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$851_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$850_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$849_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$848_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$847_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$846_CMP0 ($eq).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$845_CMP0 ($eq).
+Removed top 1 bits (of 7) from mux cell ibex_id_stage.$flatten\decoder_i.$procmux$843 ($pmux).
+Removed top 6 bits (of 10) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$844_CMP0 ($eq).
+Removed top 1 bits (of 7) from mux cell ibex_id_stage.$flatten\decoder_i.$procmux$827 ($mux).
+Removed top 3 bits (of 7) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$787_CMP0 ($eq).
+Removed top 2 bits (of 3) from port B of cell ibex_id_stage.$flatten\decoder_i.$procmux$785_CMP0 ($eq).
+Removed top 1 bits (of 5) from port B of cell ibex_id_stage.$flatten\decoder_i.$eq$<local_path> ($eq).
+Removed top 4 bits (of 7) from mux cell ibex_id_stage.$flatten\controller_i.$procmux$2718 ($mux).
+Removed top 5 bits (of 7) from mux cell ibex_id_stage.$flatten\controller_i.$procmux$2518 ($mux).
+Removed top 5 bits (of 7) from mux cell ibex_id_stage.$flatten\controller_i.$ternary$<local_path> ($mux).
+Removed top 30 bits (of 32) from port B of cell ibex_id_stage.$flatten\controller_i.$add$<local_path> ($add).
+Removed top 5 bits (of 7) from wire ibex_id_stage.$flatten\controller_i.$9\exc_cause_o[6:0].
+Removed top 5 bits (of 7) from wire ibex_id_stage.$flatten\controller_i.$ternary$<local_path>
+Removed top 1 bits (of 7) from wire ibex_id_stage.$flatten\decoder_i.$14\alu_operator_o[6:0].
+Removed top 1 bits (of 7) from wire ibex_id_stage.$flatten\decoder_i.$13\alu_operator_o[6:0].
+Removed top 1 bits (of 7) from wire ibex_id_stage.$flatten\decoder_i.$11\alu_operator_o[6:0].
+Removed top 2 bits (of 3) from wire ibex_id_stage.$flatten\decoder_i.$6\imm_b_mux_sel_o[2:0].
+Removed top 1 bits (of 7) from wire ibex_id_stage.$flatten\decoder_i.$5\alu_operator_o[6:0].
+Removed top 1 bits (of 3) from wire ibex_id_stage.$flatten\decoder_i.$4\imm_b_mux_sel_o[2:0].
+Removed top 1 bits (of 7) from wire ibex_id_stage.$flatten\decoder_i.$4\alu_operator_o[6:0].
+Removed top 4 bits (of 7) from wire ibex_id_stage.$flatten\controller_i.$6\exc_cause_o[6:0].
+Removed top 2 bits (of 3) from wire ibex_id_stage.$flatten\decoder_i.$2\imm_b_mux_sel_o[2:0].
+Removed top 29 bits (of 32) from wire ibex_id_stage.$ternary$<local_path>
+Removed top 27 bits (of 32) from wire ibex_id_stage.imm_a.
+
+5.10. Executing PEEPOPT pass (run peephole optimizers).
+
+5.11. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 0 unused cells and 13 unused wires.
+<suppressed ~1 debug messages>
+
+5.12. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module ibex_id_stage:
+  creating $macc model for $flatten\controller_i.$add$<local_path> ($add).
+  creating $alu model for $macc $flatten\controller_i.$add$<local_path>
+  creating $alu cell for $flatten\controller_i.$add$<local_path> $auto$alumacc.cc:512:replace_alu$3687
+  created 1 $alu and 0 $macc cells.
+
+5.13. Executing SHARE pass (SAT-based resource sharing).
+
+5.14. Executing OPT pass (performing simple optimizations).
+
+5.14.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+
+5.14.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 640 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Removed a total of 0 cells.
+
+5.14.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_id_stage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~387 debug messages>
+
+5.14.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_id_stage.
+Performed a total of 0 changes.
+
+5.14.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 640 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 637 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+<suppressed ~9 debug messages>
+Removed a total of 3 cells.
+
+5.14.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.14.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 0 unused cells and 3 unused wires.
+<suppressed ~1 debug messages>
+
+5.14.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+
+5.14.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.14.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_id_stage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~391 debug messages>
+
+5.14.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_id_stage.
+Performed a total of 0 changes.
+
+5.14.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 637 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Removed a total of 0 cells.
+
+5.14.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.14.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+
+5.14.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+
+5.14.16. Finished fast OPT passes. (There is nothing left to do.)
+
+5.15. Executing MEMORY pass.
+
+5.15.1. Executing OPT_MEM pass (optimize memories).
+ibex_id_stage.$flatten\decoder_i.$auto$proc_rom.cc:155:do_switch$453: removing const-1 lane 0
+Performed a total of 1 transformations.
+
+5.15.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+5.15.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+5.15.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+5.15.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+5.15.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 0 unused cells and 1 unused wires.
+<suppressed ~1 debug messages>
+
+5.15.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+5.15.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+5.15.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+
+5.15.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+5.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+
+5.17. Executing OPT pass (performing simple optimizations).
+
+5.17.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+<suppressed ~121 debug messages>
+
+5.17.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 590 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 586 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 585 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+<suppressed ~15 debug messages>
+Removed a total of 5 cells.
+
+5.17.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.17.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 5 unused cells and 50 unused wires.
+<suppressed ~6 debug messages>
+
+5.17.5. Finished fast OPT passes.
+
+5.18. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+5.19. Executing OPT pass (performing simple optimizations).
+
+5.19.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+<suppressed ~2 debug messages>
+
+5.19.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 579 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Removed a total of 0 cells.
+
+5.19.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_id_stage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~213 debug messages>
+
+5.19.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_id_stage.
+    Consolidated identical input bits for $pmux cell $flatten\decoder_i.$procmux$843:
+      Old ports: A=6'101100, B=54'000000001000001001001010000100000011000010101011000001, Y=$auto$wreduce.cc:514:run$3677 [5:0]
+      New ports: A=5'11100, B=45'000000100001001010100010000011000101101100001, Y={ $auto$wreduce.cc:514:run$3677 [5] $auto$wreduce.cc:514:run$3677 [3:0] }
+      New connections: $auto$wreduce.cc:514:run$3677 [4] = 1'0
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$procmux$2718:
+      Old ports: A=3'111, B=3'011, Y=$auto$wreduce.cc:514:run$3683 [2:0]
+      New ports: A=1'1, B=1'0, Y=$auto$wreduce.cc:514:run$3683 [2]
+      New connections: $auto$wreduce.cc:514:run$3683 [1:0] = 2'11
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$procmux$2739:
+      Old ports: A={ 4'0100 $auto$wreduce.cc:514:run$3683 [2:0] }, B=7'0101011, Y=$flatten\controller_i.$5\exc_cause_o[6:0]
+      New ports: A={ 1'0 $auto$wreduce.cc:514:run$3683 [2:0] }, B=4'1011, Y=$flatten\controller_i.$5\exc_cause_o[6:0] [3:0]
+      New connections: $flatten\controller_i.$5\exc_cause_o[6:0] [6:4] = 3'010
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$procmux$2518:
+      Old ports: A=2'11, B=2'00, Y=$auto$wreduce.cc:514:run$3674 [1:0]
+      New ports: A=1'1, B=1'0, Y=$auto$wreduce.cc:514:run$3674 [0]
+      New connections: $auto$wreduce.cc:514:run$3674 [1] = $auto$wreduce.cc:514:run$3674 [0]
+    Consolidated identical input bits for $mux cell $flatten\decoder_i.$procmux$918:
+      Old ports: A={ 1'0 $auto$wreduce.cc:514:run$3677 [5:0] }, B=7'0101100, Y=$flatten\decoder_i.$12\alu_operator_o[6:0]
+      New ports: A=$auto$wreduce.cc:514:run$3677 [5:0], B=6'101100, Y=$flatten\decoder_i.$12\alu_operator_o[6:0] [5:0]
+      New connections: $flatten\decoder_i.$12\alu_operator_o[6:0] [6] = 1'0
+    Consolidated identical input bits for $mux cell $flatten\decoder_i.$procmux$927:
+      Old ports: A=6'101100, B=6'001000, Y=$auto$wreduce.cc:514:run$3678 [5:0]
+      New ports: A=1'1, B=1'0, Y=$auto$wreduce.cc:514:run$3678 [2]
+      New connections: { $auto$wreduce.cc:514:run$3678 [5:3] $auto$wreduce.cc:514:run$3678 [1:0] } = { $auto$wreduce.cc:514:run$3678 [2] 4'0100 }
+    Consolidated identical input bits for $mux cell $flatten\decoder_i.$procmux$941:
+      Old ports: A={ 1'0 $auto$wreduce.cc:514:run$3678 [5:0] }, B=7'0001001, Y=$flatten\decoder_i.$10\alu_operator_o[6:0]
+      New ports: A=$auto$wreduce.cc:514:run$3678 [5:0], B=6'001001, Y=$flatten\decoder_i.$10\alu_operator_o[6:0] [5:0]
+      New connections: $flatten\decoder_i.$10\alu_operator_o[6:0] [6] = 1'0
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$ternary$<local_path>
+      Old ports: A=2'00, B=2'11, Y=$flatten\controller_i.$ternary$<local_path>
+      New ports: A=1'0, B=1'1, Y=$flatten\controller_i.$ternary$<local_path> [0]
+      New connections: $flatten\controller_i.$ternary$<local_path> [1] = $flatten\controller_i.$ternary$<local_path> [0]
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$ternary$<local_path>
+      Old ports: A=7'1000000, B=7'0111111, Y=$flatten\controller_i.$ternary$<local_path>
+      New ports: A=2'10, B=2'01, Y={ $flatten\controller_i.$ternary$<local_path> [6] $flatten\controller_i.$ternary$<local_path> [0] }
+      New connections: $flatten\controller_i.$ternary$<local_path> [5:1] = { $flatten\controller_i.$ternary$<local_path> [0] $flatten\controller_i.$ternary$<local_path> [0] $flatten\controller_i.$ternary$<local_path> [0] $flatten\controller_i.$ternary$<local_path> [0] $flatten\controller_i.$ternary$<local_path> [0] }
+    Consolidated identical input bits for $pmux cell $flatten\controller_i.$procmux$2541:
+      Old ports: A=7'0000000, B={ 19'0000001000001000010 $auto$wreduce.cc:514:run$3675 [1:0] 5'00000 $auto$wreduce.cc:514:run$3674 [1:0] 14'00001110000101 }, Y=$flatten\controller_i.$8\exc_cause_o[6:0]
+      New ports: A=4'0000, B={ 10'0001001010 $auto$wreduce.cc:514:run$3675 [1:0] 2'00 $auto$wreduce.cc:514:run$3674 [1:0] 8'01110101 }, Y=$flatten\controller_i.$8\exc_cause_o[6:0] [3:0]
+      New connections: $flatten\controller_i.$8\exc_cause_o[6:0] [6:4] = 3'000
+    New ctrl vector for $pmux cell $flatten\decoder_i.$procmux$1775: { $auto$opt_reduce.cc:135:opt_pmux$3691 $flatten\decoder_i.$procmux$1720_CMP [0] }
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$ternary$<local_path>
+      Old ports: A=\pc_id_i, B={ $flatten\controller_i.$add$<local_path> [31:1] \pc_id_i [0] }, Y=$flatten\controller_i.$ternary$<local_path>
+      New ports: A=\pc_id_i [31:1], B=$flatten\controller_i.$add$<local_path> [31:1], Y=$flatten\controller_i.$ternary$<local_path> [31:1]
+      New connections: $flatten\controller_i.$ternary$<local_path> [0] = \pc_id_i [0]
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$ternary$<local_path>
+      Old ports: A=3'000, B=3'100, Y=$flatten\controller_i.$ternary$<local_path>
+      New ports: A=1'0, B=1'1, Y=$flatten\controller_i.$ternary$<local_path> [2]
+      New connections: $flatten\controller_i.$ternary$<local_path> [1:0] = 2'00
+    Consolidated identical input bits for $mux cell $flatten\decoder_i.$procmux$835:
+      Old ports: A=3'000, B=3'101, Y=$flatten\decoder_i.$7\imm_b_mux_sel_o[2:0]
+      New ports: A=1'0, B=1'1, Y=$flatten\decoder_i.$7\imm_b_mux_sel_o[2:0] [0]
+      New connections: $flatten\decoder_i.$7\imm_b_mux_sel_o[2:0] [2:1] = { $flatten\decoder_i.$7\imm_b_mux_sel_o[2:0] [0] 1'0 }
+    Consolidated identical input bits for $mux cell $flatten\decoder_i.$procmux$1085:
+      Old ports: A=2'10, B=2'00, Y=$auto$wreduce.cc:514:run$3681 [1:0]
+      New ports: A=1'1, B=1'0, Y=$auto$wreduce.cc:514:run$3681 [1]
+      New connections: $auto$wreduce.cc:514:run$3681 [0] = 1'0
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$procmux$3370:
+      Old ports: A=4'0000, B=4'1110, Y=$flatten\controller_i.$1\mfip_id[3:0]
+      New ports: A=1'0, B=1'1, Y=$flatten\controller_i.$1\mfip_id[3:0] [1]
+      New connections: { $flatten\controller_i.$1\mfip_id[3:0] [3:2] $flatten\controller_i.$1\mfip_id[3:0] [0] } = { $flatten\controller_i.$1\mfip_id[3:0] [1] $flatten\controller_i.$1\mfip_id[3:0] [1] 1'0 }
+    Consolidated identical input bits for $pmux cell $flatten\decoder_i.$procmux$1127:
+      Old ports: A=6'101100, B=36'011101011110011001011011011010011100, Y=$auto$wreduce.cc:514:run$3682 [5:0]
+      New ports: A=5'10100, B=30'011010111001001010110101001100, Y={ $auto$wreduce.cc:514:run$3682 [5:4] $auto$wreduce.cc:514:run$3682 [2:0] }
+      New connections: $auto$wreduce.cc:514:run$3682 [3] = 1'1
+    Consolidated identical input bits for $mux cell $flatten\decoder_i.$procmux$1161:
+      Old ports: A=3'101, B=3'000, Y=$flatten\decoder_i.$3\imm_b_mux_sel_o[2:0]
+      New ports: A=1'1, B=1'0, Y=$flatten\decoder_i.$3\imm_b_mux_sel_o[2:0] [0]
+      New connections: $flatten\decoder_i.$3\imm_b_mux_sel_o[2:0] [2:1] = { $flatten\decoder_i.$3\imm_b_mux_sel_o[2:0] [0] 1'0 }
+    Consolidated identical input bits for $mux cell $flatten\decoder_i.$procmux$757:
+      Old ports: A=2'00, B=2'11, Y=$flatten\decoder_i.$9\alu_op_a_mux_sel_o[1:0]
+      New ports: A=1'0, B=1'1, Y=$flatten\decoder_i.$9\alu_op_a_mux_sel_o[1:0] [0]
+      New connections: $flatten\decoder_i.$9\alu_op_a_mux_sel_o[1:0] [1] = $flatten\decoder_i.$9\alu_op_a_mux_sel_o[1:0] [0]
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$ternary$<local_path>
+      Old ports: A=2'00, B=2'11, Y=$auto$wreduce.cc:514:run$3675 [1:0]
+      New ports: A=1'0, B=1'1, Y=$auto$wreduce.cc:514:run$3675 [0]
+      New connections: $auto$wreduce.cc:514:run$3675 [1] = $auto$wreduce.cc:514:run$3675 [0]
+    Consolidated identical input bits for $mux cell $ternary$<local_path>
+      Old ports: A=3'100, B=3'010, Y=$auto$wreduce.cc:514:run$3685 [2:0]
+      New ports: A=2'10, B=2'01, Y=$auto$wreduce.cc:514:run$3685 [2:1]
+      New connections: $auto$wreduce.cc:514:run$3685 [0] = 1'0
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$procmux$2345:
+      Old ports: A=3'000, B=3'100, Y=$flatten\controller_i.$4\pc_mux_o[2:0]
+      New ports: A=1'0, B=1'1, Y=$flatten\controller_i.$4\pc_mux_o[2:0] [2]
+      New connections: $flatten\controller_i.$4\pc_mux_o[2:0] [1:0] = 2'00
+    Consolidated identical input bits for $mux cell $flatten\decoder_i.$procmux$827:
+      Old ports: A=6'101100, B=6'000000, Y=$auto$wreduce.cc:514:run$3676 [5:0]
+      New ports: A=1'1, B=1'0, Y=$auto$wreduce.cc:514:run$3676 [2]
+      New connections: { $auto$wreduce.cc:514:run$3676 [5:3] $auto$wreduce.cc:514:run$3676 [1:0] } = { $auto$wreduce.cc:514:run$3676 [2] 1'0 $auto$wreduce.cc:514:run$3676 [2] 2'00 }
+  Optimizing cells in module \ibex_id_stage.
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$procmux$2408:
+      Old ports: A=$flatten\controller_i.$4\pc_mux_o[2:0], B=3'011, Y=$flatten\controller_i.$3\pc_mux_o[2:0]
+      New ports: A={ $flatten\controller_i.$4\pc_mux_o[2:0] [2] 1'0 }, B=2'01, Y={ $flatten\controller_i.$3\pc_mux_o[2:0] [2] $flatten\controller_i.$3\pc_mux_o[2:0] [0] }
+      New connections: $flatten\controller_i.$3\pc_mux_o[2:0] [1] = $flatten\controller_i.$3\pc_mux_o[2:0] [0]
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$procmux$2739:
+      Old ports: A={ 1'0 $auto$wreduce.cc:514:run$3683 [2:0] }, B=4'1011, Y=$flatten\controller_i.$5\exc_cause_o[6:0] [3:0]
+      New ports: A={ 1'0 $auto$wreduce.cc:514:run$3683 [2] }, B=2'10, Y=$flatten\controller_i.$5\exc_cause_o[6:0] [3:2]
+      New connections: $flatten\controller_i.$5\exc_cause_o[6:0] [1:0] = 2'11
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$procmux$2757:
+      Old ports: A=$flatten\controller_i.$5\exc_cause_o[6:0], B={ 3'011 \controller_i.mfip_id }, Y=$flatten\controller_i.$4\exc_cause_o[6:0]
+      New ports: A={ 1'0 $flatten\controller_i.$5\exc_cause_o[6:0] [3:0] }, B={ 1'1 \controller_i.mfip_id }, Y=$flatten\controller_i.$4\exc_cause_o[6:0] [4:0]
+      New connections: $flatten\controller_i.$4\exc_cause_o[6:0] [6:5] = 2'01
+    Consolidated identical input bits for $mux cell $flatten\decoder_i.$procmux$918:
+      Old ports: A=$auto$wreduce.cc:514:run$3677 [5:0], B=6'101100, Y=$flatten\decoder_i.$12\alu_operator_o[6:0] [5:0]
+      New ports: A={ $auto$wreduce.cc:514:run$3677 [5] $auto$wreduce.cc:514:run$3677 [3:0] }, B=5'11100, Y={ $flatten\decoder_i.$12\alu_operator_o[6:0] [5] $flatten\decoder_i.$12\alu_operator_o[6:0] [3:0] }
+      New connections: $flatten\decoder_i.$12\alu_operator_o[6:0] [4] = 1'0
+    Consolidated identical input bits for $mux cell $flatten\decoder_i.$procmux$941:
+      Old ports: A=$auto$wreduce.cc:514:run$3678 [5:0], B=6'001001, Y=$flatten\decoder_i.$10\alu_operator_o[6:0] [5:0]
+      New ports: A={ $auto$wreduce.cc:514:run$3678 [2] 1'0 }, B=2'01, Y={ $flatten\decoder_i.$10\alu_operator_o[6:0] [2] $flatten\decoder_i.$10\alu_operator_o[6:0] [0] }
+      New connections: { $flatten\decoder_i.$10\alu_operator_o[6:0] [5:3] $flatten\decoder_i.$10\alu_operator_o[6:0] [1] } = { $flatten\decoder_i.$10\alu_operator_o[6:0] [2] 3'010 }
+    Consolidated identical input bits for $pmux cell $flatten\decoder_i.$procmux$968:
+      Old ports: A=7'0000000, B={ 42'010101101011000000010000001100001000001010 $flatten\decoder_i.$10\alu_operator_o[6:0] }, Y=$flatten\decoder_i.$7\alu_operator_o[6:0]
+      New ports: A=6'000000, B={ 36'101011101100000010000011000100001010 $flatten\decoder_i.$10\alu_operator_o[6:0] [5:0] }, Y=$flatten\decoder_i.$7\alu_operator_o[6:0] [5:0]
+      New connections: $flatten\decoder_i.$7\alu_operator_o[6:0] [6] = 1'0
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$ternary$<local_path>
+      Old ports: A=$flatten\controller_i.$ternary$<local_path>, B=3'011, Y=$flatten\controller_i.$ternary$<local_path>
+      New ports: A={ $flatten\controller_i.$ternary$<local_path> [2] 1'0 }, B=2'01, Y={ $flatten\controller_i.$ternary$<local_path> [2] $flatten\controller_i.$ternary$<local_path> [0] }
+      New connections: $flatten\controller_i.$ternary$<local_path> [1] = $flatten\controller_i.$ternary$<local_path> [0]
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$procmux$3367:
+      Old ports: A=$flatten\controller_i.$1\mfip_id[3:0], B=4'1101, Y=$flatten\controller_i.$2\mfip_id[3:0]
+      New ports: A={ $flatten\controller_i.$1\mfip_id[3:0] [1] $flatten\controller_i.$1\mfip_id[3:0] [1] 1'0 }, B=3'101, Y=$flatten\controller_i.$2\mfip_id[3:0] [2:0]
+      New connections: $flatten\controller_i.$2\mfip_id[3:0] [3] = $flatten\controller_i.$2\mfip_id[3:0] [2]
+    Consolidated identical input bits for $mux cell $flatten\decoder_i.$procmux$771:
+      Old ports: A=$flatten\decoder_i.$9\alu_op_a_mux_sel_o[1:0], B=2'00, Y=$flatten\decoder_i.$8\alu_op_a_mux_sel_o[1:0]
+      New ports: A=$flatten\decoder_i.$9\alu_op_a_mux_sel_o[1:0] [0], B=1'0, Y=$flatten\decoder_i.$8\alu_op_a_mux_sel_o[1:0] [0]
+      New connections: $flatten\decoder_i.$8\alu_op_a_mux_sel_o[1:0] [1] = $flatten\decoder_i.$8\alu_op_a_mux_sel_o[1:0] [0]
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$procmux$2645:
+      Old ports: A=7'0000000, B=$flatten\controller_i.$8\exc_cause_o[6:0], Y=$flatten\controller_i.$7\exc_cause_o[6:0]
+      New ports: A=4'0000, B=$flatten\controller_i.$8\exc_cause_o[6:0] [3:0], Y=$flatten\controller_i.$7\exc_cause_o[6:0] [3:0]
+      New connections: $flatten\controller_i.$7\exc_cause_o[6:0] [6:4] = 3'000
+  Optimizing cells in module \ibex_id_stage.
+    Consolidated identical input bits for $pmux cell $flatten\decoder_i.$procmux$968:
+      Old ports: A=6'000000, B={ 36'101011101100000010000011000100001010 $flatten\decoder_i.$10\alu_operator_o[6:0] [5:0] }, Y=$flatten\decoder_i.$7\alu_operator_o[6:0] [5:0]
+      New ports: A=5'00000, B={ 30'110111110000010000110010001010 $flatten\decoder_i.$10\alu_operator_o[6:0] [2] 1'1 $flatten\decoder_i.$10\alu_operator_o[6:0] [2] 1'0 $flatten\decoder_i.$10\alu_operator_o[6:0] [0] }, Y={ $flatten\decoder_i.$7\alu_operator_o[6:0] [5] $flatten\decoder_i.$7\alu_operator_o[6:0] [3:0] }
+      New connections: $flatten\decoder_i.$7\alu_operator_o[6:0] [4] = 1'0
+    Consolidated identical input bits for $mux cell $flatten\controller_i.$procmux$3364:
+      Old ports: A=$flatten\controller_i.$2\mfip_id[3:0], B=4'1100, Y=$flatten\controller_i.$3\mfip_id[3:0]
+      New ports: A=$flatten\controller_i.$2\mfip_id[3:0] [2:0], B=3'100, Y=$flatten\controller_i.$3\mfip_id[3:0] [2:0]
+      New connections: $flatten\controller_i.$3\mfip_id[3:0] [3] = $flatten\controller_i.$3\mfip_id[3:0] [2]
+    Consolidated identical input bits for $pmux cell $flatten\decoder_i.$procmux$1278:
+      Old ports: A=7'0101100, B={ 1'0 $auto$wreduce.cc:514:run$3676 [5:0] $flatten\decoder_i.$12\alu_operator_o[6:0] $flatten\decoder_i.$7\alu_operator_o[6:0] 8'00000000 $auto$wreduce.cc:514:run$3680 [5:0] }, Y=\alu_operator_ex_o
+      New ports: A=6'101100, B={ $auto$wreduce.cc:514:run$3676 [2] 1'0 $auto$wreduce.cc:514:run$3676 [2] $auto$wreduce.cc:514:run$3676 [2] 2'00 $flatten\decoder_i.$12\alu_operator_o[6:0] [5] 1'0 $flatten\decoder_i.$12\alu_operator_o[6:0] [3:0] $flatten\decoder_i.$7\alu_operator_o[6:0] [5:0] 6'000000 $auto$wreduce.cc:514:run$3680 [5:0] }, Y=\alu_operator_ex_o [5:0]
+      New connections: \alu_operator_ex_o [6] = 1'0
+  Optimizing cells in module \ibex_id_stage.
+Performed a total of 36 changes.
+
+5.19.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 580 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 579 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+<suppressed ~3 debug messages>
+Removed a total of 1 cells.
+
+5.19.6. Executing OPT_SHARE pass.
+
+5.19.7. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.19.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 0 unused cells and 2 unused wires.
+<suppressed ~1 debug messages>
+
+5.19.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+<suppressed ~12 debug messages>
+
+5.19.10. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.19.11. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_id_stage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~197 debug messages>
+
+5.19.12. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_id_stage.
+Performed a total of 0 changes.
+
+5.19.13. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 572 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 570 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+<suppressed ~6 debug messages>
+Removed a total of 2 cells.
+
+5.19.14. Executing OPT_SHARE pass.
+
+5.19.15. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.19.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 0 unused cells and 9 unused wires.
+<suppressed ~1 debug messages>
+
+5.19.17. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+
+5.19.18. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.19.19. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_id_stage..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~197 debug messages>
+
+5.19.20. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_id_stage.
+Performed a total of 0 changes.
+
+5.19.21. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 570 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Removed a total of 0 cells.
+
+5.19.22. Executing OPT_SHARE pass.
+
+5.19.23. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.19.24. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+
+5.19.25. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+
+5.19.26. Finished fast OPT passes. (There is nothing left to do.)
+
+5.20. Executing TECHMAP pass (map to technology primitives).
+
+5.20.1. Executing Verilog-2005 frontend: <local_path>
+Parsing Verilog input from `<local_path>' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+5.20.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $reduce_or.
+Using template $paramod$788c3d57e5abb3a3f89aea6d4acd665be37f4e9b\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $reduce_and.
+Using extmapper simplemap for cells of type $ne.
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $adffe.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $eq.
+Using extmapper simplemap for cells of type $not.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $adff.
+Using extmapper simplemap for cells of type $mux.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $logic_and.
+Using extmapper simplemap for cells of type $logic_or.
+Using extmapper simplemap for cells of type $pmux.
+Using extmapper simplemap for cells of type $pos.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000011111 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000011111 for cells of type $lcu.
+Using extmapper simplemap for cells of type $xor.
+No more expansions possible.
+<suppressed ~953 debug messages>
+
+5.21. Executing OPT pass (performing simple optimizations).
+
+5.21.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+<suppressed ~1584 debug messages>
+
+5.21.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 3088 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 2551 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 2365 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 2325 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 2322 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+<suppressed ~2298 debug messages>
+Removed a total of 766 cells.
+
+5.21.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.21.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 33 unused cells and 1331 unused wires.
+<suppressed ~34 debug messages>
+
+5.21.5. Finished fast OPT passes.
+
+5.22. Executing ABC pass (technology mapping using ABC).
+
+5.22.1. Extracting gate netlist of module `\ibex_id_stage' to `<abc-temp-dir>/input.blif'..
+
+5.22.1.1. Executed ABC.
+Extracted 2195 gates and 2518 wires to a netlist network with 321 inputs and 213 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 30 2026 04:50:19)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+5.22.1.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:      439
+ABC RESULTS:            ANDNOT cells:      114
+ABC RESULTS:               MUX cells:       67
+ABC RESULTS:              NAND cells:      462
+ABC RESULTS:               NOR cells:       77
+ABC RESULTS:               NOT cells:       10
+ABC RESULTS:                OR cells:       90
+ABC RESULTS:             ORNOT cells:       45
+ABC RESULTS:              XNOR cells:        4
+ABC RESULTS:               XOR cells:        7
+ABC RESULTS:              ZERO cells:        1
+ABC RESULTS:        internal signals:     1984
+ABC RESULTS:           input signals:      321
+ABC RESULTS:          output signals:      213
+Removing temp directory.
+Removing global temp directory.
+
+5.23. Executing OPT pass (performing simple optimizations).
+
+5.23.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_id_stage.
+
+5.23.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_id_stage'.
+Computing hashes of 1409 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+Computing hashes of 1408 cells of `\ibex_id_stage'.
+Finding duplicate cells in `\ibex_id_stage'.
+<suppressed ~3 debug messages>
+Removed a total of 1 cells.
+
+5.23.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.23.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_id_stage..
+Removed 0 unused cells and 2061 unused wires.
+<suppressed ~103 debug messages>
+
+5.23.5. Finished fast OPT passes.
+
+5.24. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `ibex_id_stage'. Setting top module to ibex_id_stage.
+
+5.24.1. Analyzing design hierarchy..
+Top module:  \ibex_id_stage
+
+5.24.2. Analyzing design hierarchy..
+Top module:  \ibex_id_stage
+Removed 0 unused modules.
+
+5.25. Printing statistics.
+
+=== ibex_id_stage ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     1417 wires
+     3346 wire bits
+      304 public wires
+     2233 public wire bits
+      118 ports
+      924 port bits
+     1408 cells
+      114   $_ANDNOT_
+      439   $_AND_
+       71   $_DFFE_PN0P_
+       20   $_DFF_PN0_
+        1   $_DFF_PN1_
+       67   $_MUX_
+      462   $_NAND_
+       77   $_NOR_
+        9   $_NOT_
+       45   $_ORNOT_
+       90   $_OR_
+        4   $_XNOR_
+        7   $_XOR_
+        2   $scopeinfo
+
+5.26. Executing CHECK pass (checking for obvious problems).
+Checking module ibex_id_stage...
+Found and reported 0 problems.
+
+6. Executing DFFLIBMAP pass (mapping DFF cells to sequential cells from liberty file).
+  cell sky130_fd_sc_hd__dfxtp_1 (noninv, pins=3, area=20.02) is a direct match for cell type $_DFF_P_.
+  cell sky130_fd_sc_hd__dfrtn_1 (noninv, pins=4, area=25.02) is a direct match for cell type $_DFF_NN0_.
+  cell sky130_fd_sc_hd__dfrtp_1 (noninv, pins=4, area=25.02) is a direct match for cell type $_DFF_PN0_.
+  cell sky130_fd_sc_hd__dfstp_2 (noninv, pins=4, area=26.28) is a direct match for cell type $_DFF_PN1_.
+  cell sky130_fd_sc_hd__edfxtp_1 (noninv, pins=4, area=30.03) is a direct match for cell type $_DFFE_PP_.
+  cell sky130_fd_sc_hd__dfbbn_1 (noninv, pins=6, area=32.53) is a direct match for cell type $_DFFSR_NNN_.
+  cell sky130_fd_sc_hd__dfbbp_1 (noninv, pins=6, area=32.53) is a direct match for cell type $_DFFSR_PNN_.
+  final dff cell mappings:
+    unmapped dff cell: $_DFF_N_
+    \sky130_fd_sc_hd__dfxtp_1 _DFF_P_ (.CLK( C), .D( D), .Q( Q));
+    \sky130_fd_sc_hd__dfrtn_1 _DFF_NN0_ (.CLK_N( C), .D( D), .Q( Q), .RESET_B( R));
+    unmapped dff cell: $_DFF_NN1_
+    unmapped dff cell: $_DFF_NP0_
+    unmapped dff cell: $_DFF_NP1_
+    \sky130_fd_sc_hd__dfrtp_1 _DFF_PN0_ (.CLK( C), .D( D), .Q( Q), .RESET_B( R));
+    \sky130_fd_sc_hd__dfstp_2 _DFF_PN1_ (.CLK( C), .D( D), .Q( Q), .SET_B( R));
+    unmapped dff cell: $_DFF_PP0_
+    unmapped dff cell: $_DFF_PP1_
+    unmapped dff cell: $_DFFE_NN_
+    unmapped dff cell: $_DFFE_NP_
+    unmapped dff cell: $_DFFE_PN_
+    \sky130_fd_sc_hd__edfxtp_1 _DFFE_PP_ (.CLK( C), .D( D), .DE( E), .Q( Q));
+    \sky130_fd_sc_hd__dfbbn_1 _DFFSR_NNN_ (.CLK_N( C), .D( D), .Q( Q), .Q_N(~Q), .RESET_B( R), .SET_B( S));
+    unmapped dff cell: $_DFFSR_NNP_
+    unmapped dff cell: $_DFFSR_NPN_
+    unmapped dff cell: $_DFFSR_NPP_
+    \sky130_fd_sc_hd__dfbbp_1 _DFFSR_PNN_ (.CLK( C), .D( D), .Q( Q), .Q_N(~Q), .RESET_B( R), .SET_B( S));
+    unmapped dff cell: $_DFFSR_PNP_
+    unmapped dff cell: $_DFFSR_PPN_
+    unmapped dff cell: $_DFFSR_PPP_
+
+6.1. Executing DFFLEGALIZE pass (convert FFs to types supported by the target).
+<suppressed ~24 debug messages>
+Mapping DFF cells in module `\ibex_id_stage':
+  mapped 91 $_DFF_PN0_ cells to \sky130_fd_sc_hd__dfrtp_1 cells.
+  mapped 1 $_DFF_PN1_ cells to \sky130_fd_sc_hd__dfstp_2 cells.
+
+7. Executing ABC pass (technology mapping using ABC).
+
+7.1. Extracting gate netlist of module `\ibex_id_stage' to `<abc-temp-dir>/input.blif'..
+ABC: using cached merged SCL: /tmp/yosys-liberty-scl-cache/yosys_merged_056792ba.scl (1 files)
+
+7.1.1. Executed ABC.
+Extracted 1385 gates and 1844 wires to a netlist network with 459 inputs and 277 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 30 2026 04:50:19)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_scl /tmp/yosys-liberty-scl-cache/yosys_merged_056792ba.scl 
+ABC: Warning: Detected 9 multi-output cells (for example, "sky130_fd_sc_hd__fa_1").
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+ABC: 
+ABC: YOSYS_ABC_DONE 
+
+7.1.2. Re-integrating ABC results.
+ABC RESULTS:   sky130_fd_sc_hd__a2111oi_0 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__a211o_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a211oi_1 cells:        8
+ABC RESULTS:   sky130_fd_sc_hd__a21bo_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a21boi_0 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a21o_1 cells:        6
+ABC RESULTS:   sky130_fd_sc_hd__a21oi_1 cells:       86
+ABC RESULTS:   sky130_fd_sc_hd__a221oi_1 cells:        9
+ABC RESULTS:   sky130_fd_sc_hd__a222oi_1 cells:       37
+ABC RESULTS:   sky130_fd_sc_hd__a22o_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__a22oi_1 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__a311o_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a311oi_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a31o_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a31oi_1 cells:        7
+ABC RESULTS:   sky130_fd_sc_hd__a32o_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a32oi_1 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__a41oi_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__and2_0 cells:       12
+ABC RESULTS:   sky130_fd_sc_hd__and3_1 cells:       14
+ABC RESULTS:   sky130_fd_sc_hd__and3b_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__and4_1 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__clkinv_1 cells:       49
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_inputiso1p_1 cells:       14
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_isobufsrc_1 cells:        8
+ABC RESULTS:   sky130_fd_sc_hd__mux2_1 cells:       71
+ABC RESULTS:   sky130_fd_sc_hd__mux2i_1 cells:       11
+ABC RESULTS:   sky130_fd_sc_hd__nand2_1 cells:      190
+ABC RESULTS:   sky130_fd_sc_hd__nand2b_1 cells:       15
+ABC RESULTS:   sky130_fd_sc_hd__nand3_1 cells:       34
+ABC RESULTS:   sky130_fd_sc_hd__nand3b_1 cells:        6
+ABC RESULTS:   sky130_fd_sc_hd__nand4_1 cells:       12
+ABC RESULTS:   sky130_fd_sc_hd__nand4b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nand4bb_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__nor2_1 cells:      162
+ABC RESULTS:   sky130_fd_sc_hd__nor2b_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__nor3_1 cells:       49
+ABC RESULTS:   sky130_fd_sc_hd__nor3b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nor4_1 cells:       14
+ABC RESULTS:   sky130_fd_sc_hd__nor4b_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__nor4bb_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__o211a_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o211ai_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__o21a_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__o21ai_0 cells:       33
+ABC RESULTS:   sky130_fd_sc_hd__o21bai_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o221ai_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o22a_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o22ai_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__o311ai_0 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o31a_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o31ai_1 cells:        6
+ABC RESULTS:   sky130_fd_sc_hd__o32ai_1 cells:        6
+ABC RESULTS:   sky130_fd_sc_hd__o41ai_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__or3_1 cells:       10
+ABC RESULTS:   sky130_fd_sc_hd__or3b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__or4_1 cells:        9
+ABC RESULTS:   sky130_fd_sc_hd__or4b_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__xnor2_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__xor2_1 cells:        1
+ABC RESULTS:        internal signals:     1108
+ABC RESULTS:           input signals:      459
+ABC RESULTS:          output signals:      277
+Removing temp directory.
+Removing global temp directory.
+
+8. Printing statistics.
+
+=== ibex_id_stage ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+     2899        - wires
+     4828        - wire bits
+      304        - public wires
+     2233        - public wire bits
+      118        - ports
+      924        - port bits
+     1046 7.79E+03 cells
+        2        -   $scopeinfo
+        5   43.792   sky130_fd_sc_hd__a2111oi_0
+        2   17.517   sky130_fd_sc_hd__a211o_1
+        8   60.058   sky130_fd_sc_hd__a211oi_1
+        1    10.01   sky130_fd_sc_hd__a21bo_1
+        1    7.507   sky130_fd_sc_hd__a21boi_0
+        6   45.043   sky130_fd_sc_hd__a21o_1
+       86  430.413   sky130_fd_sc_hd__a21oi_1
+        9   78.826   sky130_fd_sc_hd__a221oi_1
+       37  370.355   sky130_fd_sc_hd__a222oi_1
+        4   35.034   sky130_fd_sc_hd__a22o_1
+        5   37.536   sky130_fd_sc_hd__a22oi_1
+        1    10.01   sky130_fd_sc_hd__a311o_1
+        1    8.758   sky130_fd_sc_hd__a311oi_1
+        1    8.758   sky130_fd_sc_hd__a31o_1
+        7   43.792   sky130_fd_sc_hd__a31oi_1
+        2   20.019   sky130_fd_sc_hd__a32o_1
+        5   43.792   sky130_fd_sc_hd__a32oi_1
+        1    8.758   sky130_fd_sc_hd__a41oi_1
+       12   75.072   sky130_fd_sc_hd__and2_0
+       14   87.584   sky130_fd_sc_hd__and3_1
+        2   17.517   sky130_fd_sc_hd__and3b_1
+        5   43.792   sky130_fd_sc_hd__and4_1
+       49  183.926   sky130_fd_sc_hd__clkinv_1
+       91 2.28E+03   sky130_fd_sc_hd__dfrtp_1
+        1   26.275   sky130_fd_sc_hd__dfstp_2
+       14   87.584   sky130_fd_sc_hd__lpflow_inputiso1p_1
+        8   50.048   sky130_fd_sc_hd__lpflow_isobufsrc_1
+       71  799.517   sky130_fd_sc_hd__mux2_1
+       11  110.106   sky130_fd_sc_hd__mux2i_1
+      190  713.184   sky130_fd_sc_hd__nand2_1
+       15    93.84   sky130_fd_sc_hd__nand2b_1
+       34  170.163   sky130_fd_sc_hd__nand3_1
+        6   45.043   sky130_fd_sc_hd__nand3b_1
+       12   75.072   sky130_fd_sc_hd__nand4_1
+        1    8.758   sky130_fd_sc_hd__nand4b_1
+        2   22.522   sky130_fd_sc_hd__nand4bb_1
+      162  608.083   sky130_fd_sc_hd__nor2_1
+        3   18.768   sky130_fd_sc_hd__nor2b_1
+       49  245.235   sky130_fd_sc_hd__nor3_1
+        1    7.507   sky130_fd_sc_hd__nor3b_1
+       14   87.584   sky130_fd_sc_hd__nor4_1
+        2   17.517   sky130_fd_sc_hd__nor4b_1
+        4   40.038   sky130_fd_sc_hd__nor4bb_1
+        1    10.01   sky130_fd_sc_hd__o211a_1
+        4   30.029   sky130_fd_sc_hd__o211ai_1
+        4   30.029   sky130_fd_sc_hd__o21a_1
+       33  165.158   sky130_fd_sc_hd__o21ai_0
+        1    7.507   sky130_fd_sc_hd__o21bai_1
+        1    8.758   sky130_fd_sc_hd__o221ai_1
+        1    8.758   sky130_fd_sc_hd__o22a_1
+        2   12.512   sky130_fd_sc_hd__o22ai_1
+        1    8.758   sky130_fd_sc_hd__o311ai_0
+        1    8.758   sky130_fd_sc_hd__o31a_1
+        6   45.043   sky130_fd_sc_hd__o31ai_1
+        6    52.55   sky130_fd_sc_hd__o32ai_1
+        1    8.758   sky130_fd_sc_hd__o41ai_1
+       10    62.56   sky130_fd_sc_hd__or3_1
+        1    8.758   sky130_fd_sc_hd__or3b_1
+        9   67.565   sky130_fd_sc_hd__or4_1
+        2   20.019   sky130_fd_sc_hd__or4b_1
+        4   35.034   sky130_fd_sc_hd__xnor2_1
+        1    8.758   sky130_fd_sc_hd__xor2_1
+
+   Area for cell type $scopeinfo is unknown!
+
+   Chip area for module '\ibex_id_stage': 7791.222400
+     of which used for sequential elements: 2303.459200 (29.56%)
+
+9. Executing Verilog backend.
+
+9.1. Executing BMUXMAP pass.
+
+9.2. Executing DEMUXMAP pass.
+Dumping module `\ibex_id_stage'.
+
+End of script. Logfile hash: 49dc5705a9, time: 0.97s, user: 0.52s, system: 0.04s, MEM: 49.12 MB peak
+Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+Time spent: 46% 2x abc (0 sec), 9% 23x opt_expr (0 sec), ...
