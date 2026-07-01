@@ -9,11 +9,16 @@ the stated toolchain. The current customer-facing area baseline is OSS CAD
 Suite 2026-06-30 / Yosys 0.66+181 with the Sky130 liberty and ABC mapping
 recipe recorded in the receipts.
 
-## Current Toolchain Area Frontier
+## Current Toolchain Rebaseline
 
 | Module | Optimized RTL | Yosys 0.66+181 area | Delta | Toggle | Timing | Proof certificates |
 | --- | --- | ---: | ---: | --- | --- | --- |
-| `ibex_alu` | [`rtl/ibex_alu.sv`](rtl/ibex_alu.sv) | 5471.4976 -> 5122.4128 chip area; 838 -> 788 mapped cells | -6.38% chip area | Historical 0.9 replay flat; 0.66 replay pending | Historical 0.9 replay no regression; 0.66 replay pending | [area](athanor/ppa_frontier/ibex_alu_bwlogic/area_yosys66.json), [formal](athanor/ppa_frontier/ibex_alu_bwlogic/formal_cert.json), [Lean](athanor/ppa_frontier/ibex_alu_bwlogic/lean_receipt.json), [manifest](athanor/ppa_frontier/ibex_alu_bwlogic/manifest.json) |
+| `ibex_alu` | [`rtl/ibex_alu.sv`](rtl/ibex_alu.sv) | 5471.4976 -> 5122.4128 chip area; 838 -> 788 mapped cells | -6.38% chip area | 5977 -> 5977, flat | Timing-negative under current OpenSTA replay: WNS -2.83ns -> -4.56ns | [area](athanor/ppa_frontier/ibex_alu_bwlogic/area_yosys66.json), [toggle/timing](athanor/ppa_frontier/ibex_alu_bwlogic/toggle_timing_yosys66.json), [formal](athanor/ppa_frontier/ibex_alu_bwlogic/formal_cert.json), [Lean](athanor/ppa_frontier/ibex_alu_bwlogic/lean_receipt.json), [manifest](athanor/ppa_frontier/ibex_alu_bwlogic/manifest.json) |
+
+The ALU row is area-positive and formally proven, but it is not a full-PPA
+frontier row under the current Yosys 0.66+181/OpenSTA replay because timing
+regresses. It remains useful rebaseline evidence and a starting point for a
+timing-clean variant.
 
 ## Rebaseline In Progress
 

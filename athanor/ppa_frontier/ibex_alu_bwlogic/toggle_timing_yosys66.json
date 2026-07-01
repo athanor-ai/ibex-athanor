@@ -1,0 +1,30 @@
+{
+  "status": "area_positive_toggle_flat_timing_negative",
+  "timing": {
+    "clock_period_ns": 10.0,
+    "degradation_pct": 61.130742049469944,
+    "error": null,
+    "gate_tns_ns": -160.0,
+    "gate_wns_ns": -4.56,
+    "gold_tns_ns": -67.23,
+    "gold_wns_ns": -2.83,
+    "method": "OpenSTA virtual SDC over Yosys 0.66+181 + ABC mapped netlists",
+    "sdc_status": "opensta_liberty (opensta_virtual_sdc; source_prep=raw_sv)",
+    "timing_met": false
+  },
+  "toggle": {
+    "gate_toggles": 5977,
+    "gold_toggles": 5977,
+    "method": "iverilog_toggle on sv2v-normalized RTL",
+    "sim_cycles": 200,
+    "simulator": "iverilog_toggle",
+    "toggle_delta_pct": 0.0
+  },
+  "toolchain": {
+    "abc": "yosys-abc bundled with OSS CAD Suite 2026-06-30",
+    "oss_cad_suite_release": "2026-06-30",
+    "opensta": "system sta",
+    "yosys": "Yosys 0.66+181",
+    "yosys_git_sha": "afe6b18f2"
+  }
+}
