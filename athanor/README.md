@@ -2,15 +2,17 @@
 
 This directory contains public receipts for Athanor's optimized Ibex RTL. The
 artifacts tie each optimized module to formal equivalence evidence, machine
-checked helper proofs, and area, switching, and timing measurements under a
-pinned open-source toolchain.
+checked helper proofs, and area, switching, and timing measurements. The
+current customer-facing area baseline is OSS CAD Suite 2026-06-30 / Yosys
+0.66+181. Older Yosys 0.9 receipts are retained as historical reproducibility
+and cross-tool sensitivity evidence.
 
 ## Results Summary
 
 | Module | Transform | Status |
 | --- | --- | --- |
-| `rtl/ibex_alu.sv` | `bwlogic_or_from_xor_and` | Formal pass; Yosys 0.9 pinned area/toggle/timing receipts included. Mapped-cell delta: `-6.77%`. |
-| `rtl/ibex_compressed_decoder.sv` | `rlist_init_formula` | Formal pass; Yosys 0.9 pinned area/toggle/timing receipts included. Chip-area delta: `-2.38%` in the canonical replay, with independent Yosys 0.9 replay at `-3.11%`. Cross-tool sensitivity is recorded. |
+| `rtl/ibex_alu.sv` | `bwlogic_or_from_xor_and` | Formal pass; Yosys 0.66+181 area replay is positive: `5471.4976 -> 5122.4128` chip area, `-6.38%`. Historical 0.9 toggle/timing receipts are included; 0.66 toggle/timing replay is pending. |
+| `rtl/ibex_compressed_decoder.sv` | `rlist_init_formula` | Formal pass; historical Yosys 0.9 replay is positive, but Yosys 0.45 replay regressed. Current customer-facing 0.66 replay is pending independent area/toggle/timing closure. |
 
 ## Methodology
 
@@ -21,21 +23,21 @@ rewrite. The public receipt set records:
 - formal equivalence result and proved output/property scope
 - Lean theorem receipt when a machine-checked helper identity is part of the
   transform rationale
-- Yosys 0.9 pinned area result against the recorded liberty file
+- selected-toolchain area result against the recorded liberty file
 - toggle and OpenSTA timing proxy measurements
 - SHA-256 manifest tying the public files to the receipt row
 
-Rows with synthesis-flow sensitivity pin the accepted toolchain and record the
-divergent toolchain result. They should be read as pinned-toolchain evidence,
-not as portable claims across all synthesis flows.
+Rows with synthesis-flow sensitivity record each divergent toolchain result and
+are not promoted as customer-facing frontier rows until the selected baseline
+area, toggle, timing, and independent replay receipts are complete.
 
 ## Evidence Layout
 
 - `athanor/ppa_frontier/ibex_alu_bwlogic/`
   - Gate RTL, gold RTL, Lean receipt, formal receipt, area/power/timing
-    receipts, and manifest.
+    receipts, Yosys 0.66 area receipt, and manifest.
 - `athanor/ppa_frontier/ibex_compressed_decoder_rlist/`
-  - Gate RTL, gold RTL, canonical formal receipt, Yosys 0.9 pinned
+  - Gate RTL, gold RTL, canonical formal receipt, historical Yosys 0.9
     area/toggle/timing receipts, cross-tool sensitivity note, and manifest.
 
 Additional archived receipt rows may appear under `ppa_frontier/` when they

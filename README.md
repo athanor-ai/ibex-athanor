@@ -4,15 +4,24 @@ Athanor AI applies formally checked RTL transformations to production hardware
 designs and records the PPA evidence needed to audit each result. This fork
 starts from the industry-standard lowRISC Ibex RISC-V core and adds optimized
 RTL plus public proof and measurement receipts. Results are pinned to the
-recorded open-source toolchain and should be read as reproducible
-toolchain-specific evidence.
+recorded open-source toolchain and should be read as reproducible evidence for
+the stated toolchain. The current customer-facing area baseline is OSS CAD
+Suite 2026-06-30 / Yosys 0.66+181 with the Sky130 liberty and ABC mapping
+recipe recorded in the receipts.
 
-## Verified PPA Frontier
+## Current Toolchain Area Frontier
 
-| Module | Optimized RTL | Cells before -> after | Delta | Toggle | Timing | Proof certificates |
+| Module | Optimized RTL | Yosys 0.66+181 area | Delta | Toggle | Timing | Proof certificates |
 | --- | --- | ---: | ---: | --- | --- | --- |
-| `ibex_alu` | [`rtl/ibex_alu.sv`](rtl/ibex_alu.sv) | 842 -> 785 mapped cells | -6.77% | 5977 -> 5977, 0.0% | WNS -4.29 ns -> -3.75 ns | [formal](athanor/ppa_frontier/ibex_alu_bwlogic/formal_cert.json), [Lean](athanor/ppa_frontier/ibex_alu_bwlogic/lean_receipt.json), [manifest](athanor/ppa_frontier/ibex_alu_bwlogic/manifest.json) |
-| `ibex_compressed_decoder` | [`athanor/ppa_frontier/ibex_compressed_decoder_rlist/artifacts/ibex_compressed_decoder_rlist_init_formula.sv`](athanor/ppa_frontier/ibex_compressed_decoder_rlist/artifacts/ibex_compressed_decoder_rlist_init_formula.sv) | 810 -> 774 mapped cells | -4.44% mapped cells; -2.38% chip area | 800 -> 800, 0.0%; independent replay 3423 -> 3423 | WNS/TNS 0.00/0.00 -> 0.00/0.00; independent replay +0.13 ns slack | [formal](athanor/ppa_frontier/ibex_compressed_decoder_rlist/formal_cert.json), [Lean](athanor/ppa_frontier/ibex_compressed_decoder_rlist/lean_receipt.json), [manifest](athanor/ppa_frontier/ibex_compressed_decoder_rlist/manifest.json) |
+| `ibex_alu` | [`rtl/ibex_alu.sv`](rtl/ibex_alu.sv) | 5471.4976 -> 5122.4128 chip area; 838 -> 788 mapped cells | -6.38% chip area | Historical 0.9 replay flat; 0.66 replay pending | Historical 0.9 replay no regression; 0.66 replay pending | [area](athanor/ppa_frontier/ibex_alu_bwlogic/area_yosys66.json), [formal](athanor/ppa_frontier/ibex_alu_bwlogic/formal_cert.json), [Lean](athanor/ppa_frontier/ibex_alu_bwlogic/lean_receipt.json), [manifest](athanor/ppa_frontier/ibex_alu_bwlogic/manifest.json) |
+
+## Rebaseline In Progress
+
+`ibex_compressed_decoder` / `rlist_init_formula` remains formally proven and
+was area-positive under the historical Yosys 0.9 recipe, but it is
+cross-tool-sensitive. It is not listed as a current customer-facing frontier row
+until the Yosys 0.66+181 independent replay, toggle, and timing receipts are
+complete.
 
 ## Receipt Layout
 
@@ -23,10 +32,10 @@ toolchain-specific evidence.
 - Formal equivalence receipts: `formal_cert.json`
 - Machine-checked helper proofs: `lean_receipt.json` and the linked Lean files
 
-The compressed-decoder result is cross-tool sensitive: it is positive under the
-recorded Yosys 0.9 recipe and regresses under one Yosys 0.45 replay. The
-receipt records this explicitly; the claim is pinned-toolchain evidence, not a
-portable assertion across every synthesis flow.
+Historical Yosys 0.9 receipts remain available under
+[`athanor/ppa_frontier/`](athanor/ppa_frontier/) for auditability. They are
+cross-tool sensitivity evidence, not a substitute for the selected
+customer-facing Yosys 0.66+181 baseline.
 
 ## Upstream Ibex
 

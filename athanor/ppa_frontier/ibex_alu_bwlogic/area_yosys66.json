@@ -1,0 +1,32 @@
+{
+  "abc_mapped_cells": {
+    "delta_pct": -5.9666,
+    "gate_cells": 788,
+    "gold_cells": 838,
+    "metric_note": "Final mapped Sky130 cell histogram count after Yosys 0.66+181 synth, dfflibmap, abc, and stat."
+  },
+  "replay_artifact_hashes": {
+    "gate_v2001_sha256": "f0c60b09a1b7829c42ecf0d2dc278038c8c8427dd7c897a67e6669edde97c720",
+    "gate_yosys_area_log_sha256": "2c8e940b531987c156c99af9e1868ade31553c2d9930f04481aa92b3b9e33c9f",
+    "gold_v2001_sha256": "71cc8d411567a5c385d22f845f74876c4ea250c411db08acf7955febaa685adf",
+    "gold_yosys_area_log_sha256": "49aa1bd34f5ba87c5aaa9d72b10886e6827e33961ddf3818580b998190e54044"
+  },
+  "replay_status": {
+    "independent_replay_required": true,
+    "timing_replay_required": true,
+    "toggle_replay_required": true
+  },
+  "stat_liberty_chip_area": {
+    "delta_pct": -6.3801,
+    "gate_area": 5122.4128,
+    "gold_area": 5471.4976,
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+    "metric_note": "First-pass current-toolchain area replay. Customer-facing use still requires independent replay plus matching timing and toggle receipts."
+  },
+  "toolchain": {
+    "abc": "yosys-abc bundled with OSS CAD Suite 2026-06-30",
+    "oss_cad_suite_release": "2026-06-30",
+    "yosys": "Yosys 0.66+181",
+    "yosys_git_sha": "afe6b18f2"
+  }
+}
