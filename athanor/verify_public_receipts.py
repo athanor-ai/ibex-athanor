@@ -81,6 +81,8 @@ def _verify_alu_row(manifest_path: Path, manifest: dict[str, Any], selected_tool
         raise SystemExit(f"{manifest_path}: missing propagation_delay timing block")
     if propagation.get("status") != "regression":
         raise SystemExit(f"{manifest_path}: ALU timing tradeoff must record propagation-delay regression")
+    if propagation.get("timing_convention") != "combinational_max_propagation_delay":
+        raise SystemExit(f"{manifest_path}: ALU row must record max-propagation-delay timing convention")
     if float(propagation.get("gate_delay_ns", 0.0)) <= float(propagation.get("gold_delay_ns", 0.0)):
         raise SystemExit(f"{manifest_path}: ALU timing tradeoff requires gate delay > gold delay")
 

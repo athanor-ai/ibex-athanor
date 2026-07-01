@@ -42,7 +42,7 @@
         },
         "toggle_timing_yosys66.json": {
             "path": "toggle_timing_yosys66.json",
-            "sha256": "19f17b797e2c849ad9f384b749d22e4d7d7d1d82456e8be0402528714c4a042c"
+            "sha256": "f473ce955f9c18904b9f452cbf9891f38aaf50389d3cb131fda3562f70cad557"
         }
     },
     "module": "ibex_alu",
