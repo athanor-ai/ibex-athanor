@@ -13,12 +13,13 @@ recipe recorded in the receipts.
 
 | Module | Optimized RTL | Yosys 0.66+181 area | Delta | Toggle | Timing | Proof certificates |
 | --- | --- | ---: | ---: | --- | --- | --- |
-| `ibex_alu` | [`rtl/ibex_alu.sv`](rtl/ibex_alu.sv) | 5471.4976 -> 5122.4128 chip area; 838 -> 788 mapped cells | -6.38% chip area | 5977 -> 5977, flat | Timing-negative under current OpenSTA replay: WNS -2.83ns -> -4.56ns | [area](athanor/ppa_frontier/ibex_alu_bwlogic/area_yosys66.json), [toggle/timing](athanor/ppa_frontier/ibex_alu_bwlogic/toggle_timing_yosys66.json), [formal](athanor/ppa_frontier/ibex_alu_bwlogic/formal_cert.json), [Lean](athanor/ppa_frontier/ibex_alu_bwlogic/lean_receipt.json), [manifest](athanor/ppa_frontier/ibex_alu_bwlogic/manifest.json) |
+| `ibex_alu` | [`rtl/ibex_alu.sv`](rtl/ibex_alu.sv) | 5471.4976 -> 5122.4128 chip area; 838 -> 788 mapped cells | -6.38% chip area | 5977 -> 5977, flat | Timing tradeoff: max propagation delay 8.83ns -> 10.56ns | [area](athanor/ppa_frontier/ibex_alu_bwlogic/area_yosys66.json), [toggle/timing](athanor/ppa_frontier/ibex_alu_bwlogic/toggle_timing_yosys66.json), [formal](athanor/ppa_frontier/ibex_alu_bwlogic/formal_cert.json), [Lean](athanor/ppa_frontier/ibex_alu_bwlogic/lean_receipt.json), [manifest](athanor/ppa_frontier/ibex_alu_bwlogic/manifest.json) |
 
 The ALU row is area-positive and formally proven, but it is not a full-PPA
-frontier row under the current Yosys 0.66+181/OpenSTA replay because timing
-regresses. It remains useful rebaseline evidence and a starting point for a
-timing-clean variant.
+frontier row under the current Yosys 0.66+181/OpenSTA replay because max
+combinational propagation delay regresses. It remains useful area-optimization
+evidence and an explicit area/timing tradeoff for customers to evaluate against
+their clock budget.
 
 ## Rebaseline In Progress
 

@@ -6,7 +6,7 @@
     },
     "area_yosys66.json": {
       "path": "area_yosys66.json",
-      "sha256": "f5080cd40561bf40654853e6ccf97d0c6dbecc6ee3c2f1602051a937941febbb"
+      "sha256": "9f8ca61521907a1ccf1e3b582eec7891399b795712cbd7c4896a5796f7b689dd"
     },
     "artifacts/BwlogicOrFromXorAnd.lean": {
       "path": "artifacts/BwlogicOrFromXorAnd.lean",
@@ -42,11 +42,11 @@
     },
     "toggle_timing_yosys66.json": {
       "path": "toggle_timing_yosys66.json",
-      "sha256": "92d2f88d22ab9329f2c3efbcfc2b1a11c2de24f0dfe61d658bcfc99c43399b01"
+      "sha256": "19f17b797e2c849ad9f384b749d22e4d7d7d1d82456e8be0402528714c4a042c"
     }
   },
   "module": "ibex_alu",
   "schema": "public_frontier_manifest_v1",
-  "status": "formal_pass_yosys66_area_positive_toggle_flat_timing_negative",
+  "status": "formal_pass_yosys66_area_positive_toggle_flat_propagation_delay_negative",
   "transform_class": "bitwise_consolidation"
 }

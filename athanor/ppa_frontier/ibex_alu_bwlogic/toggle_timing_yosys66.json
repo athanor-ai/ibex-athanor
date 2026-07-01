@@ -1,5 +1,13 @@
 {
-  "status": "area_positive_toggle_flat_timing_negative",
+  "propagation_delay": {
+    "delta_ns": 1.73,
+    "delta_pct": 19.592298980747452,
+    "gate_delay_ns": 10.56,
+    "gold_delay_ns": 8.83,
+    "method": "OpenSTA report_checks -path_delay max over Yosys 0.66+181 + ABC mapped netlists with loose virtual clock and zero I/O delay",
+    "status": "regression"
+  },
+  "status": "area_positive_toggle_flat_propagation_delay_negative",
   "timing": {
     "clock_period_ns": 10.0,
     "degradation_pct": 61.130742049469944,
@@ -8,7 +16,7 @@
     "gate_wns_ns": -4.56,
     "gold_tns_ns": -67.23,
     "gold_wns_ns": -2.83,
-    "method": "OpenSTA virtual SDC over Yosys 0.66+181 + ABC mapped netlists",
+    "method": "OpenSTA virtual I/O stress budget over Yosys 0.66+181 + ABC mapped netlists",
     "sdc_status": "opensta_liberty (opensta_virtual_sdc; source_prep=raw_sv)",
     "timing_met": false
   },

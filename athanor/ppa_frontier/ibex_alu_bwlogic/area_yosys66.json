@@ -14,7 +14,7 @@
   "replay_status": {
     "independent_replay_required": true,
     "timing_replay_required": false,
-    "timing_replay_status": "timing_negative",
+    "timing_replay_status": "propagation_delay_negative",
     "toggle_replay_required": false,
     "toggle_replay_status": "flat"
   },
@@ -23,7 +23,7 @@
     "gate_area": 5122.4128,
     "gold_area": 5471.4976,
     "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
-    "metric_note": "Current-toolchain area replay is positive. Full-PPA customer-facing use is blocked by the Yosys 0.66/OpenSTA timing regression recorded in toggle_timing_yosys66.json."
+    "metric_note": "Current-toolchain area replay is positive. Full-PPA customer-facing use is blocked by the Yosys 0.66/OpenSTA max-propagation-delay regression recorded in toggle_timing_yosys66.json."
   },
   "toolchain": {
     "abc": "yosys-abc bundled with OSS CAD Suite 2026-06-30",
