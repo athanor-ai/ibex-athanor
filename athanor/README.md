@@ -5,7 +5,10 @@ artifacts tie each optimized module to formal equivalence evidence, machine
 checked helper proofs, and area, switching, and timing measurements. The
 current customer-facing area baseline is OSS CAD Suite 2026-06-30 / Yosys
 0.66+181. Older Yosys 0.9 receipts are retained as historical reproducibility
-and cross-tool sensitivity evidence.
+and cross-tool sensitivity evidence. The selected baseline is codified in
+[`toolchain_policy.json`](toolchain_policy.json), and
+[`verify_public_receipts.py`](verify_public_receipts.py) enforces that
+customer-facing rows use that policy.
 
 ## Results Summary
 
@@ -26,6 +29,8 @@ rewrite. The public receipt set records:
 - selected-toolchain area result against the recorded liberty file
 - toggle and OpenSTA timing proxy measurements
 - SHA-256 manifest tying the public files to the receipt row
+- selected-toolchain status showing whether the row is customer-facing,
+  historical, cross-tool-sensitive, or an area/timing tradeoff
 
 Rows with synthesis-flow sensitivity record each divergent toolchain result and
 are not promoted as customer-facing frontier rows until the selected baseline

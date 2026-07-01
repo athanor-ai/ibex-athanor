@@ -1,0 +1,25 @@
+{
+    "schema": "athanor_public_toolchain_policy_v1",
+    "selected_toolchain": {
+        "id": "yosys_0_66_181_oss_cad_suite_2026_06_30",
+        "area_tool": "Yosys 0.66+181",
+        "area_tool_git_sha": "afe6b18f2",
+        "oss_cad_suite_release": "2026-06-30",
+        "abc": "yosys-abc bundled with OSS CAD Suite 2026-06-30",
+        "liberty": "sky130_fd_sc_hd__tt_025C_1v80.lib",
+        "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+        "area_recipe": "read_verilog; hierarchy -check -top <module>; proc; flatten; synth -top <module>; dfflibmap -liberty <liberty>; abc -liberty <liberty>; stat -liberty <liberty>",
+        "standalone_combinational_timing": "OpenSTA max input-to-output propagation delay on the selected mapped netlists"
+    },
+    "public_row_requirements": {
+        "customer_area_baseline_rows_must_use_selected_toolchain": true,
+        "full_ppa_frontier_requires_area_toggle_and_timing_non_regression": true,
+        "standalone_combinational_rows_must_record_max_propagation_delay": true,
+        "cross_tool_sensitive_rows_must_not_be_customer_frontier": true,
+        "historical_toolchain_receipts_are_sensitivity_evidence_only": true
+    },
+    "approved_public_statuses": [
+        "customer_area_tradeoff_yosys66",
+        "formal_only_cross_tool_sensitive_rebaseline_pending"
+    ]
+}

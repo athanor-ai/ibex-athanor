@@ -7,7 +7,9 @@ RTL plus public proof and measurement receipts. Results are pinned to the
 recorded open-source toolchain and should be read as reproducible evidence for
 the stated toolchain. The current customer-facing area baseline is OSS CAD
 Suite 2026-06-30 / Yosys 0.66+181 with the Sky130 liberty and ABC mapping
-recipe recorded in the receipts.
+recipe recorded in the receipts. Public manifests are checked by
+[`athanor/verify_public_receipts.py`](athanor/verify_public_receipts.py) so
+future receipt updates must preserve the selected-toolchain policy.
 
 ## Current Toolchain Rebaseline
 
@@ -32,6 +34,10 @@ complete.
 ## Receipt Layout
 
 - Public frontier receipts: [`athanor/ppa_frontier/`](athanor/ppa_frontier/)
+- Selected toolchain policy:
+  [`athanor/toolchain_policy.json`](athanor/toolchain_policy.json)
+- Public manifest verifier:
+  `python3 athanor/verify_public_receipts.py`
 - Area receipts: `area.json`
 - Toggle/activity receipts: `power.json`
 - Timing receipts: `timing.json`

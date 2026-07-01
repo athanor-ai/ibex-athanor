@@ -15,6 +15,12 @@ Only rows that pass the current verification bar should be added here.
 PPA-positive filters with incomplete formal proof belong in the research
 ledger, not in this frontier branch.
 
+The selected public replay baseline is defined by
+[`../toolchain_policy.json`](../toolchain_policy.json). Run
+`python3 athanor/verify_public_receipts.py` from the repository root before
+publishing updates. The verifier checks manifest hashes, selected-toolchain
+status, cross-tool-sensitive rows, and public wording boundaries.
+
 Rows with synthesis-flow sensitivity must pin the exact accepted toolchain and
 record divergent toolchain results in their public receipts. They are not
 portable synthesis-flow claims.
