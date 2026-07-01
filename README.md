@@ -31,16 +31,17 @@ toggle/power convention and final customer promotion bar are settled.
 
 | Module | Transform | Area | Timing | Formal | Toggle status | Artifacts |
 | --- | --- | ---: | ---: | --- | --- | --- |
-| `ibex_if_stage` | specialize default `BranchPredictor=0` prefetch branch path | 16821.1328 -> 16756.0704, -0.3868% | top data arrival 9.2829ns -> 8.9149ns, -3.9654%; WNS/TNS met | Yosys 0.66 replay: 1956/1956 `$equiv` cells proven | quick internal-VCD smoke reported flat; final convention pending | [`athanor_artifacts/if_stage_no_bp_prefetch_direct/`](athanor_artifacts/if_stage_no_bp_prefetch_direct/) |
+| `ibex_if_stage` | specialize default `BranchPredictor=0` prefetch branch path | 16821.1328 -> 16756.0704, -0.3868% | top data arrival 9.2829ns -> 8.9149ns, -3.9654%; WNS/TNS met | Yosys 0.66 replay: 1956/1956 `$equiv` cells proven | final toggle/power convention pending | [`athanor_artifacts/if_stage_no_bp_prefetch_direct/`](athanor_artifacts/if_stage_no_bp_prefetch_direct/) |
 | `ibex_id_stage` | specialize default `WritebackStage=0` controller exception priority | 7791.2224 -> 7741.1744, -0.6424% | top data arrival 7.5917ns -> 5.5358ns, -27.08%; WNS/TNS met | Yosys 0.66 replay included in package | quick internal-VCD smoke +1.27%; realistic/convention replay pending | [`athanor_artifacts/id_stage_no_wb_prio_assign/`](athanor_artifacts/id_stage_no_wb_prio_assign/) |
 
-## Rebaseline In Progress
+## Rebaseline Pending Promotion
 
 `ibex_compressed_decoder` / `rlist_init_formula` remains formally proven and
 was area-positive under the historical Yosys 0.9 recipe, but it is
-cross-tool-sensitive. It is not listed as a current customer-facing frontier row
-until the Yosys 0.66+181 independent replay, toggle, and timing receipts are
-complete.
+cross-tool-sensitive. Selected-toolchain replay evidence is under review, but
+the row is not listed as a current customer-facing frontier row until the Yosys
+0.66+181 receipts are packaged, independently reviewed, and promoted under the
+same public manifest policy used for the ALU row.
 
 ## Receipt Layout
 

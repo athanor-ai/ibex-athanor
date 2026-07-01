@@ -58,8 +58,8 @@ artifact hashes matched the positive direction:
 
 ## Toggle Smoke
 
-A quick Kairos random top-level toggle smoke over 200 cycles was run as an
-early switching check:
+A quick random top-level VCD toggle smoke over 200 cycles was run as an early
+switching check:
 
 | Metric | Gold | Gate | Delta |
 | --- | ---: | ---: | ---: |

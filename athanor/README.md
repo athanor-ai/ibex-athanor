@@ -15,7 +15,7 @@ customer-facing rows use that policy.
 | Module | Transform | Status |
 | --- | --- | --- |
 | `rtl/ibex_alu.sv` | `bwlogic_or_from_xor_and` | Formal pass; Yosys 0.66+181 area replay is positive: `5471.4976 -> 5122.4128` chip area, `-6.38%`, and toggle is flat. Max combinational propagation delay regresses `8.83ns -> 10.56ns`, so this is an area/timing tradeoff rather than full-PPA frontier evidence. |
-| `rtl/ibex_compressed_decoder.sv` | `rlist_init_formula` | Formal pass; historical Yosys 0.9 replay is positive, but Yosys 0.45 replay regressed. Current customer-facing 0.66 replay is pending independent area/toggle/timing closure. |
+| `rtl/ibex_compressed_decoder.sv` | `rlist_init_formula` | Formal pass; historical Yosys 0.9 replay is positive, but Yosys 0.45 replay regressed. Selected-toolchain 0.66 evidence is under review and not promoted as a customer-facing frontier row until packaged and independently reviewed under the public manifest policy. |
 | `rtl/ibex_if_stage.sv` | `no_bp_prefetch_direct` | Candidate package only: formal replay closes and selected-toolchain area/timing improve, but final toggle/power convention is pending. See `athanor_artifacts/if_stage_no_bp_prefetch_direct/`. |
 | `rtl/ibex_id_stage.sv` | `no_wb_prio_assign` | Candidate package only: formal replay closes and selected-toolchain area/timing improve, but quick internal-VCD toggle smoke regresses `+1.27%`. See `athanor_artifacts/id_stage_no_wb_prio_assign/`. |
 
