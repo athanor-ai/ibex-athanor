@@ -39,6 +39,6 @@
   },
   "module": "ibex_alu",
   "schema": "public_frontier_manifest_v1",
-  "status": "formal_pass_yosys09_pinned_ppa_positive",
+  "status": "formal_pass_yosys09_pinned_ppa_positive_observed_cross_tool_positive_rebaseline_pending",
   "transform_class": "bitwise_consolidation"
 }

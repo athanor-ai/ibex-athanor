@@ -15,6 +15,8 @@ Only rows that pass the current verification bar should be added here.
 PPA-positive filters with incomplete formal proof belong in the research
 ledger, not in this frontier branch.
 
-Rows with synthesis-flow sensitivity must pin the exact accepted toolchain and
+Rows with synthesis-flow sensitivity must pin the exact recorded toolchain and
 record divergent toolchain results in their public receipts. They are not
-portable synthesis-flow claims.
+portable synthesis-flow claims. While the selected-toolchain rebaseline is in
+progress, PPA rows in this directory should be described as hash-backed
+toolchain evidence rather than final flow-general frontier claims.

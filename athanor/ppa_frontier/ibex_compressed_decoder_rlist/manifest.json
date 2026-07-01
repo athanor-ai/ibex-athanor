@@ -43,6 +43,6 @@
   },
   "module": "ibex_compressed_decoder",
   "schema": "public_frontier_manifest_v1",
-  "status": "formal_pass_yosys09_pinned_ppa_positive_cross_tool_sensitive",
+  "status": "formal_pass_yosys09_pinned_ppa_positive_cross_tool_sensitive_rebaseline_pending",
   "transform_class": "zcmp_helper_formula"
 }

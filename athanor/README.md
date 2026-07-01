@@ -5,12 +5,22 @@ artifacts tie each optimized module to formal equivalence evidence, machine
 checked helper proofs, and area, switching, and timing measurements under a
 pinned open-source toolchain.
 
+## Current Status
+
+These receipts are preserved as exact Yosys 0.9 evidence while the selected
+customer-facing toolchain rebaseline is in progress. The formal equivalence and
+Lean helper receipts remain valid for the recorded artifacts. The ALU row has
+remained PPA-positive in rebaseline checks so far; the compressed-decoder row
+is cross-tool sensitive. PPA rows must stay described as selected-toolchain
+evidence until the rebaseline reruns either confirm or replace the frontier
+numbers.
+
 ## Results Summary
 
 | Module | Transform | Status |
 | --- | --- | --- |
-| `rtl/ibex_alu.sv` | `bwlogic_or_from_xor_and` | Formal pass; Yosys 0.9 pinned area/toggle/timing receipts included. Mapped-cell delta: `-6.77%`. |
-| `rtl/ibex_compressed_decoder.sv` | `rlist_init_formula` | Formal pass; Yosys 0.9 pinned area/toggle/timing receipts included. Chip-area delta: `-2.38%` in the canonical replay, with independent Yosys 0.9 replay at `-3.11%`. Cross-tool sensitivity is recorded. |
+| `rtl/ibex_alu.sv` | `bwlogic_or_from_xor_and` | Formal pass; Yosys 0.9 pinned area/toggle/timing receipts included. Mapped-cell delta: `-6.77%`; recorded chip-area delta: `-1.86%`. Rebaseline pending before any flow-general wording. |
+| `rtl/ibex_compressed_decoder.sv` | `rlist_init_formula` | Formal pass; Yosys 0.9 pinned area/toggle/timing receipts included. Chip-area delta: `-2.38%` in the canonical replay, with independent Yosys 0.9 replay at `-3.11%`. Cross-tool sensitivity is recorded; rebaseline pending. |
 
 ## Methodology
 
@@ -25,9 +35,9 @@ rewrite. The public receipt set records:
 - toggle and OpenSTA timing proxy measurements
 - SHA-256 manifest tying the public files to the receipt row
 
-Rows with synthesis-flow sensitivity pin the accepted toolchain and record the
-divergent toolchain result. They should be read as pinned-toolchain evidence,
-not as portable claims across all synthesis flows.
+Rows with synthesis-flow sensitivity pin the recorded toolchain and record the
+divergent toolchain result. They should be read as selected-toolchain evidence
+pending rebaseline, not as portable claims across all synthesis flows.
 
 ## Evidence Layout
 
