@@ -43,6 +43,13 @@ Historical Yosys 0.9 receipts remain available under
 cross-tool sensitivity evidence, not a substitute for the selected
 customer-facing Yosys 0.66+181 baseline.
 
+Before updating public Ibex PPA rows, verify that manifests are tied to the
+selected customer-facing toolchain:
+
+```bash
+python3 athanor/ppa_frontier/verify_toolchain_manifest.py
+```
+
 ## Upstream Ibex
 
 The original lowRISC documentation, examples, and source tree are preserved in

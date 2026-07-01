@@ -1,0 +1,44 @@
+{
+  "area_recipe": {
+    "description": "Selected customer-facing Ibex area replay recipe.",
+    "steps": [
+      "read_verilog <v2001_input>",
+      "hierarchy",
+      "proc",
+      "flatten",
+      "synth",
+      "dfflibmap -liberty <sky130_fd_sc_hd__tt_025C_1v80.lib>",
+      "abc -liberty <sky130_fd_sc_hd__tt_025C_1v80.lib>",
+      "stat -liberty <sky130_fd_sc_hd__tt_025C_1v80.lib>"
+    ]
+  },
+  "manifest_requirements": {
+    "artifact_hashes_required": true,
+    "current_customer_rows_require_selected_toolchain": true,
+    "policy_ref": "../toolchain_policy.json",
+    "required_manifest_schema": "public_frontier_manifest_v1",
+    "selected_toolchain_receipts_must_include_toolchain": true
+  },
+  "policy_id": "ibex-yosys66-public-frontier-2026-06-30",
+  "schema": "athanor_ibex_toolchain_policy_v1",
+  "scope": "customer_facing_ibex_ppa_frontier",
+  "selected_toolchain": {
+    "abc": "yosys-abc bundled with OSS CAD Suite 2026-06-30",
+    "liberty": "sky130_fd_sc_hd__tt_025C_1v80.lib",
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+    "oss_cad_suite_release": "2026-06-30",
+    "toolchain_id": "oss-cad-suite-2026-06-30-yosys-0.66+181",
+    "yosys": "Yosys 0.66+181",
+    "yosys_git_sha": "afe6b18f2"
+  },
+  "timing": {
+    "accepted_customer_conventions": [
+      "combinational_max_propagation_delay",
+      "clocked_opensta_sdc",
+      "combinational_virtual_io_sdc"
+    ],
+    "customer_facing_convention": "combinational_max_propagation_delay",
+    "max_propagation_delay_requires_gold_and_gate_delay": true,
+    "unconstrained_opensta_is_customer_evidence": false
+  }
+}

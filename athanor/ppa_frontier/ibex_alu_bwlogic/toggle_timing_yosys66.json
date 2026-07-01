@@ -5,7 +5,8 @@
     "gate_delay_ns": 10.56,
     "gold_delay_ns": 8.83,
     "method": "OpenSTA report_checks -path_delay max over Yosys 0.66+181 + ABC mapped netlists with loose virtual clock and zero I/O delay",
-    "status": "regression"
+    "status": "regression",
+    "timing_convention": "combinational_max_propagation_delay"
   },
   "status": "area_positive_toggle_flat_propagation_delay_negative",
   "timing": {

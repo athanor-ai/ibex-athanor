@@ -44,5 +44,16 @@
   "module": "ibex_compressed_decoder",
   "schema": "public_frontier_manifest_v1",
   "status": "formal_pass_yosys09_pinned_ppa_positive_cross_tool_sensitive",
+  "toolchain_policy": {
+    "customer_facing_status": "historical_cross_tool_sensitive_rebaseline_pending",
+    "full_ppa_frontier": false,
+    "policy_id": "ibex-yosys66-public-frontier-2026-06-30",
+    "policy_ref": "../toolchain_policy.json",
+    "policy_sha256": "11a82124381f8de8d670897404d54a456721d87f04c6efae9d97a9895e6a61bb",
+    "rebaseline_required": true,
+    "selected_toolchain_id": "oss-cad-suite-2026-06-30-yosys-0.66+181",
+    "selected_toolchain_required": false,
+    "timing_convention": "historical_yosys09_virtual_io_sdc"
+  },
   "transform_class": "zcmp_helper_formula"
 }

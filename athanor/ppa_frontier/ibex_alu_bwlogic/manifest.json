@@ -42,11 +42,26 @@
     },
     "toggle_timing_yosys66.json": {
       "path": "toggle_timing_yosys66.json",
-      "sha256": "19f17b797e2c849ad9f384b749d22e4d7d7d1d82456e8be0402528714c4a042c"
+      "sha256": "9667d1610cce89d4badc20bb343f0d87ac950344668f48d738b548e779d0ee75"
     }
   },
   "module": "ibex_alu",
   "schema": "public_frontier_manifest_v1",
   "status": "formal_pass_yosys66_area_positive_toggle_flat_propagation_delay_negative",
+  "toolchain_policy": {
+    "customer_facing_status": "current_customer_rebaseline",
+    "full_ppa_frontier": false,
+    "policy_id": "ibex-yosys66-public-frontier-2026-06-30",
+    "policy_ref": "../toolchain_policy.json",
+    "policy_sha256": "11a82124381f8de8d670897404d54a456721d87f04c6efae9d97a9895e6a61bb",
+    "selected_toolchain_id": "oss-cad-suite-2026-06-30-yosys-0.66+181",
+    "selected_toolchain_receipts": [
+      "area_yosys66.json",
+      "toggle_timing_yosys66.json"
+    ],
+    "selected_toolchain_required": true,
+    "timing_convention": "combinational_max_propagation_delay",
+    "timing_receipt": "toggle_timing_yosys66.json"
+  },
   "transform_class": "bitwise_consolidation"
 }
