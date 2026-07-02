@@ -1,0 +1,15 @@
+read_verilog gold.v
+proc; memory; opt
+async2sync; opt
+rename ibex_multdiv_slow gold
+read_verilog gate_greater_equal_xor_shape.v
+proc; memory; opt
+async2sync; opt
+rename ibex_multdiv_slow gate
+equiv_make gold gate equiv
+hierarchy -top equiv
+proc; opt; memory; opt
+equiv_simple -seq 5
+equiv_induct -seq 32
+equiv_simple -seq 5
+equiv_status -assert

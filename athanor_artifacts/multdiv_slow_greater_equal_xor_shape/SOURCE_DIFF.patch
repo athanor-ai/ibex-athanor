@@ -1,0 +1,13 @@
+--- gold_source.sv
++++ gate_source.sv
+@@ -160,8 +160,8 @@
+   // The adder in the ALU computes Remainder - Divisor. If Remainder - Divisor >= 0,
+   // is_greater_equal is true, the next Remainder is the subtraction result and the Quotient
+   // multdiv_count_q-th bit is set to 1.
+-  assign is_greater_equal = (accum_window_q[31] == op_b_shift_q[31]) ?
+-      ~res_adder_h[31] : accum_window_q[31];
++  assign is_greater_equal = ((accum_window_q[31] ^ op_b_shift_q[31]) & accum_window_q[31]) |
++      (~(accum_window_q[31] ^ op_b_shift_q[31]) & ~res_adder_h[31]);
+ 
+   assign one_shift      = {32'b0, 1'b1} << multdiv_count_q;
+ 

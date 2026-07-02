@@ -1,0 +1,69 @@
+OpenSTA 2.2.0 02b129d48f Copyright (c) 2019, Parallax Software, Inc.
+License GPLv3: GNU GPL version 3 <http://gnu.org/licenses/gpl.html>
+
+This is free software, and you are free to change and redistribute it
+under certain conditions; type `show_copying' for details. 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show_warranty'.
+Error: gate_mapped.v, line 10013 syntax error.
+Startpoint: _2558_ (rising edge-triggered flip-flop clocked by clk_i)
+Endpoint: alu_operand_b_o[11] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: _2558_ (rising edge-triggered flip-flop clocked by clk_i)
+Endpoint: alu_operand_b_o[12] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: _2558_ (rising edge-triggered flip-flop clocked by clk_i)
+Endpoint: alu_operand_b_o[15] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: _2558_ (rising edge-triggered flip-flop clocked by clk_i)
+Endpoint: alu_operand_b_o[20] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: _2558_ (rising edge-triggered flip-flop clocked by clk_i)
+Endpoint: alu_operand_b_o[25] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: _2558_ (rising edge-triggered flip-flop clocked by clk_i)
+Endpoint: alu_operand_b_o[26] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: _2558_ (rising edge-triggered flip-flop clocked by clk_i)
+Endpoint: alu_operand_b_o[27] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: _2558_ (rising edge-triggered flip-flop clocked by clk_i)
+Endpoint: alu_operand_b_o[30] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: _2558_ (rising edge-triggered flip-flop clocked by clk_i)
+Endpoint: alu_operand_b_o[5] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: _2558_ (rising edge-triggered flip-flop clocked by clk_i)
+Endpoint: alu_operand_b_o[7] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+tns 0.00
+wns 0.00

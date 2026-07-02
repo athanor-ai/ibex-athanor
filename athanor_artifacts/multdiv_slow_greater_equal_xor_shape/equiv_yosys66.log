@@ -1,0 +1,1489 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+
+-- Executing script file `replay_equiv_yosys66.ys' --
+
+1. Executing Verilog-2005 frontend: gold.v
+Parsing Verilog input from `gold.v' to AST representation.
+Generating RTLIL representation for module `\ibex_multdiv_slow'.
+Successfully finished Verilog frontend.
+
+2. Executing PROC pass (convert processes to netlists).
+
+2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\ibex_multdiv_slow.$proc$gold.v:142$29'.
+Found and cleaned up 1 empty switch in `\ibex_multdiv_slow.$proc$gold.v:91$2'.
+Cleaned up 2 empty switches.
+
+2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$gold.v:263$76 in module ibex_multdiv_slow.
+Removed 3 dead cases from process $proc$gold.v:142$29 in module ibex_multdiv_slow.
+Marked 1 switch rules as full_case in process $proc$gold.v:142$29 in module ibex_multdiv_slow.
+Removed 1 dead cases from process $proc$gold.v:91$2 in module ibex_multdiv_slow.
+Removed a total of 4 dead cases.
+
+2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 11 assignments to connections.
+
+2.4. Executing PROC_INIT pass (extract init attributes).
+
+2.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_ni in `\ibex_multdiv_slow.$proc$gold.v:263$76'.
+
+2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~9 debug messages>
+
+2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\ibex_multdiv_slow.$proc$gold.v:280$86'.
+Creating decoders for process `\ibex_multdiv_slow.$proc$gold.v:263$76'.
+     1/5: $0\div_by_zero_q[0:0]
+     2/5: $0\op_a_shift_q[32:0]
+     3/5: $0\op_b_shift_q[32:0]
+     4/5: $0\multdiv_count_q[4:0]
+     5/5: $0\md_state_q[2:0]
+Creating decoders for process `\ibex_multdiv_slow.$proc$gold.v:142$29'.
+     1/29: $6\accum_window_d[32:0]
+     2/29: $3\multdiv_hold[0:0]
+     3/29: $5\md_state_d[2:0]
+     4/29: $5\accum_window_d[32:0]
+     5/29: $4\md_state_d[2:0]
+     6/29: $4\op_b_shift_d[32:0]
+     7/29: $4\op_a_shift_d[32:0]
+     8/29: $4\accum_window_d[32:0]
+     9/29: $3\md_state_d[2:0]
+    10/29: $3\op_b_shift_d[32:0]
+    11/29: $3\accum_window_d[32:0]
+    12/29: $3\op_a_shift_d[32:0]
+    13/29: $3\div_by_zero_d[0:0]
+    14/29: $2\multdiv_count_d[4:0]
+    15/29: $2\div_by_zero_d[0:0]
+    16/29: $2\op_a_shift_d[32:0]
+    17/29: $2\op_b_shift_d[32:0]
+    18/29: $2\accum_window_d[32:0]
+    19/29: $2\md_state_d[2:0]
+    20/29: $2\multdiv_hold[0:0]
+    21/29: $2\op_numerator_d[31:0]
+    22/29: $1\multdiv_hold[0:0]
+    23/29: $1\div_by_zero_d[0:0]
+    24/29: $1\op_numerator_d[31:0]
+    25/29: $1\op_a_shift_d[32:0]
+    26/29: $1\op_b_shift_d[32:0]
+    27/29: $1\multdiv_count_d[4:0]
+    28/29: $1\accum_window_d[32:0]
+    29/29: $1\md_state_d[2:0]
+Creating decoders for process `\ibex_multdiv_slow.$proc$gold.v:91$2'.
+     1/4: $2\alu_operand_b_o[32:0]
+     2/4: $2\alu_operand_a_o[32:0]
+     3/4: $1\alu_operand_b_o[32:0]
+     4/4: $1\alu_operand_a_o[32:0]
+
+2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\ibex_multdiv_slow.\_sv2v_0' from process `\ibex_multdiv_slow.$proc$gold.v:280$86'.
+No latch inferred for signal `\ibex_multdiv_slow.\md_state_d' from process `\ibex_multdiv_slow.$proc$gold.v:142$29'.
+No latch inferred for signal `\ibex_multdiv_slow.\accum_window_d' from process `\ibex_multdiv_slow.$proc$gold.v:142$29'.
+No latch inferred for signal `\ibex_multdiv_slow.\multdiv_count_d' from process `\ibex_multdiv_slow.$proc$gold.v:142$29'.
+No latch inferred for signal `\ibex_multdiv_slow.\op_b_shift_d' from process `\ibex_multdiv_slow.$proc$gold.v:142$29'.
+No latch inferred for signal `\ibex_multdiv_slow.\op_a_shift_d' from process `\ibex_multdiv_slow.$proc$gold.v:142$29'.
+No latch inferred for signal `\ibex_multdiv_slow.\op_numerator_d' from process `\ibex_multdiv_slow.$proc$gold.v:142$29'.
+No latch inferred for signal `\ibex_multdiv_slow.\div_by_zero_d' from process `\ibex_multdiv_slow.$proc$gold.v:142$29'.
+No latch inferred for signal `\ibex_multdiv_slow.\multdiv_hold' from process `\ibex_multdiv_slow.$proc$gold.v:142$29'.
+No latch inferred for signal `\ibex_multdiv_slow.\alu_operand_a_o' from process `\ibex_multdiv_slow.$proc$gold.v:91$2'.
+No latch inferred for signal `\ibex_multdiv_slow.\alu_operand_b_o' from process `\ibex_multdiv_slow.$proc$gold.v:91$2'.
+
+2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\ibex_multdiv_slow.\md_state_q' using process `\ibex_multdiv_slow.$proc$gold.v:263$76'.
+  created $adff cell `$procdff$421' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_multdiv_slow.\multdiv_count_q' using process `\ibex_multdiv_slow.$proc$gold.v:263$76'.
+  created $adff cell `$procdff$426' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_multdiv_slow.\op_b_shift_q' using process `\ibex_multdiv_slow.$proc$gold.v:263$76'.
+  created $adff cell `$procdff$431' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_multdiv_slow.\op_a_shift_q' using process `\ibex_multdiv_slow.$proc$gold.v:263$76'.
+  created $adff cell `$procdff$436' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_multdiv_slow.\div_by_zero_q' using process `\ibex_multdiv_slow.$proc$gold.v:263$76'.
+  created $adff cell `$procdff$441' with positive edge clock and positive level reset.
+
+2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `ibex_multdiv_slow.$proc$gold.v:280$86'.
+Found and cleaned up 1 empty switch in `\ibex_multdiv_slow.$proc$gold.v:263$76'.
+Removing empty process `ibex_multdiv_slow.$proc$gold.v:263$76'.
+Found and cleaned up 6 empty switches in `\ibex_multdiv_slow.$proc$gold.v:142$29'.
+Removing empty process `ibex_multdiv_slow.$proc$gold.v:142$29'.
+Found and cleaned up 2 empty switches in `\ibex_multdiv_slow.$proc$gold.v:91$2'.
+Removing empty process `ibex_multdiv_slow.$proc$gold.v:91$2'.
+Cleaned up 9 empty switches.
+
+2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+<suppressed ~47 debug messages>
+
+3. Executing MEMORY pass.
+
+3.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+3.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+3.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+3.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+3.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+3.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+Removed 7 unused cells and 127 unused wires.
+<suppressed ~8 debug messages>
+
+3.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+3.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+3.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+
+3.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+3.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+4. Executing OPT pass (performing simple optimizations).
+
+4.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+
+4.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 266 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Computing hashes of 154 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Computing hashes of 145 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+<suppressed ~363 debug messages>
+Removed a total of 121 cells.
+
+4.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_multdiv_slow..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$184.
+    dead port 2/2 on $mux $procmux$182.
+    dead port 2/2 on $mux $procmux$407.
+    dead port 2/2 on $mux $procmux$315.
+    dead port 2/2 on $mux $procmux$197.
+    dead port 2/2 on $mux $procmux$195.
+    dead port 2/2 on $mux $procmux$171.
+    dead port 2/2 on $mux $procmux$169.
+    dead port 2/2 on $mux $procmux$304.
+    dead port 2/2 on $mux $procmux$292.
+    dead port 2/2 on $mux $procmux$158.
+    dead port 2/2 on $mux $procmux$156.
+    dead port 2/2 on $mux $procmux$326.
+    dead port 2/2 on $mux $procmux$282.
+    dead port 2/2 on $mux $procmux$280.
+    dead port 2/2 on $mux $procmux$145.
+    dead port 2/2 on $mux $procmux$143.
+    dead port 2/2 on $mux $procmux$132.
+    dead port 2/2 on $mux $procmux$130.
+    dead port 2/2 on $mux $procmux$367.
+    dead port 2/2 on $mux $procmux$265.
+    dead port 2/2 on $mux $procmux$263.
+    dead port 2/2 on $mux $procmux$119.
+    dead port 2/2 on $mux $procmux$117.
+    dead port 2/2 on $mux $procmux$356.
+    dead port 2/2 on $mux $procmux$248.
+    dead port 2/2 on $mux $procmux$106.
+    dead port 2/2 on $mux $procmux$104.
+    dead port 2/2 on $mux $procmux$246.
+    dead port 2/2 on $mux $procmux$349.
+    dead port 2/2 on $mux $procmux$231.
+    dead port 2/2 on $mux $procmux$229.
+    dead port 2/2 on $mux $procmux$337.
+    dead port 2/2 on $mux $procmux$214.
+    dead port 2/2 on $mux $procmux$212.
+    dead port 2/2 on $mux $procmux$399.
+Removed 36 multiplexer ports.
+<suppressed ~107 debug messages>
+
+4.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_multdiv_slow.
+    New ctrl vector for $pmux cell $procmux$125: { $auto$opt_reduce.cc:135:opt_pmux$445 $auto$opt_reduce.cc:135:opt_pmux$443 }
+    New ctrl vector for $pmux cell $procmux$258: { $auto$opt_reduce.cc:135:opt_pmux$447 $procmux$411_CMP $procmux$412_CMP }
+    New ctrl vector for $pmux cell $procmux$112: { $auto$opt_reduce.cc:135:opt_pmux$451 $auto$opt_reduce.cc:135:opt_pmux$449 }
+    New ctrl vector for $pmux cell $procmux$394: { $procmux$403_CMP $auto$opt_reduce.cc:135:opt_pmux$453 $procmux$405_CMP }
+    New ctrl vector for $pmux cell $procmux$165: { $procmux$410_CTRL $auto$opt_reduce.cc:135:opt_pmux$455 }
+    New ctrl vector for $pmux cell $procmux$402: $auto$opt_reduce.cc:135:opt_pmux$457
+    New ctrl vector for $pmux cell $procmux$224: { $auto$opt_reduce.cc:135:opt_pmux$461 $auto$opt_reduce.cc:135:opt_pmux$459 }
+    New ctrl vector for $pmux cell $procmux$138: { $procmux$414_CMP $auto$opt_reduce.cc:135:opt_pmux$463 }
+    New ctrl vector for $pmux cell $procmux$275: { $auto$opt_reduce.cc:135:opt_pmux$465 $procmux$414_CMP [0] }
+    New ctrl vector for $pmux cell $procmux$413: { $procmux$410_CTRL $auto$opt_reduce.cc:135:opt_pmux$467 }
+  Optimizing cells in module \ibex_multdiv_slow.
+Performed a total of 10 changes.
+
+4.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 122 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Computing hashes of 111 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+<suppressed ~33 debug messages>
+Removed a total of 11 cells.
+
+4.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$441 ($adff) from module ibex_multdiv_slow (D = $2\div_by_zero_d[0:0], Q = \div_by_zero_q).
+Adding EN signal on $procdff$431 ($adff) from module ibex_multdiv_slow (D = $2\op_b_shift_d[32:0], Q = \op_b_shift_q).
+Adding EN signal on $procdff$421 ($adff) from module ibex_multdiv_slow (D = $2\md_state_d[2:0], Q = \md_state_q).
+Adding EN signal on $procdff$426 ($adff) from module ibex_multdiv_slow (D = $2\multdiv_count_d[4:0], Q = \multdiv_count_q).
+Adding EN signal on $procdff$436 ($adff) from module ibex_multdiv_slow (D = $2\op_a_shift_d[32:0], Q = \op_a_shift_q).
+
+4.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+Removed 10 unused cells and 170 unused wires.
+<suppressed ~16 debug messages>
+
+4.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+
+4.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_multdiv_slow..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~61 debug messages>
+
+4.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_multdiv_slow.
+    New ctrl vector for $pmux cell $procmux$152: { $auto$opt_reduce.cc:135:opt_pmux$484 $eq$gold.v:278$80_Y }
+    New ctrl vector for $pmux cell $procmux$207: { $auto$opt_reduce.cc:135:opt_pmux$486 $eq$gold.v:278$81_Y $eq$gold.v:278$80_Y }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:129:opt_pmux$483: { $procmux$103_CMP $procmux$102_CMP $eq$gold.v:278$81_Y }
+  Optimizing cells in module \ibex_multdiv_slow.
+Performed a total of 3 changes.
+
+4.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 108 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Computing hashes of 103 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+<suppressed ~15 debug messages>
+Removed a total of 5 cells.
+
+4.13. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $auto$ff.cc:337:slice$468 ($adffe) from module ibex_multdiv_slow (D = $3\div_by_zero_d[0:0], Q = \div_by_zero_q).
+Adding EN signal on $auto$ff.cc:337:slice$471 ($adffe) from module ibex_multdiv_slow (D = $2\op_b_shift_d[32:0], Q = \op_b_shift_q).
+Adding EN signal on $auto$ff.cc:337:slice$477 ($adffe) from module ibex_multdiv_slow (D = $2\multdiv_count_d[4:0], Q = \multdiv_count_q).
+Adding EN signal on $auto$ff.cc:337:slice$480 ($adffe) from module ibex_multdiv_slow (D = $2\op_a_shift_d[32:0], Q = \op_a_shift_q).
+
+4.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+Removed 1 unused cells and 6 unused wires.
+<suppressed ~2 debug messages>
+
+4.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+<suppressed ~4 debug messages>
+
+4.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_multdiv_slow..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~58 debug messages>
+
+4.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_multdiv_slow.
+    New input vector for $reduce_and cell $auto$opt_dff.cc:252:make_patterns_logic$514: { $logic_or$gold.v:153$30_Y \multdiv_en $auto$opt_dff.cc:234:make_patterns_logic$507 $auto$opt_dff.cc:234:make_patterns_logic$509 $auto$opt_dff.cc:234:make_patterns_logic$511 }
+    New input vector for $reduce_and cell $auto$opt_dff.cc:252:make_patterns_logic$491: { $procmux$213_CMP $logic_or$gold.v:153$30_Y \multdiv_en $auto$opt_dff.cc:234:make_patterns_logic$488 }
+    New input vector for $reduce_and cell $auto$opt_dff.cc:252:make_patterns_logic$500: { $logic_or$gold.v:153$30_Y \multdiv_en $auto$opt_dff.cc:234:make_patterns_logic$493 $auto$opt_dff.cc:234:make_patterns_logic$495 $auto$opt_dff.cc:234:make_patterns_logic$497 }
+    New input vector for $reduce_and cell $auto$opt_dff.cc:252:make_patterns_logic$505: { $logic_or$gold.v:153$30_Y \multdiv_en $auto$opt_dff.cc:234:make_patterns_logic$502 }
+  Optimizing cells in module \ibex_multdiv_slow.
+Performed a total of 4 changes.
+
+4.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 114 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Computing hashes of 113 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+<suppressed ~3 debug messages>
+Removed a total of 1 cells.
+
+4.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+Removed 0 unused cells and 1 unused wires.
+<suppressed ~1 debug messages>
+
+4.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+
+4.23. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.24. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_multdiv_slow..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~58 debug messages>
+
+4.25. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_multdiv_slow.
+Performed a total of 0 changes.
+
+4.26. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 113 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Removed a total of 0 cells.
+
+4.27. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.28. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+
+4.29. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+
+4.30. Finished fast OPT passes. (There is nothing left to do.)
+
+5. Executing ASYNC2SYNC pass.
+Replacing ibex_multdiv_slow.$auto$ff.cc:337:slice$506 ($adffe): ARST=\rst_ni, D=$2\op_a_shift_d[32:0], Q=\op_a_shift_q
+Replacing ibex_multdiv_slow.$auto$ff.cc:337:slice$501 ($adffe): ARST=\rst_ni, D=$2\multdiv_count_d[4:0], Q=\multdiv_count_q
+Replacing ibex_multdiv_slow.$auto$ff.cc:337:slice$474 ($adffe): ARST=\rst_ni, D=$2\md_state_d[2:0], Q=\md_state_q
+Replacing ibex_multdiv_slow.$auto$ff.cc:337:slice$492 ($adffe): ARST=\rst_ni, D=$2\op_b_shift_d[32:0], Q=\op_b_shift_q
+Replacing ibex_multdiv_slow.$auto$ff.cc:337:slice$487 ($adffe): ARST=\rst_ni, D=$3\div_by_zero_d[0:0], Q=\div_by_zero_q
+
+6. Executing OPT pass (performing simple optimizations).
+
+6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+
+6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 118 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Removed a total of 0 cells.
+
+6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_multdiv_slow..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~68 debug messages>
+
+6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_multdiv_slow.
+Performed a total of 0 changes.
+
+6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 118 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Removed a total of 0 cells.
+
+6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+
+6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+
+6.9. Finished fast OPT passes. (There is nothing left to do.)
+Renaming module \ibex_multdiv_slow to \gold.
+
+7. Executing Verilog-2005 frontend: gate_greater_equal_xor_shape.v
+Parsing Verilog input from `gate_greater_equal_xor_shape.v' to AST representation.
+Generating RTLIL representation for module `\ibex_multdiv_slow'.
+Successfully finished Verilog frontend.
+
+8. Executing PROC pass (convert processes to netlists).
+
+8.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:142$557'.
+Found and cleaned up 1 empty switch in `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:91$526'.
+Cleaned up 2 empty switches.
+
+8.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$gate_greater_equal_xor_shape.v:263$604 in module ibex_multdiv_slow.
+Removed 3 dead cases from process $proc$gate_greater_equal_xor_shape.v:142$557 in module ibex_multdiv_slow.
+Marked 1 switch rules as full_case in process $proc$gate_greater_equal_xor_shape.v:142$557 in module ibex_multdiv_slow.
+Removed 1 dead cases from process $proc$gate_greater_equal_xor_shape.v:91$526 in module ibex_multdiv_slow.
+Removed a total of 4 dead cases.
+
+8.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 11 assignments to connections.
+
+8.4. Executing PROC_INIT pass (extract init attributes).
+
+8.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_ni in `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:263$604'.
+
+8.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~9 debug messages>
+
+8.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:280$614'.
+Creating decoders for process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:263$604'.
+     1/5: $0\div_by_zero_q[0:0]
+     2/5: $0\op_a_shift_q[32:0]
+     3/5: $0\op_b_shift_q[32:0]
+     4/5: $0\multdiv_count_q[4:0]
+     5/5: $0\md_state_q[2:0]
+Creating decoders for process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:142$557'.
+     1/29: $6\accum_window_d[32:0]
+     2/29: $3\multdiv_hold[0:0]
+     3/29: $5\md_state_d[2:0]
+     4/29: $5\accum_window_d[32:0]
+     5/29: $4\md_state_d[2:0]
+     6/29: $4\op_b_shift_d[32:0]
+     7/29: $4\op_a_shift_d[32:0]
+     8/29: $4\accum_window_d[32:0]
+     9/29: $3\md_state_d[2:0]
+    10/29: $3\op_b_shift_d[32:0]
+    11/29: $3\accum_window_d[32:0]
+    12/29: $3\op_a_shift_d[32:0]
+    13/29: $3\div_by_zero_d[0:0]
+    14/29: $2\multdiv_count_d[4:0]
+    15/29: $2\md_state_d[2:0]
+    16/29: $2\op_b_shift_d[32:0]
+    17/29: $2\op_a_shift_d[32:0]
+    18/29: $2\div_by_zero_d[0:0]
+    19/29: $2\accum_window_d[32:0]
+    20/29: $2\multdiv_hold[0:0]
+    21/29: $2\op_numerator_d[31:0]
+    22/29: $1\md_state_d[2:0]
+    23/29: $1\multdiv_count_d[4:0]
+    24/29: $1\op_b_shift_d[32:0]
+    25/29: $1\op_a_shift_d[32:0]
+    26/29: $1\div_by_zero_d[0:0]
+    27/29: $1\multdiv_hold[0:0]
+    28/29: $1\op_numerator_d[31:0]
+    29/29: $1\accum_window_d[32:0]
+Creating decoders for process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:91$526'.
+     1/4: $2\alu_operand_b_o[32:0]
+     2/4: $2\alu_operand_a_o[32:0]
+     3/4: $1\alu_operand_b_o[32:0]
+     4/4: $1\alu_operand_a_o[32:0]
+
+8.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\ibex_multdiv_slow.\_sv2v_0' from process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:280$614'.
+No latch inferred for signal `\ibex_multdiv_slow.\accum_window_d' from process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:142$557'.
+No latch inferred for signal `\ibex_multdiv_slow.\op_numerator_d' from process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:142$557'.
+No latch inferred for signal `\ibex_multdiv_slow.\multdiv_hold' from process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:142$557'.
+No latch inferred for signal `\ibex_multdiv_slow.\div_by_zero_d' from process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:142$557'.
+No latch inferred for signal `\ibex_multdiv_slow.\op_a_shift_d' from process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:142$557'.
+No latch inferred for signal `\ibex_multdiv_slow.\op_b_shift_d' from process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:142$557'.
+No latch inferred for signal `\ibex_multdiv_slow.\multdiv_count_d' from process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:142$557'.
+No latch inferred for signal `\ibex_multdiv_slow.\md_state_d' from process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:142$557'.
+No latch inferred for signal `\ibex_multdiv_slow.\alu_operand_a_o' from process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:91$526'.
+No latch inferred for signal `\ibex_multdiv_slow.\alu_operand_b_o' from process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:91$526'.
+
+8.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\ibex_multdiv_slow.\md_state_q' using process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:263$604'.
+  created $adff cell `$procdff$949' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_multdiv_slow.\multdiv_count_q' using process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:263$604'.
+  created $adff cell `$procdff$954' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_multdiv_slow.\op_b_shift_q' using process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:263$604'.
+  created $adff cell `$procdff$959' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_multdiv_slow.\op_a_shift_q' using process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:263$604'.
+  created $adff cell `$procdff$964' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_multdiv_slow.\div_by_zero_q' using process `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:263$604'.
+  created $adff cell `$procdff$969' with positive edge clock and positive level reset.
+
+8.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+8.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:280$614'.
+Found and cleaned up 1 empty switch in `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:263$604'.
+Removing empty process `ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:263$604'.
+Found and cleaned up 6 empty switches in `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:142$557'.
+Removing empty process `ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:142$557'.
+Found and cleaned up 2 empty switches in `\ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:91$526'.
+Removing empty process `ibex_multdiv_slow.$proc$gate_greater_equal_xor_shape.v:91$526'.
+Cleaned up 9 empty switches.
+
+8.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+<suppressed ~47 debug messages>
+Optimizing module gold.
+
+9. Executing MEMORY pass.
+
+9.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+9.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+9.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+9.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+9.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+9.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+Finding unused cells or wires in module \gold..
+Removed 7 unused cells and 127 unused wires.
+<suppressed ~8 debug messages>
+
+9.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+9.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+9.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+Finding unused cells or wires in module \gold..
+
+9.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+9.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+10. Executing OPT pass (performing simple optimizations).
+
+10.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+Optimizing module gold.
+
+10.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 270 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Computing hashes of 157 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Computing hashes of 148 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+<suppressed ~366 debug messages>
+Finding identical cells in module `\gold'.
+Computing hashes of 118 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 122 cells.
+
+10.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_multdiv_slow..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$712.
+    dead port 2/2 on $mux $procmux$710.
+    dead port 2/2 on $mux $procmux$832.
+    dead port 2/2 on $mux $procmux$935.
+    dead port 2/2 on $mux $procmux$699.
+    dead port 2/2 on $mux $procmux$697.
+    dead port 2/2 on $mux $procmux$843.
+    dead port 2/2 on $mux $procmux$820.
+    dead port 2/2 on $mux $procmux$686.
+    dead port 2/2 on $mux $procmux$684.
+    dead port 2/2 on $mux $procmux$810.
+    dead port 2/2 on $mux $procmux$808.
+    dead port 2/2 on $mux $procmux$673.
+    dead port 2/2 on $mux $procmux$671.
+    dead port 2/2 on $mux $procmux$660.
+    dead port 2/2 on $mux $procmux$658.
+    dead port 2/2 on $mux $procmux$895.
+    dead port 2/2 on $mux $procmux$793.
+    dead port 2/2 on $mux $procmux$791.
+    dead port 2/2 on $mux $procmux$647.
+    dead port 2/2 on $mux $procmux$645.
+    dead port 2/2 on $mux $procmux$884.
+    dead port 2/2 on $mux $procmux$776.
+    dead port 2/2 on $mux $procmux$634.
+    dead port 2/2 on $mux $procmux$632.
+    dead port 2/2 on $mux $procmux$774.
+    dead port 2/2 on $mux $procmux$877.
+    dead port 2/2 on $mux $procmux$759.
+    dead port 2/2 on $mux $procmux$757.
+    dead port 2/2 on $mux $procmux$866.
+    dead port 2/2 on $mux $procmux$725.
+    dead port 2/2 on $mux $procmux$742.
+    dead port 2/2 on $mux $procmux$723.
+    dead port 2/2 on $mux $procmux$740.
+    dead port 2/2 on $mux $procmux$854.
+    dead port 2/2 on $mux $procmux$927.
+Running muxtree optimizer on module \gold..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 36 multiplexer ports.
+<suppressed ~173 debug messages>
+
+10.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_multdiv_slow.
+    New ctrl vector for $pmux cell $procmux$922: { $procmux$931_CMP $auto$opt_reduce.cc:135:opt_pmux$971 $procmux$933_CMP }
+    New ctrl vector for $pmux cell $procmux$653: { $auto$opt_reduce.cc:135:opt_pmux$975 $auto$opt_reduce.cc:135:opt_pmux$973 }
+    New ctrl vector for $pmux cell $procmux$786: { $auto$opt_reduce.cc:135:opt_pmux$977 $procmux$939_CMP $procmux$940_CMP }
+    New ctrl vector for $pmux cell $procmux$640: { $auto$opt_reduce.cc:135:opt_pmux$981 $auto$opt_reduce.cc:135:opt_pmux$979 }
+    New ctrl vector for $pmux cell $procmux$941: { $procmux$928_CTRL $auto$opt_reduce.cc:135:opt_pmux$983 }
+    New ctrl vector for $pmux cell $procmux$752: { $auto$opt_reduce.cc:135:opt_pmux$987 $auto$opt_reduce.cc:135:opt_pmux$985 }
+    New ctrl vector for $pmux cell $procmux$666: { $procmux$942_CMP $auto$opt_reduce.cc:135:opt_pmux$989 }
+    New ctrl vector for $pmux cell $procmux$930: $auto$opt_reduce.cc:135:opt_pmux$991
+    New ctrl vector for $pmux cell $procmux$803: { $auto$opt_reduce.cc:135:opt_pmux$993 $procmux$942_CMP [0] }
+    New ctrl vector for $pmux cell $procmux$693: { $procmux$928_CTRL $auto$opt_reduce.cc:135:opt_pmux$995 }
+  Optimizing cells in module \ibex_multdiv_slow.
+  Optimizing cells in module \gold.
+Performed a total of 10 changes.
+
+10.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 125 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Computing hashes of 114 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+<suppressed ~33 debug messages>
+Finding identical cells in module `\gold'.
+Computing hashes of 118 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 11 cells.
+
+10.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$954 ($adff) from module ibex_multdiv_slow (D = $2\multdiv_count_d[4:0], Q = \multdiv_count_q).
+Adding EN signal on $procdff$949 ($adff) from module ibex_multdiv_slow (D = $2\md_state_d[2:0], Q = \md_state_q).
+Adding EN signal on $procdff$964 ($adff) from module ibex_multdiv_slow (D = $2\op_a_shift_d[32:0], Q = \op_a_shift_q).
+Adding EN signal on $procdff$969 ($adff) from module ibex_multdiv_slow (D = $2\div_by_zero_d[0:0], Q = \div_by_zero_q).
+Adding EN signal on $procdff$959 ($adff) from module ibex_multdiv_slow (D = $2\op_b_shift_d[32:0], Q = \op_b_shift_q).
+
+10.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+Finding unused cells or wires in module \gold..
+Removed 10 unused cells and 171 unused wires.
+<suppressed ~16 debug messages>
+
+10.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+Optimizing module gold.
+
+10.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+10.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_multdiv_slow..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \gold..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~127 debug messages>
+
+10.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_multdiv_slow.
+    New ctrl vector for $pmux cell $procmux$680: { $auto$opt_reduce.cc:135:opt_pmux$1012 $eq$gate_greater_equal_xor_shape.v:278$608_Y }
+    New ctrl vector for $pmux cell $procmux$735: { $auto$opt_reduce.cc:135:opt_pmux$1014 $eq$gate_greater_equal_xor_shape.v:278$609_Y $eq$gate_greater_equal_xor_shape.v:278$608_Y }
+    New input vector for $reduce_or cell $auto$opt_reduce.cc:129:opt_pmux$1011: { $eq$gate_greater_equal_xor_shape.v:278$609_Y $procmux$630_CMP $procmux$631_CMP }
+  Optimizing cells in module \ibex_multdiv_slow.
+  Optimizing cells in module \gold.
+Performed a total of 3 changes.
+
+10.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 111 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Computing hashes of 106 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+<suppressed ~15 debug messages>
+Finding identical cells in module `\gold'.
+Computing hashes of 118 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 5 cells.
+
+10.13. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $auto$ff.cc:337:slice$996 ($adffe) from module ibex_multdiv_slow (D = $2\multdiv_count_d[4:0], Q = \multdiv_count_q).
+Adding EN signal on $auto$ff.cc:337:slice$1002 ($adffe) from module ibex_multdiv_slow (D = $2\op_a_shift_d[32:0], Q = \op_a_shift_q).
+Adding EN signal on $auto$ff.cc:337:slice$1005 ($adffe) from module ibex_multdiv_slow (D = $3\div_by_zero_d[0:0], Q = \div_by_zero_q).
+Adding EN signal on $auto$ff.cc:337:slice$1008 ($adffe) from module ibex_multdiv_slow (D = $2\op_b_shift_d[32:0], Q = \op_b_shift_q).
+
+10.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+Finding unused cells or wires in module \gold..
+Removed 1 unused cells and 6 unused wires.
+<suppressed ~2 debug messages>
+
+10.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+<suppressed ~4 debug messages>
+Optimizing module gold.
+
+10.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+10.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_multdiv_slow..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \gold..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~124 debug messages>
+
+10.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_multdiv_slow.
+    New input vector for $reduce_and cell $auto$opt_dff.cc:252:make_patterns_logic$1042: { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y \multdiv_en $auto$opt_dff.cc:234:make_patterns_logic$1035 $auto$opt_dff.cc:234:make_patterns_logic$1037 $auto$opt_dff.cc:234:make_patterns_logic$1039 }
+    New input vector for $reduce_and cell $auto$opt_dff.cc:252:make_patterns_logic$1019: { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y \multdiv_en $auto$opt_dff.cc:234:make_patterns_logic$1016 }
+    New input vector for $reduce_and cell $auto$opt_dff.cc:252:make_patterns_logic$1028: { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y \multdiv_en $auto$opt_dff.cc:234:make_patterns_logic$1021 $auto$opt_dff.cc:234:make_patterns_logic$1023 $auto$opt_dff.cc:234:make_patterns_logic$1025 }
+    New input vector for $reduce_and cell $auto$opt_dff.cc:252:make_patterns_logic$1033: { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y $procmux$741_CMP \multdiv_en $auto$opt_dff.cc:234:make_patterns_logic$1030 }
+  Optimizing cells in module \ibex_multdiv_slow.
+  Optimizing cells in module \gold.
+Performed a total of 4 changes.
+
+10.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 117 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Computing hashes of 116 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+<suppressed ~3 debug messages>
+Finding identical cells in module `\gold'.
+Computing hashes of 118 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 1 cells.
+
+10.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+10.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+Finding unused cells or wires in module \gold..
+Removed 0 unused cells and 1 unused wires.
+<suppressed ~1 debug messages>
+
+10.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+Optimizing module gold.
+
+10.23. Rerunning OPT passes. (Maybe there is more to do..)
+
+10.24. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_multdiv_slow..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \gold..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~124 debug messages>
+
+10.25. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_multdiv_slow.
+  Optimizing cells in module \gold.
+Performed a total of 0 changes.
+
+10.26. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 116 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Finding identical cells in module `\gold'.
+Computing hashes of 118 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+10.27. Executing OPT_DFF pass (perform DFF optimizations).
+
+10.28. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+Finding unused cells or wires in module \gold..
+
+10.29. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+Optimizing module gold.
+
+10.30. Finished fast OPT passes. (There is nothing left to do.)
+
+11. Executing ASYNC2SYNC pass.
+Replacing ibex_multdiv_slow.$auto$ff.cc:337:slice$1034 ($adffe): ARST=\rst_ni, D=$2\op_b_shift_d[32:0], Q=\op_b_shift_q
+Replacing ibex_multdiv_slow.$auto$ff.cc:337:slice$1029 ($adffe): ARST=\rst_ni, D=$3\div_by_zero_d[0:0], Q=\div_by_zero_q
+Replacing ibex_multdiv_slow.$auto$ff.cc:337:slice$1020 ($adffe): ARST=\rst_ni, D=$2\op_a_shift_d[32:0], Q=\op_a_shift_q
+Replacing ibex_multdiv_slow.$auto$ff.cc:337:slice$999 ($adffe): ARST=\rst_ni, D=$2\md_state_d[2:0], Q=\md_state_q
+Replacing ibex_multdiv_slow.$auto$ff.cc:337:slice$1015 ($adffe): ARST=\rst_ni, D=$2\multdiv_count_d[4:0], Q=\multdiv_count_q
+
+12. Executing OPT pass (performing simple optimizations).
+
+12.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+Optimizing module gold.
+
+12.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 121 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Finding identical cells in module `\gold'.
+Computing hashes of 118 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+12.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_multdiv_slow..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \gold..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~134 debug messages>
+
+12.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_multdiv_slow.
+  Optimizing cells in module \gold.
+Performed a total of 0 changes.
+
+12.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_multdiv_slow'.
+Computing hashes of 121 cells of `\ibex_multdiv_slow'.
+Finding duplicate cells in `\ibex_multdiv_slow'.
+Finding identical cells in module `\gold'.
+Computing hashes of 118 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+12.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+12.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_multdiv_slow..
+Finding unused cells or wires in module \gold..
+
+12.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_multdiv_slow.
+Optimizing module gold.
+
+12.9. Finished fast OPT passes. (There is nothing left to do.)
+Renaming module \ibex_multdiv_slow to \gate.
+
+13. Executing EQUIV_MAKE pass (creating equiv checking module).
+Presumably equivalent wires: multdiv_en_gold (\multdiv_en_gold), multdiv_en_gate (\multdiv_en_gate) -> multdiv_en
+Presumably equivalent wires: multdiv_hold_gold (\multdiv_hold_gold), multdiv_hold_gate (\multdiv_hold_gate) -> multdiv_hold
+Presumably equivalent wires: div_by_zero_q_gold (\div_by_zero_q_gold), div_by_zero_q_gate (\div_by_zero_q_gate) -> div_by_zero_q
+Presumably equivalent wires: rem_change_sign_gold (\rem_change_sign_gold), rem_change_sign_gate (\rem_change_sign_gate) -> rem_change_sign
+Presumably equivalent wires: div_change_sign_gold (\div_change_sign_gold), div_change_sign_gate (\div_change_sign_gate) -> div_change_sign
+Presumably equivalent wires: is_greater_equal_gold (\is_greater_equal_gold), is_greater_equal_gate (\is_greater_equal_gate) -> is_greater_equal
+Presumably equivalent wires: op_numerator_d_gold (\op_numerator_d_gold), op_numerator_d_gate (\op_numerator_d_gate) -> op_numerator_d
+Presumably equivalent wires: op_numerator_q_gold (\imd_val_q_i_gold [31:0]), op_numerator_q_gate (\imd_val_q_i_gate [31:0]) -> op_numerator_q
+Presumably equivalent wires: next_remainder_gold (\next_remainder_gold), next_remainder_gate (\next_remainder_gate) -> next_remainder
+Presumably equivalent wires: next_quotient_gold (\next_quotient_gold), next_quotient_gate (\next_quotient_gate) -> next_quotient
+Presumably equivalent wires: sign_b_gold (\sign_b_gold), sign_b_gate (\sign_b_gate) -> sign_b
+Presumably equivalent wires: sign_a_gold (\rem_change_sign_gold), sign_a_gate (\rem_change_sign_gate) -> sign_a
+Presumably equivalent wires: b_0_gold ({ \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] }), b_0_gate ({ \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] }) -> b_0
+Presumably equivalent wires: op_a_bw_last_pp_gold (\op_a_bw_last_pp_gold), op_a_bw_last_pp_gate (\op_a_bw_last_pp_gate) -> op_a_bw_last_pp
+Presumably equivalent wires: op_a_bw_pp_gold (\op_a_bw_pp_gold), op_a_bw_pp_gate (\op_a_bw_pp_gate) -> op_a_bw_pp
+Presumably equivalent wires: one_shift_gold (\one_shift_gold), one_shift_gate (\one_shift_gate) -> one_shift
+Presumably equivalent wires: op_b_ext_gold ({ \sign_b_gold \op_b_i_gold }), op_b_ext_gate ({ \sign_b_gate \op_b_i_gate }) -> op_b_ext
+Presumably equivalent wires: op_a_ext_gold ({ \rem_change_sign_gold \op_a_i_gold }), op_a_ext_gate ({ \rem_change_sign_gate \op_a_i_gate }) -> op_a_ext
+Presumably equivalent wires: op_a_shift_q_gold (\op_a_shift_q_gold), op_a_shift_q_gate (\op_a_shift_q_gate) -> op_a_shift_q
+Presumably equivalent wires: op_b_shift_q_gold (\op_b_shift_q_gold), op_b_shift_q_gate (\op_b_shift_q_gate) -> op_b_shift_q
+Presumably equivalent wires: multdiv_count_q_gold (\multdiv_count_q_gold), multdiv_count_q_gate (\multdiv_count_q_gate) -> multdiv_count_q
+Presumably equivalent wires: res_adder_h_gold (\alu_adder_ext_i_gold [33:1]), res_adder_h_gate (\alu_adder_ext_i_gate [33:1]) -> res_adder_h
+Presumably equivalent wires: res_adder_l_gold (\alu_adder_ext_i_gold [32:0]), res_adder_l_gate (\alu_adder_ext_i_gate [32:0]) -> res_adder_l
+Presumably equivalent wires: unused_imd_val1_gold (\imd_val_q_i_gold [33:32]), unused_imd_val1_gate (\imd_val_q_i_gate [33:32]) -> unused_imd_val1
+Presumably equivalent wires: unused_imd_val0_gold (\imd_val_q_i_gold [67]), unused_imd_val0_gate (\imd_val_q_i_gate [67]) -> unused_imd_val0
+Presumably equivalent wires: accum_window_d_gold (\accum_window_d_gold), accum_window_d_gate (\accum_window_d_gate) -> accum_window_d
+Presumably equivalent wires: accum_window_q_gold (\imd_val_q_i_gold [66:34]), accum_window_q_gate (\imd_val_q_i_gate [66:34]) -> accum_window_q
+Presumably equivalent wires: md_state_q_gold (\md_state_q_gold), md_state_q_gate (\md_state_q_gate) -> md_state_q
+Presumably equivalent wires: valid_o_gold (\valid_o_gold), valid_o_gate (\valid_o_gate) -> valid_o
+Presumably equivalent wires: multdiv_result_o_gold (\multdiv_result_o_gold), multdiv_result_o_gate (\multdiv_result_o_gate) -> multdiv_result_o
+Presumably equivalent wires: multdiv_ready_id_i_gold (\multdiv_ready_id_i_gold), multdiv_ready_id_i_gate (\multdiv_ready_id_i_gate) -> multdiv_ready_id_i
+Presumably equivalent wires: imd_val_we_o_gold ({ \multdiv_en_gold \imd_val_we_o_gold [0] }), imd_val_we_o_gate ({ \multdiv_en_gate \imd_val_we_o_gate [0] }) -> imd_val_we_o
+Presumably equivalent wires: imd_val_d_o_gold ({ 1'0 \accum_window_d_gold 2'00 \op_numerator_d_gold }), imd_val_d_o_gate ({ 1'0 \accum_window_d_gate 2'00 \op_numerator_d_gate }) -> imd_val_d_o
+Presumably equivalent wires: imd_val_q_i_gold (\imd_val_q_i_gold), imd_val_q_i_gate (\imd_val_q_i_gate) -> imd_val_q_i
+Presumably equivalent wires: alu_operand_b_o_gold (\alu_operand_b_o_gold), alu_operand_b_o_gate (\alu_operand_b_o_gate) -> alu_operand_b_o
+Presumably equivalent wires: alu_operand_a_o_gold (\alu_operand_a_o_gold), alu_operand_a_o_gate (\alu_operand_a_o_gate) -> alu_operand_a_o
+Presumably equivalent wires: data_ind_timing_i_gold (\data_ind_timing_i_gold), data_ind_timing_i_gate (\data_ind_timing_i_gate) -> data_ind_timing_i
+Presumably equivalent wires: equal_to_zero_i_gold (\equal_to_zero_i_gold), equal_to_zero_i_gate (\equal_to_zero_i_gate) -> equal_to_zero_i
+Presumably equivalent wires: alu_adder_i_gold (\alu_adder_i_gold), alu_adder_i_gate (\alu_adder_i_gate) -> alu_adder_i
+Presumably equivalent wires: alu_adder_ext_i_gold (\alu_adder_ext_i_gold), alu_adder_ext_i_gate (\alu_adder_ext_i_gate) -> alu_adder_ext_i
+Presumably equivalent wires: op_b_i_gold (\op_b_i_gold), op_b_i_gate (\op_b_i_gate) -> op_b_i
+Presumably equivalent wires: op_a_i_gold (\op_a_i_gold), op_a_i_gate (\op_a_i_gate) -> op_a_i
+Presumably equivalent wires: signed_mode_i_gold (\signed_mode_i_gold), signed_mode_i_gate (\signed_mode_i_gate) -> signed_mode_i
+Presumably equivalent wires: operator_i_gold (\operator_i_gold), operator_i_gate (\operator_i_gate) -> operator_i
+Presumably equivalent wires: div_sel_i_gold (\div_sel_i_gold), div_sel_i_gate (\div_sel_i_gate) -> div_sel_i
+Presumably equivalent wires: mult_sel_i_gold (\mult_sel_i_gold), mult_sel_i_gate (\mult_sel_i_gate) -> mult_sel_i
+Presumably equivalent wires: div_en_i_gold (\div_en_i_gold), div_en_i_gate (\div_en_i_gate) -> div_en_i
+Presumably equivalent wires: mult_en_i_gold (\mult_en_i_gold), mult_en_i_gate (\mult_en_i_gate) -> mult_en_i
+Presumably equivalent wires: rst_ni_gold (\rst_ni_gold), rst_ni_gate (\rst_ni_gate) -> rst_ni
+Presumably equivalent wires: clk_i_gold (\clk_i_gold), clk_i_gate (\clk_i_gate) -> clk_i
+Presumably equivalent wires: _sv2v_0_gold (1'0), _sv2v_0_gate (1'0) -> _sv2v_0
+Changing input A of cell $auto$opt_dff.cc:252:make_patterns_logic$1033_gate ($reduce_and): { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y_gate $procmux$741_CMP_gate \multdiv_en_gate $auto$opt_dff.cc:234:make_patterns_logic$1030_gate } -> { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y_gate $procmux$741_CMP_gate \imd_val_we_o [1] $auto$opt_dff.cc:234:make_patterns_logic$1030_gate }
+Changing input A of cell $auto$opt_dff.cc:252:make_patterns_logic$1028_gate ($reduce_and): { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y_gate \multdiv_en_gate $auto$opt_dff.cc:234:make_patterns_logic$1021_gate $auto$opt_dff.cc:234:make_patterns_logic$1023_gate $auto$opt_dff.cc:234:make_patterns_logic$1025_gate } -> { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y_gate \imd_val_we_o [1] $auto$opt_dff.cc:234:make_patterns_logic$1021_gate $auto$opt_dff.cc:234:make_patterns_logic$1023_gate $auto$opt_dff.cc:234:make_patterns_logic$1025_gate }
+Changing input A of cell $auto$opt_dff.cc:252:make_patterns_logic$1019_gate ($reduce_and): { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y_gate \multdiv_en_gate $auto$opt_dff.cc:234:make_patterns_logic$1016_gate } -> { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y_gate \imd_val_we_o [1] $auto$opt_dff.cc:234:make_patterns_logic$1016_gate }
+Changing input A of cell $procmux$883_CMP0_gate ($eq): \md_state_q_gate -> \md_state_q
+Changing input B of cell $procmux$786_gate ($pmux): { 33'x \rem_change_sign_gate \op_a_i_gate \op_a_i_gate 1'0 } -> { 33'x \rem_change_sign \op_a_i_gate \op_a_i_gate 1'0 }
+Changing input B of cell $procmux$719_gate ($pmux): { \alu_adder_ext_i_gate [32:0] \alu_adder_ext_i_gate [33:1] \next_remainder_gate $shiftx$gate_greater_equal_xor_shape.v:212$593_Y_gate } -> { \alu_adder_ext_i_gate [32:0] \alu_adder_ext_i_gate [33:1] \next_remainder $shiftx$gate_greater_equal_xor_shape.v:212$593_Y_gate }
+Changing input B of cell $procmux$706_gate ($pmux): { \op_a_shift_q_gate [31:0] 34'0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \next_quotient_gate } -> { \op_a_shift_q [31:0] 34'0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \next_quotient }
+Changing input A of cell $procmux$882_CMP0_gate ($eq): \md_state_q_gate -> \md_state_q
+Changing input A of cell $auto$opt_dff.cc:252:make_patterns_logic$1010_gate ($reduce_and): { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y_gate \multdiv_en_gate } -> { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y_gate \imd_val_we_o [1] }
+Changing input A of cell $procmux$934_CMP0_gate ($logic_not): \md_state_q_gate -> \md_state_q
+Changing input B of cell $procmux$769_gate ($pmux): { $not$gate_greater_equal_xor_shape.v:161$562_Y_gate $and$gate_greater_equal_xor_shape.v:161$560_Y_gate 1'1 $not$gate_greater_equal_xor_shape.v:161$562_Y_gate $and$gate_greater_equal_xor_shape.v:167$569_Y_gate 33'111111111111111111111111111111111 \rem_change_sign_gate \op_a_i_gate } -> { $not$gate_greater_equal_xor_shape.v:161$562_Y_gate $and$gate_greater_equal_xor_shape.v:161$560_Y_gate 1'1 $not$gate_greater_equal_xor_shape.v:161$562_Y_gate $and$gate_greater_equal_xor_shape.v:167$569_Y_gate 33'111111111111111111111111111111111 \rem_change_sign \op_a_i_gate }
+Changing input A of cell $procmux$874_CMP0_gate ($eq): \md_state_q_gate -> \md_state_q
+Changing input B of cell $and$gate_greater_equal_xor_shape.v:262$603_gate ($and): \imd_val_we_o_gate [0] -> \imd_val_we_o [0]
+Changing input A of cell $not$gate_greater_equal_xor_shape.v:262$602_gate ($not): \multdiv_hold_gate -> \multdiv_hold
+Changing input S of cell $ternary$gate_greater_equal_xor_shape.v:250$599_gate ($mux): \rem_change_sign_gate -> \rem_change_sign
+Changing input S of cell $ternary$gate_greater_equal_xor_shape.v:249$598_gate ($mux): \div_change_sign_gate -> \div_change_sign
+Changing input A of cell $eq$gate_greater_equal_xor_shape.v:214$594_gate ($eq): \multdiv_count_q_gate -> \multdiv_count_q
+Changing input A of cell $procmux$933_CMP0_gate ($eq): \md_state_q_gate -> \md_state_q
+Changing input A of cell $procmux$932_CMP0_gate ($eq): \md_state_q_gate -> \md_state_q
+Changing input A of cell $eq$gate_greater_equal_xor_shape.v:203$585_gate ($logic_not): { 1'0 \op_b_shift_q_gate [32:1] } -> { 1'0 \op_b_shift_q [32:1] }
+Changing input A of cell $sub$gate_greater_equal_xor_shape.v:196$581_gate ($sub): \multdiv_count_q_gate -> \multdiv_count_q
+Changing input S of cell $ternary$gate_greater_equal_xor_shape.v:192$580_gate ($mux): \sign_b_gate -> \sign_b
+Changing input S of cell $ternary$gate_greater_equal_xor_shape.v:187$579_gate ($mux): \rem_change_sign_gate -> \rem_change_sign
+Changing input B of cell $procmux$937_gate ($pmux): { \op_a_bw_pp_gate $ternary$gate_greater_equal_xor_shape.v:98$528_Y_gate $2\alu_operand_b_o[32:0]_gate } -> { \op_a_bw_pp $ternary$gate_greater_equal_xor_shape.v:98$528_Y_gate $2\alu_operand_b_o[32:0]_gate }
+Changing input B of cell $procmux$752_gate ($pmux): { 34'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0 \sign_b_gate \op_b_i_gate [31:1] } -> { 34'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0 \sign_b \op_b_i_gate [31:1] }
+Changing input A of cell $and$gate_greater_equal_xor_shape.v:167$570_gate ($and): \rem_change_sign_gate -> \rem_change_sign
+Changing input A of cell $eq$gate_greater_equal_xor_shape.v:163$566_gate ($logic_not): { 1'0 \sign_b_gate \op_b_i_gate [31:1] } -> { 1'0 \sign_b \op_b_i_gate [31:1] }
+Changing input A of cell $auto$opt_dff.cc:252:make_patterns_logic$1042_gate ($reduce_and): { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y_gate \multdiv_en_gate $auto$opt_dff.cc:234:make_patterns_logic$1021_gate $auto$opt_dff.cc:234:make_patterns_logic$1035_gate $auto$opt_dff.cc:234:make_patterns_logic$1039_gate } -> { $logic_or$gate_greater_equal_xor_shape.v:153$558_Y_gate \imd_val_we_o [1] $auto$opt_dff.cc:234:make_patterns_logic$1021_gate $auto$opt_dff.cc:234:make_patterns_logic$1035_gate $auto$opt_dff.cc:234:make_patterns_logic$1039_gate }
+Changing input B of cell $procmux$666_gate ($pmux): { 1'0 \next_remainder_gate \next_quotient_gate \alu_adder_ext_i_gate [32:0] } -> { 1'0 \next_remainder \next_quotient \alu_adder_ext_i_gate [32:0] }
+Changing input A of cell $not$gate_greater_equal_xor_shape.v:140$555_gate ($not): \div_by_zero_q_gate -> \div_by_zero_q
+Changing input B of cell $xor$gate_greater_equal_xor_shape.v:140$554_gate ($xor): \sign_b_gate -> \sign_b
+Changing input A of cell $xor$gate_greater_equal_xor_shape.v:140$554_gate ($xor): \rem_change_sign_gate -> \rem_change_sign
+Changing input S of cell $ternary$gate_greater_equal_xor_shape.v:139$553_gate ($mux): \is_greater_equal_gate -> \is_greater_equal
+Changing input A of cell $ternary$gate_greater_equal_xor_shape.v:139$553_gate ($mux): \op_a_shift_q_gate -> \op_a_shift_q
+Changing input B of cell $or$gate_greater_equal_xor_shape.v:139$552_gate ($or): \one_shift_gate -> \one_shift
+Changing input A of cell $or$gate_greater_equal_xor_shape.v:139$552_gate ($or): \op_a_shift_q_gate -> \op_a_shift_q
+Changing input S of cell $ternary$gate_greater_equal_xor_shape.v:138$551_gate ($mux): \is_greater_equal_gate -> \is_greater_equal
+Changing input B of cell $shl$gate_greater_equal_xor_shape.v:137$550_gate ($shl): \multdiv_count_q_gate -> \multdiv_count_q
+Changing input B of cell $xor$gate_greater_equal_xor_shape.v:136$545_gate ($xor): \op_b_shift_q_gate [31] -> \op_b_shift_q [31]
+Changing input B of cell $and$gate_greater_equal_xor_shape.v:131$540_gate ($and): \op_b_shift_q_gate [0] -> \op_b_shift_q [0]
+Changing input A of cell $and$gate_greater_equal_xor_shape.v:131$540_gate ($and): \op_a_shift_q_gate [32] -> \op_a_shift_q [32]
+Changing input A of cell $not$gate_greater_equal_xor_shape.v:131$539_gate ($not): \op_a_bw_pp_gate [31:0] -> \op_a_bw_pp [31:0]
+Changing input B of cell $and$gate_greater_equal_xor_shape.v:131$538_gate ($and): { \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] \op_b_shift_q_gate [0] } -> { \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] }
+Changing input A of cell $and$gate_greater_equal_xor_shape.v:131$538_gate ($and): \op_a_shift_q_gate [31:0] -> \op_a_shift_q [31:0]
+Changing input A of cell $not$gate_greater_equal_xor_shape.v:130$537_gate ($not): \op_a_bw_last_pp_gate [32] -> \op_a_bw_last_pp [32]
+Changing input A of cell $procmux$931_CMP0_gate ($eq): \md_state_q_gate -> \md_state_q
+Changing input A of cell $not$gate_greater_equal_xor_shape.v:120$533_gate ($not): \op_b_shift_q_gate [31:0] -> \op_b_shift_q [31:0]
+Changing input B of cell $procmux$693_gate ($pmux): { 34'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0 \op_b_shift_q_gate [32:1] } -> { 34'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0 \op_b_shift_q [32:1] }
+Changing input B of cell $ternary$gate_greater_equal_xor_shape.v:98$528_gate ($mux): \op_a_bw_last_pp_gate -> \op_a_bw_last_pp
+Changing input A of cell $ternary$gate_greater_equal_xor_shape.v:98$528_gate ($mux): \op_a_bw_pp_gate -> \op_a_bw_pp
+Changing input A of cell $auto$opt_dff.cc:252:make_patterns_logic$505_gold ($reduce_and): { $logic_or$gold.v:153$30_Y_gold \multdiv_en_gold $auto$opt_dff.cc:234:make_patterns_logic$502_gold } -> { $logic_or$gold.v:153$30_Y_gold \imd_val_we_o [1] $auto$opt_dff.cc:234:make_patterns_logic$502_gold }
+Changing input A of cell $auto$opt_dff.cc:252:make_patterns_logic$500_gold ($reduce_and): { $logic_or$gold.v:153$30_Y_gold \multdiv_en_gold $auto$opt_dff.cc:234:make_patterns_logic$493_gold $auto$opt_dff.cc:234:make_patterns_logic$495_gold $auto$opt_dff.cc:234:make_patterns_logic$497_gold } -> { $logic_or$gold.v:153$30_Y_gold \imd_val_we_o [1] $auto$opt_dff.cc:234:make_patterns_logic$493_gold $auto$opt_dff.cc:234:make_patterns_logic$495_gold $auto$opt_dff.cc:234:make_patterns_logic$497_gold }
+Changing input A of cell $auto$opt_dff.cc:252:make_patterns_logic$491_gold ($reduce_and): { $procmux$213_CMP_gold $logic_or$gold.v:153$30_Y_gold \multdiv_en_gold $auto$opt_dff.cc:234:make_patterns_logic$488_gold } -> { $procmux$213_CMP_gold $logic_or$gold.v:153$30_Y_gold \imd_val_we_o [1] $auto$opt_dff.cc:234:make_patterns_logic$488_gold }
+Changing input A of cell $procmux$355_CMP0_gold ($eq): \md_state_q_gold -> \md_state_q
+Changing input B of cell $procmux$258_gold ($pmux): { 33'x \rem_change_sign_gold \op_a_i_gold \op_a_i_gold 1'0 } -> { 33'x \rem_change_sign \op_a_i_gold \op_a_i_gold 1'0 }
+Changing input B of cell $procmux$178_gold ($pmux): { \op_a_shift_q_gold [31:0] 34'0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \next_quotient_gold } -> { \op_a_shift_q [31:0] 34'0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \next_quotient }
+Changing input A of cell $auto$opt_dff.cc:252:make_patterns_logic$514_gold ($reduce_and): { $logic_or$gold.v:153$30_Y_gold \multdiv_en_gold $auto$opt_dff.cc:234:make_patterns_logic$495_gold $auto$opt_dff.cc:234:make_patterns_logic$509_gold $auto$opt_dff.cc:234:make_patterns_logic$511_gold } -> { $logic_or$gold.v:153$30_Y_gold \imd_val_we_o [1] $auto$opt_dff.cc:234:make_patterns_logic$495_gold $auto$opt_dff.cc:234:make_patterns_logic$509_gold $auto$opt_dff.cc:234:make_patterns_logic$511_gold }
+Changing input B of cell $procmux$165_gold ($pmux): { 34'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0 \op_b_shift_q_gold [32:1] } -> { 34'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0 \op_b_shift_q [32:1] }
+Changing input A of cell $procmux$354_CMP0_gold ($eq): \md_state_q_gold -> \md_state_q
+Changing input A of cell $auto$opt_dff.cc:252:make_patterns_logic$470_gold ($reduce_and): { $logic_or$gold.v:153$30_Y_gold \multdiv_en_gold } -> { $logic_or$gold.v:153$30_Y_gold \imd_val_we_o [1] }
+Changing input A of cell $procmux$406_CMP0_gold ($logic_not): \md_state_q_gold -> \md_state_q
+Changing input B of cell $procmux$241_gold ($pmux): { $not$gold.v:161$34_Y_gold $and$gold.v:161$32_Y_gold 1'1 $not$gold.v:161$34_Y_gold $and$gold.v:167$41_Y_gold 33'111111111111111111111111111111111 \rem_change_sign_gold \op_a_i_gold } -> { $not$gold.v:161$34_Y_gold $and$gold.v:161$32_Y_gold 1'1 $not$gold.v:161$34_Y_gold $and$gold.v:167$41_Y_gold 33'111111111111111111111111111111111 \rem_change_sign \op_a_i_gold }
+Changing input A of cell $procmux$405_CMP0_gold ($eq): \md_state_q_gold -> \md_state_q
+Changing input B of cell $and$gold.v:262$75_gold ($and): \imd_val_we_o_gold [0] -> \imd_val_we_o [0]
+Changing input A of cell $not$gold.v:262$74_gold ($not): \multdiv_hold_gold -> \multdiv_hold
+Changing input S of cell $ternary$gold.v:250$71_gold ($mux): \rem_change_sign_gold -> \rem_change_sign
+Changing input S of cell $ternary$gold.v:249$70_gold ($mux): \div_change_sign_gold -> \div_change_sign
+Changing input A of cell $eq$gold.v:214$66_gold ($eq): \multdiv_count_q_gold -> \multdiv_count_q
+Changing input A of cell $procmux$345_CMP0_gold ($eq): \md_state_q_gold -> \md_state_q
+Changing input A of cell $procmux$404_CMP0_gold ($eq): \md_state_q_gold -> \md_state_q
+Changing input A of cell $eq$gold.v:203$57_gold ($logic_not): { 1'0 \op_b_shift_q_gold [32:1] } -> { 1'0 \op_b_shift_q [32:1] }
+Changing input A of cell $sub$gold.v:196$53_gold ($sub): \multdiv_count_q_gold -> \multdiv_count_q
+Changing input S of cell $ternary$gold.v:192$52_gold ($mux): \sign_b_gold -> \sign_b
+Changing input S of cell $ternary$gold.v:187$51_gold ($mux): \rem_change_sign_gold -> \rem_change_sign
+Changing input B of cell $procmux$191_gold ($pmux): { \alu_adder_ext_i_gold [32:0] \alu_adder_ext_i_gold [33:1] \next_remainder_gold $shiftx$gold.v:212$65_Y_gold } -> { \alu_adder_ext_i_gold [32:0] \alu_adder_ext_i_gold [33:1] \next_remainder $shiftx$gold.v:212$65_Y_gold }
+Changing input B of cell $procmux$224_gold ($pmux): { 34'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0 \sign_b_gold \op_b_i_gold [31:1] } -> { 34'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0 \sign_b \op_b_i_gold [31:1] }
+Changing input A of cell $and$gold.v:167$42_gold ($and): \rem_change_sign_gold -> \rem_change_sign
+Changing input A of cell $eq$gold.v:163$38_gold ($logic_not): { 1'0 \sign_b_gold \op_b_i_gold [31:1] } -> { 1'0 \sign_b \op_b_i_gold [31:1] }
+Changing input B of cell $procmux$138_gold ($pmux): { 1'0 \next_remainder_gold \next_quotient_gold \alu_adder_ext_i_gold [32:0] } -> { 1'0 \next_remainder \next_quotient \alu_adder_ext_i_gold [32:0] }
+Changing input A of cell $not$gold.v:140$27_gold ($not): \div_by_zero_q_gold -> \div_by_zero_q
+Changing input B of cell $xor$gold.v:140$26_gold ($xor): \sign_b_gold -> \sign_b
+Changing input A of cell $xor$gold.v:140$26_gold ($xor): \rem_change_sign_gold -> \rem_change_sign
+Changing input S of cell $ternary$gold.v:139$25_gold ($mux): \is_greater_equal_gold -> \is_greater_equal
+Changing input A of cell $ternary$gold.v:139$25_gold ($mux): \op_a_shift_q_gold -> \op_a_shift_q
+Changing input B of cell $or$gold.v:139$24_gold ($or): \one_shift_gold -> \one_shift
+Changing input A of cell $or$gold.v:139$24_gold ($or): \op_a_shift_q_gold -> \op_a_shift_q
+Changing input S of cell $ternary$gold.v:138$23_gold ($mux): \is_greater_equal_gold -> \is_greater_equal
+Changing input B of cell $shl$gold.v:137$22_gold ($shl): \multdiv_count_q_gold -> \multdiv_count_q
+Changing input B of cell $eq$gold.v:136$19_gold ($eq): \op_b_shift_q_gold [31] -> \op_b_shift_q [31]
+Changing input B of cell $and$gold.v:131$16_gold ($and): \op_b_shift_q_gold [0] -> \op_b_shift_q [0]
+Changing input A of cell $and$gold.v:131$16_gold ($and): \op_a_shift_q_gold [32] -> \op_a_shift_q [32]
+Changing input A of cell $not$gold.v:131$15_gold ($not): \op_a_bw_pp_gold [31:0] -> \op_a_bw_pp [31:0]
+Changing input B of cell $and$gold.v:131$14_gold ($and): { \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] \op_b_shift_q_gold [0] } -> { \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] \op_b_shift_q [0] }
+Changing input A of cell $and$gold.v:131$14_gold ($and): \op_a_shift_q_gold [31:0] -> \op_a_shift_q [31:0]
+Changing input A of cell $not$gold.v:130$13_gold ($not): \op_a_bw_last_pp_gold [32] -> \op_a_bw_last_pp [32]
+Changing input A of cell $procmux$403_CMP0_gold ($eq): \md_state_q_gold -> \md_state_q
+Changing input A of cell $not$gold.v:120$9_gold ($not): \op_b_shift_q_gold [31:0] -> \op_b_shift_q [31:0]
+Changing input B of cell $ternary$gold.v:98$4_gold ($mux): \op_a_bw_last_pp_gold -> \op_a_bw_last_pp
+Changing input A of cell $ternary$gold.v:98$4_gold ($mux): \op_a_bw_pp_gold -> \op_a_bw_pp
+Changing input B of cell $procmux$409_gold ($pmux): { \op_a_bw_pp_gold $ternary$gold.v:98$4_Y_gold $2\alu_operand_b_o[32:0]_gold } -> { \op_a_bw_pp $ternary$gold.v:98$4_Y_gold $2\alu_operand_b_o[32:0]_gold }
+
+14. Executing HIERARCHY pass (managing design hierarchy).
+
+14.1. Analyzing design hierarchy..
+Top module:  \equiv
+
+14.2. Analyzing design hierarchy..
+Top module:  \equiv
+Removing unused module `\gate'.
+Removing unused module `\gold'.
+Removed 2 unused modules.
+
+15. Executing PROC pass (convert processes to netlists).
+
+15.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+15.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+15.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 0 assignments to connections.
+
+15.4. Executing PROC_INIT pass (extract init attributes).
+
+15.5. Executing PROC_ARST pass (detect async resets in processes).
+
+15.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+15.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+
+15.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+15.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+15.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+15.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+15.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+16. Executing OPT pass (performing simple optimizations).
+
+16.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+16.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 952 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 778 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 760 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 754 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 751 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+<suppressed ~603 debug messages>
+Removed a total of 201 cells.
+
+16.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \equiv..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~126 debug messages>
+
+16.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \equiv.
+Performed a total of 0 changes.
+
+16.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 751 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 726 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 715 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 708 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 705 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 704 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+<suppressed ~141 debug messages>
+Removed a total of 47 cells.
+
+16.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+16.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \equiv..
+Removed 166 unused cells and 95 unused wires.
+<suppressed ~173 debug messages>
+
+16.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+16.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+16.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \equiv..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~66 debug messages>
+
+16.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \equiv.
+Performed a total of 0 changes.
+
+16.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 538 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Removed a total of 0 cells.
+
+16.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+16.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \equiv..
+
+16.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+16.16. Finished fast OPT passes. (There is nothing left to do.)
+
+17. Executing MEMORY pass.
+
+17.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+17.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+17.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+17.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+17.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+17.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \equiv..
+
+17.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+17.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+17.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \equiv..
+
+17.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+17.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+18. Executing OPT pass (performing simple optimizations).
+
+18.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+18.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 538 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Removed a total of 0 cells.
+
+18.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \equiv..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~66 debug messages>
+
+18.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \equiv.
+Performed a total of 0 changes.
+
+18.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 538 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Removed a total of 0 cells.
+
+18.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+18.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \equiv..
+
+18.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+18.9. Finished fast OPT passes. (There is nothing left to do.)
+
+19. Executing EQUIV_SIMPLE pass.
+Found 34 unproven $equiv cells (2 groups) in equiv:
+ Grouping SAT models for \op_a_shift_q:
+  Trying to prove $equiv for \op_a_shift_q [0]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [1]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [2]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [3]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [4]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [5]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [6]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [7]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [8]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [9]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [10]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [11]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [12]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [13]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [14]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [15]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [16]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [17]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [18]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [19]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [20]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [21]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [22]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [23]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [24]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [25]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [26]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [27]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [28]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [29]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [30]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [31]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \op_a_shift_q [32]:ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ezsat
+ failed.
+  Trying to prove $equiv for \is_greater_equal:ezsat
+ success!
+Proved 1 previously unproven $equiv cells.
+
+20. Executing EQUIV_INDUCT pass.
+Found 33 unproven $equiv cells in module equiv:
+  Proving existence of base case for step 1. (35865 clauses over 13449 variables)
+  Proving induction step 1. (74429 clauses over 27761 variables)
+  Proof for induction step holds. Entire workset of 33 cells proven!
+Proved 33 previously unproven $equiv cells.
+
+21. Executing EQUIV_SIMPLE pass.
+Proved 0 previously unproven $equiv cells.
+
+22. Executing EQUIV_STATUS pass.
+Found 411 $equiv cells in equiv:
+  Of those cells 411 are proven and 0 are unproven.
+  Equivalence successfully proven!
+
+End of script. Logfile hash: 010e2da8d5, time: 0.87s, user: 0.73s, system: 0.03s, MEM: 38.62 MB peak
+Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+Time spent: 45% 2x equiv_simple (0 sec), 18% 1x equiv_induct (0 sec), ...

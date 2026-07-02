@@ -1,0 +1,9 @@
+{
+  "gold_toggles": 6117,
+  "gate_toggles": 6117,
+  "toggle_delta_pct": 0.0,
+  "sim_cycles": 200,
+  "power_method": "iverilog_toggle",
+  "power_evidence_type": "toggle_proxy",
+  "power_status": "measured"
+}

@@ -1,0 +1,15 @@
+{
+  "equivalence_mismatches": 0,
+  "gate_toggles": 56421,
+  "gold_toggles": 55424,
+  "power_evidence_type": "toggle_proxy",
+  "power_method": "iverilog_vcd_hierarchy_toggle",
+  "power_status": "measured",
+  "sim_cycles": 200,
+  "simulation_log": "logs/toggle_replay.log",
+  "stimulus": "deterministic_lsu_local_trace_v1",
+  "toggle_delta_pct": 1.79886,
+  "toggle_status": "regression",
+  "trace": "toggle_trace.json",
+  "vcd": "logs/lsu_toggle.vcd"
+}

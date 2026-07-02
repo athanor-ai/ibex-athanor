@@ -1,0 +1,1495 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+
+-- Executing script file `equiv_yosys66.ys' --
+
+1. Executing Verilog-2005 frontend: gold.v
+Parsing Verilog input from `gold.v' to AST representation.
+Generating RTLIL representation for module `\ibex_load_store_unit'.
+Generating RTLIL representation for module `\prim_secded_inv_39_32_dec'.
+Generating RTLIL representation for module `\prim_secded_inv_39_32_enc'.
+Successfully finished Verilog frontend.
+
+2. Executing PREP pass.
+
+2.1. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1.1. Analyzing design hierarchy..
+Top module:  \ibex_load_store_unit
+
+2.1.2. Analyzing design hierarchy..
+Top module:  \ibex_load_store_unit
+Removing unused module `\prim_secded_inv_39_32_enc'.
+Removing unused module `\prim_secded_inv_39_32_dec'.
+Removed 2 unused modules.
+
+2.2. Executing PROC pass (convert processes to netlists).
+
+2.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:284$31'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:252$23'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:224$18'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:196$13'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:184$12'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:148$4'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:100$1'.
+Cleaned up 7 empty switches.
+
+2.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$gold.v:415$90 in module ibex_load_store_unit.
+Marked 1 switch rules as full_case in process $proc$gold.v:367$52 in module ibex_load_store_unit.
+Marked 7 switch rules as full_case in process $proc$gold.v:284$31 in module ibex_load_store_unit.
+Removed 1 dead cases from process $proc$gold.v:252$23 in module ibex_load_store_unit.
+Removed 1 dead cases from process $proc$gold.v:224$18 in module ibex_load_store_unit.
+Marked 4 switch rules as full_case in process $proc$gold.v:224$18 in module ibex_load_store_unit.
+Removed 1 dead cases from process $proc$gold.v:196$13 in module ibex_load_store_unit.
+Marked 4 switch rules as full_case in process $proc$gold.v:196$13 in module ibex_load_store_unit.
+Removed 1 dead cases from process $proc$gold.v:184$12 in module ibex_load_store_unit.
+Marked 1 switch rules as full_case in process $proc$gold.v:179$10 in module ibex_load_store_unit.
+Marked 1 switch rules as full_case in process $proc$gold.v:165$7 in module ibex_load_store_unit.
+Marked 1 switch rules as full_case in process $proc$gold.v:160$5 in module ibex_load_store_unit.
+Removed 1 dead cases from process $proc$gold.v:148$4 in module ibex_load_store_unit.
+Removed 5 dead cases from process $proc$gold.v:100$1 in module ibex_load_store_unit.
+Marked 2 switch rules as full_case in process $proc$gold.v:100$1 in module ibex_load_store_unit.
+Removed a total of 10 dead cases.
+
+2.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 6 redundant assignments.
+Promoted 18 assignments to connections.
+
+2.2.4. Executing PROC_INIT pass (extract init attributes).
+
+2.2.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_ni in `\ibex_load_store_unit.$proc$gold.v:415$90'.
+Found async reset \rst_ni in `\ibex_load_store_unit.$proc$gold.v:367$52'.
+Found async reset \rst_ni in `\ibex_load_store_unit.$proc$gold.v:179$10'.
+Found async reset \rst_ni in `\ibex_load_store_unit.$proc$gold.v:165$7'.
+Found async reset \rst_ni in `\ibex_load_store_unit.$proc$gold.v:160$5'.
+
+2.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~31 debug messages>
+
+2.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:448$110'.
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:415$90'.
+     1/2: $0\fcov_mis_bus_err_1_q[0:0]
+     2/2: $0\fcov_mis_2_en_q[0:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:367$52'.
+     1/4: $0\lsu_err_q[0:0]
+     2/4: $0\pmp_err_q[0:0]
+     3/4: $0\handle_misaligned_q[0:0]
+     4/4: $0\ls_fsm_cs[2:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:284$31'.
+     1/45: $8\ls_fsm_ns[2:0]
+     2/45: $3\rdata_update[0:0]
+     3/45: $7\addr_update[0:0]
+     4/45: $4\lsu_err_d[0:0]
+     5/45: $4\pmp_err_d[0:0]
+     6/45: $7\handle_misaligned_d[0:0]
+     7/45: $7\ls_fsm_ns[2:0]
+     8/45: $6\addr_update[0:0]
+     9/45: $5\ctrl_update[0:0]
+    10/45: $6\handle_misaligned_d[0:0]
+    11/45: $6\ls_fsm_ns[2:0]
+    12/45: $5\handle_misaligned_d[0:0]
+    13/45: $5\addr_update[0:0]
+    14/45: $5\ls_fsm_ns[2:0]
+    15/45: $2\rdata_update[0:0]
+    16/45: $3\lsu_err_d[0:0]
+    17/45: $3\pmp_err_d[0:0]
+    18/45: $4\ls_fsm_ns[2:0]
+    19/45: $4\handle_misaligned_d[0:0]
+    20/45: $4\ctrl_update[0:0]
+    21/45: $4\addr_update[0:0]
+    22/45: $3\ls_fsm_ns[2:0]
+    23/45: $3\handle_misaligned_d[0:0]
+    24/45: $3\addr_update[0:0]
+    25/45: $3\ctrl_update[0:0]
+    26/45: $2\ls_fsm_ns[2:0]
+    27/45: $2\handle_misaligned_d[0:0]
+    28/45: $2\ctrl_update[0:0]
+    29/45: $2\addr_update[0:0]
+    30/45: $2\perf_store_o[0:0]
+    31/45: $2\perf_load_o[0:0]
+    32/45: $2\lsu_err_d[0:0]
+    33/45: $2\pmp_err_d[0:0]
+    34/45: $2\data_req_o[0:0]
+    35/45: $1\ls_fsm_ns[2:0]
+    36/45: $1\lsu_err_d[0:0]
+    37/45: $1\pmp_err_d[0:0]
+    38/45: $1\handle_misaligned_d[0:0]
+    39/45: $1\ctrl_update[0:0]
+    40/45: $1\addr_update[0:0]
+    41/45: $1\perf_store_o[0:0]
+    42/45: $1\perf_load_o[0:0]
+    43/45: $1\data_req_o[0:0]
+    44/45: $1\rdata_update[0:0]
+    45/45: $1\addr_incr_req_o[0:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:252$23'.
+     1/1: $1\data_rdata_ext[31:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:224$18'.
+     1/5: $5\rdata_b_ext[31:0]
+     2/5: $4\rdata_b_ext[31:0]
+     3/5: $3\rdata_b_ext[31:0]
+     4/5: $2\rdata_b_ext[31:0]
+     5/5: $1\rdata_b_ext[31:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:196$13'.
+     1/5: $5\rdata_h_ext[31:0]
+     2/5: $4\rdata_h_ext[31:0]
+     3/5: $3\rdata_h_ext[31:0]
+     4/5: $2\rdata_h_ext[31:0]
+     5/5: $1\rdata_h_ext[31:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:184$12'.
+     1/1: $1\rdata_w_ext[31:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:179$10'.
+     1/1: $0\addr_last_q[31:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:165$7'.
+     1/4: $0\data_we_q[0:0]
+     2/4: $0\data_sign_ext_q[0:0]
+     3/4: $0\data_type_q[1:0]
+     4/4: $0\rdata_offset_q[1:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:160$5'.
+     1/1: $0\rdata_q[23:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:148$4'.
+     1/1: $1\data_wdata[31:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gold.v:100$1'.
+     1/7: $7\data_be[3:0]
+     2/7: $6\data_be[3:0]
+     3/7: $5\data_be[3:0]
+     4/7: $4\data_be[3:0]
+     5/7: $3\data_be[3:0]
+     6/7: $2\data_be[3:0]
+     7/7: $1\data_be[3:0]
+
+2.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\ibex_load_store_unit.\_sv2v_0' from process `\ibex_load_store_unit.$proc$gold.v:448$110'.
+No latch inferred for signal `\ibex_load_store_unit.\data_req_o' from process `\ibex_load_store_unit.$proc$gold.v:284$31'.
+No latch inferred for signal `\ibex_load_store_unit.\addr_incr_req_o' from process `\ibex_load_store_unit.$proc$gold.v:284$31'.
+No latch inferred for signal `\ibex_load_store_unit.\perf_load_o' from process `\ibex_load_store_unit.$proc$gold.v:284$31'.
+No latch inferred for signal `\ibex_load_store_unit.\perf_store_o' from process `\ibex_load_store_unit.$proc$gold.v:284$31'.
+No latch inferred for signal `\ibex_load_store_unit.\addr_update' from process `\ibex_load_store_unit.$proc$gold.v:284$31'.
+No latch inferred for signal `\ibex_load_store_unit.\ctrl_update' from process `\ibex_load_store_unit.$proc$gold.v:284$31'.
+No latch inferred for signal `\ibex_load_store_unit.\rdata_update' from process `\ibex_load_store_unit.$proc$gold.v:284$31'.
+No latch inferred for signal `\ibex_load_store_unit.\handle_misaligned_d' from process `\ibex_load_store_unit.$proc$gold.v:284$31'.
+No latch inferred for signal `\ibex_load_store_unit.\pmp_err_d' from process `\ibex_load_store_unit.$proc$gold.v:284$31'.
+No latch inferred for signal `\ibex_load_store_unit.\lsu_err_d' from process `\ibex_load_store_unit.$proc$gold.v:284$31'.
+No latch inferred for signal `\ibex_load_store_unit.\ls_fsm_ns' from process `\ibex_load_store_unit.$proc$gold.v:284$31'.
+No latch inferred for signal `\ibex_load_store_unit.\data_rdata_ext' from process `\ibex_load_store_unit.$proc$gold.v:252$23'.
+No latch inferred for signal `\ibex_load_store_unit.\rdata_b_ext' from process `\ibex_load_store_unit.$proc$gold.v:224$18'.
+No latch inferred for signal `\ibex_load_store_unit.\rdata_h_ext' from process `\ibex_load_store_unit.$proc$gold.v:196$13'.
+No latch inferred for signal `\ibex_load_store_unit.\rdata_w_ext' from process `\ibex_load_store_unit.$proc$gold.v:184$12'.
+No latch inferred for signal `\ibex_load_store_unit.\data_wdata' from process `\ibex_load_store_unit.$proc$gold.v:148$4'.
+No latch inferred for signal `\ibex_load_store_unit.\data_be' from process `\ibex_load_store_unit.$proc$gold.v:100$1'.
+
+2.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\ibex_load_store_unit.\fcov_mis_2_en_q' using process `\ibex_load_store_unit.$proc$gold.v:415$90'.
+  created $adff cell `$procdff$746' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\fcov_mis_bus_err_1_q' using process `\ibex_load_store_unit.$proc$gold.v:415$90'.
+  created $adff cell `$procdff$751' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\handle_misaligned_q' using process `\ibex_load_store_unit.$proc$gold.v:367$52'.
+  created $adff cell `$procdff$756' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\pmp_err_q' using process `\ibex_load_store_unit.$proc$gold.v:367$52'.
+  created $adff cell `$procdff$761' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\lsu_err_q' using process `\ibex_load_store_unit.$proc$gold.v:367$52'.
+  created $adff cell `$procdff$766' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\ls_fsm_cs' using process `\ibex_load_store_unit.$proc$gold.v:367$52'.
+  created $adff cell `$procdff$771' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\addr_last_q' using process `\ibex_load_store_unit.$proc$gold.v:179$10'.
+  created $adff cell `$procdff$776' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\rdata_offset_q' using process `\ibex_load_store_unit.$proc$gold.v:165$7'.
+  created $adff cell `$procdff$781' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\data_type_q' using process `\ibex_load_store_unit.$proc$gold.v:165$7'.
+  created $adff cell `$procdff$786' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\data_sign_ext_q' using process `\ibex_load_store_unit.$proc$gold.v:165$7'.
+  created $adff cell `$procdff$791' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\data_we_q' using process `\ibex_load_store_unit.$proc$gold.v:165$7'.
+  created $adff cell `$procdff$796' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\rdata_q' using process `\ibex_load_store_unit.$proc$gold.v:160$5'.
+  created $adff cell `$procdff$801' with positive edge clock and positive level reset.
+
+2.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+2.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `ibex_load_store_unit.$proc$gold.v:448$110'.
+Removing empty process `ibex_load_store_unit.$proc$gold.v:415$90'.
+Removing empty process `ibex_load_store_unit.$proc$gold.v:367$52'.
+Found and cleaned up 8 empty switches in `\ibex_load_store_unit.$proc$gold.v:284$31'.
+Removing empty process `ibex_load_store_unit.$proc$gold.v:284$31'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:252$23'.
+Removing empty process `ibex_load_store_unit.$proc$gold.v:252$23'.
+Found and cleaned up 5 empty switches in `\ibex_load_store_unit.$proc$gold.v:224$18'.
+Removing empty process `ibex_load_store_unit.$proc$gold.v:224$18'.
+Found and cleaned up 5 empty switches in `\ibex_load_store_unit.$proc$gold.v:196$13'.
+Removing empty process `ibex_load_store_unit.$proc$gold.v:196$13'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:184$12'.
+Removing empty process `ibex_load_store_unit.$proc$gold.v:184$12'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:179$10'.
+Removing empty process `ibex_load_store_unit.$proc$gold.v:179$10'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:165$7'.
+Removing empty process `ibex_load_store_unit.$proc$gold.v:165$7'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:160$5'.
+Removing empty process `ibex_load_store_unit.$proc$gold.v:160$5'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gold.v:148$4'.
+Removing empty process `ibex_load_store_unit.$proc$gold.v:148$4'.
+Found and cleaned up 7 empty switches in `\ibex_load_store_unit.$proc$gold.v:100$1'.
+Removing empty process `ibex_load_store_unit.$proc$gold.v:100$1'.
+Cleaned up 31 empty switches.
+
+2.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+<suppressed ~89 debug messages>
+
+2.3. Executing FUTURE pass.
+
+2.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+
+2.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_load_store_unit..
+Removed 60 unused cells and 274 unused wires.
+<suppressed ~79 debug messages>
+
+2.6. Executing CHECK pass (checking for obvious problems).
+Checking module ibex_load_store_unit...
+Found and reported 0 problems.
+
+2.7. Executing OPT pass (performing simple optimizations).
+
+2.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+
+2.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_load_store_unit'.
+Computing hashes of 309 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Computing hashes of 196 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Computing hashes of 195 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+<suppressed ~342 debug messages>
+Removed a total of 114 cells.
+
+2.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_load_store_unit..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$602.
+    dead port 2/2 on $mux $procmux$486.
+    dead port 2/2 on $mux $procmux$476.
+    dead port 2/2 on $mux $procmux$466.
+    dead port 2/2 on $mux $procmux$456.
+    dead port 2/2 on $mux $procmux$446.
+    dead port 2/2 on $mux $procmux$436.
+    dead port 2/2 on $mux $procmux$434.
+    dead port 2/2 on $mux $procmux$423.
+    dead port 2/2 on $mux $procmux$421.
+    dead port 2/2 on $mux $procmux$410.
+    dead port 2/2 on $mux $procmux$408.
+    dead port 2/2 on $mux $procmux$397.
+    dead port 2/2 on $mux $procmux$395.
+    dead port 2/2 on $mux $procmux$384.
+    dead port 2/2 on $mux $procmux$375.
+    dead port 2/2 on $mux $procmux$366.
+    dead port 2/2 on $mux $procmux$357.
+    dead port 2/2 on $mux $procmux$348.
+    dead port 2/2 on $mux $procmux$340.
+    dead port 2/2 on $mux $procmux$332.
+    dead port 2/2 on $mux $procmux$324.
+    dead port 2/2 on $mux $procmux$316.
+    dead port 2/2 on $mux $procmux$308.
+    dead port 2/2 on $mux $procmux$300.
+    dead port 1/2 on $mux $procmux$298.
+    dead port 2/2 on $mux $procmux$289.
+    dead port 1/2 on $mux $procmux$287.
+    dead port 2/2 on $mux $procmux$278.
+    dead port 2/2 on $mux $procmux$271.
+    dead port 2/2 on $mux $procmux$264.
+    dead port 2/2 on $mux $procmux$257.
+    dead port 2/2 on $mux $procmux$654.
+    dead port 2/2 on $mux $procmux$250.
+    dead port 2/2 on $mux $procmux$244.
+    dead port 2/2 on $mux $procmux$238.
+    dead port 2/2 on $mux $procmux$646.
+    dead port 2/2 on $mux $procmux$232.
+    dead port 2/2 on $mux $procmux$226.
+    dead port 2/2 on $mux $procmux$688.
+    dead port 2/2 on $mux $procmux$639.
+    dead port 1/2 on $mux $procmux$697.
+    dead port 2/2 on $mux $procmux$699.
+    dead port 2/2 on $mux $procmux$705.
+    dead port 2/2 on $mux $procmux$633.
+    dead port 2/2 on $mux $procmux$715.
+    dead port 2/2 on $mux $procmux$717.
+    dead port 1/2 on $mux $procmux$727.
+    dead port 2/2 on $mux $procmux$729.
+    dead port 2/2 on $mux $procmux$623.
+    dead port 2/2 on $mux $procmux$615.
+    dead port 2/2 on $mux $procmux$526.
+    dead port 2/2 on $mux $procmux$608.
+    dead port 2/2 on $mux $procmux$736.
+    dead port 2/2 on $mux $procmux$516.
+    dead port 2/2 on $mux $procmux$496.
+    dead port 2/2 on $mux $procmux$506.
+Removed 57 multiplexer ports.
+<suppressed ~152 debug messages>
+
+2.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_load_store_unit.
+    New ctrl vector for $pmux cell $procmux$581: { $auto$opt_reduce.cc:135:opt_pmux$803 $procmux$585_CMP }
+    New ctrl vector for $pmux cell $procmux$591: { $auto$opt_reduce.cc:135:opt_pmux$805 $procmux$593_CMP }
+  Optimizing cells in module \ibex_load_store_unit.
+Performed a total of 2 changes.
+
+2.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_load_store_unit'.
+Computing hashes of 140 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Computing hashes of 137 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Computing hashes of 136 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+<suppressed ~12 debug messages>
+Removed a total of 4 cells.
+
+2.7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_load_store_unit..
+Removed 0 unused cells and 174 unused wires.
+<suppressed ~1 debug messages>
+
+2.7.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+
+2.7.8. Rerunning OPT passes. (Maybe there is more to do..)
+
+2.7.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_load_store_unit..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~100 debug messages>
+
+2.7.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_load_store_unit.
+    New ctrl vector for $pmux cell $procmux$554: { $auto$opt_reduce.cc:135:opt_pmux$807 $eq$gold.v:381$57_Y }
+  Optimizing cells in module \ibex_load_store_unit.
+Performed a total of 1 changes.
+
+2.7.11. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_load_store_unit'.
+Computing hashes of 137 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Removed a total of 0 cells.
+
+2.7.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_load_store_unit..
+
+2.7.13. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+
+2.7.14. Rerunning OPT passes. (Maybe there is more to do..)
+
+2.7.15. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_load_store_unit..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~99 debug messages>
+
+2.7.16. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_load_store_unit.
+Performed a total of 0 changes.
+
+2.7.17. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_load_store_unit'.
+Computing hashes of 137 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Removed a total of 0 cells.
+
+2.7.18. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_load_store_unit..
+
+2.7.19. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+
+2.7.20. Finished fast OPT passes. (There is nothing left to do.)
+
+2.8. Executing WREDUCE pass (reducing word size of cells).
+Removed top 30 bits (of 32) from mux cell ibex_load_store_unit.$ternary$gold.v:178$9 ($mux).
+Removed top 1 bits (of 3) from mux cell ibex_load_store_unit.$ternary$gold.v:312$33 ($mux).
+Removed top 1 bits (of 3) from mux cell ibex_load_store_unit.$ternary$gold.v:315$34 ($mux).
+Removed top 1 bits (of 3) from mux cell ibex_load_store_unit.$ternary$gold.v:334$39 ($mux).
+Removed top 1 bits (of 3) from mux cell ibex_load_store_unit.$procmux$393 ($mux).
+Removed top 2 bits (of 3) from port B of cell ibex_load_store_unit.$procmux$584_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell ibex_load_store_unit.$procmux$593_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell ibex_load_store_unit.$procmux$594_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell ibex_load_store_unit.$procmux$597_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell ibex_load_store_unit.$procmux$664_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell ibex_load_store_unit.$procmux$681_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell ibex_load_store_unit.$procmux$700_CMP0 ($eq).
+Removed top 1 bits (of 3) from wire ibex_load_store_unit.$ternary$gold.v:334$39_Y.
+Removed top 1 bits (of 3) from wire ibex_load_store_unit.$ternary$gold.v:315$34_Y.
+Removed top 1 bits (of 3) from wire ibex_load_store_unit.$ternary$gold.v:312$33_Y.
+Removed top 1 bits (of 3) from wire ibex_load_store_unit.$3\ls_fsm_ns[2:0].
+
+2.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_load_store_unit..
+Removed 0 unused cells and 4 unused wires.
+<suppressed ~1 debug messages>
+
+2.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+2.11. Executing OPT pass (performing simple optimizations).
+
+2.11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+
+2.11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_load_store_unit'.
+Computing hashes of 137 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Removed a total of 0 cells.
+
+2.11.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_load_store_unit..
+
+2.11.4. Finished fast OPT passes.
+
+2.12. Executing SORT pass.
+
+2.13. Printing statistics.
+
+=== ibex_load_store_unit ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      161 wires
+     1037 wire bits
+       62 public wires
+      595 public wire bits
+       31 ports
+      252 port bits
+      137 cells
+       10   $adff
+       10   $and
+       16   $eq
+        2   $logic_and
+        6   $logic_not
+        3   $logic_or
+       52   $mux
+        7   $not
+        5   $or
+       19   $pmux
+        2   $reduce_bool
+        5   $reduce_or
+
+2.14. Executing CHECK pass (checking for obvious problems).
+Checking module ibex_load_store_unit...
+Found and reported 0 problems.
+
+3. Executing Verilog-2005 frontend: gate.v
+Parsing Verilog input from `gate.v' to AST representation.
+Generating RTLIL representation for module `\ibex_load_store_unit'.
+Generating RTLIL representation for module `\prim_secded_inv_39_32_dec'.
+Generating RTLIL representation for module `\prim_secded_inv_39_32_enc'.
+Successfully finished Verilog frontend.
+
+4. Executing PREP pass.
+
+4.1. Executing HIERARCHY pass (managing design hierarchy).
+
+4.1.1. Analyzing design hierarchy..
+Top module:  \ibex_load_store_unit
+
+4.1.2. Analyzing design hierarchy..
+Top module:  \ibex_load_store_unit
+Removing unused module `\prim_secded_inv_39_32_enc'.
+Removing unused module `\prim_secded_inv_39_32_dec'.
+Removed 2 unused modules.
+
+4.2. Executing PROC pass (convert processes to netlists).
+
+4.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:252$842'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:220$834'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:208$829'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:196$824'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:184$823'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:148$815'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:100$812'.
+Cleaned up 7 empty switches.
+
+4.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$gate.v:383$901 in module ibex_load_store_unit.
+Marked 1 switch rules as full_case in process $proc$gate.v:335$863 in module ibex_load_store_unit.
+Marked 7 switch rules as full_case in process $proc$gate.v:252$842 in module ibex_load_store_unit.
+Removed 1 dead cases from process $proc$gate.v:220$834 in module ibex_load_store_unit.
+Removed 1 dead cases from process $proc$gate.v:208$829 in module ibex_load_store_unit.
+Removed 1 dead cases from process $proc$gate.v:196$824 in module ibex_load_store_unit.
+Removed 1 dead cases from process $proc$gate.v:184$823 in module ibex_load_store_unit.
+Marked 1 switch rules as full_case in process $proc$gate.v:179$821 in module ibex_load_store_unit.
+Marked 1 switch rules as full_case in process $proc$gate.v:165$818 in module ibex_load_store_unit.
+Marked 1 switch rules as full_case in process $proc$gate.v:160$816 in module ibex_load_store_unit.
+Removed 1 dead cases from process $proc$gate.v:148$815 in module ibex_load_store_unit.
+Removed 5 dead cases from process $proc$gate.v:100$812 in module ibex_load_store_unit.
+Marked 2 switch rules as full_case in process $proc$gate.v:100$812 in module ibex_load_store_unit.
+Removed a total of 10 dead cases.
+
+4.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 6 redundant assignments.
+Promoted 18 assignments to connections.
+
+4.2.4. Executing PROC_INIT pass (extract init attributes).
+
+4.2.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_ni in `\ibex_load_store_unit.$proc$gate.v:383$901'.
+Found async reset \rst_ni in `\ibex_load_store_unit.$proc$gate.v:335$863'.
+Found async reset \rst_ni in `\ibex_load_store_unit.$proc$gate.v:179$821'.
+Found async reset \rst_ni in `\ibex_load_store_unit.$proc$gate.v:165$818'.
+Found async reset \rst_ni in `\ibex_load_store_unit.$proc$gate.v:160$816'.
+
+4.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~23 debug messages>
+
+4.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:416$921'.
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:383$901'.
+     1/2: $0\fcov_mis_bus_err_1_q[0:0]
+     2/2: $0\fcov_mis_2_en_q[0:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:335$863'.
+     1/4: $0\lsu_err_q[0:0]
+     2/4: $0\pmp_err_q[0:0]
+     3/4: $0\handle_misaligned_q[0:0]
+     4/4: $0\ls_fsm_cs[2:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:252$842'.
+     1/45: $8\ls_fsm_ns[2:0]
+     2/45: $3\rdata_update[0:0]
+     3/45: $7\addr_update[0:0]
+     4/45: $4\lsu_err_d[0:0]
+     5/45: $4\pmp_err_d[0:0]
+     6/45: $7\handle_misaligned_d[0:0]
+     7/45: $7\ls_fsm_ns[2:0]
+     8/45: $6\addr_update[0:0]
+     9/45: $5\ctrl_update[0:0]
+    10/45: $6\handle_misaligned_d[0:0]
+    11/45: $6\ls_fsm_ns[2:0]
+    12/45: $5\handle_misaligned_d[0:0]
+    13/45: $5\addr_update[0:0]
+    14/45: $5\ls_fsm_ns[2:0]
+    15/45: $2\rdata_update[0:0]
+    16/45: $3\lsu_err_d[0:0]
+    17/45: $3\pmp_err_d[0:0]
+    18/45: $4\ls_fsm_ns[2:0]
+    19/45: $4\handle_misaligned_d[0:0]
+    20/45: $4\ctrl_update[0:0]
+    21/45: $4\addr_update[0:0]
+    22/45: $3\ls_fsm_ns[2:0]
+    23/45: $3\handle_misaligned_d[0:0]
+    24/45: $3\addr_update[0:0]
+    25/45: $3\ctrl_update[0:0]
+    26/45: $2\ls_fsm_ns[2:0]
+    27/45: $2\handle_misaligned_d[0:0]
+    28/45: $2\ctrl_update[0:0]
+    29/45: $2\addr_update[0:0]
+    30/45: $2\perf_store_o[0:0]
+    31/45: $2\perf_load_o[0:0]
+    32/45: $2\lsu_err_d[0:0]
+    33/45: $2\pmp_err_d[0:0]
+    34/45: $2\data_req_o[0:0]
+    35/45: $1\ls_fsm_ns[2:0]
+    36/45: $1\lsu_err_d[0:0]
+    37/45: $1\pmp_err_d[0:0]
+    38/45: $1\handle_misaligned_d[0:0]
+    39/45: $1\ctrl_update[0:0]
+    40/45: $1\addr_update[0:0]
+    41/45: $1\perf_store_o[0:0]
+    42/45: $1\perf_load_o[0:0]
+    43/45: $1\data_req_o[0:0]
+    44/45: $1\rdata_update[0:0]
+    45/45: $1\addr_incr_req_o[0:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:220$834'.
+     1/1: $1\data_rdata_ext[31:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:208$829'.
+     1/1: $1\rdata_b_ext[31:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:196$824'.
+     1/1: $1\rdata_h_ext[31:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:184$823'.
+     1/1: $1\rdata_w_ext[31:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:179$821'.
+     1/1: $0\addr_last_q[31:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:165$818'.
+     1/4: $0\data_we_q[0:0]
+     2/4: $0\data_sign_ext_q[0:0]
+     3/4: $0\data_type_q[1:0]
+     4/4: $0\rdata_offset_q[1:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:160$816'.
+     1/1: $0\rdata_q[23:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:148$815'.
+     1/1: $1\data_wdata[31:0]
+Creating decoders for process `\ibex_load_store_unit.$proc$gate.v:100$812'.
+     1/7: $7\data_be[3:0]
+     2/7: $6\data_be[3:0]
+     3/7: $5\data_be[3:0]
+     4/7: $4\data_be[3:0]
+     5/7: $3\data_be[3:0]
+     6/7: $2\data_be[3:0]
+     7/7: $1\data_be[3:0]
+
+4.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\ibex_load_store_unit.\_sv2v_0' from process `\ibex_load_store_unit.$proc$gate.v:416$921'.
+No latch inferred for signal `\ibex_load_store_unit.\data_req_o' from process `\ibex_load_store_unit.$proc$gate.v:252$842'.
+No latch inferred for signal `\ibex_load_store_unit.\addr_incr_req_o' from process `\ibex_load_store_unit.$proc$gate.v:252$842'.
+No latch inferred for signal `\ibex_load_store_unit.\perf_load_o' from process `\ibex_load_store_unit.$proc$gate.v:252$842'.
+No latch inferred for signal `\ibex_load_store_unit.\perf_store_o' from process `\ibex_load_store_unit.$proc$gate.v:252$842'.
+No latch inferred for signal `\ibex_load_store_unit.\addr_update' from process `\ibex_load_store_unit.$proc$gate.v:252$842'.
+No latch inferred for signal `\ibex_load_store_unit.\ctrl_update' from process `\ibex_load_store_unit.$proc$gate.v:252$842'.
+No latch inferred for signal `\ibex_load_store_unit.\rdata_update' from process `\ibex_load_store_unit.$proc$gate.v:252$842'.
+No latch inferred for signal `\ibex_load_store_unit.\handle_misaligned_d' from process `\ibex_load_store_unit.$proc$gate.v:252$842'.
+No latch inferred for signal `\ibex_load_store_unit.\pmp_err_d' from process `\ibex_load_store_unit.$proc$gate.v:252$842'.
+No latch inferred for signal `\ibex_load_store_unit.\lsu_err_d' from process `\ibex_load_store_unit.$proc$gate.v:252$842'.
+No latch inferred for signal `\ibex_load_store_unit.\ls_fsm_ns' from process `\ibex_load_store_unit.$proc$gate.v:252$842'.
+No latch inferred for signal `\ibex_load_store_unit.\data_rdata_ext' from process `\ibex_load_store_unit.$proc$gate.v:220$834'.
+No latch inferred for signal `\ibex_load_store_unit.\rdata_b_ext' from process `\ibex_load_store_unit.$proc$gate.v:208$829'.
+No latch inferred for signal `\ibex_load_store_unit.\rdata_h_ext' from process `\ibex_load_store_unit.$proc$gate.v:196$824'.
+No latch inferred for signal `\ibex_load_store_unit.\rdata_w_ext' from process `\ibex_load_store_unit.$proc$gate.v:184$823'.
+No latch inferred for signal `\ibex_load_store_unit.\data_wdata' from process `\ibex_load_store_unit.$proc$gate.v:148$815'.
+No latch inferred for signal `\ibex_load_store_unit.\data_be' from process `\ibex_load_store_unit.$proc$gate.v:100$812'.
+
+4.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\ibex_load_store_unit.\fcov_mis_2_en_q' using process `\ibex_load_store_unit.$proc$gate.v:383$901'.
+  created $adff cell `$procdff$1505' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\fcov_mis_bus_err_1_q' using process `\ibex_load_store_unit.$proc$gate.v:383$901'.
+  created $adff cell `$procdff$1510' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\handle_misaligned_q' using process `\ibex_load_store_unit.$proc$gate.v:335$863'.
+  created $adff cell `$procdff$1515' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\pmp_err_q' using process `\ibex_load_store_unit.$proc$gate.v:335$863'.
+  created $adff cell `$procdff$1520' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\lsu_err_q' using process `\ibex_load_store_unit.$proc$gate.v:335$863'.
+  created $adff cell `$procdff$1525' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\ls_fsm_cs' using process `\ibex_load_store_unit.$proc$gate.v:335$863'.
+  created $adff cell `$procdff$1530' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\addr_last_q' using process `\ibex_load_store_unit.$proc$gate.v:179$821'.
+  created $adff cell `$procdff$1535' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\rdata_offset_q' using process `\ibex_load_store_unit.$proc$gate.v:165$818'.
+  created $adff cell `$procdff$1540' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\data_type_q' using process `\ibex_load_store_unit.$proc$gate.v:165$818'.
+  created $adff cell `$procdff$1545' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\data_sign_ext_q' using process `\ibex_load_store_unit.$proc$gate.v:165$818'.
+  created $adff cell `$procdff$1550' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\data_we_q' using process `\ibex_load_store_unit.$proc$gate.v:165$818'.
+  created $adff cell `$procdff$1555' with positive edge clock and positive level reset.
+Creating register for signal `\ibex_load_store_unit.\rdata_q' using process `\ibex_load_store_unit.$proc$gate.v:160$816'.
+  created $adff cell `$procdff$1560' with positive edge clock and positive level reset.
+
+4.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+4.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `ibex_load_store_unit.$proc$gate.v:416$921'.
+Removing empty process `ibex_load_store_unit.$proc$gate.v:383$901'.
+Removing empty process `ibex_load_store_unit.$proc$gate.v:335$863'.
+Found and cleaned up 8 empty switches in `\ibex_load_store_unit.$proc$gate.v:252$842'.
+Removing empty process `ibex_load_store_unit.$proc$gate.v:252$842'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:220$834'.
+Removing empty process `ibex_load_store_unit.$proc$gate.v:220$834'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:208$829'.
+Removing empty process `ibex_load_store_unit.$proc$gate.v:208$829'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:196$824'.
+Removing empty process `ibex_load_store_unit.$proc$gate.v:196$824'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:184$823'.
+Removing empty process `ibex_load_store_unit.$proc$gate.v:184$823'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:179$821'.
+Removing empty process `ibex_load_store_unit.$proc$gate.v:179$821'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:165$818'.
+Removing empty process `ibex_load_store_unit.$proc$gate.v:165$818'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:160$816'.
+Removing empty process `ibex_load_store_unit.$proc$gate.v:160$816'.
+Found and cleaned up 1 empty switch in `\ibex_load_store_unit.$proc$gate.v:148$815'.
+Removing empty process `ibex_load_store_unit.$proc$gate.v:148$815'.
+Found and cleaned up 7 empty switches in `\ibex_load_store_unit.$proc$gate.v:100$812'.
+Removing empty process `ibex_load_store_unit.$proc$gate.v:100$812'.
+Cleaned up 23 empty switches.
+
+4.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+<suppressed ~79 debug messages>
+
+4.3. Executing FUTURE pass.
+
+4.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+
+4.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_load_store_unit..
+Removed 52 unused cells and 250 unused wires.
+<suppressed ~71 debug messages>
+
+4.6. Executing CHECK pass (checking for obvious problems).
+Checking module ibex_load_store_unit...
+Found and reported 0 problems.
+
+4.7. Executing OPT pass (performing simple optimizations).
+
+4.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+
+4.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_load_store_unit'.
+Computing hashes of 293 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Computing hashes of 184 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Computing hashes of 183 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+<suppressed ~330 debug messages>
+Removed a total of 110 cells.
+
+4.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_load_store_unit..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$1257.
+    dead port 2/2 on $mux $procmux$1247.
+    dead port 2/2 on $mux $procmux$1245.
+    dead port 2/2 on $mux $procmux$1234.
+    dead port 2/2 on $mux $procmux$1232.
+    dead port 2/2 on $mux $procmux$1221.
+    dead port 2/2 on $mux $procmux$1219.
+    dead port 2/2 on $mux $procmux$1208.
+    dead port 2/2 on $mux $procmux$1206.
+    dead port 2/2 on $mux $procmux$1195.
+    dead port 2/2 on $mux $procmux$1186.
+    dead port 2/2 on $mux $procmux$1177.
+    dead port 2/2 on $mux $procmux$1168.
+    dead port 2/2 on $mux $procmux$1159.
+    dead port 2/2 on $mux $procmux$1151.
+    dead port 2/2 on $mux $procmux$1143.
+    dead port 2/2 on $mux $procmux$1135.
+    dead port 2/2 on $mux $procmux$1127.
+    dead port 2/2 on $mux $procmux$1119.
+    dead port 2/2 on $mux $procmux$1111.
+    dead port 1/2 on $mux $procmux$1109.
+    dead port 2/2 on $mux $procmux$1100.
+    dead port 1/2 on $mux $procmux$1098.
+    dead port 2/2 on $mux $procmux$1089.
+    dead port 2/2 on $mux $procmux$1082.
+    dead port 2/2 on $mux $procmux$1075.
+    dead port 2/2 on $mux $procmux$1068.
+    dead port 2/2 on $mux $procmux$1061.
+    dead port 2/2 on $mux $procmux$1055.
+    dead port 2/2 on $mux $procmux$1049.
+    dead port 2/2 on $mux $procmux$1043.
+    dead port 2/2 on $mux $procmux$1037.
+    dead port 2/2 on $mux $procmux$1495.
+    dead port 2/2 on $mux $procmux$1488.
+    dead port 2/2 on $mux $procmux$1447.
+    dead port 1/2 on $mux $procmux$1486.
+    dead port 2/2 on $mux $procmux$1476.
+    dead port 2/2 on $mux $procmux$1474.
+    dead port 2/2 on $mux $procmux$1337.
+    dead port 2/2 on $mux $procmux$1464.
+    dead port 2/2 on $mux $procmux$1327.
+    dead port 2/2 on $mux $procmux$1317.
+    dead port 2/2 on $mux $procmux$1307.
+    dead port 2/2 on $mux $procmux$1297.
+    dead port 2/2 on $mux $procmux$1287.
+    dead port 2/2 on $mux $procmux$1267.
+    dead port 2/2 on $mux $procmux$1277.
+    dead port 2/2 on $mux $procmux$1458.
+    dead port 1/2 on $mux $procmux$1456.
+Removed 49 multiplexer ports.
+<suppressed ~136 debug messages>
+
+4.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_load_store_unit.
+    New ctrl vector for $pmux cell $procmux$1392: { $auto$opt_reduce.cc:135:opt_pmux$1562 $procmux$1396_CMP }
+    New ctrl vector for $pmux cell $procmux$1402: { $auto$opt_reduce.cc:135:opt_pmux$1564 $procmux$1404_CMP }
+  Optimizing cells in module \ibex_load_store_unit.
+Performed a total of 2 changes.
+
+4.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_load_store_unit'.
+Computing hashes of 136 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Computing hashes of 133 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Computing hashes of 132 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+<suppressed ~12 debug messages>
+Removed a total of 4 cells.
+
+4.7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_load_store_unit..
+Removed 0 unused cells and 162 unused wires.
+<suppressed ~1 debug messages>
+
+4.7.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+
+4.7.8. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.7.9. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_load_store_unit..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~92 debug messages>
+
+4.7.10. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_load_store_unit.
+    New ctrl vector for $pmux cell $procmux$1365: { $auto$opt_reduce.cc:135:opt_pmux$1566 $eq$gate.v:349$868_Y }
+  Optimizing cells in module \ibex_load_store_unit.
+Performed a total of 1 changes.
+
+4.7.11. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_load_store_unit'.
+Computing hashes of 133 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Removed a total of 0 cells.
+
+4.7.12. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_load_store_unit..
+
+4.7.13. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+
+4.7.14. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.7.15. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_load_store_unit..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~91 debug messages>
+
+4.7.16. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_load_store_unit.
+Performed a total of 0 changes.
+
+4.7.17. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_load_store_unit'.
+Computing hashes of 133 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Removed a total of 0 cells.
+
+4.7.18. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_load_store_unit..
+
+4.7.19. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+
+4.7.20. Finished fast OPT passes. (There is nothing left to do.)
+
+4.8. Executing WREDUCE pass (reducing word size of cells).
+Removed top 1 bits (of 2) from port B of cell ibex_load_store_unit.$procmux$1423_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell ibex_load_store_unit.$procmux$1408_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell ibex_load_store_unit.$procmux$1405_CMP0 ($eq).
+Removed top 1 bits (of 3) from port B of cell ibex_load_store_unit.$procmux$1404_CMP0 ($eq).
+Removed top 2 bits (of 3) from port B of cell ibex_load_store_unit.$procmux$1395_CMP0 ($eq).
+Removed top 1 bits (of 3) from mux cell ibex_load_store_unit.$ternary$gate.v:302$850 ($mux).
+Removed top 1 bits (of 3) from mux cell ibex_load_store_unit.$ternary$gate.v:283$845 ($mux).
+Removed top 1 bits (of 3) from mux cell ibex_load_store_unit.$ternary$gate.v:280$844 ($mux).
+Removed top 30 bits (of 32) from mux cell ibex_load_store_unit.$ternary$gate.v:178$820 ($mux).
+Removed top 1 bits (of 2) from port B of cell ibex_load_store_unit.$procmux$1445_CMP0 ($eq).
+Removed top 1 bits (of 2) from port B of cell ibex_load_store_unit.$procmux$1499_CMP0 ($eq).
+Removed top 1 bits (of 3) from wire ibex_load_store_unit.$ternary$gate.v:302$850_Y.
+Removed top 1 bits (of 3) from wire ibex_load_store_unit.$ternary$gate.v:283$845_Y.
+Removed top 1 bits (of 3) from wire ibex_load_store_unit.$ternary$gate.v:280$844_Y.
+
+4.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_load_store_unit..
+Removed 0 unused cells and 3 unused wires.
+<suppressed ~1 debug messages>
+
+4.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+4.11. Executing OPT pass (performing simple optimizations).
+
+4.11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_load_store_unit.
+
+4.11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_load_store_unit'.
+Computing hashes of 133 cells of `\ibex_load_store_unit'.
+Finding duplicate cells in `\ibex_load_store_unit'.
+Removed a total of 0 cells.
+
+4.11.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_load_store_unit..
+
+4.11.4. Finished fast OPT passes.
+
+4.12. Executing SORT pass.
+
+4.13. Printing statistics.
+
+=== ibex_load_store_unit ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      157 wires
+      786 wire bits
+       62 public wires
+      595 public wire bits
+       31 ports
+      252 port bits
+      133 cells
+       10   $adff
+       14   $and
+       16   $eq
+        2   $logic_and
+        6   $logic_not
+        3   $logic_or
+       44   $mux
+        7   $not
+        5   $or
+       19   $pmux
+        2   $reduce_bool
+        5   $reduce_or
+
+4.14. Executing CHECK pass (checking for obvious problems).
+Checking module ibex_load_store_unit...
+Found and reported 0 problems.
+
+5. Executing EQUIV_MAKE pass (creating equiv checking module).
+Presumably equivalent wires: _sv2v_0_gold (1'0), _sv2v_0_gate (1'0) -> _sv2v_0
+Presumably equivalent wires: adder_result_ex_i_gold (\adder_result_ex_i_gold), adder_result_ex_i_gate (\adder_result_ex_i_gate) -> adder_result_ex_i
+Presumably equivalent wires: addr_incr_req_o_gold (\addr_incr_req_o_gold), addr_incr_req_o_gate (\addr_incr_req_o_gate) -> addr_incr_req_o
+Presumably equivalent wires: addr_last_d_gold ({ \adder_result_ex_i_gold [31:2] \addr_last_d_gold [1:0] }), addr_last_d_gate ({ \adder_result_ex_i_gate [31:2] \addr_last_d_gate [1:0] }) -> addr_last_d
+Presumably equivalent wires: addr_last_o_gold (\addr_last_q_gold), addr_last_o_gate (\addr_last_q_gate) -> addr_last_o
+Presumably equivalent wires: addr_last_q_gold (\addr_last_q_gold), addr_last_q_gate (\addr_last_q_gate) -> addr_last_q
+Presumably equivalent wires: addr_update_gold (\addr_update_gold), addr_update_gate (\addr_update_gate) -> addr_update
+Presumably equivalent wires: busy_o_gold (\busy_o_gold), busy_o_gate (\busy_o_gate) -> busy_o
+Presumably equivalent wires: clk_i_gold (\clk_i_gold), clk_i_gate (\clk_i_gate) -> clk_i
+Presumably equivalent wires: ctrl_update_gold (\ctrl_update_gold), ctrl_update_gate (\ctrl_update_gate) -> ctrl_update
+Presumably equivalent wires: data_addr_gold (\adder_result_ex_i_gold), data_addr_gate (\adder_result_ex_i_gate) -> data_addr
+Presumably equivalent wires: data_addr_o_gold ({ \adder_result_ex_i_gold [31:2] 2'00 }), data_addr_o_gate ({ \adder_result_ex_i_gate [31:2] 2'00 }) -> data_addr_o
+Presumably equivalent wires: data_addr_w_aligned_gold ({ \adder_result_ex_i_gold [31:2] 2'00 }), data_addr_w_aligned_gate ({ \adder_result_ex_i_gate [31:2] 2'00 }) -> data_addr_w_aligned
+Presumably equivalent wires: data_be_gold (\data_be_o_gold), data_be_gate (\data_be_o_gate) -> data_be
+Presumably equivalent wires: data_be_o_gold (\data_be_o_gold), data_be_o_gate (\data_be_o_gate) -> data_be_o
+Presumably equivalent wires: data_bus_err_i_gold (\data_bus_err_i_gold), data_bus_err_i_gate (\data_bus_err_i_gate) -> data_bus_err_i
+Presumably equivalent wires: data_gnt_i_gold (\data_gnt_i_gold), data_gnt_i_gate (\data_gnt_i_gate) -> data_gnt_i
+Presumably equivalent wires: data_intg_err_gold (1'0), data_intg_err_gate (1'0) -> data_intg_err
+Presumably equivalent wires: data_offset_gold (\adder_result_ex_i_gold [1:0]), data_offset_gate (\adder_result_ex_i_gate [1:0]) -> data_offset
+Presumably equivalent wires: data_or_pmp_err_gold (\data_or_pmp_err_gold), data_or_pmp_err_gate (\data_or_pmp_err_gate) -> data_or_pmp_err
+Presumably equivalent wires: data_pmp_err_i_gold (\data_pmp_err_i_gold), data_pmp_err_i_gate (\data_pmp_err_i_gate) -> data_pmp_err_i
+Presumably equivalent wires: data_rdata_ext_gold (\lsu_rdata_o_gold), data_rdata_ext_gate (\lsu_rdata_o_gate) -> data_rdata_ext
+Presumably equivalent wires: data_rdata_i_gold (\data_rdata_i_gold), data_rdata_i_gate (\data_rdata_i_gate) -> data_rdata_i
+Presumably equivalent wires: data_req_o_gold (\data_req_o_gold), data_req_o_gate (\data_req_o_gate) -> data_req_o
+Presumably equivalent wires: data_rvalid_i_gold (\data_rvalid_i_gold), data_rvalid_i_gate (\data_rvalid_i_gate) -> data_rvalid_i
+Presumably equivalent wires: data_sign_ext_q_gold (\data_sign_ext_q_gold), data_sign_ext_q_gate (\data_sign_ext_q_gate) -> data_sign_ext_q
+Presumably equivalent wires: data_type_q_gold (\data_type_q_gold), data_type_q_gate (\data_type_q_gate) -> data_type_q
+Presumably equivalent wires: data_wdata_gold (\data_wdata_o_gold), data_wdata_gate (\data_wdata_o_gate) -> data_wdata
+Presumably equivalent wires: data_wdata_o_gold (\data_wdata_o_gold), data_wdata_o_gate (\data_wdata_o_gate) -> data_wdata_o
+Presumably equivalent wires: data_we_o_gold (\lsu_we_i_gold), data_we_o_gate (\lsu_we_i_gate) -> data_we_o
+Presumably equivalent wires: data_we_q_gold (\data_we_q_gold), data_we_q_gate (\data_we_q_gate) -> data_we_q
+Presumably equivalent wires: handle_misaligned_d_gold (\handle_misaligned_d_gold), handle_misaligned_d_gate (\handle_misaligned_d_gate) -> handle_misaligned_d
+Presumably equivalent wires: handle_misaligned_q_gold (\handle_misaligned_q_gold), handle_misaligned_q_gate (\handle_misaligned_q_gate) -> handle_misaligned_q
+Presumably equivalent wires: load_err_o_gold (\load_err_o_gold), load_err_o_gate (\load_err_o_gate) -> load_err_o
+Presumably equivalent wires: load_resp_intg_err_o_gold (1'0), load_resp_intg_err_o_gate (1'0) -> load_resp_intg_err_o
+Presumably equivalent wires: ls_fsm_cs_gold (\ls_fsm_cs_gold), ls_fsm_cs_gate (\ls_fsm_cs_gate) -> ls_fsm_cs
+Presumably equivalent wires: ls_fsm_ns_gold (\ls_fsm_ns_gold), ls_fsm_ns_gate (\ls_fsm_ns_gate) -> ls_fsm_ns
+Presumably equivalent wires: lsu_err_d_gold (\lsu_err_d_gold), lsu_err_d_gate (\lsu_err_d_gate) -> lsu_err_d
+Presumably equivalent wires: lsu_err_q_gold (\lsu_err_q_gold), lsu_err_q_gate (\lsu_err_q_gate) -> lsu_err_q
+Presumably equivalent wires: lsu_rdata_o_gold (\lsu_rdata_o_gold), lsu_rdata_o_gate (\lsu_rdata_o_gate) -> lsu_rdata_o
+Presumably equivalent wires: lsu_rdata_valid_o_gold (\lsu_rdata_valid_o_gold), lsu_rdata_valid_o_gate (\lsu_rdata_valid_o_gate) -> lsu_rdata_valid_o
+Presumably equivalent wires: lsu_req_done_o_gold (\lsu_req_done_o_gold), lsu_req_done_o_gate (\lsu_req_done_o_gate) -> lsu_req_done_o
+Presumably equivalent wires: lsu_req_i_gold (\lsu_req_i_gold), lsu_req_i_gate (\lsu_req_i_gate) -> lsu_req_i
+Presumably equivalent wires: lsu_resp_valid_o_gold (\lsu_resp_valid_o_gold), lsu_resp_valid_o_gate (\lsu_resp_valid_o_gate) -> lsu_resp_valid_o
+Presumably equivalent wires: lsu_sign_ext_i_gold (\lsu_sign_ext_i_gold), lsu_sign_ext_i_gate (\lsu_sign_ext_i_gate) -> lsu_sign_ext_i
+Presumably equivalent wires: lsu_type_i_gold (\lsu_type_i_gold), lsu_type_i_gate (\lsu_type_i_gate) -> lsu_type_i
+Presumably equivalent wires: lsu_wdata_i_gold (\lsu_wdata_i_gold), lsu_wdata_i_gate (\lsu_wdata_i_gate) -> lsu_wdata_i
+Presumably equivalent wires: lsu_we_i_gold (\lsu_we_i_gold), lsu_we_i_gate (\lsu_we_i_gate) -> lsu_we_i
+Presumably equivalent wires: perf_load_o_gold (\perf_load_o_gold), perf_load_o_gate (\perf_load_o_gate) -> perf_load_o
+Presumably equivalent wires: perf_store_o_gold (\perf_store_o_gold), perf_store_o_gate (\perf_store_o_gate) -> perf_store_o
+Presumably equivalent wires: pmp_err_d_gold (\pmp_err_d_gold), pmp_err_d_gate (\pmp_err_d_gate) -> pmp_err_d
+Presumably equivalent wires: pmp_err_q_gold (\pmp_err_q_gold), pmp_err_q_gate (\pmp_err_q_gate) -> pmp_err_q
+Presumably equivalent wires: rdata_b_ext_gold (\rdata_b_ext_gold), rdata_b_ext_gate (\rdata_b_ext_gate) -> rdata_b_ext
+Presumably equivalent wires: rdata_h_ext_gold (\rdata_h_ext_gold), rdata_h_ext_gate (\rdata_h_ext_gate) -> rdata_h_ext
+Presumably equivalent wires: rdata_offset_q_gold (\rdata_offset_q_gold), rdata_offset_q_gate (\rdata_offset_q_gate) -> rdata_offset_q
+Presumably equivalent wires: rdata_q_gold (\rdata_q_gold), rdata_q_gate (\rdata_q_gate) -> rdata_q
+Presumably equivalent wires: rdata_update_gold (\rdata_update_gold), rdata_update_gate (\rdata_update_gate) -> rdata_update
+Presumably equivalent wires: rdata_w_ext_gold (\rdata_w_ext_gold), rdata_w_ext_gate (\rdata_w_ext_gate) -> rdata_w_ext
+Presumably equivalent wires: rst_ni_gold (\rst_ni_gold), rst_ni_gate (\rst_ni_gate) -> rst_ni
+Presumably equivalent wires: split_misaligned_access_gold (\split_misaligned_access_gold), split_misaligned_access_gate (\split_misaligned_access_gate) -> split_misaligned_access
+Presumably equivalent wires: store_err_o_gold (\store_err_o_gold), store_err_o_gate (\store_err_o_gate) -> store_err_o
+Presumably equivalent wires: store_resp_intg_err_o_gold (1'0), store_resp_intg_err_o_gate (1'0) -> store_resp_intg_err_o
+Changing input A of cell $and$gate.v:214$831_gate ($and): \data_sign_ext_q_gate -> \data_sign_ext_q
+Changing input A of cell $and$gate.v:215$832_gate ($and): \data_sign_ext_q_gate -> \data_sign_ext_q
+Changing input A of cell $and$gate.v:216$833_gate ($and): \data_sign_ext_q_gate -> \data_sign_ext_q
+Changing input A of cell $and$gate.v:368$879_gate ($and): \data_or_pmp_err_gate -> \data_or_pmp_err
+Changing input B of cell $and$gate.v:368$880_gate ($and): \lsu_resp_valid_o_gate -> \lsu_resp_valid_o
+Changing input A of cell $and$gate.v:369$881_gate ($and): \data_or_pmp_err_gate -> \data_or_pmp_err
+Changing input B of cell $and$gate.v:369$881_gate ($and): \data_we_q_gate -> \data_we_q
+Changing input B of cell $and$gate.v:369$882_gate ($and): \lsu_resp_valid_o_gate -> \lsu_resp_valid_o
+Changing input A of cell $eq$gate.v:334$861_gate ($logic_not): \ls_fsm_ns_gate -> \ls_fsm_ns
+Changing input B of cell $logic_or$gate.v:298$847_gate ($logic_or): \pmp_err_q_gate -> \pmp_err_q
+Changing input B of cell $logic_or$gate.v:314$855_gate ($logic_or): \pmp_err_q_gate -> \pmp_err_q
+Changing input A of cell $ne$gate.v:372$888_gate ($reduce_bool): \ls_fsm_cs_gate -> \ls_fsm_cs
+Changing input A of cell $not$gate.v:316$856_gate ($not): \lsu_err_q_gate -> \lsu_err_q
+Changing input A of cell $not$gate.v:350$872_gate ($not): \data_or_pmp_err_gate -> \data_or_pmp_err
+Changing input A of cell $not$gate.v:368$878_gate ($not): \data_we_q_gate -> \data_we_q
+Changing input B of cell $or$gate.v:303$851_gate ($or): \pmp_err_q_gate -> \pmp_err_q
+Changing input B of cell $or$gate.v:334$860_gate ($or): \busy_o_gate -> \busy_o
+Changing input A of cell $or$gate.v:348$865_gate ($or): \lsu_err_q_gate -> \lsu_err_q
+Changing input B of cell $or$gate.v:348$866_gate ($or): \pmp_err_q_gate -> \pmp_err_q
+Changing input B of cell $or$gate.v:349$867_gate ($or): \pmp_err_q_gate -> \pmp_err_q
+Changing input D of cell $procdff$1515_gate ($adff): \handle_misaligned_d_gate -> \handle_misaligned_d
+Changing input D of cell $procdff$1520_gate ($adff): \pmp_err_d_gate -> \pmp_err_d
+Changing input D of cell $procdff$1525_gate ($adff): \lsu_err_d_gate -> \lsu_err_d
+Changing input D of cell $procdff$1530_gate ($adff): \ls_fsm_ns_gate -> \ls_fsm_ns
+Changing input A of cell $procmux$1035_gate ($mux): \ls_fsm_cs_gate -> \ls_fsm_cs
+Changing input A of cell $procmux$1053_gate ($mux): \lsu_err_q_gate -> \lsu_err_q
+Changing input A of cell $procmux$1059_gate ($mux): \pmp_err_q_gate -> \pmp_err_q
+Changing input A of cell $procmux$1066_gate ($mux): \handle_misaligned_q_gate -> \handle_misaligned_q
+Changing input A of cell $procmux$1073_gate ($mux): \ls_fsm_cs_gate -> \ls_fsm_cs
+Changing input A of cell $procmux$1095_gate ($mux): \handle_misaligned_q_gate -> \handle_misaligned_q
+Changing input A of cell $procmux$1106_gate ($mux): \ls_fsm_cs_gate -> \ls_fsm_cs
+Changing input A of cell $procmux$1149_gate ($mux): \lsu_err_q_gate -> \lsu_err_q
+Changing input A of cell $procmux$1157_gate ($mux): \pmp_err_q_gate -> \pmp_err_q
+Changing input A of cell $procmux$1166_gate ($mux): \ls_fsm_cs_gate -> \ls_fsm_cs
+Changing input A of cell $procmux$1175_gate ($mux): \handle_misaligned_q_gate -> \handle_misaligned_q
+Changing input A of cell $procmux$1217_gate ($mux): \handle_misaligned_q_gate -> \handle_misaligned_q
+Changing input B of cell $procmux$1217_gate ($mux): \split_misaligned_access_gate -> \split_misaligned_access
+Changing input A of cell $procmux$1255_gate ($mux): \ls_fsm_cs_gate -> \ls_fsm_cs
+Changing input A of cell $procmux$1265_gate ($mux): \handle_misaligned_q_gate -> \handle_misaligned_q
+Changing input A of cell $procmux$1315_gate ($mux): \lsu_err_q_gate -> \lsu_err_q
+Changing input A of cell $procmux$1347_gate ($pmux): \lsu_err_q_gate -> \lsu_err_q
+Changing input A of cell $procmux$1352_gate ($pmux): \pmp_err_q_gate -> \pmp_err_q
+Changing input A of cell $procmux$1358_gate ($pmux): \handle_misaligned_q_gate -> \handle_misaligned_q
+Changing input A of cell $procmux$1395_CMP0_gate ($eq): \ls_fsm_cs_gate -> \ls_fsm_cs
+Changing input A of cell $procmux$1396_CMP0_gate ($logic_not): \ls_fsm_cs_gate -> \ls_fsm_cs
+Changing input B of cell $procmux$1402_gate ($pmux): { 1'1 \handle_misaligned_q_gate } -> { 1'1 \handle_misaligned_q }
+Changing input A of cell $procmux$1403_CMP0_gate ($eq): \ls_fsm_cs_gate -> \ls_fsm_cs
+Changing input A of cell $procmux$1404_CMP0_gate ($eq): \ls_fsm_cs_gate -> \ls_fsm_cs
+Changing input A of cell $procmux$1405_CMP0_gate ($eq): \ls_fsm_cs_gate -> \ls_fsm_cs
+Changing input B of cell $procmux$1406_gate ($pmux): { \rdata_w_ext_gate \rdata_h_ext_gate \rdata_b_ext_gate } -> { \rdata_w_ext \rdata_h_ext \rdata_b_ext }
+Changing input A of cell $procmux$1407_CMP0_gate ($eq): \data_type_q_gate -> \data_type_q
+Changing input A of cell $procmux$1407_CMP1_gate ($eq): \data_type_q_gate -> \data_type_q
+Changing input A of cell $procmux$1408_CMP0_gate ($eq): \data_type_q_gate -> \data_type_q
+Changing input A of cell $procmux$1409_CMP0_gate ($logic_not): \data_type_q_gate -> \data_type_q
+Changing input B of cell $procmux$1415_gate ($pmux): { $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate \data_rdata_i_gate [15:0] $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate \data_rdata_i_gate [23:8] $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate \data_rdata_i_gate [31:16] $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate \data_rdata_i_gate [7:0] \rdata_q_gate [23:16] } -> { $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate $and$gate.v:201$825_Y_gate \data_rdata_i_gate [15:0] $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate $and$gate.v:202$826_Y_gate \data_rdata_i_gate [23:8] $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate $and$gate.v:203$827_Y_gate \data_rdata_i_gate [31:16] $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate $and$gate.v:204$828_Y_gate \data_rdata_i_gate [7:0] \rdata_q [23:16] }
+Changing input B of cell $procmux$1420_gate ($pmux): { \data_rdata_i_gate \data_rdata_i_gate [7:0] \rdata_q_gate \data_rdata_i_gate [15:0] \rdata_q_gate [23:8] \data_rdata_i_gate [23:0] \rdata_q_gate [23:16] } -> { \data_rdata_i_gate \data_rdata_i_gate [7:0] \rdata_q \data_rdata_i_gate [15:0] \rdata_q [23:8] \data_rdata_i_gate [23:0] \rdata_q [23:16] }
+Changing input A of cell $procmux$1421_CMP0_gate ($eq): \rdata_offset_q_gate -> \rdata_offset_q
+Changing input A of cell $procmux$1422_CMP0_gate ($eq): \rdata_offset_q_gate -> \rdata_offset_q
+Changing input A of cell $procmux$1423_CMP0_gate ($eq): \rdata_offset_q_gate -> \rdata_offset_q
+Changing input A of cell $procmux$1424_CMP0_gate ($logic_not): \rdata_offset_q_gate -> \rdata_offset_q
+Changing input A of cell $procmux$1425_gate ($mux): \addr_last_q_gate -> \addr_last_q
+Changing input B of cell $procmux$1425_gate ($mux): { \adder_result_ex_i_gate [31:2] \addr_last_d_gate [1:0] } -> { \adder_result_ex_i_gate [31:2] \addr_last_d [1:0] }
+Changing input S of cell $procmux$1425_gate ($mux): \addr_update_gate -> \addr_update
+Changing input A of cell $procmux$1427_gate ($mux): \data_we_q_gate -> \data_we_q
+Changing input S of cell $procmux$1427_gate ($mux): \ctrl_update_gate -> \ctrl_update
+Changing input A of cell $procmux$1429_gate ($mux): \data_sign_ext_q_gate -> \data_sign_ext_q
+Changing input S of cell $procmux$1429_gate ($mux): \ctrl_update_gate -> \ctrl_update
+Changing input A of cell $procmux$1431_gate ($mux): \data_type_q_gate -> \data_type_q
+Changing input S of cell $procmux$1431_gate ($mux): \ctrl_update_gate -> \ctrl_update
+Changing input A of cell $procmux$1433_gate ($mux): \rdata_offset_q_gate -> \rdata_offset_q
+Changing input S of cell $procmux$1433_gate ($mux): \ctrl_update_gate -> \ctrl_update
+Changing input A of cell $procmux$1435_gate ($mux): \rdata_q_gate -> \rdata_q
+Changing input S of cell $procmux$1435_gate ($mux): \rdata_update_gate -> \rdata_update
+Changing input S of cell $procmux$1462_gate ($mux): \handle_misaligned_q_gate -> \handle_misaligned_q
+Changing input S of cell $procmux$1493_gate ($mux): \handle_misaligned_q_gate -> \handle_misaligned_q
+Changing input S of cell $ternary$gate.v:178$820_gate ($mux): \addr_incr_req_o_gate -> \addr_incr_req_o
+Changing input S of cell $ternary$gate.v:280$844_gate ($mux): \split_misaligned_access_gate -> \split_misaligned_access
+Changing input S of cell $ternary$gate.v:283$845_gate ($mux): \split_misaligned_access_gate -> \split_misaligned_access
+Changing input A of cell $and$gate.v:213$830_gate ($and): \data_sign_ext_q_gate -> \data_sign_ext_q
+Changing input A of cell $and$gold.v:400$68_gold ($and): \data_or_pmp_err_gold -> \data_or_pmp_err
+Changing input B of cell $and$gold.v:400$69_gold ($and): \lsu_resp_valid_o_gold -> \lsu_resp_valid_o
+Changing input A of cell $and$gold.v:401$70_gold ($and): \data_or_pmp_err_gold -> \data_or_pmp_err
+Changing input B of cell $and$gold.v:401$70_gold ($and): \data_we_q_gold -> \data_we_q
+Changing input B of cell $and$gold.v:401$71_gold ($and): \lsu_resp_valid_o_gold -> \lsu_resp_valid_o
+Changing input A of cell $eq$gold.v:366$50_gold ($logic_not): \ls_fsm_ns_gold -> \ls_fsm_ns
+Changing input B of cell $logic_or$gold.v:330$36_gold ($logic_or): \pmp_err_q_gold -> \pmp_err_q
+Changing input B of cell $logic_or$gold.v:346$44_gold ($logic_or): \pmp_err_q_gold -> \pmp_err_q
+Changing input A of cell $ne$gold.v:404$77_gold ($reduce_bool): \ls_fsm_cs_gold -> \ls_fsm_cs
+Changing input A of cell $not$gold.v:348$45_gold ($not): \lsu_err_q_gold -> \lsu_err_q
+Changing input A of cell $not$gold.v:382$61_gold ($not): \data_or_pmp_err_gold -> \data_or_pmp_err
+Changing input A of cell $not$gold.v:400$67_gold ($not): \data_we_q_gold -> \data_we_q
+Changing input B of cell $or$gold.v:335$40_gold ($or): \pmp_err_q_gold -> \pmp_err_q
+Changing input B of cell $or$gold.v:366$49_gold ($or): \busy_o_gold -> \busy_o
+Changing input A of cell $or$gold.v:380$54_gold ($or): \lsu_err_q_gold -> \lsu_err_q
+Changing input B of cell $or$gold.v:380$55_gold ($or): \pmp_err_q_gold -> \pmp_err_q
+Changing input B of cell $or$gold.v:381$56_gold ($or): \pmp_err_q_gold -> \pmp_err_q
+Changing input D of cell $procdff$756_gold ($adff): \handle_misaligned_d_gold -> \handle_misaligned_d
+Changing input D of cell $procdff$761_gold ($adff): \pmp_err_d_gold -> \pmp_err_d
+Changing input D of cell $procdff$766_gold ($adff): \lsu_err_d_gold -> \lsu_err_d
+Changing input D of cell $procdff$771_gold ($adff): \ls_fsm_ns_gold -> \ls_fsm_ns
+Changing input A of cell $procmux$224_gold ($mux): \ls_fsm_cs_gold -> \ls_fsm_cs
+Changing input A of cell $procmux$242_gold ($mux): \lsu_err_q_gold -> \lsu_err_q
+Changing input A of cell $procmux$248_gold ($mux): \pmp_err_q_gold -> \pmp_err_q
+Changing input A of cell $procmux$255_gold ($mux): \handle_misaligned_q_gold -> \handle_misaligned_q
+Changing input A of cell $procmux$262_gold ($mux): \ls_fsm_cs_gold -> \ls_fsm_cs
+Changing input A of cell $procmux$284_gold ($mux): \handle_misaligned_q_gold -> \handle_misaligned_q
+Changing input A of cell $procmux$295_gold ($mux): \ls_fsm_cs_gold -> \ls_fsm_cs
+Changing input A of cell $procmux$338_gold ($mux): \lsu_err_q_gold -> \lsu_err_q
+Changing input A of cell $procmux$346_gold ($mux): \pmp_err_q_gold -> \pmp_err_q
+Changing input A of cell $procmux$355_gold ($mux): \ls_fsm_cs_gold -> \ls_fsm_cs
+Changing input A of cell $procmux$364_gold ($mux): \handle_misaligned_q_gold -> \handle_misaligned_q
+Changing input A of cell $procmux$406_gold ($mux): \handle_misaligned_q_gold -> \handle_misaligned_q
+Changing input B of cell $procmux$406_gold ($mux): \split_misaligned_access_gold -> \split_misaligned_access
+Changing input A of cell $procmux$444_gold ($mux): \ls_fsm_cs_gold -> \ls_fsm_cs
+Changing input A of cell $procmux$454_gold ($mux): \handle_misaligned_q_gold -> \handle_misaligned_q
+Changing input A of cell $procmux$504_gold ($mux): \lsu_err_q_gold -> \lsu_err_q
+Changing input A of cell $procmux$536_gold ($pmux): \lsu_err_q_gold -> \lsu_err_q
+Changing input A of cell $procmux$541_gold ($pmux): \pmp_err_q_gold -> \pmp_err_q
+Changing input A of cell $procmux$547_gold ($pmux): \handle_misaligned_q_gold -> \handle_misaligned_q
+Changing input A of cell $procmux$584_CMP0_gold ($eq): \ls_fsm_cs_gold -> \ls_fsm_cs
+Changing input A of cell $procmux$585_CMP0_gold ($logic_not): \ls_fsm_cs_gold -> \ls_fsm_cs
+Changing input B of cell $procmux$591_gold ($pmux): { 1'1 \handle_misaligned_q_gold } -> { 1'1 \handle_misaligned_q }
+Changing input A of cell $procmux$592_CMP0_gold ($eq): \ls_fsm_cs_gold -> \ls_fsm_cs
+Changing input A of cell $procmux$593_CMP0_gold ($eq): \ls_fsm_cs_gold -> \ls_fsm_cs
+Changing input A of cell $procmux$594_CMP0_gold ($eq): \ls_fsm_cs_gold -> \ls_fsm_cs
+Changing input B of cell $procmux$595_gold ($pmux): { \rdata_w_ext_gold \rdata_h_ext_gold \rdata_b_ext_gold } -> { \rdata_w_ext \rdata_h_ext \rdata_b_ext }
+Changing input A of cell $procmux$596_CMP0_gold ($eq): \data_type_q_gold -> \data_type_q
+Changing input A of cell $procmux$596_CMP1_gold ($eq): \data_type_q_gold -> \data_type_q
+Changing input A of cell $procmux$597_CMP0_gold ($eq): \data_type_q_gold -> \data_type_q
+Changing input A of cell $procmux$598_CMP0_gold ($logic_not): \data_type_q_gold -> \data_type_q
+Changing input S of cell $procmux$600_gold ($mux): \data_sign_ext_q_gold -> \data_sign_ext_q
+Changing input S of cell $procmux$606_gold ($mux): \data_sign_ext_q_gold -> \data_sign_ext_q
+Changing input S of cell $procmux$613_gold ($mux): \data_sign_ext_q_gold -> \data_sign_ext_q
+Changing input S of cell $procmux$621_gold ($mux): \data_sign_ext_q_gold -> \data_sign_ext_q
+Changing input A of cell $procmux$631_gold ($mux): { 16'0000000000000000 \data_rdata_i_gold [7:0] \rdata_q_gold [23:16] } -> { 16'0000000000000000 \data_rdata_i_gold [7:0] \rdata_q [23:16] }
+Changing input B of cell $procmux$631_gold ($mux): { \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7:0] \rdata_q_gold [23:16] } -> { \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7] \data_rdata_i_gold [7:0] \rdata_q [23:16] }
+Changing input S of cell $procmux$631_gold ($mux): \data_sign_ext_q_gold -> \data_sign_ext_q
+Changing input S of cell $procmux$637_gold ($mux): \data_sign_ext_q_gold -> \data_sign_ext_q
+Changing input S of cell $procmux$644_gold ($mux): \data_sign_ext_q_gold -> \data_sign_ext_q
+Changing input S of cell $procmux$652_gold ($mux): \data_sign_ext_q_gold -> \data_sign_ext_q
+Changing input B of cell $procmux$661_gold ($pmux): { \data_rdata_i_gold \data_rdata_i_gold [7:0] \rdata_q_gold \data_rdata_i_gold [15:0] \rdata_q_gold [23:8] \data_rdata_i_gold [23:0] \rdata_q_gold [23:16] } -> { \data_rdata_i_gold \data_rdata_i_gold [7:0] \rdata_q \data_rdata_i_gold [15:0] \rdata_q [23:8] \data_rdata_i_gold [23:0] \rdata_q [23:16] }
+Changing input A of cell $procmux$662_CMP0_gold ($eq): \rdata_offset_q_gold -> \rdata_offset_q
+Changing input A of cell $procmux$663_CMP0_gold ($eq): \rdata_offset_q_gold -> \rdata_offset_q
+Changing input A of cell $procmux$664_CMP0_gold ($eq): \rdata_offset_q_gold -> \rdata_offset_q
+Changing input A of cell $procmux$665_CMP0_gold ($logic_not): \rdata_offset_q_gold -> \rdata_offset_q
+Changing input A of cell $procmux$666_gold ($mux): \addr_last_q_gold -> \addr_last_q
+Changing input B of cell $procmux$666_gold ($mux): { \adder_result_ex_i_gold [31:2] \addr_last_d_gold [1:0] } -> { \adder_result_ex_i_gold [31:2] \addr_last_d [1:0] }
+Changing input S of cell $procmux$666_gold ($mux): \addr_update_gold -> \addr_update
+Changing input A of cell $procmux$668_gold ($mux): \data_we_q_gold -> \data_we_q
+Changing input S of cell $procmux$668_gold ($mux): \ctrl_update_gold -> \ctrl_update
+Changing input A of cell $procmux$670_gold ($mux): \data_sign_ext_q_gold -> \data_sign_ext_q
+Changing input S of cell $procmux$670_gold ($mux): \ctrl_update_gold -> \ctrl_update
+Changing input A of cell $procmux$672_gold ($mux): \data_type_q_gold -> \data_type_q
+Changing input S of cell $procmux$672_gold ($mux): \ctrl_update_gold -> \ctrl_update
+Changing input A of cell $procmux$674_gold ($mux): \rdata_offset_q_gold -> \rdata_offset_q
+Changing input S of cell $procmux$674_gold ($mux): \ctrl_update_gold -> \ctrl_update
+Changing input A of cell $procmux$676_gold ($mux): \rdata_q_gold -> \rdata_q
+Changing input S of cell $procmux$676_gold ($mux): \rdata_update_gold -> \rdata_update
+Changing input S of cell $procmux$703_gold ($mux): \handle_misaligned_q_gold -> \handle_misaligned_q
+Changing input S of cell $procmux$734_gold ($mux): \handle_misaligned_q_gold -> \handle_misaligned_q
+Changing input S of cell $ternary$gold.v:178$9_gold ($mux): \addr_incr_req_o_gold -> \addr_incr_req_o
+Changing input S of cell $ternary$gold.v:312$33_gold ($mux): \split_misaligned_access_gold -> \split_misaligned_access
+Changing input S of cell $ternary$gold.v:315$34_gold ($mux): \split_misaligned_access_gold -> \split_misaligned_access
+
+6. Executing HIERARCHY pass (managing design hierarchy).
+
+6.1. Analyzing design hierarchy..
+Top module:  \equiv
+
+6.2. Analyzing design hierarchy..
+Top module:  \equiv
+Removing unused module `\gate'.
+Removing unused module `\gold'.
+Removed 2 unused modules.
+
+7. Executing PROC pass (convert processes to netlists).
+
+7.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+7.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+7.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 0 assignments to connections.
+
+7.4. Executing PROC_INIT pass (extract init attributes).
+
+7.5. Executing PROC_ARST pass (detect async resets in processes).
+
+7.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+7.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+
+7.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+7.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+7.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+7.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+7.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+8. Executing ASYNC2SYNC pass.
+Replacing equiv.$procdff$1515_gate ($adff): ARST=\rst_ni_gate, D=\handle_misaligned_d, Q=\handle_misaligned_q_gate
+Replacing equiv.$procdff$1520_gate ($adff): ARST=\rst_ni_gate, D=\pmp_err_d, Q=\pmp_err_q_gate
+Replacing equiv.$procdff$1525_gate ($adff): ARST=\rst_ni_gate, D=\lsu_err_d, Q=\lsu_err_q_gate
+Replacing equiv.$procdff$1530_gate ($adff): ARST=\rst_ni_gate, D=\ls_fsm_ns, Q=\ls_fsm_cs_gate
+Replacing equiv.$procdff$1535_gate ($adff): ARST=\rst_ni_gate, D=$0\addr_last_q[31:0]_gate, Q=\addr_last_q_gate
+Replacing equiv.$procdff$1540_gate ($adff): ARST=\rst_ni_gate, D=$0\rdata_offset_q[1:0]_gate, Q=\rdata_offset_q_gate
+Replacing equiv.$procdff$1545_gate ($adff): ARST=\rst_ni_gate, D=$0\data_type_q[1:0]_gate, Q=\data_type_q_gate
+Replacing equiv.$procdff$1550_gate ($adff): ARST=\rst_ni_gate, D=$0\data_sign_ext_q[0:0]_gate, Q=\data_sign_ext_q_gate
+Replacing equiv.$procdff$1555_gate ($adff): ARST=\rst_ni_gate, D=$0\data_we_q[0:0]_gate, Q=\data_we_q_gate
+Replacing equiv.$procdff$1560_gate ($adff): ARST=\rst_ni_gate, D=$0\rdata_q[23:0]_gate, Q=\rdata_q_gate
+Replacing equiv.$procdff$756_gold ($adff): ARST=\rst_ni_gold, D=\handle_misaligned_d, Q=\handle_misaligned_q_gold
+Replacing equiv.$procdff$761_gold ($adff): ARST=\rst_ni_gold, D=\pmp_err_d, Q=\pmp_err_q_gold
+Replacing equiv.$procdff$766_gold ($adff): ARST=\rst_ni_gold, D=\lsu_err_d, Q=\lsu_err_q_gold
+Replacing equiv.$procdff$771_gold ($adff): ARST=\rst_ni_gold, D=\ls_fsm_ns, Q=\ls_fsm_cs_gold
+Replacing equiv.$procdff$776_gold ($adff): ARST=\rst_ni_gold, D=$0\addr_last_q[31:0]_gold, Q=\addr_last_q_gold
+Replacing equiv.$procdff$781_gold ($adff): ARST=\rst_ni_gold, D=$0\rdata_offset_q[1:0]_gold, Q=\rdata_offset_q_gold
+Replacing equiv.$procdff$786_gold ($adff): ARST=\rst_ni_gold, D=$0\data_type_q[1:0]_gold, Q=\data_type_q_gold
+Replacing equiv.$procdff$791_gold ($adff): ARST=\rst_ni_gold, D=$0\data_sign_ext_q[0:0]_gold, Q=\data_sign_ext_q_gold
+Replacing equiv.$procdff$796_gold ($adff): ARST=\rst_ni_gold, D=$0\data_we_q[0:0]_gold, Q=\data_we_q_gold
+Replacing equiv.$procdff$801_gold ($adff): ARST=\rst_ni_gold, D=$0\rdata_q[23:0]_gold, Q=\rdata_q_gold
+
+9. Executing OPT pass (performing simple optimizations).
+
+9.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+9.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 778 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 538 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 524 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 520 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 519 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+<suppressed ~777 debug messages>
+Removed a total of 259 cells.
+
+9.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \equiv..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~238 debug messages>
+
+9.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \equiv.
+Performed a total of 0 changes.
+
+9.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 519 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 473 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 455 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 445 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+<suppressed ~222 debug messages>
+Removed a total of 74 cells.
+
+9.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \equiv..
+Removed 2 unused cells and 99 unused wires.
+<suppressed ~3 debug messages>
+
+9.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+9.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+9.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \equiv..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~153 debug messages>
+
+9.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \equiv.
+Performed a total of 0 changes.
+
+9.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 443 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Removed a total of 0 cells.
+
+9.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \equiv..
+
+9.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+9.16. Finished fast OPT passes. (There is nothing left to do.)
+
+10. Executing EQUIV_SIMPLE pass.
+Found 67 unproven $equiv cells (3 groups) in equiv:
+ Grouping SAT models for \rdata_h_ext:
+  Trying to prove $equiv for \rdata_h_ext [0]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [1]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [2]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [3]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [4]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [5]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [6]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [7]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [8]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [9]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [10]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [11]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [12]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [13]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [14]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [15]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [16]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [17]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [18]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [19]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [20]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [21]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [22]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [23]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [24]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [25]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [26]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [27]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [28]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [29]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [30]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_h_ext [31]:ezsat
+ success!
+ Grouping SAT models for \rdata_b_ext:
+  Trying to prove $equiv for \rdata_b_ext [0]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [1]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [2]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [3]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [4]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [5]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [6]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [7]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [8]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [9]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [10]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [11]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [12]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [13]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [14]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [15]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [16]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [17]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [18]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [19]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [20]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [21]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [22]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [23]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [24]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [25]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [26]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [27]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [28]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [29]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [30]:ezsat
+ success!
+  Trying to prove $equiv for \rdata_b_ext [31]:ezsat
+ success!
+ Grouping SAT models for \ls_fsm_ns:
+  Trying to prove $equiv for \ls_fsm_ns [0]:ezsat
+ success!
+  Trying to prove $equiv for \ls_fsm_ns [1]:ezsat
+ success!
+  Trying to prove $equiv for \ls_fsm_ns [2]:ezsat
+ success!
+Proved 67 previously unproven $equiv cells.
+
+11. Executing EQUIV_INDUCT pass.
+No selected unproven $equiv cells found in equiv.
+Proved 0 previously unproven $equiv cells.
+
+12. Executing EQUIV_STATUS pass.
+Found 287 $equiv cells in equiv:
+  Of those cells 287 are proven and 0 are unproven.
+  Equivalence successfully proven!
+
+End of script. Logfile hash: 77ded002bf, time: 0.17s, user: 0.17s, system: 0.01s, MEM: 22.00 MB peak
+Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+Time spent: 18% 4x read_verilog (0 sec), 16% 14x opt_clean (0 sec), ...

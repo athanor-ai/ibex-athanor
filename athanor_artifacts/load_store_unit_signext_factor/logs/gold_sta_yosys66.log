@@ -1,0 +1,128 @@
+OpenSTA 2.2.0 02b129d48f Copyright (c) 2019, Parallax Software, Inc.
+License GPLv3: GNU GPL version 3 <http://gnu.org/licenses/gpl.html>
+
+This is free software, and you are free to change and redistribute it
+under certain conditions; type `show_copying' for details. 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show_warranty'.
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1749_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1750_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1751_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1752_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1753_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1754_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1755_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1756_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1757_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1758_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1759_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1760_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1761_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1762_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1763_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1764_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1765_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1766_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1767_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: data_gnt_i (input port clocked by clk_i)
+Endpoint: _1768_ (rising edge-triggered flip-flop clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+tns 0.00
+wns 0.00

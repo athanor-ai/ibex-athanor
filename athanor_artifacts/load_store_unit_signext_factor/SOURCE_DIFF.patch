@@ -1,0 +1,82 @@
+--- gold_source.sv
++++ gate_source.sv
+@@ -243,35 +243,19 @@
+   always_comb begin
+     unique case (rdata_offset_q)
+       2'b00: begin
+-        if (!data_sign_ext_q) begin
+-          rdata_h_ext = {16'h0000, data_rdata_i[15:0]};
+-        end else begin
+-          rdata_h_ext = {{16{data_rdata_i[15]}}, data_rdata_i[15:0]};
+-        end
++        rdata_h_ext = {{16{data_sign_ext_q & data_rdata_i[15]}}, data_rdata_i[15:0]};
+       end
+ 
+       2'b01: begin
+-        if (!data_sign_ext_q) begin
+-          rdata_h_ext = {16'h0000, data_rdata_i[23:8]};
+-        end else begin
+-          rdata_h_ext = {{16{data_rdata_i[23]}}, data_rdata_i[23:8]};
+-        end
++        rdata_h_ext = {{16{data_sign_ext_q & data_rdata_i[23]}}, data_rdata_i[23:8]};
+       end
+ 
+       2'b10: begin
+-        if (!data_sign_ext_q) begin
+-          rdata_h_ext = {16'h0000, data_rdata_i[31:16]};
+-        end else begin
+-          rdata_h_ext = {{16{data_rdata_i[31]}}, data_rdata_i[31:16]};
+-        end
++        rdata_h_ext = {{16{data_sign_ext_q & data_rdata_i[31]}}, data_rdata_i[31:16]};
+       end
+ 
+       2'b11: begin
+-        if (!data_sign_ext_q) begin
+-          rdata_h_ext = {16'h0000, data_rdata_i[7:0], rdata_q[31:24]};
+-        end else begin
+-          rdata_h_ext = {{16{data_rdata_i[7]}}, data_rdata_i[7:0], rdata_q[31:24]};
+-        end
++        rdata_h_ext = {{16{data_sign_ext_q & data_rdata_i[7]}}, data_rdata_i[7:0], rdata_q[31:24]};
+       end
+ 
+       default: rdata_h_ext = {16'h0000, data_rdata_i[15:0]};
+@@ -282,35 +266,19 @@
+   always_comb begin
+     unique case (rdata_offset_q)
+       2'b00: begin
+-        if (!data_sign_ext_q) begin
+-          rdata_b_ext = {24'h00_0000, data_rdata_i[7:0]};
+-        end else begin
+-          rdata_b_ext = {{24{data_rdata_i[7]}}, data_rdata_i[7:0]};
+-        end
++        rdata_b_ext = {{24{data_sign_ext_q & data_rdata_i[7]}}, data_rdata_i[7:0]};
+       end
+ 
+       2'b01: begin
+-        if (!data_sign_ext_q) begin
+-          rdata_b_ext = {24'h00_0000, data_rdata_i[15:8]};
+-        end else begin
+-          rdata_b_ext = {{24{data_rdata_i[15]}}, data_rdata_i[15:8]};
+-        end
++        rdata_b_ext = {{24{data_sign_ext_q & data_rdata_i[15]}}, data_rdata_i[15:8]};
+       end
+ 
+       2'b10: begin
+-        if (!data_sign_ext_q) begin
+-          rdata_b_ext = {24'h00_0000, data_rdata_i[23:16]};
+-        end else begin
+-          rdata_b_ext = {{24{data_rdata_i[23]}}, data_rdata_i[23:16]};
+-        end
++        rdata_b_ext = {{24{data_sign_ext_q & data_rdata_i[23]}}, data_rdata_i[23:16]};
+       end
+ 
+       2'b11: begin
+-        if (!data_sign_ext_q) begin
+-          rdata_b_ext = {24'h00_0000, data_rdata_i[31:24]};
+-        end else begin
+-          rdata_b_ext = {{24{data_rdata_i[31]}}, data_rdata_i[31:24]};
+-        end
++        rdata_b_ext = {{24{data_sign_ext_q & data_rdata_i[31]}}, data_rdata_i[31:24]};
+       end
+ 
+       default: rdata_b_ext = {24'h00_0000, data_rdata_i[7:0]};

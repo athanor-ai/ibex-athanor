@@ -1,0 +1,16 @@
+read_verilog gold.v
+prep -top ibex_load_store_unit
+design -stash gold
+read_verilog gate.v
+prep -top ibex_load_store_unit
+design -stash gate
+design -copy-from gold -as gold ibex_load_store_unit
+design -copy-from gate -as gate ibex_load_store_unit
+equiv_make gold gate equiv
+hierarchy -top equiv
+proc
+async2sync
+opt
+equiv_simple -seq 5
+equiv_induct -seq 32
+equiv_status -assert
