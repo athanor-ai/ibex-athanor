@@ -25,6 +25,7 @@ cell count and liberty-weighted area can move in different directions.
 | Module / transform | Status | Area result | Mapped cells | Timing result | Toggle/activity | Formal result | Evidence |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
 | `ibex_multdiv_slow` / `greater_equal_xor_shape` | **Accepted artifact** | 10339.9168 -> 10333.6608, **-0.0605%** | 1351 -> 1361, **+10 cells** | max data arrival 8.13ns -> 7.25ns, **-0.88ns / -10.82%**; WNS/TNS -0.13/-5.66 -> 0/0 | 6117 -> 6117, **0.0%** | 411/411 `$equiv` proven | [`athanor_artifacts/multdiv_slow_greater_equal_xor_shape/`](athanor_artifacts/multdiv_slow_greater_equal_xor_shape/) |
+| `ibex_multdiv_fast` / `greater_equal_xor_shape` | **Accepted artifact** | one-button cell metric flat, **0.0%** | 3306 -> 3306, **0 cells saved** | max propagation delay 10.85ns -> 10.57ns, **-0.28ns / -2.58%** | 7657 -> 7657, **0.0%** | 772/772 `$equiv` proven | [`athanor_artifacts/multdiv_fast_greater_equal_xor_shape/`](athanor_artifacts/multdiv_fast_greater_equal_xor_shape/) |
 | `ibex_if_stage` / `no_bp_prefetch_direct` | **Candidate: area + timing + formal positive, toggle pending** | 16821.1328 -> 16756.0704, **-0.3868%** | 3396 -> 3403, **+7 cells** | top data arrival 9.2829ns -> 8.9149ns, **-3.9654%**; WNS/TNS 0/0 | pending | 1956/1956 `$equiv` proven | [`athanor_artifacts/if_stage_no_bp_prefetch_direct/`](athanor_artifacts/if_stage_no_bp_prefetch_direct/) |
 | `ibex_alu` / `bwlogic_or_from_xor_and` | **Tradeoff: area positive, timing negative** | 5471.4976 -> 5122.4128, **-6.3801%** | 838 -> 788, **50 cells saved / -5.9666%** | max propagation delay 8.83ns -> 10.56ns, **+1.73ns / +19.59%** | 5977 -> 5977, **0.0%** | 1627 cells, 0 unproven | [`athanor/ppa_frontier/ibex_alu_bwlogic/`](athanor/ppa_frontier/ibex_alu_bwlogic/) |
 | `ibex_id_stage` / `no_wb_prio_assign` | **Rejected: toggle regression** | 7791.2224 -> 7741.1744, **-0.6424%** | 2268 -> 2188, **80 cells saved / -3.53%** | top data arrival 7.5917ns -> 5.5358ns, **-27.08%**; WNS/TNS 0/0 | 26137 -> 26468, **+1.27%** | 665/665 `$equiv` proven | [`athanor_artifacts/id_stage_no_wb_prio_assign/`](athanor_artifacts/id_stage_no_wb_prio_assign/) |
@@ -32,9 +33,9 @@ cell count and liberty-weighted area can move in different directions.
 
 ### What This Means
 
-- The strongest current win is `ibex_multdiv_slow`: it improves area and timing,
-  keeps toggle flat, and proves equivalence under the selected public replay
-  package.
+- The current accepted wins are the `ibex_multdiv_slow` and `ibex_multdiv_fast`
+  `greater_equal_xor_shape` rewrites. Both improve timing, keep toggle flat, and
+  prove equivalence under their stated measurement conventions.
 - The IF-stage specialization is promising, but it is not promoted until toggle
   evidence is packaged.
 - The ALU row saves area and cells but costs timing; it is useful evidence, not a

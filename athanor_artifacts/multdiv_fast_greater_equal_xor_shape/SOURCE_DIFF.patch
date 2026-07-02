@@ -1,0 +1,26 @@
+--- gold.sv
++++ gate.v
+@@ -14,7 +14,7 @@
+
+ `include "prim_assert.sv"
+
+-module ibex_multdiv_fast #(
++module ibex_multdiv_fast_gate #(
+   parameter ibex_pkg::rv32m_e RV32M = ibex_pkg::RV32MFast
+   ) (
+   input  logic             clk_i,
+@@ -395,13 +395,7 @@
+   // The adder in the ALU computes alu_operand_a_o + alu_operand_b_o which means
+   // Remainder - Divisor. If Remainder - Divisor >= 0, is_greater_equal is equal to 1,
+   // the next Remainder is Remainder - Divisor contained in res_adder_h and the
+-  always_comb begin
+-    if ((imd_val_q_i[0][31] ^ op_denominator_q[31]) == 1'b0) begin
+-      is_greater_equal = (res_adder_h[31] == 1'b0);
+-    end else begin
+-      is_greater_equal = imd_val_q_i[0][31];
+-    end
+-  end
++  assign is_greater_equal = ((imd_val_q_i[0][31] ^ op_denominator_q[31]) & imd_val_q_i[0][31]) | (~(imd_val_q_i[0][31] ^ op_denominator_q[31]) & ~res_adder_h[31]);
+
+   assign div_sign_a      = op_a_i[31] & signed_mode_i[0];
+   assign div_sign_b      = op_b_i[31] & signed_mode_i[1];

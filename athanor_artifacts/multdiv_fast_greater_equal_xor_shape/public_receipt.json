@@ -1,0 +1,38 @@
+{
+  "schema": "athanor_public_artifact_receipt_v1",
+  "module": "ibex_multdiv_fast",
+  "transform": "greater_equal_xor_shape",
+  "status": "accepted_artifact",
+  "measurement_convention": {
+    "toolchain": "OSS CAD Suite 2026-06-30; Yosys 0.66+181; OpenSTA",
+    "area": "one-button raw-SystemVerilog source-prep cell metric",
+    "timing": "combinational_max_propagation_delay",
+    "toggle": "deterministic VCD replay"
+  },
+  "area_cells": {
+    "gold": 3306,
+    "gate": 3306,
+    "delta_cells": 0,
+    "delta_pct": 0.0
+  },
+  "timing": {
+    "gold_max_delay_ns": 10.85,
+    "gate_max_delay_ns": 10.57,
+    "delta_ns": -0.28,
+    "delta_pct_from_displayed_ns": -2.58,
+    "timing_met": true,
+    "timing_verified": true
+  },
+  "toggle": {
+    "gold_toggles": 7657,
+    "gate_toggles": 7657,
+    "delta_pct": 0.0
+  },
+  "formal": {
+    "engine": "yosys_equiv_induct",
+    "proven_cells": 772,
+    "unproven_cells": 0,
+    "status": "proved"
+  },
+  "cold_replay_note": "Independent replay reproduced the source diff, area improvement, timing improvement, and formal equivalence; packaged toggle is corroborated by exact VCD equality."
+}
