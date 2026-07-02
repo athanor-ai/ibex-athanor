@@ -1,0 +1,20 @@
+{
+  "delta": {
+    "data_arrival_ns": -0.3699999999999992,
+    "data_arrival_pct": -3.9870689655172336
+  },
+  "gate": {
+    "lhs_concats_expanded": 0,
+    "max_data_arrival_ns": 8.91,
+    "status": "ok",
+    "tns_ns": 0.0,
+    "wns_ns": 0.0
+  },
+  "gold": {
+    "lhs_concats_expanded": 0,
+    "max_data_arrival_ns": 9.28,
+    "status": "ok",
+    "tns_ns": 0.0,
+    "wns_ns": 0.0
+  }
+}
