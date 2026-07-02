@@ -21,5 +21,36 @@
     "approved_public_statuses": [
         "customer_area_tradeoff_yosys66",
         "formal_only_cross_tool_sensitive_rebaseline_pending"
-    ]
+    ],
+    "selected_toggle_convention": {
+        "id": "ibex_toggle_convention_v0_DRAFT",
+        "status": "DRAFT_pending_ATH-2590_owner_signoff",
+        "stimulus": "deterministic_lcg_port_table_v1",
+        "seed": "0x1BADB002",
+        "cycles": 200,
+        "reset_protocol": "4_posedges_low_then_release_at_negedge",
+        "clock_period_ns": 10,
+        "duty_classes": {
+            "single_bit_control": "lcg_derived_75pct_DRAFT",
+            "multi_bit_data": "lcg_full_width"
+        },
+        "required_exercise": {
+            "comment": "per-module minimum transition counts the harness enforces; a trace that under-exercises these REFUSES to produce a receipt",
+            "ibex_if_stage": {
+                "pc_set_i": 20,
+                "req_i": 20,
+                "instr_rvalid_i": 20
+            },
+            "default": {
+                "_all_single_bit_inputs_min": 8
+            }
+        },
+        "receipt_requirements": {
+            "convention_id_must_match_policy": true,
+            "convention_sha256_of_this_block": true,
+            "trace_sha256": true,
+            "vcd_sha256": true,
+            "boundary_equality_every_cycle": true
+        }
+    }
 }
