@@ -34,6 +34,22 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _sha256_vcd_normalized(path: Path) -> str:
+    """Hash VCD content with nondeterministic Icarus `$date` metadata removed."""
+    digest = hashlib.sha256()
+    skipping_date = False
+    with path.open(encoding="utf-8", errors="replace") as handle:
+        for line in handle:
+            stripped = line.strip()
+            if stripped.startswith("$date"):
+                skipping_date = True
+            if not skipping_date:
+                digest.update(line.encode())
+            if skipping_date and stripped.endswith("$end"):
+                skipping_date = False
+    return digest.hexdigest()
+
+
 def _verify_manifest_hashes(manifest_path: Path, manifest: dict[str, Any]) -> None:
     artifacts = manifest.get("artifacts")
     if not isinstance(artifacts, dict) or not artifacts:
@@ -102,6 +118,142 @@ def _verify_cross_tool_sensitive_row(manifest_path: Path, manifest: dict[str, An
         raise SystemExit(f"{manifest_path}: missing cross-tool sensitivity evidence")
 
 
+def _verify_toggle_receipt(receipt_path: Path, policy: dict[str, Any]) -> None:
+    """ATH-2590: toggle evidence is only valid under the pinned convention.
+
+    Any toggle receipt participating in a public/accepted row must carry the
+    selected convention id, the sha256 of the policy's convention block, and
+    hash-pinned trace/VCD evidence. Unlabeled or scratch toggle numbers can
+    never satisfy an accepted-win receipt.
+    """
+    conv = policy.get("selected_toggle_convention")
+    if not isinstance(conv, dict):
+        raise SystemExit(f"{POLICY_PATH}: missing selected_toggle_convention")
+    expected_sha = hashlib.sha256(
+        json.dumps(conv, indent=4, sort_keys=True).encode()
+    ).hexdigest()
+    receipt = _load_json(receipt_path)
+    if receipt.get("convention_id") != conv.get("id"):
+        raise SystemExit(
+            f"{receipt_path}: toggle receipt convention_id "
+            f"{receipt.get('convention_id')!r} does not match the pinned "
+            f"convention {conv.get('id')!r} — unlabeled/scratch toggle evidence rejected"
+        )
+    if receipt.get("convention_sha256") != expected_sha:
+        raise SystemExit(
+            f"{receipt_path}: convention_sha256 does not match the policy block — "
+            "the receipt was generated under a different (or edited) convention"
+        )
+    for field in (
+        "trace_sha256",
+        "vcd_sha256",
+        "normalized_vcd_sha256",
+        "gold_sha256",
+        "gate_sha256",
+    ):
+        value = receipt.get(field)
+        if not isinstance(value, str) or len(value) != 64:
+            raise SystemExit(f"{receipt_path}: toggle receipt missing hash-pinned {field}")
+    if receipt.get("no_x_or_z_on_primary_inputs") != "construction_guaranteed_binary_assignments":
+        raise SystemExit(
+            f"{receipt_path}: toggle receipt missing no_x_or_z_on_primary_inputs "
+            "construction guarantee"
+        )
+    for name_field, hash_field in (("trace", "trace_sha256"), ("vcd", "vcd_sha256")):
+        rel = receipt.get(name_field)
+        if not isinstance(rel, str) or not rel:
+            raise SystemExit(f"{receipt_path}: toggle receipt missing {name_field} file reference")
+        candidate = receipt_path.parent / rel
+        if not candidate.is_file():
+            raise SystemExit(f"{receipt_path}: {name_field} file {rel!r} does not exist")
+        if _sha256(candidate) != receipt[hash_field]:
+            raise SystemExit(f"{receipt_path}: {name_field} file does not match {hash_field}")
+        if name_field == "vcd" and _sha256_vcd_normalized(candidate) != receipt[
+            "normalized_vcd_sha256"
+        ]:
+            raise SystemExit(
+                f"{receipt_path}: vcd file does not match normalized_vcd_sha256"
+            )
+
+
+def _selftest_toggle_gate() -> None:
+    """Contract test: a conforming receipt passes; unlabeled, wrong-convention,
+    and unpinned receipts are rejected. Runs against synthetic fixtures in a
+    temp dir so it can execute anywhere (CI-wireable)."""
+    import tempfile
+
+    policy = _load_json(POLICY_PATH)
+    conv = policy["selected_toggle_convention"]
+    conv_sha = hashlib.sha256(json.dumps(conv, indent=4, sort_keys=True).encode()).hexdigest()
+    trace_bytes = b'{"cycle": 0}\n'
+    vcd_text = "$date\n  selftest\n$end\n$version\n  test\n$end\n"
+    good = {
+        "convention_id": conv["id"],
+        "convention_sha256": conv_sha,
+        "trace": "toggle_trace.json",
+        "trace_sha256": hashlib.sha256(trace_bytes).hexdigest(),
+        "vcd": "toggle.vcd",
+        "vcd_sha256": hashlib.sha256(vcd_text.encode()).hexdigest(),
+        "normalized_vcd_sha256": hashlib.sha256(
+            "$version\n  test\n$end\n".encode()
+        ).hexdigest(),
+        "gold_sha256": "2" * 64,
+        "gate_sha256": "3" * 64,
+        "no_x_or_z_on_primary_inputs": "construction_guaranteed_binary_assignments",
+    }
+    cases = [
+        ("conforming", good, True),
+        ("unlabeled", {k: v for k, v in good.items() if k != "convention_id"}, False),
+        ("wrong_convention", {**good, "convention_id": "scratch_trace_v0"}, False),
+        ("edited_convention", {**good, "convention_sha256": "f" * 64}, False),
+        ("missing_trace_ref", {k: v for k, v in good.items() if k != "trace"}, False),
+        ("missing_vcd_ref", {k: v for k, v in good.items() if k != "vcd"}, False),
+        ("unpinned_vcd", {k: v for k, v in good.items() if k != "vcd_sha256"}, False),
+        (
+            "unpinned_normalized_vcd",
+            {k: v for k, v in good.items() if k != "normalized_vcd_sha256"},
+            False,
+        ),
+        (
+            "missing_no_x_guarantee",
+            {k: v for k, v in good.items() if k != "no_x_or_z_on_primary_inputs"},
+            False,
+        ),
+    ]
+    with tempfile.TemporaryDirectory() as td:
+        tmp = Path(td)
+        (tmp / "toggle_trace.json").write_bytes(trace_bytes)
+        (tmp / "toggle.vcd").write_text(vcd_text)
+        for name, receipt, should_pass in cases:
+            rp = tmp / f"{name}.json"
+            rp.write_text(json.dumps(receipt))
+            try:
+                _verify_toggle_receipt(rp, policy)
+                outcome = True
+            except SystemExit:
+                outcome = False
+            if outcome != should_pass:
+                raise SystemExit(f"selftest case {name!r}: expected pass={should_pass}, got {outcome}")
+        for missing_name in ("missing_trace_file", "missing_vcd_file"):
+            tmp_missing = tmp / missing_name
+            tmp_missing.mkdir()
+            (tmp_missing / "toggle_trace.json").write_bytes(trace_bytes)
+            (tmp_missing / "toggle.vcd").write_text(vcd_text)
+            if missing_name == "missing_trace_file":
+                (tmp_missing / "toggle_trace.json").unlink()
+            else:
+                (tmp_missing / "toggle.vcd").unlink()
+            rp = tmp_missing / "receipt.json"
+            rp.write_text(json.dumps(good))
+            try:
+                _verify_toggle_receipt(rp, policy)
+            except SystemExit:
+                continue
+            raise SystemExit(f"selftest case {missing_name!r}: expected pass=False, got True")
+    total_cases = len(cases) + 2
+    print(f"toggle-gate selftest: {total_cases}/{total_cases} cases behave as required")
+
+
 def _verify_public_text() -> None:
     forbidden = [
         "/work" + "dir",
@@ -119,6 +271,9 @@ def _verify_public_text() -> None:
 
 
 def main() -> int:
+    if "--selftest" in sys.argv:
+        _selftest_toggle_gate()
+        return 0
     policy = _load_json(POLICY_PATH)
     selected = policy.get("selected_toolchain")
     if not isinstance(selected, dict):
@@ -144,8 +299,17 @@ def main() -> int:
         else:
             raise SystemExit(f"{manifest_path}: unrecognized public module {module!r}")
 
+    toggle_receipts = sorted(FRONTIER_ROOT.glob("*/toggle_convention_receipt.json")) + sorted(
+        (POLICY_PATH.parent.parent / "athanor_artifacts").glob("*/logs/*/toggle_convention_receipt.json")
+    )
+    for receipt_path in toggle_receipts:
+        _verify_toggle_receipt(receipt_path, policy)
+
     _verify_public_text()
-    print(f"verified {len(manifests)} public manifests against {selected_toolchain_id}")
+    print(
+        f"verified {len(manifests)} public manifests against {selected_toolchain_id}; "
+        f"{len(toggle_receipts)} convention toggle receipt(s) checked"
+    )
     return 0
 
 
