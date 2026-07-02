@@ -28215,8 +28215,10 @@ module tb;
     $dumpvars(0, tb.gold);
     $dumpvars(0, tb.gate);
 
-    repeat (4) @(posedge clk_i);
+    // reset protocol from the pinned convention spec
+    repeat (5) @(posedge clk_i);
     rst_ni = 1'b1;
+    repeat (2) @(posedge clk_i);
     @(negedge clk_i);
 
     for (cycle = 0; cycle < 1000; cycle = cycle + 1) begin

@@ -39,6 +39,23 @@ ROOT = Path(__file__).resolve().parent.parent
 POLICY = ROOT / "toolchain_policy.json"
 
 
+def _sha256_vcd_normalized(path: Path) -> str:
+    """VCD hash with the $date block dropped — Icarus stamps wall-clock time,
+    so the raw hash varies across identical reruns; the normalized hash is
+    rerun-stable and is what independent replays should compare."""
+    h = hashlib.sha256()
+    skipping = False
+    with path.open() as f:
+        for line in f:
+            if line.strip().startswith("$date"):
+                skipping = True
+            if not skipping:
+                h.update(line.encode())
+            if skipping and line.strip().endswith("$end"):
+                skipping = False
+    return h.hexdigest()
+
+
 def _sha256_file(path: Path) -> str:
     h = hashlib.sha256()
     with path.open("rb") as f:
@@ -120,11 +137,14 @@ def make_trace(conv: dict, ins) -> list[dict[str, int]]:
                     seed = _lcg(seed)
                     value = (value << 32) | seed
                 entry[name] = value & ((1 << width) - 1)
+        # construction guarantee: every driven input is a binary integer —
+        # x/z on primary inputs is impossible by generation
+        assert all(isinstance(v, int) for k, v in entry.items()), entry
         trace.append(entry)
     return trace
 
 
-def _tb(top: str, ins, outs, trace, cycles: int, vcd_rel: str) -> str:
+def _tb(top: str, ins, outs, trace, cycles: int, vcd_rel: str, reset: dict) -> str:
     drv = ["  reg clk_i = 1'b0;", "  reg rst_ni = 1'b0;"]
     for n, w in ins:
         if n in ("clk_i", "rst_ni"):
@@ -150,6 +170,8 @@ def _tb(top: str, ins, outs, trace, cycles: int, vcd_rel: str) -> str:
         )
         cases.append(f"    {entry['cycle']}: begin\n{assigns}\n    end")
     case_body = "\n".join(cases)
+    assert_cycles = int(reset["assert_cycles"])
+    settle_cycles = int(reset["settle_cycles"])
     return f"""`timescale 1ns/1ps
 module tb;
 {chr(10).join(drv)}
@@ -172,8 +194,10 @@ module tb;
     $dumpvars(0, tb.gold);
     $dumpvars(0, tb.gate);
 
-    repeat (4) @(posedge clk_i);
+    // reset protocol from the pinned convention spec
+    repeat ({assert_cycles}) @(posedge clk_i);
     rst_ni = 1'b1;
+    repeat ({settle_cycles}) @(posedge clk_i);
     @(negedge clk_i);
 
     for (cycle = 0; cycle < {cycles}; cycle = cycle + 1) begin
@@ -311,7 +335,7 @@ def main() -> int:
     trace_path.write_text(json.dumps(trace, indent=2) + "\n")
     vcd_path = out / "toggle.vcd"
     (work / "tb.v").write_text(
-        _tb(args.top, ins, outs, trace, int(conv["trace"]["cycles_after_reset"]), "../toggle.vcd")
+        _tb(args.top, ins, outs, trace, int(conv["trace"]["cycles_after_reset"]), "../toggle.vcd", conv["trace"]["reset"])
     )
 
     compile_log = _run(["iverilog", "-g2012", "-o", "simv", "gold_top.v", "gate_top.v", "tb.v"], work)
@@ -347,11 +371,21 @@ def main() -> int:
     measured_duty = {}
     tr_dist = conv["trace"].get("distribution", {})
     n_cycles = len(trace)
+    duty_violations = []
     for name, rule in tr_dist.items():
         if "constant" in rule:
             continue
         ones = sum(e.get(name, 0) for e in trace)
-        measured_duty[name] = round(ones / n_cycles, 4)
+        d = ones / n_cycles
+        measured_duty[name] = round(d, 4)
+        if not (float(rule["duty_min"]) <= d <= float(rule["duty_max"])):
+            duty_violations.append(
+                f"{name}: measured {d:.4f} outside [{rule['duty_min']}, {rule['duty_max']}]"
+            )
+    if duty_violations:
+        raise SystemExit(
+            "DUTY-WINDOW FAILURE — no receipt emitted: " + "; ".join(duty_violations)
+        )
     receipt = {
         "power_status": "measured",
         "simulator_version": iverilog_v,
@@ -371,7 +405,9 @@ def main() -> int:
         "required_exercise_measured": exercise,
         "trace_sha256": _sha256_file(trace_path),
         "vcd_sha256": _sha256_file(vcd_path),
+        "normalized_vcd_sha256": _sha256_vcd_normalized(vcd_path),
         "boundary_equality_every_cycle": True,
+        "no_x_or_z_on_primary_inputs": "construction_guaranteed_binary_assignments",
         "trace": str(trace_path.name),
         "vcd": str(vcd_path.name),
     }

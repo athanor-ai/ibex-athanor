@@ -3,7 +3,7 @@
   "convention_id": "kairos.ibex.toggle.control_path.v1",
   "convention_sha256": "0d74f085f4dee7f946e9d7451c5965fed4f450e43f69745330979f8afc67d603",
   "gate_sha256": "3b110aa626ff94bd3491a092aede4b56eda5095c709b573a5c5b4a0efbc00427",
-  "gate_toggles": 311723,
+  "gate_toggles": 311729,
   "gold_sha256": "ebf8d55a86426034f93e7d7dc3ca793a41a5fcd221f125338e456383117a47a5",
   "gold_toggles": 306184,
   "measured_input_duty": {
@@ -18,6 +18,8 @@
     "pmp_err_if_plus2_i": 0.01,
     "req_i": 0.815
   },
+  "no_x_or_z_on_primary_inputs": "construction_guaranteed_binary_assignments",
+  "normalized_vcd_sha256": "5976a8efbbce898f4fd579273d5142279ea4383a5a6a11ef9ff3afa68910f9e6",
   "power_evidence_type": "toggle_convention",
   "power_method": "iverilog_vcd_hierarchy_toggle",
   "power_status": "measured",
@@ -32,10 +34,10 @@
   "sim_cycles": 1000,
   "simulator_version": "Icarus Verilog version 11.0 (stable) ()",
   "stimulus": "hierarchical_transition_count_v1+0x1f57a9e5",
-  "toggle_delta_pct": 1.809043,
+  "toggle_delta_pct": 1.811003,
   "toggle_status": "regression",
   "trace": "toggle_trace.json",
   "trace_sha256": "95e93dc185370ec37394b9ea2988a5f15c2e897c64ec7215c5e4f5b918239a42",
   "vcd": "toggle.vcd",
-  "vcd_sha256": "5ac82e125d449f788ec3e7851adee55ac4eeba8bf90e442b92d3d8adeff9215c"
+  "vcd_sha256": "a36a3d14a8a0ccaf2dd91429b09d05e20282eb6d5dbe07c76b0842574e8bbe4c"
 }
