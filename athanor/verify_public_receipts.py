@@ -34,6 +34,22 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _sha256_vcd_normalized(path: Path) -> str:
+    """Hash VCD content with nondeterministic Icarus `$date` metadata removed."""
+    digest = hashlib.sha256()
+    skipping_date = False
+    with path.open(encoding="utf-8", errors="replace") as handle:
+        for line in handle:
+            stripped = line.strip()
+            if stripped.startswith("$date"):
+                skipping_date = True
+            if not skipping_date:
+                digest.update(line.encode())
+            if skipping_date and stripped.endswith("$end"):
+                skipping_date = False
+    return digest.hexdigest()
+
+
 def _verify_manifest_hashes(manifest_path: Path, manifest: dict[str, Any]) -> None:
     artifacts = manifest.get("artifacts")
     if not isinstance(artifacts, dict) or not artifacts:
@@ -128,16 +144,33 @@ def _verify_toggle_receipt(receipt_path: Path, policy: dict[str, Any]) -> None:
             f"{receipt_path}: convention_sha256 does not match the policy block — "
             "the receipt was generated under a different (or edited) convention"
         )
-    for field in ("trace_sha256", "vcd_sha256", "gold_sha256", "gate_sha256"):
+    for field in (
+        "trace_sha256",
+        "vcd_sha256",
+        "normalized_vcd_sha256",
+        "gold_sha256",
+        "gate_sha256",
+    ):
         value = receipt.get(field)
         if not isinstance(value, str) or len(value) != 64:
             raise SystemExit(f"{receipt_path}: toggle receipt missing hash-pinned {field}")
+    if receipt.get("no_x_or_z_on_primary_inputs") != "construction_guaranteed_binary_assignments":
+        raise SystemExit(
+            f"{receipt_path}: toggle receipt missing no_x_or_z_on_primary_inputs "
+            "construction guarantee"
+        )
     for name_field, hash_field in (("trace", "trace_sha256"), ("vcd", "vcd_sha256")):
         rel = receipt.get(name_field)
         if rel:
             candidate = receipt_path.parent / rel
             if candidate.is_file() and _sha256(candidate) != receipt[hash_field]:
                 raise SystemExit(f"{receipt_path}: {name_field} file does not match {hash_field}")
+            if name_field == "vcd" and _sha256_vcd_normalized(candidate) != receipt[
+                "normalized_vcd_sha256"
+            ]:
+                raise SystemExit(
+                    f"{receipt_path}: vcd file does not match normalized_vcd_sha256"
+                )
 
 
 def _selftest_toggle_gate() -> None:
@@ -154,8 +187,10 @@ def _selftest_toggle_gate() -> None:
         "convention_sha256": conv_sha,
         "trace_sha256": "0" * 64,
         "vcd_sha256": "1" * 64,
+        "normalized_vcd_sha256": "4" * 64,
         "gold_sha256": "2" * 64,
         "gate_sha256": "3" * 64,
+        "no_x_or_z_on_primary_inputs": "construction_guaranteed_binary_assignments",
     }
     cases = [
         ("conforming", good, True),
@@ -163,6 +198,16 @@ def _selftest_toggle_gate() -> None:
         ("wrong_convention", {**good, "convention_id": "scratch_trace_v0"}, False),
         ("edited_convention", {**good, "convention_sha256": "f" * 64}, False),
         ("unpinned_vcd", {k: v for k, v in good.items() if k != "vcd_sha256"}, False),
+        (
+            "unpinned_normalized_vcd",
+            {k: v for k, v in good.items() if k != "normalized_vcd_sha256"},
+            False,
+        ),
+        (
+            "missing_no_x_guarantee",
+            {k: v for k, v in good.items() if k != "no_x_or_z_on_primary_inputs"},
+            False,
+        ),
     ]
     with tempfile.TemporaryDirectory() as td:
         for name, receipt, should_pass in cases:
@@ -175,7 +220,7 @@ def _selftest_toggle_gate() -> None:
                 outcome = False
             if outcome != should_pass:
                 raise SystemExit(f"selftest case {name!r}: expected pass={should_pass}, got {outcome}")
-    print("toggle-gate selftest: 5/5 cases behave as required")
+    print(f"toggle-gate selftest: {len(cases)}/{len(cases)} cases behave as required")
 
 
 def _verify_public_text() -> None:
