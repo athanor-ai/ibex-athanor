@@ -161,16 +161,19 @@ def _verify_toggle_receipt(receipt_path: Path, policy: dict[str, Any]) -> None:
         )
     for name_field, hash_field in (("trace", "trace_sha256"), ("vcd", "vcd_sha256")):
         rel = receipt.get(name_field)
-        if rel:
-            candidate = receipt_path.parent / rel
-            if candidate.is_file() and _sha256(candidate) != receipt[hash_field]:
-                raise SystemExit(f"{receipt_path}: {name_field} file does not match {hash_field}")
-            if name_field == "vcd" and _sha256_vcd_normalized(candidate) != receipt[
-                "normalized_vcd_sha256"
-            ]:
-                raise SystemExit(
-                    f"{receipt_path}: vcd file does not match normalized_vcd_sha256"
-                )
+        if not isinstance(rel, str) or not rel:
+            raise SystemExit(f"{receipt_path}: toggle receipt missing {name_field} file reference")
+        candidate = receipt_path.parent / rel
+        if not candidate.is_file():
+            raise SystemExit(f"{receipt_path}: {name_field} file {rel!r} does not exist")
+        if _sha256(candidate) != receipt[hash_field]:
+            raise SystemExit(f"{receipt_path}: {name_field} file does not match {hash_field}")
+        if name_field == "vcd" and _sha256_vcd_normalized(candidate) != receipt[
+            "normalized_vcd_sha256"
+        ]:
+            raise SystemExit(
+                f"{receipt_path}: vcd file does not match normalized_vcd_sha256"
+            )
 
 
 def _selftest_toggle_gate() -> None:
@@ -182,12 +185,18 @@ def _selftest_toggle_gate() -> None:
     policy = _load_json(POLICY_PATH)
     conv = policy["selected_toggle_convention"]
     conv_sha = hashlib.sha256(json.dumps(conv, indent=4, sort_keys=True).encode()).hexdigest()
+    trace_bytes = b'{"cycle": 0}\n'
+    vcd_text = "$date\n  selftest\n$end\n$version\n  test\n$end\n"
     good = {
         "convention_id": conv["id"],
         "convention_sha256": conv_sha,
-        "trace_sha256": "0" * 64,
-        "vcd_sha256": "1" * 64,
-        "normalized_vcd_sha256": "4" * 64,
+        "trace": "toggle_trace.json",
+        "trace_sha256": hashlib.sha256(trace_bytes).hexdigest(),
+        "vcd": "toggle.vcd",
+        "vcd_sha256": hashlib.sha256(vcd_text.encode()).hexdigest(),
+        "normalized_vcd_sha256": hashlib.sha256(
+            "$version\n  test\n$end\n".encode()
+        ).hexdigest(),
         "gold_sha256": "2" * 64,
         "gate_sha256": "3" * 64,
         "no_x_or_z_on_primary_inputs": "construction_guaranteed_binary_assignments",
@@ -197,6 +206,8 @@ def _selftest_toggle_gate() -> None:
         ("unlabeled", {k: v for k, v in good.items() if k != "convention_id"}, False),
         ("wrong_convention", {**good, "convention_id": "scratch_trace_v0"}, False),
         ("edited_convention", {**good, "convention_sha256": "f" * 64}, False),
+        ("missing_trace_ref", {k: v for k, v in good.items() if k != "trace"}, False),
+        ("missing_vcd_ref", {k: v for k, v in good.items() if k != "vcd"}, False),
         ("unpinned_vcd", {k: v for k, v in good.items() if k != "vcd_sha256"}, False),
         (
             "unpinned_normalized_vcd",
@@ -210,8 +221,11 @@ def _selftest_toggle_gate() -> None:
         ),
     ]
     with tempfile.TemporaryDirectory() as td:
+        tmp = Path(td)
+        (tmp / "toggle_trace.json").write_bytes(trace_bytes)
+        (tmp / "toggle.vcd").write_text(vcd_text)
         for name, receipt, should_pass in cases:
-            rp = Path(td) / f"{name}.json"
+            rp = tmp / f"{name}.json"
             rp.write_text(json.dumps(receipt))
             try:
                 _verify_toggle_receipt(rp, policy)
@@ -220,7 +234,24 @@ def _selftest_toggle_gate() -> None:
                 outcome = False
             if outcome != should_pass:
                 raise SystemExit(f"selftest case {name!r}: expected pass={should_pass}, got {outcome}")
-    print(f"toggle-gate selftest: {len(cases)}/{len(cases)} cases behave as required")
+        for missing_name in ("missing_trace_file", "missing_vcd_file"):
+            tmp_missing = tmp / missing_name
+            tmp_missing.mkdir()
+            (tmp_missing / "toggle_trace.json").write_bytes(trace_bytes)
+            (tmp_missing / "toggle.vcd").write_text(vcd_text)
+            if missing_name == "missing_trace_file":
+                (tmp_missing / "toggle_trace.json").unlink()
+            else:
+                (tmp_missing / "toggle.vcd").unlink()
+            rp = tmp_missing / "receipt.json"
+            rp.write_text(json.dumps(good))
+            try:
+                _verify_toggle_receipt(rp, policy)
+            except SystemExit:
+                continue
+            raise SystemExit(f"selftest case {missing_name!r}: expected pass=False, got True")
+    total_cases = len(cases) + 2
+    print(f"toggle-gate selftest: {total_cases}/{total_cases} cases behave as required")
 
 
 def _verify_public_text() -> None:
