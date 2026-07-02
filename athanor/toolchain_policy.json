@@ -23,34 +23,108 @@
         "formal_only_cross_tool_sensitive_rebaseline_pending"
     ],
     "selected_toggle_convention": {
-        "id": "ibex_toggle_convention_v0_DRAFT",
-        "status": "DRAFT_pending_ATH-2590_owner_signoff",
-        "stimulus": "deterministic_lcg_port_table_v1",
-        "seed": "0x1BADB002",
-        "cycles": 200,
-        "reset_protocol": "4_posedges_low_then_release_at_negedge",
-        "clock_period_ns": 10,
-        "duty_classes": {
-            "single_bit_control": "lcg_derived_75pct_DRAFT",
-            "multi_bit_data": "lcg_full_width"
+        "id": "kairos.ibex.toggle.control_path.v1",
+        "status": "PROPOSED_dexter_2026-07-02_pending_ronald_signoff",
+        "applies_to": [
+            "ibex_if_stage"
+        ],
+        "toolchain": {
+            "simulator": "iverilog",
+            "vcd_counter": "hierarchical_transition_count_v1",
+            "source_prep": "hash_pinned_gold_gate_v2001"
         },
-        "required_exercise": {
-            "comment": "per-module minimum transition counts the harness enforces; a trace that under-exercises these REFUSES to produce a receipt",
-            "ibex_if_stage": {
-                "pc_set_i": 20,
-                "req_i": 20,
-                "instr_rvalid_i": 20
+        "trace": {
+            "seed": "0x1f57a9e5",
+            "cycles_after_reset": 1000,
+            "reset": {
+                "signal": "rst_ni",
+                "active_low": true,
+                "assert_cycles": 5,
+                "settle_cycles": 2
             },
-            "default": {
-                "_all_single_bit_inputs_min": 8
+            "clock": {
+                "signal": "clk_i",
+                "period_units": 10
+            },
+            "distribution": {
+                "req_i": {
+                    "duty_min": 0.7,
+                    "duty_max": 0.9
+                },
+                "id_in_ready_i": {
+                    "duty_min": 0.7,
+                    "duty_max": 0.9
+                },
+                "instr_gnt_i": {
+                    "duty_min": 0.7,
+                    "duty_max": 0.95
+                },
+                "instr_rvalid_i": {
+                    "duty_min": 0.45,
+                    "duty_max": 0.75
+                },
+                "pc_set_i": {
+                    "duty_min": 0.12,
+                    "duty_max": 0.25
+                },
+                "nt_branch_mispredict_i": {
+                    "duty_min": 0.05,
+                    "duty_max": 0.15
+                },
+                "instr_valid_clear_i": {
+                    "duty_min": 0.02,
+                    "duty_max": 0.08
+                },
+                "instr_bus_err_i": {
+                    "duty_min": 0.0,
+                    "duty_max": 0.02
+                },
+                "pmp_err_if_i": {
+                    "duty_min": 0.0,
+                    "duty_max": 0.02
+                },
+                "pmp_err_if_plus2_i": {
+                    "duty_min": 0.0,
+                    "duty_max": 0.02
+                },
+                "icache_enable_i": {
+                    "constant": 0
+                },
+                "dummy_instr_en_i": {
+                    "constant": 0
+                }
             }
         },
-        "receipt_requirements": {
-            "convention_id_must_match_policy": true,
-            "convention_sha256_of_this_block": true,
-            "trace_sha256": true,
-            "vcd_sha256": true,
-            "boundary_equality_every_cycle": true
+        "required_exercise": {
+            "pc_set_i": {
+                "min_transitions": 180,
+                "max_transitions": 420
+            },
+            "nt_branch_mispredict_i": {
+                "min_transitions": 80,
+                "max_transitions": 280
+            },
+            "branch_req": {
+                "min_transitions": 180,
+                "max_transitions": 460
+            },
+            "prefetch_branch": {
+                "min_transitions": 120,
+                "max_transitions": 420
+            },
+            "prefetch_addr": {
+                "min_transitions": 600
+            },
+            "instr_addr_o": {
+                "min_transitions": 350
+            },
+            "no_x_or_z_on_primary_inputs": true
+        },
+        "acceptance": {
+            "toggle_delta_pct_max": 0.1,
+            "requires_spec_sha256": true,
+            "requires_input_trace_sha256": true,
+            "requires_vcd_sha256": true
         }
     }
 }

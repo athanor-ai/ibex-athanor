@@ -1,0 +1,41 @@
+{
+  "boundary_equality_every_cycle": true,
+  "convention_id": "kairos.ibex.toggle.control_path.v1",
+  "convention_sha256": "0d74f085f4dee7f946e9d7451c5965fed4f450e43f69745330979f8afc67d603",
+  "gate_sha256": "3b110aa626ff94bd3491a092aede4b56eda5095c709b573a5c5b4a0efbc00427",
+  "gate_toggles": 311723,
+  "gold_sha256": "ebf8d55a86426034f93e7d7dc3ca793a41a5fcd221f125338e456383117a47a5",
+  "gold_toggles": 306184,
+  "measured_input_duty": {
+    "id_in_ready_i": 0.793,
+    "instr_bus_err_i": 0.013,
+    "instr_gnt_i": 0.85,
+    "instr_rvalid_i": 0.578,
+    "instr_valid_clear_i": 0.057,
+    "nt_branch_mispredict_i": 0.106,
+    "pc_set_i": 0.167,
+    "pmp_err_if_i": 0.006,
+    "pmp_err_if_plus2_i": 0.01,
+    "req_i": 0.815
+  },
+  "power_evidence_type": "toggle_convention",
+  "power_method": "iverilog_vcd_hierarchy_toggle",
+  "power_status": "measured",
+  "required_exercise_measured": {
+    "branch_req": 276,
+    "instr_addr_o": 8566,
+    "nt_branch_mispredict_i": 188,
+    "pc_set_i": 276,
+    "prefetch_addr": 16555,
+    "prefetch_branch": 386
+  },
+  "sim_cycles": 1000,
+  "simulator_version": "Icarus Verilog version 11.0 (stable) ()",
+  "stimulus": "hierarchical_transition_count_v1+0x1f57a9e5",
+  "toggle_delta_pct": 1.809043,
+  "toggle_status": "regression",
+  "trace": "toggle_trace.json",
+  "trace_sha256": "95e93dc185370ec37394b9ea2988a5f15c2e897c64ec7215c5e4f5b918239a42",
+  "vcd": "toggle.vcd",
+  "vcd_sha256": "5ac82e125d449f788ec3e7851adee55ac4eeba8bf90e442b92d3d8adeff9215c"
+}

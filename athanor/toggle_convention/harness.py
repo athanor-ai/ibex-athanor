@@ -87,17 +87,33 @@ def _lcg(seed: int) -> int:
 
 
 def make_trace(conv: dict, ins) -> list[dict[str, int]]:
-    seed = int(conv["seed"], 16)
-    cycles = int(conv["cycles"])
+    tr = conv["trace"]
+    seed = int(tr["seed"], 16)
+    cycles = int(tr["cycles_after_reset"])
+    dist = tr.get("distribution", {})
+    # deterministic per-signal duty: the midpoint of the spec window (always
+    # inside [duty_min, duty_max] by construction; the receipt records the
+    # measured duty so conformance is auditable)
+    duty: dict[str, float] = {}
+    const: dict[str, int] = {}
+    for name, rule in dist.items():
+        if "constant" in rule:
+            const[name] = int(rule["constant"])
+        else:
+            duty[name] = (float(rule["duty_min"]) + float(rule["duty_max"])) / 2.0
     trace: list[dict[str, int]] = []
     for cycle in range(cycles):
         entry: dict[str, int] = {"cycle": cycle}
         for name, width in ins:
             if name in ("clk_i", "rst_ni"):
                 continue
+            if name in const:
+                entry[name] = const[name]
+                continue
             seed = _lcg(seed ^ (cycle * 0x9E3779B9 & 0xFFFFFFFF))
             if width == 1:
-                entry[name] = 1 if (seed >> 13) & 0x3 else 0
+                threshold = duty.get(name, 0.5)
+                entry[name] = 1 if (seed / 0x100000000) < threshold else 0
             else:
                 value = 0
                 for _ in range((width + 31) // 32):
@@ -225,7 +241,7 @@ def count_vcd(vcd_path: Path, exercise_signals: set[str]):
                             ident = parts[3]
                             id_owner[ident] = owner
                             id_width[ident] = int(parts[2])
-                            if owner == "gold" and parts[4] in exercise_signals and len(scopes) == 2:
+                            if owner == "gold" and parts[4] in exercise_signals:
                                 id_name[ident] = parts[4]
                 elif line.startswith("$enddefinitions"):
                     in_defs = False
@@ -295,7 +311,7 @@ def main() -> int:
     trace_path.write_text(json.dumps(trace, indent=2) + "\n")
     vcd_path = out / "toggle.vcd"
     (work / "tb.v").write_text(
-        _tb(args.top, ins, outs, trace, int(conv["cycles"]), "../toggle.vcd")
+        _tb(args.top, ins, outs, trace, int(conv["trace"]["cycles_after_reset"]), "../toggle.vcd")
     )
 
     compile_log = _run(["iverilog", "-g2012", "-o", "simv", "gold_top.v", "gate_top.v", "tb.v"], work)
@@ -304,31 +320,50 @@ def main() -> int:
     if "MISMATCH" in sim_log:
         raise SystemExit("boundary mismatch — dynamic equivalence violated under the convention trace")
 
-    req = dict(conv.get("required_exercise", {}).get(args.top, {}))
-    default_min = conv.get("required_exercise", {}).get("default", {}).get("_all_single_bit_inputs_min")
-    if default_min:
-        for n, w in ins:
-            if w == 1 and n not in ("clk_i", "rst_ni"):
-                req.setdefault(n, int(default_min))
-    gold_t, gate_t, exercise = count_vcd(vcd_path, set(req))
+    req_spec = {
+        k: v for k, v in conv.get("required_exercise", {}).items()
+        if isinstance(v, dict)
+    }
+    gold_t, gate_t, exercise = count_vcd(vcd_path, set(req_spec))
 
-    under = {s: (exercise.get(s, 0), m) for s, m in req.items() if exercise.get(s, 0) < m}
-    if under:
-        detail = ", ".join(f"{s}: {got} < required {m}" for s, (got, m) in sorted(under.items()))
+    violations = []
+    for sig, bounds in sorted(req_spec.items()):
+        got = exercise.get(sig, 0)
+        lo = bounds.get("min_transitions")
+        hi = bounds.get("max_transitions")
+        if lo is not None and got < lo:
+            violations.append(f"{sig}: {got} < min {lo} (under-exercised)")
+        if hi is not None and got > hi:
+            violations.append(f"{sig}: {got} > max {hi} (over-exercised)")
+    if violations:
         raise SystemExit(
-            f"REQUIRED-EXERCISE FAILURE — no receipt emitted. Under-exercised: {detail}. "
-            "A trace that does not exercise the convention's signals cannot produce toggle evidence."
+            "REQUIRED-EXERCISE FAILURE — no receipt emitted: "
+            + "; ".join(violations)
+            + ". Toggle evidence is only valid inside the convention's exercise window."
         )
 
     delta_pct = 0.0 if gold_t == 0 else (gate_t - gold_t) / gold_t * 100.0
+    iverilog_v = subprocess.run(["iverilog", "-V"], capture_output=True, text=True).stdout.splitlines()[0]
+    measured_duty = {}
+    tr_dist = conv["trace"].get("distribution", {})
+    n_cycles = len(trace)
+    for name, rule in tr_dist.items():
+        if "constant" in rule:
+            continue
+        ones = sum(e.get(name, 0) for e in trace)
+        measured_duty[name] = round(ones / n_cycles, 4)
     receipt = {
         "power_status": "measured",
+        "simulator_version": iverilog_v,
+        "gold_sha256": _sha256_file(args.gold),
+        "gate_sha256": _sha256_file(args.gate),
+        "measured_input_duty": measured_duty,
         "power_evidence_type": "toggle_convention",
         "power_method": "iverilog_vcd_hierarchy_toggle",
         "convention_id": conv["id"],
         "convention_sha256": conv_sha,
-        "stimulus": conv["stimulus"],
-        "sim_cycles": int(conv["cycles"]),
+        "stimulus": conv["toolchain"]["vcd_counter"] + "+" + conv["trace"]["seed"],
+        "sim_cycles": int(conv["trace"]["cycles_after_reset"]),
         "gold_toggles": gold_t,
         "gate_toggles": gate_t,
         "toggle_delta_pct": round(delta_pct, 6),
