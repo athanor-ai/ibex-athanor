@@ -1,0 +1,31 @@
+{
+  "core_name": "ibex_top",
+  "top_module": "ibex_top",
+  "syn_script": "syn/syn_yosys.sh",
+  "syn_out_root": "syn_out",
+  "area_report_glob": "reports/*area*.rpt",
+  "timing_report_dir": "reports/timing",
+  "timing_groups": ["overall", "reg2reg", "reg2out", "in2reg", "in2out"],
+  "equiv_seq": 32,
+  "tool_pins": {
+    "oss_cad_suite": "/workdir/_tools/oss-cad-suite-20260630",
+    "sv2v": "/workdir/.local/bin/sv2v",
+    "flow": "yosys66"
+  },
+  "env": {
+    "PATH_PREPEND": "/workdir/_tools/oss-cad-suite-20260630/bin:/workdir/.local/bin",
+    "SV2V": "/workdir/.local/bin/sv2v",
+    "LR_SYNTH_CELL_LIBRARY_PATH": "/workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+    "LR_SYNTH_CELL_LIBRARY_NAME": "nangate"
+  },
+  "toggle": {
+    "harness": "athanor/toggle_convention/harness.py"
+  },
+  "units": {
+    "ibex_if_stage": {
+      "top": "ibex_if_stage",
+      "includes": ["vendor/lowrisc_ip/ip/prim/rtl", "vendor/lowrisc_ip/dv/sv/dv_utils"],
+      "files": ["rtl/ibex_pkg.sv", "rtl/ibex_fetch_fifo.sv", "rtl/ibex_prefetch_buffer.sv", "rtl/ibex_compressed_decoder.sv", "rtl/ibex_if_stage.sv"]
+    }
+  }
+}
