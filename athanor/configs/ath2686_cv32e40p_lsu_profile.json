@@ -1,0 +1,39 @@
+{
+  "ath_ticket": "ATH-2686",
+  "status": "bounded_module_area_neutral_no_spend",
+  "claim_boundary": "CV32E40P load_store_unit module-level generic Yosys profile only; no full-core PPA, formal, toggle, cold-replay, or accepted-win claim.",
+  "design": {
+    "id": "cv32e40p",
+    "source_url": "https://github.com/openhwgroup/cv32e40p",
+    "local_repo_path": "/workdir/oss-demo-targets/cv32e40p",
+    "git_head": "6033d2b1be3295ec774d17ac4cf226faacfdeb08",
+    "module": "cv32e40p_load_store_unit",
+    "dependencies": [
+      "rtl/cv32e40p_load_store_unit.sv",
+      "rtl/cv32e40p_obi_interface.sv"
+    ]
+  },
+  "toolchain": {
+    "sv2v": "sv2v v0.0.13",
+    "yosys": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)"
+  },
+  "profile": {
+    "description": "Bounded module profile for the CV32E40P load_store_unit shared-term lead that factors repeated data_sign_ext_q equality predicates into helper wires.",
+    "script": "syn/cv32e40p_lsu_shared_term_profile.sh",
+    "local_artifact_dir": "/tmp/ath2686_cv32e40p_lsu_profile_fresh",
+    "baseline_cells": 987,
+    "gate_cells": 987,
+    "cell_delta": 0,
+    "classification": "bounded_module_area_neutral_no_spend",
+    "summary_sha256": "2f7feb0fd165324b0dd96af1b7ee439d19ac99239c06028bd57e4204771125d4",
+    "manifest_sha256": "c4a30ae005d73aecd34733d2b2c3515ad09f87da95871567db170ea98ad36704",
+    "artifacts": {
+      "baseline_verilog_sha256": "9d67f001951efadde50ef3ccaa42bdb177440725de38ada9b478ed8182ef8e7c",
+      "gate_verilog_sha256": "e4dd20c77159336f787fbf6599304bb0a924e4fae9a491ae23fb96f5501d8758",
+      "baseline_yosys_normalized_log_sha256": "2769e9cdd9a2d9f6022c77edfd52459d9c1ba181d19879a6b6ce06209cf91d14",
+      "gate_yosys_normalized_log_sha256": "8c5cca6278a15095de3c3f83654f4b842f52fe0349778dc54f7849a1cb999b2e"
+    }
+  },
+  "decision": "The load_store_unit shared-term factor is module-area neutral under the bounded generic Yosys profile, so it does not clear the cheap pre-spend bar. Do not run equivalence, toggle, cold replay, or headline language for this candidate.",
+  "next_step": "After ATH-2685 formal/SVA filtering lands, rerun CV32E40P recon; if only source-level load_store_unit shared terms remain and they are module-area neutral, prefer new detector families or a selected-flow full-core harness before spending on CV32E40P formal/toggle."
+}

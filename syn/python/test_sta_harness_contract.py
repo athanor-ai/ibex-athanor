@@ -105,6 +105,24 @@ def test_cv32e40p_recon_harness_exports_frontend_artifacts() -> None:
     assert "yosys_frontend.normalized.log" in text
 
 
+def test_cv32e40p_lsu_shared_term_profile_is_bounded_no_claim() -> None:
+    text = read_repo_file("syn/cv32e40p_lsu_shared_term_profile.sh")
+
+    assert "cv32e40p_load_store_unit.sv" in text
+    assert "cv32e40p_obi_interface.sv" in text
+    assert "data_sign_ext_q == 2'b00" in text
+    assert "data_sign_ext_q == 2'b10" in text
+    assert "data_sign_ext_is_zero" in text
+    assert "data_sign_ext_is_allones" in text
+    assert "synth -top cv32e40p_load_store_unit" in text
+    assert 'line.replace(out_dir, "<out-dir>")' in text
+    assert "profile_summary.json" in text
+    assert "bounded_module_area_neutral_no_spend" in text
+    assert (
+        "no full-core PPA, formal, toggle, cold-replay, or accepted-win claim" in text
+    )
+
+
 def test_sta_path_groups_use_register_cells() -> None:
     text = read_repo_file("syn/tcl/sta_utils.tcl")
 
