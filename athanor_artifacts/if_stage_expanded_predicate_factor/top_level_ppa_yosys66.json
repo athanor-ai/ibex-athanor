@@ -1,0 +1,166 @@
+{
+  "area": {
+    "baseline": 108428.992,
+    "classification": "improved",
+    "delta": -31.279999999998836,
+    "delta_percent": -0.028848372951764446,
+    "gate": 108397.712,
+    "metric": "sky130_chip_area"
+  },
+  "artifact_hashes": {
+    "COMMANDS.md": "4d587cf4923d0eb8b2d7c2d48e28fc503c3aa0e53819893ee8fbe194e1d7e57f",
+    "README.md": "c92ebdc8277f2d6575d33a7dcd8cf42e83d1a97ac148d72c5e182e7cf4735ca6",
+    "SOURCE_DIFF.patch": "b32ed43a1e288f1438163f2124173e5cdd61e4637abdba72ee5ff2894dee5b96",
+    "equiv_yosys66.log": "174a7ea8117c4a934e3584457f34536f4e9043cdf4e6745fd348f6dc412e39db",
+    "equiv_yosys66.ys": "ebeae0189ba22a656672f115597d58ccfc55a6fa53238f14f61986e221f675d1",
+    "gate_expanded_predicate_factor.v": "33ccfff935e6f9bf9ced0b4b0c446ef879b71817efd9f31dc39dcdfe674f897b",
+    "gate_source.sv": "49ae19ec0e1a405d15fbde56308dc0ade89d0827458daf1fe7f395908a1a1f64",
+    "gold.v": "ec84d9b70656cefe286c06a7dcb57f9a7bdb7a414134fd62f74b563316c5a2c9",
+    "logs/baseline_sta.log": "491567003531ac6b7d3a5003c24cada999932dc5b801171b5df361d27e607118",
+    "logs/baseline_syn.log": "2eb1b501e8be47570ab43ab399fa769502f6d14e8efd337e29e00dce2e83f5a5",
+    "logs/gate_sta.log": "307850a61a81bc20b53958fc29192c79a2c323cce17c928acb4e38b058533514",
+    "logs/gate_syn.log": "b86fbfafd52188be4b8f6726c2f4acbd476acd4ac75475d27b470500ed272ec6",
+    "reports/baseline_area.rpt": "8e84b5f7a4d7ab6f3be9065ac3337fc03fe08e4ca1fc886bce4a92e8875d1149",
+    "reports/gate_area.rpt": "cd7f0b3ae63a0a39de446dc0f06847748344b8ca19e19fdef794d41dc6e74192",
+    "reports/timing/in2out.baseline.csv.rpt": "e1989b0374d59950c161942eb4027d1f0223f8de68c66374054ddeaab2edd8ca",
+    "reports/timing/in2out.gate.csv.rpt": "afc66eb53793710068662c7e876fd59dd7333938860e198e06407cd59d1f0ca8",
+    "reports/timing/in2reg.baseline.csv.rpt": "5165bcb43a536f6a742cb8572da1ec0680bf615e7939a343ddc04a274d083205",
+    "reports/timing/in2reg.gate.csv.rpt": "0c11b1b922569a38788a70d7052298bb5e6029a06721def685db82262ff3d415",
+    "reports/timing/overall.baseline.csv.rpt": "cbf69f35602c0cc0cd2e974be3ea5d4763721bf1d83d94ae717e67d98707e4db",
+    "reports/timing/overall.gate.csv.rpt": "358b4dc9a9864a330109a619c2850461f326659bd228356a90f1725f436735a6",
+    "reports/timing/reg2out.baseline.csv.rpt": "857f38da7ff92f477651ea1e692df681d8871d7dbf42e01e961ec9dc2000defd",
+    "reports/timing/reg2out.gate.csv.rpt": "f370201973b1e65dfb0ce2be05d6333e391edce8ebc59223309e46eb1aab24a2",
+    "reports/timing/reg2reg.baseline.csv.rpt": "50ebb4cbbe3b2d358060ed74cee4c2180276fa2bd1a71bca8a6b555c369827fd",
+    "reports/timing/reg2reg.gate.csv.rpt": "d40467f8e9b53487cbcbb2e3677358767bf234017b949be74bb315111a0f5038"
+  },
+  "base_commit": "0148166dd291f29e7659db52c429af2ecf390e50",
+  "candidate": "if_stage_expanded_predicate_factor",
+  "classification_notes": [
+    "Top-level selected-toolchain area improves and every recorded timing group improves.",
+    "Yosys equivalence proves the candidate artifact: 1956/1956 $equiv cells proven.",
+    "Toggle/activity evidence and independent cold replay are still pending; this is not an accepted customer win."
+  ],
+  "formal_equivalence": {
+    "classification": "proven",
+    "engine": "yosys_equiv_induct",
+    "equiv_cells_proven": 1956,
+    "equiv_cells_unproven": 0,
+    "log": "equiv_yosys66.log",
+    "script": "equiv_yosys66.ys"
+  },
+  "mapped_cells": {
+    "baseline": 13290,
+    "classification": "increased_cells_area_improved",
+    "delta": 44,
+    "delta_percent": 0.33107599699021817,
+    "gate": 13334
+  },
+  "module": "ibex_if_stage",
+  "schema": "athanor_ibex_top_level_candidate_ppa_v1",
+  "source_patch": {
+    "module_rename": "none; patch applies directly to rtl/ibex_if_stage.sv and preserves module ibex_if_stage",
+    "path": "SOURCE_DIFF.patch",
+    "sha256": "b32ed43a1e288f1438163f2124173e5cdd61e4637abdba72ee5ff2894dee5b96"
+  },
+  "status": "candidate_formal_ppa_positive_toggle_pending_cold_replay_pending",
+  "ticket": "ATH-2699",
+  "timing": {
+    "in2out": {
+      "baseline": {
+        "endpoint": "instr_addr_o[2]",
+        "startpoint": "irq_fast_i[2]",
+        "wns_ns": -200.6972
+      },
+      "classification": "improved",
+      "delta_wns_ns": 0.16779999999999973,
+      "gate": {
+        "endpoint": "instr_addr_o[30]",
+        "startpoint": "irq_fast_i[0]",
+        "wns_ns": -200.5294
+      }
+    },
+    "in2reg": {
+      "baseline": {
+        "endpoint": "_22988_",
+        "startpoint": "irq_fast_i[2]",
+        "wns_ns": -249.6181
+      },
+      "classification": "improved",
+      "delta_wns_ns": 0.15809999999999036,
+      "gate": {
+        "endpoint": "_23104_",
+        "startpoint": "irq_fast_i[0]",
+        "wns_ns": -249.46
+      }
+    },
+    "overall": {
+      "baseline": {
+        "endpoint": "_23002_",
+        "startpoint": "_22449_",
+        "wns_ns": -484.8247
+      },
+      "classification": "improved",
+      "delta_wns_ns": 13.862599999999986,
+      "gate": {
+        "endpoint": "_23099_",
+        "startpoint": "_22535_",
+        "wns_ns": -470.9621
+      }
+    },
+    "reg2out": {
+      "baseline": {
+        "endpoint": "instr_addr_o[16]",
+        "startpoint": "_22449_",
+        "wns_ns": -436.0064
+      },
+      "classification": "improved",
+      "delta_wns_ns": 13.804100000000005,
+      "gate": {
+        "endpoint": "instr_addr_o[25]",
+        "startpoint": "_22535_",
+        "wns_ns": -422.2023
+      }
+    },
+    "reg2reg": {
+      "baseline": {
+        "endpoint": "_23002_",
+        "startpoint": "_22449_",
+        "wns_ns": -484.8247
+      },
+      "classification": "improved",
+      "delta_wns_ns": 13.862599999999986,
+      "gate": {
+        "endpoint": "_23099_",
+        "startpoint": "_22535_",
+        "wns_ns": -470.9621
+      }
+    }
+  },
+  "toolchain": {
+    "liberty": {
+      "path": "/workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+      "sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
+    },
+    "opensta": {
+      "path": "/usr/local/bin/sta",
+      "sha256": "4be87ddb9323b86bb4f6cd404f8a4793ea639e9728a48f809603a6606fd2ae83",
+      "version": "2.2.0"
+    },
+    "selected_toolchain_id": "yosys_0_66_181_oss_cad_suite_2026_06_30",
+    "sv2v": {
+      "path": "/workdir/.local/bin/sv2v",
+      "sha256": "b80a8ac6212aa72a196d9d6129cda35f16dbfa799ec61848c46321f845b6b635",
+      "version": "sv2v v0.0.13"
+    },
+    "synth_env": {
+      "LR_SYNTH_CELL_LIBRARY_NAME": "nangate",
+      "LR_SYNTH_CELL_LIBRARY_PATH": "/workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib"
+    },
+    "yosys": {
+      "path": "/workdir/_tools/oss-cad-suite-20260630/bin/yosys",
+      "sha256": "7c3e3396b38c129dd7485be5a0a0f0da8e495a94c8fd486059e3bea043a588d6",
+      "version": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)"
+    }
+  },
+  "top_module": "ibex_top"
+}
