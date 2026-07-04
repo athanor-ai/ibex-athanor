@@ -108,6 +108,19 @@ elaborated view and returned zero residual shared-term or constant-propagation
 leads. That makes SERV a useful negative transferability receipt for the current
 ATH-2685 families, but not an optimization-spend surface.
 
+ultraembedded/riscv also has a selected-flow baseline receipt in
+[`configs/ath2686_ultraembedded_riscv_baseline.json`](configs/ath2686_ultraembedded_riscv_baseline.json),
+with the target config in
+[`configs/ultraembedded_riscv_yosys66.json`](configs/ultraembedded_riscv_yosys66.json)
+and the synth script in
+[`syn/ultraembedded_riscv_yosys66.sh`](../syn/ultraembedded_riscv_yosys66.sh).
+The unmodified `riscv_core` baseline maps to `187985.2928` area with WNS groups
+`overall=-20.2890`, `reg2reg=-20.2293`, `reg2out=-8.2176`, `in2reg=-20.2890`,
+and `in2out=-8.2773`. Source-only detector replay found 12 constant-prop rows,
+but selected-flow residual replay returned zero leads. That makes it a second
+negative transferability receipt for the current ATH-2685 families, while
+preserving a direct-Verilog customer-relevant baseline for future detector work.
+
 VexRiscv remains a useful comparison target because its microarchitecture is
 deliberately different from Ibex, but it still requires fetch/license/toolchain
 verification before commitment.

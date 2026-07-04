@@ -79,6 +79,47 @@
       ]
     },
     {
+      "id": "ultraembedded_riscv",
+      "source": "https://github.com/ultraembedded/riscv",
+      "readiness": "selected_flow_baseline_ready",
+      "why": [
+        "Direct Verilog five-stage RISC-V core with a very different timing profile from Ibex and SERV.",
+        "Fast selected-flow baseline without a generator stack, useful for ATH-2686 transferability checks."
+      ],
+      "local_recon": {
+        "source_git_head": "7ae6f803e30f78c6ea3121e73c3adf50ff912730",
+        "selected_flow_top": "riscv_core",
+        "selected_flow_area": 187985.2928,
+        "selected_flow_wns_ns": {
+          "overall": -20.289,
+          "reg2reg": -20.2293,
+          "reg2out": -8.2176,
+          "in2reg": -20.289,
+          "in2out": -8.2773
+        },
+        "baseline_receipt": "athanor/configs/ath2686_ultraembedded_riscv_baseline.json"
+      },
+      "source_only_detector_recon": {
+        "constant_propagation_leads": 12,
+        "shared_term_leads": 0,
+        "detector_output_sha256": "1f19eb0c403b2cb0bea95e80ee8effe4d20589d05519ebd3e9c60c5883880608"
+      },
+      "selected_flow_detector_recon": {
+        "status": "no_spend_ready_candidate",
+        "residual_preanalysis_leads": 0,
+        "detector_binary_source": "kairos-rtl-rewrite from athanor-kairos main d4a44892",
+        "detector_output_sha256": "193b46d9fde84ef7daa829a28966bbb9383ce892925e10692ecc91c7d57e7e80"
+      },
+      "first_harness_work": [
+        "Use the selected-flow residual detector dry result as a second negative transferability receipt.",
+        "Try CV32E40P selected-flow profiling or new detector families before committing formal/toggle spend."
+      ],
+      "risks": [
+        "Core-level baseline has selected-flow timing violations and is not a SoC wrapper.",
+        "Source-only parameter leads are consumed by selected-flow elaboration under current detector logic."
+      ]
+    },
+    {
       "id": "vexriscv",
       "source": "https://github.com/SpinalHDL/VexRiscv",
       "readiness": "fetch_and_verify",
