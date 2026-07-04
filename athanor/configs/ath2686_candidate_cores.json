@@ -45,19 +45,37 @@
     {
       "id": "serv",
       "source": "https://github.com/olofk/serv",
-      "readiness": "fetch_and_verify",
+      "readiness": "selected_flow_baseline_ready",
       "why": [
         "Bit-serial RISC-V core gives a sharply different area/timing profile from Ibex.",
         "Good stress test for whether detectors transfer to ultra-small datapaths."
       ],
+      "local_recon": {
+        "source_git_head": "9baea86ff0e46e64b45342b9742898ed24e3c285",
+        "selected_flow_top": "serv_synth_wrapper",
+        "selected_flow_area": 8114.032,
+        "selected_flow_wns_ns": {
+          "overall": 4.0592,
+          "reg2reg": 4.0592,
+          "reg2out": 6.5025,
+          "in2reg": 5.9589,
+          "in2out": 7.9453
+        },
+        "baseline_receipt": "athanor/configs/ath2686_serv_baseline.json"
+      },
+      "selected_flow_detector_recon": {
+        "status": "no_spend_ready_candidate",
+        "residual_preanalysis_leads": 0,
+        "detector_binary_source": "kairos-rtl-rewrite from athanor-kairos main d4a44892",
+        "detector_output_sha256": "193b46d9fde84ef7daa829a28966bbb9383ce892925e10692ecc91c7d57e7e80"
+      },
       "first_harness_work": [
-        "Fetch and verify license/toolchain reproducibility.",
-        "Identify top module, selected config, and stable synth outputs.",
-        "Run source-only detector reconnaissance before committing."
+        "Use the selected-flow residual detector dry result as a negative transferability receipt.",
+        "Try another non-Ibex core or add new detector families before committing formal/toggle spend."
       ],
       "risks": [
         "Very small/serial architecture may leave little safe structural slack.",
-        "Harness setup may require FuseSoC or project-specific build steps."
+        "Positive baseline slack means useful area reductions may not move customer-visible timing."
       ]
     },
     {

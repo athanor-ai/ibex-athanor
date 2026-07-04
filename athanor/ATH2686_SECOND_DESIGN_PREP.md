@@ -94,8 +94,22 @@ receipt also preserves selected-flow generated artifacts (`picorv32_mapped.v`,
 pinned elaborated view. The equivalence/toggle legs still need a follow-up
 cross-repo artifact step before any win can be promoted.
 
-SERV and VexRiscv remain useful comparison targets because their microarchitectures
-are deliberately different from Ibex, but they require fetch/license/toolchain
+SERV now has a selected-flow baseline receipt in
+[`configs/ath2686_serv_baseline.json`](configs/ath2686_serv_baseline.json), with
+the target config in [`configs/serv_yosys66.json`](configs/serv_yosys66.json) and
+the synth script in [`syn/serv_yosys66.sh`](../syn/serv_yosys66.sh). The
+unmodified `serv_synth_wrapper` baseline maps to `8114.0320` area with WNS
+groups `overall=4.0592`, `reg2reg=4.0592`, `reg2out=6.5025`, `in2reg=5.9589`,
+and `in2out=7.9453`. That receipt is also harness-only: no transform has been
+applied, and no formal, toggle, cold replay, or optimization-win claim exists.
+The selected-flow residual detector replay against `athanor-kairos` main
+`d4a44892` scanned all 18 SERV RTL files with the generated STA netlist as the
+elaborated view and returned zero residual shared-term or constant-propagation
+leads. That makes SERV a useful negative transferability receipt for the current
+ATH-2685 families, but not an optimization-spend surface.
+
+VexRiscv remains a useful comparison target because its microarchitecture is
+deliberately different from Ibex, but it still requires fetch/license/toolchain
 verification before commitment.
 
 ## First Harness Slice
