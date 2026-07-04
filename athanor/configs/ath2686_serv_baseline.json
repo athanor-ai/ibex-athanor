@@ -1,0 +1,70 @@
+{
+  "ath_ticket": "ATH-2686",
+  "status": "selected_flow_baseline_ready",
+  "claim_boundary": "Unmodified SERV selected-flow baseline only; no transform applied and no optimization, formal, toggle, cold-replay, or PPA win claim.",
+  "design": {
+    "id": "serv",
+    "source_url": "https://github.com/olofk/serv",
+    "local_repo_path": "/workdir/oss-demo-targets/serv",
+    "git_head": "9baea86ff0e46e64b45342b9742898ed24e3c285",
+    "top": "serv_synth_wrapper",
+    "source_manifest_sha256": "916cb2d6f350f060e0fe7c021a6d38c74cc5ace213535298ac27875e9b7e94b3",
+    "source_file_count": 18
+  },
+  "toolchain": {
+    "yosys": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)",
+    "sta": "2.2.0",
+    "liberty_path": "/workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
+  },
+  "selected_timing_flow_baseline": {
+    "description": "SERV selected-flow area/timing baseline emitted by syn/serv_yosys66.sh. This is the comparator shape for top-level-first cheap gates, not an optimization claim.",
+    "parameters": {
+      "PRE_REGISTER": 1,
+      "WITH_CSR": 1,
+      "RF_WIDTH": 2,
+      "RESET_STRATEGY": "MINI"
+    },
+    "clock_period_ns": 10.0,
+    "io_delay_ns": 1.0,
+    "yosys_area": 8114.032,
+    "wns_ns": {
+      "overall": 4.0592,
+      "reg2reg": 4.0592,
+      "reg2out": 6.5025,
+      "in2reg": 5.9589,
+      "in2out": 7.9453
+    },
+    "artifacts": {
+      "mapped_netlist_sha256": "bd6c28a1cc1798af0ccce1312a7ef8971b2634d15958139e84e6cce07474d4aa",
+      "sta_netlist_sha256": "18ce1d6133dc6ff05f924eb55cf3bd03c19bfbe8f1ac616751e2c03c456d4460",
+      "yosys_script_sha256": "99f40d3d5d80c5279cc8e639abcfff2ae1c97a1ad736ee79bce710fc47e38b28",
+      "sta_script_sha256": "05afd86763b74c419b938ac997c1db5ca59208c129dbb79a053c14bd83c35002",
+      "yosys_log_sha256": "1a94abc8e34bb6b71f3bfed21f503c10d8f282778b36b71c65f1abce3831e713",
+      "sta_log_sha256": "aa9a7a6c5ad5d3578109c23dde2e037221c8acdd27021bcc048828d4e66ab1b0",
+      "area_report_sha256": "281e5e26ca6901f6e10690adf9e50067c8e47183daa0f03aca6718f6ed1e8058",
+      "overall_timing_csv_sha256": "e0062b7f30291c124c13dfc48012dc0d9a5ffadec5343e64882bed69f713e41a",
+      "reg2reg_timing_csv_sha256": "80480ffbcdd2031ba93f046bbbe1ca8fa96deda4a76e0bc766681724c086752d",
+      "reg2out_timing_csv_sha256": "cf0decb14f5941d8cff2e062e441d7f4fb2f6d058d9378a71d6f4b7e7ad29414",
+      "in2reg_timing_csv_sha256": "3357db8722fad20ff06db010ea12004978a4b62e882a5eb623ae0ea0ef6e7422",
+      "in2out_timing_csv_sha256": "6a1537dbd18f177de80cd1a5e1359be9b3446317c7e7d3862c9e6178e9af59a0"
+    },
+    "local_artifact_dir": "syn/syn_out/serv_baseline_probe"
+  },
+  "selected_flow_detector_recon": {
+    "status": "no_spend_ready_candidate",
+    "claim_boundary": "Residual detector reconnaissance only. No formal, toggle, cold-replay, or accepted-win claim.",
+    "detector_binary_source": "kairos-rtl-rewrite from athanor-kairos main d4a44892",
+    "detector_payload_sha256": "22b62e6ad0c2753852fe3b5fff8dc3662c0f8fa3608da49df060b1d0d10494e2",
+    "detector_full_output_sha256": "193b46d9fde84ef7daa829a28966bbb9383ce892925e10692ecc91c7d57e7e80",
+    "selected_flow_elaborated_source_sha256": "18ce1d6133dc6ff05f924eb55cf3bd03c19bfbe8f1ac616751e2c03c456d4460",
+    "source_files_scanned": 18,
+    "min_shared_occurrences": 4,
+    "min_guard_count": 2,
+    "residual_preanalysis_leads": 0,
+    "residual_shared_term_leads": 0,
+    "residual_constant_propagation_leads": 0,
+    "decision": "No SERV candidate crosses the detector pre-spend bar under the current shared-term and constant-propagation families."
+  },
+  "next_step": "Use SERV as a negative transferability receipt and continue ATH-2686 with another non-Ibex core or new detector families before spending formal or toggle."
+}

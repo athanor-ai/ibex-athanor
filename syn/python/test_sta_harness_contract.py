@@ -48,6 +48,24 @@ def test_sta_netlist_export_uses_opensta_safe_lhs() -> None:
     assert "write_verilog -noattr -noexpr -nohex -nodec -simple-lhs" in text
 
 
+def test_serv_selected_flow_harness_exports_opensta_artifacts() -> None:
+    text = read_repo_file("syn/serv_yosys66.sh")
+
+    assert "serv_synth_wrapper.v" in text
+    assert "hierarchy -check -top $top" in text
+    assert "chparam -set PRE_REGISTER $pre_register $top" in text
+    assert "chparam -set WITH_CSR $with_csr $top" in text
+    assert "chparam -set RF_WIDTH $rf_width $top" in text
+    assert "write_verilog -noattr $mapped_netlist" in text
+    assert "write_verilog -noattr -noexpr -nohex -nodec -simple-lhs $sta_netlist" in text
+    assert "tee -o $out_dir/reports/area.rpt stat -liberty $liberty" in text
+    assert "group_path -name reg2reg -from \\$flops -to \\$flops" in text
+    assert "group_path -name reg2out -from \\$flops -to \\$output_ports" in text
+    assert "group_path -name in2reg -from \\$input_ports -to \\$flops" in text
+    assert "group_path -name in2out -from \\$input_ports -to \\$output_ports" in text
+    assert "write_paths \\$overall_paths $out_dir/reports/timing/overall.csv.rpt" in text
+
+
 def test_sta_path_groups_use_register_cells() -> None:
     text = read_repo_file("syn/tcl/sta_utils.tcl")
 
