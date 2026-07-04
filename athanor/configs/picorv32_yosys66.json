@@ -6,6 +6,7 @@
   "syn_out_root": "syn_out",
   "area_report_glob": "reports/area.rpt",
   "timing_report_dir": "reports/timing",
+  "generated_artifact_globs": ["generated/*.v", "generated/*.ys", "generated/*.tcl"],
   "timing_groups": ["overall", "reg2reg", "reg2out", "in2reg", "in2out"],
   "tool_pins": {
     "oss_cad_suite": "/workdir/_tools/oss-cad-suite-20260630",

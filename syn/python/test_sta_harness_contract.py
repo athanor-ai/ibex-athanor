@@ -97,6 +97,43 @@ def test_top_level_first_prefers_csv_timing_reports(tmp_path: Path) -> None:
     assert metrics["wns"]["overall"] == -2.5
 
 
+def test_top_level_first_collects_generated_stage_artifacts(tmp_path: Path) -> None:
+    top_level_first = load_top_level_first()
+    reports = tmp_path / "reports"
+    timing = reports / "timing"
+    generated = tmp_path / "generated"
+    timing.mkdir(parents=True)
+    generated.mkdir()
+    (reports / "area.rpt").write_text("Chip area for module '\\picorv32': 42.0\n")
+    (timing / "overall.csv.rpt").write_text("Start Point,End Point,WNS (ns)\na,b,1.0\n")
+    (generated / "picorv32_mapped.v").write_text("module picorv32; endmodule\n")
+    (generated / "picorv32_sta.tcl").write_text("read_verilog picorv32_mapped.v\n")
+
+    metrics = top_level_first.collect_metrics(
+        {
+            "area_report_glob": "reports/*area*.rpt",
+            "top_module": "picorv32",
+            "timing_report_dir": "reports/timing",
+            "timing_groups": ["overall"],
+            "generated_artifact_globs": ["generated/*.v", "generated/*.tcl"],
+        },
+        tmp_path,
+    )
+    out_dir = tmp_path / "receipt"
+    (out_dir / "logs").mkdir(parents=True)
+
+    top_level_first.copy_stage_artifacts(out_dir, "baseline", metrics)
+
+    assert (out_dir / "logs" / "baseline_area.rpt").is_file()
+    assert (out_dir / "reports" / "timing" / "baseline" / "overall.csv.rpt").is_file()
+    assert (
+        out_dir / "generated" / "baseline" / "picorv32_mapped.v"
+    ).read_text() == "module picorv32; endmodule\n"
+    assert (
+        out_dir / "generated" / "baseline" / "picorv32_sta.tcl"
+    ).read_text() == "read_verilog picorv32_mapped.v\n"
+
+
 def test_top_level_first_equivalence_accepts_artifacts_already_in_workdir(
     tmp_path: Path, monkeypatch
 ) -> None:
