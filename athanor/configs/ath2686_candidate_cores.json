@@ -122,19 +122,38 @@
     {
       "id": "vexriscv",
       "source": "https://github.com/SpinalHDL/VexRiscv",
-      "readiness": "fetch_and_verify",
+      "readiness": "generator_toolchain_blocked",
       "why": [
         "Configurable pipelined 32-bit RISC-V core with a different frontend/backend split from Ibex.",
         "Customer-relevant class: FPGA-friendly configurable CPU rather than a single fixed public dogfood core."
       ],
+      "local_recon": {
+        "source_git_head": "680756065e9e6fc50d8c3d6c58191a16e867d822",
+        "license": "MIT",
+        "preflight_receipt": "athanor/configs/ath2686_vexriscv_preflight.json",
+        "generator": "Scala / SpinalHDL",
+        "scala_version": "2.12.18",
+        "spinalhdl_version": "1.13.0",
+        "sbt_version": "1.6.0",
+        "local_toolchain_status": {
+          "java": "missing",
+          "sbt": "missing",
+          "mill": "missing"
+        },
+        "checked_in_rtl_status": "no_generated_cpu_rtl_found",
+        "scala_source_files": 114,
+        "verilog_or_systemverilog_files": 8
+      },
       "first_harness_work": [
-        "Choose a generated Verilog configuration before running detectors.",
-        "Record generator/version pins if generated RTL is used.",
-        "Add no-op top_level_first.py receipt before optimization candidates."
+        "Provision Java plus SBT/Mill or import a pinned generated VexRiscv.v before running detectors.",
+        "Choose and record the generated Verilog configuration before selected-flow synthesis.",
+        "Record generator command, repo commit, generated RTL hash, and tool versions.",
+        "Add a no-op top_level_first.py receipt before optimization candidates."
       ],
       "risks": [
         "Generator stack may make cold replay heavier than PicoRV32.",
-        "Need to pin generated RTL so optimization evidence is not tied to an ambient Scala/Spinal setup."
+        "Need to pin generated RTL so optimization evidence is not tied to an ambient Scala/Spinal setup.",
+        "The checked-in Verilog files are board wrappers or test memory images, not a generated CPU baseline."
       ]
     },
     {

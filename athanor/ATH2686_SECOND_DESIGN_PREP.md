@@ -150,9 +150,18 @@ Yosys synthesis on `cv32e40p_load_store_unit` only. The profile is area-neutral:
 equivalence, toggle, cold replay, full-core PPA, or headline language is
 warranted for this candidate.
 
-VexRiscv remains a useful comparison target because its microarchitecture is
-deliberately different from Ibex, but it still requires fetch/license/toolchain
-verification before commitment.
+VexRiscv now has a generator-toolchain preflight receipt in
+[`configs/ath2686_vexriscv_preflight.json`](configs/ath2686_vexriscv_preflight.json).
+The checkout is present at git head `680756065e9e6fc50d8c3d6c58191a16e867d822`
+with an MIT license, Scala `2.12.18`, SpinalHDL `1.13.0`, and SBT `1.6.0`
+recorded from the repo files. That makes it a useful comparison target because
+its configurable plugin pipeline is deliberately different from Ibex, but it is
+not selected-flow ready yet: this container has no `java`, `sbt`, or `mill`, and
+the checked-in `.v` files are board wrappers or test memory images, not generated
+CPU RTL. The next VexRiscv step is generator-pinned RTL emission
+(`GenFull`, `GenSmallest`, or a chosen deterministic config), then normal
+selected-flow baseline and detector replay. No synthesis, PPA, formal, toggle,
+cold replay, or optimization claim exists for VexRiscv at this stage.
 
 ## First Harness Slice
 

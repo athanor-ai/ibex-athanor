@@ -1,0 +1,65 @@
+{
+  "ath_ticket": "ATH-2686",
+  "status": "generator_toolchain_blocked_no_selected_flow_baseline",
+  "claim_boundary": "VexRiscv checkout, license, and generator-toolchain preflight only; no generated CPU RTL, selected-flow baseline, detector spend, formal, toggle, cold replay, PPA result, or optimization-win claim.",
+  "design": {
+    "id": "vexriscv",
+    "source_url": "https://github.com/SpinalHDL/VexRiscv",
+    "local_repo_path": "/workdir/oss-demo-targets/vexriscv",
+    "git_head": "680756065e9e6fc50d8c3d6c58191a16e867d822",
+    "license": "MIT",
+    "license_sha256": "230178ba3f6cb6cf94ec301a9208fa6870e62c1ed83f20543f059622c3619760"
+  },
+  "generator": {
+    "language": "Scala / SpinalHDL",
+    "scala_version": "2.12.18",
+    "spinalhdl_version": "1.13.0",
+    "sbt_version": "1.6.0",
+    "build_sbt_sha256": "35765cbb64113b75075041d11de946d53971aa2a14ed600f2b30dc34de7a0fe0",
+    "build_properties_sha256": "b0ed4c2595135af38cd862ddc2e7293714be64ba3ea084990c7136f3d70b14c7",
+    "readme_sha256": "64ddf713ef029913545bb0bae7a60e04e9f61bbc4f20b25df3d2cbcd5a9c6ac7",
+    "documented_rtl_generation_commands": [
+      "sbt \"runMain vexriscv.demo.GenFull\"",
+      "sbt \"runMain vexriscv.demo.GenSmallest\"",
+      "./mill VexRiscv.runMain vexriscv.demo.GenFull",
+      "./mill VexRiscv.runMain vexriscv.demo.GenSmallest"
+    ]
+  },
+  "local_toolchain_probe": {
+    "java": "missing",
+    "sbt": "missing",
+    "mill": "missing",
+    "decision": "Cannot generate VexRiscv.v in this container without provisioning a Java plus SBT or Mill generator toolchain."
+  },
+  "checked_in_rtl_probe": {
+    "scala_source_files": 114,
+    "verilog_or_systemverilog_files": 8,
+    "verilog_file_classes": {
+      "board_wrappers": [
+        "scripts/Murax/arty_a7/toplevel.v",
+        "scripts/Murax/iCE40-hx8k_breakout_board/toplevel.v",
+        "scripts/Murax/iCE40HX8K-EVB/toplevel.v",
+        "scripts/Murax/iCE40HX8K-EVB/toplevel_pll.v",
+        "scripts/Murax/iCESugar/toplevel.v"
+      ],
+      "test_memory_images_with_dot_v_suffix": [
+        "src/test/cpp/custom/atomic/build/atomic.v",
+        "src/test/cpp/custom/custom_csr/build/custom_csr.v",
+        "src/test/cpp/custom/simd_add/build/custom_simd_add.v"
+      ]
+    },
+    "generated_cpu_rtl_status": "not_found",
+    "decision": "Do not run detectors or selected-flow synthesis until a pinned generated CPU RTL artifact is created or imported."
+  },
+  "first_harness_work": [
+    "Provision or import a pinned VexRiscv generator output, preferably GenFull or GenSmallest unless Aidan chooses another deterministic configuration.",
+    "Record the generator command, repo commit, generated RTL hash, and config class before detector replay.",
+    "Add a selected-flow baseline script only after generated CPU RTL is present.",
+    "Run source-only and selected-elaboration residual detector checks before any equivalence, toggle, or cold-replay spend."
+  ],
+  "risks": [
+    "Generator dependency stack makes cold replay heavier than direct-Verilog cores.",
+    "A generated artifact without command and version pins would not be independently replayable.",
+    "Board-wrapper Verilog in the repository instantiates generated designs but does not replace the missing generated CPU RTL baseline."
+  ]
+}
