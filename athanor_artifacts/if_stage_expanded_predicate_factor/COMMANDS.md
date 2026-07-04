@@ -61,8 +61,14 @@ ec84d9b70656cefe286c06a7dcb57f9a7bdb7a414134fd62f74b563316c5a2c9  gold.v
 
 ## Replay Formal Equivalence
 
+`equiv_yosys66.ys` reads `gate.v`; the package keeps the gate artifact under
+the descriptive name `gate_expanded_predicate_factor.v`. For replay, copy or
+symlink the packaged file to `gate.v` in the package directory before invoking
+Yosys.
+
 ```bash
 cd athanor_artifacts/if_stage_expanded_predicate_factor
+cp gate_expanded_predicate_factor.v gate.v
 /workdir/_tools/oss-cad-suite-20260630/bin/yosys -s equiv_yosys66.ys
 ```
 
@@ -130,8 +136,7 @@ aliased_vcd_ids_disambiguated: 17
 
 ## Boundary
 
-This is candidate evidence only. The source patch is bounded, formal equivalence
-closes, top-level area/timing improve, and the corrected pinned toggle
-convention is flat. Do not promote it as an accepted Ibex optimization until an
-independent cold replay reproduces the source patch, formal replay, top-level
-area, timing reports, and toggle receipt.
+This is accepted selected-toolchain evidence. The source patch is bounded,
+formal equivalence closes, top-level area/timing improve, the corrected pinned
+toggle convention is flat, and independent cold replay reproduced the source
+patch, formal replay, top-level area, timing reports, and toggle receipt.

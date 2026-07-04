@@ -8,8 +8,8 @@
     "metric": "sky130_chip_area"
   },
   "artifact_hashes": {
-    "COMMANDS.md": "59c4a1b03f375e4736ff37e08a87a4e91cb7fb5f4a7eb4bdecc8c0ec2defd082",
-    "README.md": "2341279c5abd0c5d5534e35e5b2d5e935b0f034b84e96fe3eb2cc0e6c01d3c5e",
+    "COMMANDS.md": "b5187e16dd4cfaecbc0174edaab3b12e42768dddad590f80af5d8682c09d73a2",
+    "README.md": "ae39f9f4f58c50407f8306c990d1c8d6e709b64e40482e6cdf64e7e895c009c0",
     "SOURCE_DIFF.patch": "b32ed43a1e288f1438163f2124173e5cdd61e4637abdba72ee5ff2894dee5b96",
     "equiv_yosys66.log": "174a7ea8117c4a934e3584457f34536f4e9043cdf4e6745fd348f6dc412e39db",
     "equiv_yosys66.ys": "ebeae0189ba22a656672f115597d58ccfc55a6fa53238f14f61986e221f675d1",
@@ -43,8 +43,19 @@
     "Top-level selected-toolchain area improves and every recorded timing group improves.",
     "Yosys equivalence proves the candidate artifact: 1956/1956 $equiv cells proven.",
     "The corrected pinned kairos.ibex.toggle.control_path.v1 convention is flat: 311729 -> 311729 toggles (0.0%), with 17 aliased VCD ids disambiguated.",
-    "Independent cold replay is still pending; this is not an accepted customer win."
+    "Independent cold replay reproduced 6/6 package legs exactly; this is an accepted selected-toolchain artifact for the recorded transform."
   ],
+  "cold_replay": {
+    "classification": "verified",
+    "independent_verifier": "Quan",
+    "notes": [
+      "Area and all recorded WNS groups reproduced to the recorded digits.",
+      "Formal replay reproduced 1956/1956 proven $equiv cells.",
+      "Pinned toggle replay reproduced 311729 -> 311729 toggles with byte-exact normalized trace hash.",
+      "sv2v rebuilds reproduced byte-identically."
+    ],
+    "result": "6/6 legs exact"
+  },
   "formal_equivalence": {
     "classification": "proven",
     "engine": "yosys_equiv_induct",
@@ -67,7 +78,7 @@
     "path": "SOURCE_DIFF.patch",
     "sha256": "b32ed43a1e288f1438163f2124173e5cdd61e4637abdba72ee5ff2894dee5b96"
   },
-  "status": "candidate_formal_ppa_positive_toggle_flat_cold_replay_pending",
+  "status": "accepted_formal_ppa_positive_toggle_flat_cold_replayed",
   "ticket": "ATH-2699",
   "timing": {
     "in2out": {

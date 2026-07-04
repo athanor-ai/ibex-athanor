@@ -1,12 +1,13 @@
-# ibex_if_stage expanded predicate factoring candidate
+# ibex_if_stage expanded predicate factoring accepted artifact
 
 Classification:
-`candidate_formal_ppa_positive_toggle_flat_cold_replay_pending`
+`accepted_formal_ppa_positive_toggle_flat_cold_replayed`
 
 This package records a top-level `ibex_top` replay for a general shared-term
-factoring candidate in `ibex_if_stage`. It is not an accepted optimization yet:
-formal equivalence, top-level area, timing, and the corrected pinned toggle
-convention are positive, but independent cold replay is still pending.
+factoring transform in `ibex_if_stage`. It is an accepted optimization for the
+recorded selected toolchain: formal equivalence, top-level area, timing, and
+the corrected pinned toggle convention are positive, and independent cold
+replay reproduced the package exactly.
 
 ## Transform
 
@@ -66,8 +67,8 @@ Pinned toggle convention:
 
 ## Current Boundary
 
-This package is scout evidence for ATH-2699. It is deliberately not a README
-headline row and not a customer win claim until the full bar closes:
+This package is accepted evidence for ATH-2699 under the selected toolchain. The
+full bar is closed:
 
 1. source patch is bounded and replayable
 2. formal equivalence is closed
@@ -75,7 +76,12 @@ headline row and not a customer win claim until the full bar closes:
 4. toggle/activity evidence is packaged and flat
 5. independent cold replay reproduces the package
 
-Items 1-4 are included here. Item 5 is pending.
+Independent cold replay reproduced 6/6 legs exactly: area to the recorded
+digits, all recorded WNS groups, formal `1956/1956`, toggle `311729 -> 311729`
+with byte-exact normalized trace hash, and sv2v rebuilds byte-identically.
+
+This does not claim an aggregate cross-transform whole-core percentage. That
+requires integration and replay of multiple accepted transforms together.
 
 ## Files
 

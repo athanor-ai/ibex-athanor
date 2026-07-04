@@ -15,23 +15,29 @@ future receipt updates must preserve the selected-toolchain policy.
 
 Customer-safe accepted evidence today:
 
-- **Accepted selected-toolchain optimizations:** 2 module-level artifacts.
-- **Best accepted timing movement:** `ibex_multdiv_slow` improves max data
-  arrival by **10.82%** with flat toggle and full formal replay.
+- **Accepted selected-toolchain optimizations:** 3 artifacts: 2 module-level
+  artifacts and 1 cold-verified whole-core entry.
+- **Best accepted module timing movement:** `ibex_multdiv_slow` improves max
+  data arrival by **10.82%** with flat toggle and full formal replay.
+- **First accepted whole-core timing movement:** `ibex_if_stage`
+  `expanded_predicate_factor` improves all five recorded WNS groups; reg2reg
+  improves by **13.8626ns**.
 - **Accepted area movement:** `ibex_multdiv_slow` improves selected-toolchain
   area by **0.0605%**; `ibex_multdiv_fast` is area/cell flat while improving
-  timing by **2.58%**.
+  timing by **2.58%**; `ibex_if_stage` `expanded_predicate_factor` improves
+  whole-core selected-toolchain area by **0.02885%**.
 - **Rejected rows are visible by design:** area/timing/formal-positive changes
   that regress toggle are kept in the table as evidence that promotion is
   blocked by the full PPA bar.
-- **Whole-core Ibex PPA headline:** not claimed yet. The current table is
-  module-local evidence. The customer headline requires top-level integration,
-  replay, and cold verification before this README reports a whole-core
-  percentage.
+- **Whole-core Ibex PPA headline entry:** `ibex_if_stage`
+  `expanded_predicate_factor` reduces selected-toolchain `ibex_top` area by
+  **0.02885%**, improves all five recorded WNS groups, keeps toggle flat at
+  **0.0%**, closes **1956/1956** formal equivalence cells, and has independent
+  cold replay of the full package.
 
-Next headline target: integrate the accepted artifacts into config-specific
-Ibex top builds and report one selected-toolchain whole-core line covering
-area, timing, toggle, formal replay, and artifact hashes.
+Next headline target: add more top-level-surviving accepted transforms and
+report an aggregate selected-toolchain whole-core line only after integration,
+replay, and independent cold verification.
 
 ## Where Kairos Sits
 
@@ -57,7 +63,7 @@ cell count and liberty-weighted area can move in different directions.
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
 | `ibex_multdiv_slow` / `greater_equal_xor_shape` | **Accepted artifact** | 10339.9168 -> 10333.6608, **-0.0605%** | 1351 -> 1361, **+10 cells** | max data arrival 8.13ns -> 7.25ns, **-0.88ns / -10.82%**; WNS/TNS -0.13/-5.66 -> 0/0 | 6117 -> 6117, **0.0%** | 411/411 `$equiv` proven | [`athanor_artifacts/multdiv_slow_greater_equal_xor_shape/`](athanor_artifacts/multdiv_slow_greater_equal_xor_shape/) |
 | `ibex_multdiv_fast` / `greater_equal_xor_shape` | **Accepted artifact** | one-button cell metric flat, **0.0%** | 3306 -> 3306, **0 cells saved** | max propagation delay 10.85ns -> 10.57ns, **-0.28ns / -2.58%** | 7657 -> 7657, **0.0%** | 772/772 `$equiv` proven | [`athanor_artifacts/multdiv_fast_greater_equal_xor_shape/`](athanor_artifacts/multdiv_fast_greater_equal_xor_shape/) |
-| `ibex_if_stage` / `expanded_predicate_factor` | **Candidate: top-level area + timing + formal positive, toggle flat** | whole-core 108428.9920 -> 108397.7120, **-0.02885%** | 13290 -> 13334, **+44 cells** | whole-core WNS improves on all recorded groups; reg2reg **+13.8626ns**, reg2out **+13.8041ns** | 311729 -> 311729, **0.0%** | 1956/1956 `$equiv` proven | [`athanor_artifacts/if_stage_expanded_predicate_factor/`](athanor_artifacts/if_stage_expanded_predicate_factor/) |
+| `ibex_if_stage` / `expanded_predicate_factor` | **Accepted artifact: cold-verified whole-core area + timing positive, toggle flat** | whole-core 108428.9920 -> 108397.7120, **-0.02885%** | 13290 -> 13334, **+44 cells** | whole-core WNS improves on all recorded groups; reg2reg **+13.8626ns**, reg2out **+13.8041ns** | 311729 -> 311729, **0.0%** | 1956/1956 `$equiv` proven | [`athanor_artifacts/if_stage_expanded_predicate_factor/`](athanor_artifacts/if_stage_expanded_predicate_factor/) |
 | `ibex_if_stage` / `no_bp_prefetch_direct` | **Candidate: area + timing + formal positive, toggle flat** | 16821.1328 -> 16756.0704, **-0.3868%** | 3396 -> 3403, **+7 cells** | top data arrival 9.2829ns -> 8.9149ns, **-3.9654%**; WNS/TNS 0/0 | 311729 -> 311729, **0.0%** | 1956/1956 `$equiv` proven | [`athanor_artifacts/if_stage_no_bp_prefetch_direct/`](athanor_artifacts/if_stage_no_bp_prefetch_direct/) |
 | `ibex_alu` / `bwlogic_or_from_xor_and` | **Tradeoff: area positive, timing negative** | 5471.4976 -> 5122.4128, **-6.3801%** | 838 -> 788, **50 cells saved / -5.9666%** | max propagation delay 8.83ns -> 10.56ns, **+1.73ns / +19.59%** | 5977 -> 5977, **0.0%** | 1627 cells, 0 unproven | [`athanor/ppa_frontier/ibex_alu_bwlogic/`](athanor/ppa_frontier/ibex_alu_bwlogic/) |
 | `ibex_id_stage` / `no_wb_prio_assign` | **Rejected: toggle regression** | 7791.2224 -> 7741.1744, **-0.6424%** | 2268 -> 2188, **80 cells saved / -3.53%** | top data arrival 7.5917ns -> 5.5358ns, **-27.08%**; WNS/TNS 0/0 | 26137 -> 26468, **+1.27%** | 665/665 `$equiv` proven | [`athanor_artifacts/id_stage_no_wb_prio_assign/`](athanor_artifacts/id_stage_no_wb_prio_assign/) |
@@ -66,20 +72,23 @@ cell count and liberty-weighted area can move in different directions.
 ### What This Means
 
 - The current accepted wins are the `ibex_multdiv_slow` and `ibex_multdiv_fast`
-  `greater_equal_xor_shape` rewrites. Both improve timing, keep toggle flat, and
-  prove equivalence under their stated measurement conventions.
-- The IF-stage rows are promising, but still candidate evidence. The
-  `expanded_predicate_factor` row is top-level-positive with flat toggle under
-  the corrected pinned convention; promotion still requires independent replay
-  and any additional review required for customer-facing use.
+  `greater_equal_xor_shape` rewrites plus the cold-verified whole-core
+  `ibex_if_stage` `expanded_predicate_factor` rewrite. All three keep toggle
+  flat and prove equivalence under their stated measurement conventions.
+- The `expanded_predicate_factor` row is the first top-level-first accepted
+  artifact in this repository: area improves at `ibex_top`, every recorded WNS
+  group improves, formal replay closes, and the independent cold replay matched
+  the full package exactly.
 - The ALU row saves area and cells but costs timing; it is useful evidence, not a
   full-PPA customer win.
 - The ID-stage and LSU rows are deliberately listed as rejects. They looked good
   on area/timing/formal, but switching activity regressed, so the promotion bar
   correctly stopped them.
-- No whole-core percent is claimed from these rows yet. A whole-core headline
-  needs top-level integration and replay, because module-local deltas cannot be
-  safely added together across configurations.
+- One whole-core percent is claimed today for the cold-verified
+  `expanded_predicate_factor` transform. No aggregate cross-transform
+  whole-core percent is claimed yet; aggregation still requires top-level
+  integration and replay because module-local deltas cannot be safely added
+  together across configurations.
 
 ## Historical / Cross-Tool Evidence
 
