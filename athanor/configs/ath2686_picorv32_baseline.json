@@ -22,5 +22,42 @@
     "mapped_netlist_sha256": "f177db141638d3af553697820bc3a2aeddc775f78b7973529d1ba8d7a388357e",
     "yosys_log_sha256": "b03d144095c2a202cb7f9f5cdf11c5114f68c05acba9ec350068e06d9a83476f",
     "local_artifact_dir": "/tmp/ath2686_picorv32_baseline"
+  },
+  "selected_m_extension_baseline": {
+    "description": "PicoRV32 selected-flow probe with ENABLE_FAST_MUL=1 and ENABLE_DIV=1. This is a baseline for residual detector reconnaissance, not an optimization claim.",
+    "parameters": {
+      "ENABLE_FAST_MUL": 1,
+      "ENABLE_DIV": 1
+    },
+    "yosys_area": 32880.2848,
+    "mapped_netlist_sha256": "23ad98f63d4bfc34b1294e5eed235b0a483a33c9bd4d9474f08fb3cdd94a811f",
+    "yosys_log_sha256": "934b7b59d1f23598d45928ddd984d5cb52cf13a958372daa83cd1cd806c03063",
+    "local_artifact_dir": "/tmp/ath2686_picorv32_mext_baseline"
+  },
+  "selected_flow_detector_recon": {
+    "status": "no_win_candidate",
+    "claim_boundary": "Residual detector reconnaissance only. No formal, toggle, cold-replay, or accepted-win claim.",
+    "detector_binary_source": "kairos-rtl-rewrite from ATH-2685 selected-toolchain detector branch",
+    "detector_summary_sha256": "b01a82fb22f42b9ba567f9a4c4028e636e954704040456ba6e1aefbd527a8d72",
+    "detector_full_output_sha256": "bd2902d349212dd78915904166cd427d21f315cd20b1a4f09ec5ddae533d79fd",
+    "residual_leads": [
+      {
+        "expression": "0 == mem_wstrb",
+        "occurrence_count": 4,
+        "classification": "assertion_or_formal_only",
+        "decision": "do_not_spend_synth"
+      },
+      {
+        "expression": "pcpi_rs1 - pcpi_rs2",
+        "occurrence_count": 4,
+        "classification": "selected_flow_area_neutral",
+        "baseline_area": 32880.2848,
+        "gate_area": 32880.2848,
+        "gate_mapped_netlist_sha256": "cd2a2e58cfa0068c6a23b158a9eafdd9a55b1044f231f8cfac593da18645e8c9",
+        "gate_yosys_log_sha256": "5284d0457fc54438726b96efc66ef39a689deef9893d2d551c50fc95ffb7ad64",
+        "decision": "archive_as_no_movement_not_win"
+      }
+    ],
+    "next_filter": "Suppress assertion/formal-only residual leads and require selected-flow netlist movement before equivalence/toggle spend."
   }
 }

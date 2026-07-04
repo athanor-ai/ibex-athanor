@@ -60,6 +60,15 @@ source, toolchain, liberty, log, and mapped-netlist hashes. This is not a design
 commitment and not an optimization claim; it is only a reproducibility starting
 point if PicoRV32 is selected.
 
+The same file also records an M-extension selected-flow probe
+(`ENABLE_FAST_MUL=1`, `ENABLE_DIV=1`) plus the first residual detector replay.
+That replay found two residual shared-term rows, but both are cheap-kill rows:
+one is assertion/formal-only (`0 == mem_wstrb`) and one is selected-flow area
+neutral (`pcpi_rs1 - pcpi_rs2`, `32880.2848 -> 32880.2848`). Those rows are
+evidence for the next ATH-2685 filter, not win candidates. No equivalence,
+toggle, or cold replay is warranted until a candidate changes selected-flow
+area/timing in the right direction.
+
 SERV and VexRiscv remain useful comparison targets because their microarchitectures
 are deliberately different from Ibex, but they require fetch/license/toolchain
 verification before commitment.
