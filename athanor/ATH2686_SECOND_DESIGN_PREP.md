@@ -79,8 +79,10 @@ The selected M-extension baseline is `145644.6848` area with WNS groups
 and `in2out=7.7694`.
 This is the area/timing half of the second-design harness only. Since PicoRV32
 currently lives outside this repository under `/workdir/oss-demo-targets`, the
-candidate patch/equivalence/toggle legs need a follow-up cross-repo artifact
-step before any win can be promoted.
+config sets `patch_root` to that checkout so `top_level_first.py` can apply and
+restore candidate patches there while keeping this repository clean. The
+equivalence/toggle legs still need a follow-up cross-repo artifact step before
+any win can be promoted.
 
 SERV and VexRiscv remain useful comparison targets because their microarchitectures
 are deliberately different from Ibex, but they require fetch/license/toolchain
