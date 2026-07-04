@@ -63,11 +63,15 @@
     "local_artifact_dir": "/tmp/ath2686_picorv32_selected_flow_script"
   },
   "selected_flow_detector_recon": {
-    "status": "no_win_candidate",
+    "status": "no_spend_ready_candidate",
     "claim_boundary": "Residual detector reconnaissance only. No formal, toggle, cold-replay, or accepted-win claim.",
-    "detector_binary_source": "kairos-rtl-rewrite from ATH-2685 selected-toolchain detector branch",
+    "detector_binary_source": "kairos-rtl-rewrite from athanor-kairos main 73f6b5b1",
+    "detector_payload_sha256": "0998ef27483c24c06cf89265ab1935337656262e92ccb720d73e03314a394aaa",
     "detector_summary_sha256": "b01a82fb22f42b9ba567f9a4c4028e636e954704040456ba6e1aefbd527a8d72",
     "detector_full_output_sha256": "bd2902d349212dd78915904166cd427d21f315cd20b1a4f09ec5ddae533d79fd",
+    "selected_flow_elaborated_source_sha256": "86a750f32f7536b3bcf23a3d7b6c5e7eaea0db5fdb5077dfb8f0338e873f6c5d",
+    "selected_flow_mapped_netlist_sha256": "a3470f445e7269808a6cf19f6af58cfbf806ead5aeef2daa828cef797562b9b8",
+    "residual_constant_propagation_leads": 0,
     "residual_leads": [
       {
         "expression": "0 == mem_wstrb",
