@@ -156,8 +156,14 @@ def collect_metrics(cfg: dict, syn_out: Path) -> dict:
     timing_dir = syn_out / cfg["timing_report_dir"]
     wns = {}
     for group in cfg["timing_groups"]:
-        matches = sorted(timing_dir.glob(f"{group}*.rpt")) or sorted(
-            timing_dir.glob(f"{group}*")
+        # The synth flow emits both machine-readable CSV summaries
+        # (overall.csv.rpt) and human path-detail reports (overall.rpt).
+        # parse_group_wns consumes the CSV shape, so prefer it explicitly.
+        matches = (
+            sorted(timing_dir.glob(f"{group}.csv.rpt"))
+            or sorted(timing_dir.glob(f"{group}*.csv.rpt"))
+            or sorted(timing_dir.glob(f"{group}*.rpt"))
+            or sorted(timing_dir.glob(f"{group}*"))
         )
         if not matches:
             raise SystemExit(f"no timing report for group {group} under {timing_dir}")
