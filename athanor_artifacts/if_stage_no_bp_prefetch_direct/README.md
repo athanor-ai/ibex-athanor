@@ -28,6 +28,8 @@ end
 - `gate_source.sv`: modified `ibex_if_stage.sv` source.
 - `if_stage_10ns.sdc`: selected timing proxy used for local filter replay.
 - `logs/`: selected Yosys 0.66 area logs and OpenSTA timing logs.
+- `logs/convention_v1/`: pinned toggle-convention replay receipt, trace, VCD,
+  and simulator log.
 - `equiv_yosys66.ys`, `equiv_yosys66.log`: artifact-level Yosys equivalence
   replay script and log.
 - `SHA256SUMS`: hashes for every replay artifact in this package.
@@ -71,12 +73,19 @@ Result: `1956` `$equiv` cells proven, `0` unproven.
 
 ## Current Classification
 
-`formal_closed_area_positive_timing_positive_toggle_convention_pending`
+`formal_closed_area_positive_timing_positive_toggle_flat_cold_replay_pending`
 
 The selected-toolchain area and timing replay is positive, and artifact-level
-formal equivalence closes on these exact hashes. Final customer/frontier
-promotion still requires the agreed toggle/power convention and packaged toggle
-receipt.
+formal equivalence closes on these exact hashes. The corrected pinned toggle
+convention is flat:
+
+- Gold toggles: `311729`
+- Gate toggles: `311729`
+- Delta: `0.0%`
+- Aliased VCD ids disambiguated: `17`
+
+Final customer/frontier promotion still requires independent cold replay and any
+additional review required for customer-facing use.
 
 ## Formal Handoff Notes
 

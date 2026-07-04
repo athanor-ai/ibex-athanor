@@ -3,9 +3,9 @@
   "boundary_equality_every_cycle": true,
   "convention_id": "kairos.ibex.toggle.control_path.v1",
   "convention_sha256": "0d74f085f4dee7f946e9d7451c5965fed4f450e43f69745330979f8afc67d603",
-  "gate_sha256": "3b110aa626ff94bd3491a092aede4b56eda5095c709b573a5c5b4a0efbc00427",
+  "gate_sha256": "33ccfff935e6f9bf9ced0b4b0c446ef879b71817efd9f31dc39dcdfe674f897b",
   "gate_toggles": 311729,
-  "gold_sha256": "ebf8d55a86426034f93e7d7dc3ca793a41a5fcd221f125338e456383117a47a5",
+  "gold_sha256": "ec84d9b70656cefe286c06a7dcb57f9a7bdb7a414134fd62f74b563316c5a2c9",
   "gold_toggles": 311729,
   "measured_input_duty": {
     "id_in_ready_i": 0.793,
@@ -20,7 +20,7 @@
     "req_i": 0.815
   },
   "no_x_or_z_on_primary_inputs": "construction_guaranteed_binary_assignments",
-  "normalized_vcd_sha256": "5976a8efbbce898f4fd579273d5142279ea4383a5a6a11ef9ff3afa68910f9e6",
+  "normalized_vcd_sha256": "b3a4d70ff434cd2d889e0b0f2f6009bf7043d34bc6edbeb41515416ac2a7126b",
   "power_evidence_type": "toggle_convention",
   "power_method": "iverilog_vcd_hierarchy_toggle",
   "power_status": "measured",
@@ -40,5 +40,5 @@
   "trace": "toggle_trace.json",
   "trace_sha256": "95e93dc185370ec37394b9ea2988a5f15c2e897c64ec7215c5e4f5b918239a42",
   "vcd": "toggle.vcd",
-  "vcd_sha256": "f9c1d0c88fbe5a4e599e7c25b0fa46fc526de25f7fed748baf2a4b5e3f0babb9"
+  "vcd_sha256": "c4234d4d563611b64fac2a9d6c12f4c37f18df0d190fa51cee70e91e53206d82"
 }

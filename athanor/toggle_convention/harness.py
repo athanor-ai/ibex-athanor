@@ -33,6 +33,8 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
+from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -236,7 +238,7 @@ def _normalize(value: str, width: int) -> str | None:
 def count_vcd(vcd_path: Path, exercise_signals: set[str]):
     """Per-side toggle totals + per-signal transition counts for the gold
     instance's inputs named in the convention's required-exercise list."""
-    id_owner: dict[str, str] = {}
+    id_owners: dict[str, set[str]] = defaultdict(set)
     id_width: dict[str, int] = {}
     id_name: dict[str, str] = {}
     scopes: list[str] = []
@@ -244,6 +246,7 @@ def count_vcd(vcd_path: Path, exercise_signals: set[str]):
     prev: dict[str, str] = {}
     counts = {"gold": 0, "gate": 0}
     exercise: dict[str, int] = {s: 0 for s in exercise_signals}
+    aliased_ids: set[str] = set()
     with vcd_path.open() as handle:
         for raw in handle:
             line = raw.strip()
@@ -263,7 +266,9 @@ def count_vcd(vcd_path: Path, exercise_signals: set[str]):
                         owner = "gold" if "gold" in scopes else ("gate" if "gate" in scopes else None)
                         if owner:
                             ident = parts[3]
-                            id_owner[ident] = owner
+                            id_owners[ident].add(owner)
+                            if len(id_owners[ident]) > 1:
+                                aliased_ids.add(ident)
                             id_width[ident] = int(parts[2])
                             if owner == "gold" and parts[4] in exercise_signals:
                                 id_name[ident] = parts[4]
@@ -279,8 +284,8 @@ def count_vcd(vcd_path: Path, exercise_signals: set[str]):
                 raw_value, ident = pieces[0][1:], pieces[1]
             else:
                 continue
-            owner = id_owner.get(ident)
-            if owner is None:
+            owners = id_owners.get(ident)
+            if not owners:
                 continue
             value = _normalize(raw_value, id_width[ident])
             if value is None:
@@ -289,20 +294,77 @@ def count_vcd(vcd_path: Path, exercise_signals: set[str]):
             old = prev.get(ident)
             if old is not None:
                 flips = sum(a != b for a, b in zip(old, value))
-                counts[owner] += flips
+                for owner in owners:
+                    counts[owner] += flips
                 if ident in id_name:
                     exercise[id_name[ident]] += flips
             prev[ident] = value
-    return counts["gold"], counts["gate"], exercise
+    return counts["gold"], counts["gate"], exercise, len(aliased_ids)
+
+
+def _selftest_shared_vcd_aliases() -> None:
+    vcd = """$date
+  selftest
+$end
+$version
+  selftest
+$end
+$timescale
+  1ps
+$end
+$scope module tb $end
+$scope module gold $end
+$var wire 1 ! shared_i $end
+$var wire 1 \" gold_only $end
+$upscope $end
+$scope module gate $end
+$var wire 1 ! shared_i $end
+$var wire 1 # gate_only $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+0!
+0\"
+0#
+#1
+1!
+1\"
+#2
+0!
+0\"
+1#
+"""
+    with tempfile.TemporaryDirectory() as td:
+        path = Path(td) / "alias.vcd"
+        path.write_text(vcd)
+        gold_t, gate_t, exercise, aliased = count_vcd(path, {"shared_i"})
+    if (gold_t, gate_t, exercise.get("shared_i"), aliased) != (4, 3, 2, 1):
+        raise SystemExit(
+            "shared-id VCD accounting selftest failed: "
+            f"gold={gold_t} gate={gate_t} exercise={exercise} aliased={aliased}"
+        )
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--gold", type=Path, required=True)
-    ap.add_argument("--gate", type=Path, required=True)
-    ap.add_argument("--top", required=True)
-    ap.add_argument("--out-dir", type=Path, required=True)
+    ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--gold", type=Path)
+    ap.add_argument("--gate", type=Path)
+    ap.add_argument("--top")
+    ap.add_argument("--out-dir", type=Path)
     args = ap.parse_args()
+
+    if args.selftest:
+        _selftest_shared_vcd_aliases()
+        print("toggle harness selftest: shared VCD aliases counted symmetrically")
+        return 0
+
+    missing = [
+        name for name in ("gold", "gate", "top", "out_dir") if getattr(args, name) is None
+    ]
+    if missing:
+        ap.error("missing required arguments: " + ", ".join(f"--{m.replace('_', '-')}" for m in missing))
 
     conv = load_convention()
     conv_sha = _sha256_convention(conv)
@@ -348,7 +410,7 @@ def main() -> int:
         k: v for k, v in conv.get("required_exercise", {}).items()
         if isinstance(v, dict)
     }
-    gold_t, gate_t, exercise = count_vcd(vcd_path, set(req_spec))
+    gold_t, gate_t, exercise, aliased_ids = count_vcd(vcd_path, set(req_spec))
 
     violations = []
     for sig, bounds in sorted(req_spec.items()):
@@ -402,6 +464,7 @@ def main() -> int:
         "gate_toggles": gate_t,
         "toggle_delta_pct": round(delta_pct, 6),
         "toggle_status": "neutral_or_better" if gate_t <= gold_t else "regression",
+        "aliased_vcd_ids_disambiguated": aliased_ids,
         "required_exercise_measured": exercise,
         "trace_sha256": _sha256_file(trace_path),
         "vcd_sha256": _sha256_file(vcd_path),
