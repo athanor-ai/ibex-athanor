@@ -355,6 +355,11 @@ def main() -> int:
         "candidate-scoped — win #7's was ibex_if_stage)",
     )
     ap.add_argument(
+        "--force-fresh",
+        action="store_true",
+        help="wipe a non-empty out dir instead of refusing (receipt freshness guard)",
+    )
+    ap.add_argument(
         "--keep-tree-patched",
         action="store_true",
         help="leave the patch applied on exit (default: always revert)",
@@ -364,6 +369,15 @@ def main() -> int:
     cfg = load_core_config(args.core)
     name = args.candidate_name or args.patch.stem
     out_dir = args.out or (REPO_ROOT / "athanor_artifacts" / f"{name}_top_level_first")
+    if out_dir.exists() and any(out_dir.iterdir()):
+        if args.force_fresh:
+            shutil.rmtree(out_dir)
+        else:
+            raise SystemExit(
+                f"out_dir {out_dir} exists and is non-empty — stale files would "
+                "poison the receipt's artifact_hashes (byte-reproducibility contract). "
+                "Use --force-fresh to wipe it, or pick a new --out."
+            )
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "logs").mkdir(exist_ok=True)
     shutil.copy(args.patch, out_dir / "SOURCE_DIFF.patch")
