@@ -11,6 +11,37 @@ recipe recorded in the receipts. Public manifests are checked by
 [`athanor/verify_public_receipts.py`](athanor/verify_public_receipts.py) so
 future receipt updates must preserve the selected-toolchain policy.
 
+## Executive Scorecard
+
+Customer-safe accepted evidence today:
+
+- **Accepted selected-toolchain optimizations:** 2 module-level artifacts.
+- **Best accepted timing movement:** `ibex_multdiv_slow` improves max data
+  arrival by **10.82%** with flat toggle and full formal replay.
+- **Accepted area movement:** `ibex_multdiv_slow` improves selected-toolchain
+  area by **0.0605%**; `ibex_multdiv_fast` is area/cell flat while improving
+  timing by **2.58%**.
+- **Rejected rows are visible by design:** area/timing/formal-positive changes
+  that regress toggle are kept in the table as evidence that promotion is
+  blocked by the full PPA bar.
+- **Whole-core Ibex PPA headline:** not claimed yet. The current table is
+  module-local evidence. The customer headline requires top-level integration,
+  replay, and cold verification before this README reports a whole-core
+  percentage.
+
+Next headline target: integrate the accepted artifacts into config-specific
+Ibex top builds and report one selected-toolchain whole-core line covering
+area, timing, toggle, formal replay, and artifact hashes.
+
+## Where Kairos Sits
+
+Kairos is the optimization and evidence layer above customer RTL. It proposes
+bounded RTL rewrites, then gates each candidate through parsing, synthesis,
+formal equivalence, timing, area, toggle/activity, hash manifests, and human
+review before a result is promoted. Ibex is the public dogfood design in this
+repository; the defensible asset is the reusable optimization and evidence
+pipeline, not a one-off chip-specific patch.
+
 ## Current Toolchain Rebaseline
 
 The table below is the customer-facing summary of the latest Ibex optimization
@@ -43,6 +74,9 @@ cell count and liberty-weighted area can move in different directions.
 - The ID-stage and LSU rows are deliberately listed as rejects. They looked good
   on area/timing/formal, but switching activity regressed, so the promotion bar
   correctly stopped them.
+- No whole-core percent is claimed from these rows yet. A whole-core headline
+  needs top-level integration and replay, because module-local deltas cannot be
+  safely added together across configurations.
 
 ## Historical / Cross-Tool Evidence
 
