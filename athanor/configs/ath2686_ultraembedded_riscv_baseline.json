@@ -1,0 +1,87 @@
+{
+  "ath_ticket": "ATH-2686",
+  "status": "selected_flow_baseline_ready",
+  "claim_boundary": "Unmodified ultraembedded/riscv core-level selected-flow baseline only; no transform applied and no optimization, formal, toggle, cold-replay, or PPA win claim.",
+  "design": {
+    "id": "ultraembedded_riscv",
+    "source_url": "https://github.com/ultraembedded/riscv",
+    "local_repo_path": "/workdir/oss-demo-targets/ultraembedded-riscv",
+    "git_head": "7ae6f803e30f78c6ea3121e73c3adf50ff912730",
+    "top": "riscv_core",
+    "source_manifest_sha256": "78b23d2dfb243e6e8f6ecd4be5113f54856becb0975eb5efc004c74294897652",
+    "source_file_count": 16,
+    "license": "BSD-3-Clause-style"
+  },
+  "toolchain": {
+    "yosys": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)",
+    "sta": "2.2.0",
+    "liberty_path": "/workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
+  },
+  "selected_timing_flow_baseline": {
+    "description": "ultraembedded/riscv core-level selected-flow area/timing baseline emitted by syn/ultraembedded_riscv_yosys66.sh. This is the comparator shape for top-level-first cheap gates, not an optimization claim.",
+    "parameters": {
+      "SUPPORT_MULDIV": 1,
+      "SUPPORT_SUPER": 0,
+      "SUPPORT_MMU": 0,
+      "SUPPORT_LOAD_BYPASS": 1,
+      "SUPPORT_MUL_BYPASS": 1,
+      "SUPPORT_REGFILE_XILINX": 0,
+      "EXTRA_DECODE_STAGE": 0
+    },
+    "clock_period_ns": 10.0,
+    "io_delay_ns": 1.0,
+    "yosys_area": 187985.2928,
+    "wns_ns": {
+      "overall": -20.289,
+      "reg2reg": -20.2293,
+      "reg2out": -8.2176,
+      "in2reg": -20.289,
+      "in2out": -8.2773
+    },
+    "artifacts": {
+      "mapped_netlist_sha256": "dfd0cbe8511633c1db8360a5b46a4c64f3ea98ebf43c527ce585b9ab6bd0f75f",
+      "sta_netlist_sha256": "d7fd1a13ab9288efb77f52ce6f73766e4f8e2bb20a35fe6a4d93d5c865dd4979",
+      "yosys_script_sha256": "af983dfbd91eb3b0293f05c634c732e9c9524901422b7c3213a4f7edfcf1fbf0",
+      "sta_script_sha256": "fcb6f173fe984ab73bc8289fc2dae8b0b2dcfcc30eeb66b1370f1efe76f1a716",
+      "yosys_log_sha256": "400d065e8beaf156cdcec191cc98dd57607567b7d8f9fc8216214a528af2d7bd",
+      "sta_log_sha256": "aa9a7a6c5ad5d3578109c23dde2e037221c8acdd27021bcc048828d4e66ab1b0",
+      "area_report_sha256": "25d2c54c656cdff984bbba81e40aea99255a18b80863ba01d2061df9e4a55f4c",
+      "overall_timing_csv_sha256": "4cb3f2a048ddc36bf16e5d1340ec765dba6e2eb523dde2332724c79c1d78d964",
+      "reg2reg_timing_csv_sha256": "ca1f56ed76d3e23071106d93ab13f1dca6172be09d133a91fcce65c3f67decda",
+      "reg2out_timing_csv_sha256": "875adb71bc7fcfebba6836e7c2f6ed562d7e73417d7d62c35f9133edf04c1c7e",
+      "in2reg_timing_csv_sha256": "d47842d6fb7b71c13f92b4da72e418ea9d43b097af4b0eeeb49110d447ce2ee6",
+      "in2out_timing_csv_sha256": "2bdfb83b14b8894950378b65a3e3c6fefaa30b443f7a4e1d0f76c445b6390be7"
+    },
+    "local_artifact_dir": "syn/syn_out/ultraembedded_baseline_probe",
+    "notes": [
+      "Core-level selected-flow baseline, not a SoC/top-cache baseline.",
+      "Yosys reports undriven LSU q-signal warnings during baseline synthesis; this receipt is a comparator only and does not promote a transform."
+    ]
+  },
+  "source_only_detector_recon": {
+    "detector_binary_source": "kairos-rtl-rewrite from athanor-kairos main d4a44892",
+    "detector_payload_sha256": "af987c87f0c8445c2516ca6302c1c3ea188f52f307a68c73d569f7996f2ea445",
+    "detector_full_output_sha256": "1f19eb0c403b2cb0bea95e80ee8effe4d20589d05519ebd3e9c60c5883880608",
+    "source_files_scanned": 15,
+    "constant_propagation_leads": 12,
+    "shared_term_leads": 0,
+    "decision": "Source-level parameter leads require selected-flow residual evidence before synthesis spend."
+  },
+  "selected_flow_detector_recon": {
+    "status": "no_spend_ready_candidate",
+    "claim_boundary": "Residual detector reconnaissance only. No formal, toggle, cold-replay, or accepted-win claim.",
+    "detector_binary_source": "kairos-rtl-rewrite from athanor-kairos main d4a44892",
+    "detector_payload_sha256": "1cd93ed08be8d714b5e5255675446647d6da167579954821e27efc2215b12224",
+    "detector_full_output_sha256": "193b46d9fde84ef7daa829a28966bbb9383ce892925e10692ecc91c7d57e7e80",
+    "selected_flow_elaborated_source_sha256": "d7fd1a13ab9288efb77f52ce6f73766e4f8e2bb20a35fe6a4d93d5c865dd4979",
+    "source_files_scanned": 15,
+    "min_shared_occurrences": 4,
+    "min_guard_count": 2,
+    "residual_preanalysis_leads": 0,
+    "residual_shared_term_leads": 0,
+    "residual_constant_propagation_leads": 0,
+    "decision": "No ultraembedded/riscv candidate crosses the selected-flow detector pre-spend bar under the current shared-term and constant-propagation families."
+  },
+  "next_step": "Use this as a second negative transferability receipt and pursue CV32E40P selected-flow profiling or new detector families before spending formal or toggle."
+}
