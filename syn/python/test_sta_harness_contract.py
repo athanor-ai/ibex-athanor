@@ -94,3 +94,39 @@ def test_top_level_first_prefers_csv_timing_reports(tmp_path: Path) -> None:
 
     assert metrics["area"] == 12.5
     assert metrics["wns"]["overall"] == -2.5
+
+
+def test_top_level_first_equivalence_accepts_artifacts_already_in_workdir(
+    tmp_path: Path, monkeypatch
+) -> None:
+    top_level_first = load_top_level_first()
+    (tmp_path / "gold.v").write_text("module ibex_if_stage; endmodule\n")
+    (tmp_path / "gate.v").write_text("module ibex_if_stage; endmodule\n")
+
+    def fake_run(*args, **kwargs):
+        log = kwargs["stdout"]
+        log.write(
+            "Found 1 $equiv cells in equiv:\n"
+            "  Of those cells 1 are proven and 0 are unproven.\n"
+            "Equivalence successfully proven!\n"
+        )
+
+        class Result:
+            returncode = 0
+
+        return Result()
+
+    monkeypatch.setattr(top_level_first.subprocess, "run", fake_run)
+
+    result, ys, log = top_level_first.run_equivalence(
+        {"_active_unit_top": "ibex_if_stage", "equiv_seq": 1, "env": {}},
+        tmp_path / "gold.v",
+        tmp_path / "gate.v",
+        tmp_path,
+    )
+
+    assert result["proven"] is True
+    assert result["proven_cells"] == 1
+    assert result["unproven_cells"] == 0
+    assert ys == tmp_path / "equiv.ys"
+    assert log == tmp_path / "equiv.log"

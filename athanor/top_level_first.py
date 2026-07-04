@@ -214,8 +214,12 @@ def run_equivalence(
     seq = cfg.get("equiv_seq", 32)
     ys = workdir / "equiv.ys"
     ys.write_text(EQUIV_YS_TEMPLATE.format(top=top, seq=seq), encoding="utf-8")
-    shutil.copy(gold_v, workdir / "gold.v")
-    shutil.copy(gate_v, workdir / "gate.v")
+    gold_dst = workdir / "gold.v"
+    gate_dst = workdir / "gate.v"
+    if gold_v.resolve() != gold_dst.resolve():
+        shutil.copy(gold_v, gold_dst)
+    if gate_v.resolve() != gate_dst.resolve():
+        shutil.copy(gate_v, gate_dst)
     log = workdir / "equiv.log"
     with log.open("w", encoding="utf-8") as fh:
         proc = subprocess.run(
