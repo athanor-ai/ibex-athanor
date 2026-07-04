@@ -5,23 +5,22 @@
 proc setup_path_groups {input_list output_list path_group_list_name} {
   upvar $path_group_list_name path_group_list
 
-  set flops_in [all_registers -edge_triggered -data_pins]
-  set flops_out [all_registers -edge_triggered -clock_pins]
-  group_path -name reg2reg -from $flops_out -to $flops_in
+  set flops [all_registers -edge_triggered]
+  group_path -name reg2reg -from $flops -to $flops
   lappend path_group_list reg2reg
 
   foreach output $output_list {
     set output_name [lindex $output 0]
     lappend outputs_list [get_ports $output_name]
   }
-  group_path -name reg2out -from $flops_out -to $outputs_list
+  group_path -name reg2out -from $flops -to $outputs_list
   lappend path_group_list reg2out
 
   foreach input $input_list {
     set input_name [lindex $input 0]
     lappend inputs_list [get_ports $input_name]
   }
-  group_path -name in2reg -from $inputs_list -to $flops_in
+  group_path -name in2reg -from $inputs_list -to $flops
   lappend path_group_list in2reg
 
   group_path -name in2out -from $inputs_list -to $outputs_list
@@ -48,4 +47,3 @@ proc timing_report {path_group rpt_out path_count} {
 
   close $sta_csv_out
 }
-

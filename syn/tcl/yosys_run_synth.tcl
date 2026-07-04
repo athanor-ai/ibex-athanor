@@ -82,11 +82,10 @@ if { $lr_synth_timing_run } {
   yosys "setundef -zero"
   yosys "splitnets"
   yosys "clean"
-  yosys "write_verilog -noattr -noexpr -nohex -nodec $lr_synth_sta_netlist_out"
+  yosys "write_verilog -noattr -noexpr -nohex -nodec -simple-lhs $lr_synth_sta_netlist_out"
 }
 
 yosys "check"
 yosys "log ======== Yosys Stat Report ========"
 yosys "tee -o $lr_synth_out_dir/reports/area.rpt stat -liberty $lr_synth_cell_library_path"
 yosys "log ====== End Yosys Stat Report ======"
-
