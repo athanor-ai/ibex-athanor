@@ -29,6 +29,8 @@ The packaged toggle result is corroborated by exact VCD equality.
 ## Files
 
 - `SOURCE_DIFF.patch`: module rename plus the one functional expression rewrite.
+- `COMMANDS.md`: hash verification and whole-core replay caveat for the module
+  rename.
 - `gold_source.sv`: original source used for the package.
 - `gate_greater_equal_xor_shape.v`: rewritten gate source.
 - `public_receipt.json`: customer-safe result summary.
