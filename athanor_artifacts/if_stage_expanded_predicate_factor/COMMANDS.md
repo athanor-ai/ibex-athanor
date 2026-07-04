@@ -105,9 +105,32 @@ in2reg WNS: -249.6181 ns -> -249.4600 ns (+0.1581 ns)
 in2out WNS: -200.6972 ns -> -200.5294 ns (+0.1678 ns)
 ```
 
+## Replay Pinned Toggle Convention
+
+The package includes a pinned `kairos.ibex.toggle.control_path.v1` replay. Run
+the same harness against the packaged gold and gate artifacts:
+
+```bash
+python3 athanor/toggle_convention/harness.py \
+  --gold athanor_artifacts/if_stage_expanded_predicate_factor/gold.v \
+  --gate athanor_artifacts/if_stage_expanded_predicate_factor/gate_expanded_predicate_factor.v \
+  --top ibex_if_stage \
+  --out-dir athanor_artifacts/if_stage_expanded_predicate_factor/logs/convention_v1
+```
+
+Expected result:
+
+```text
+gold_toggles: 306184
+gate_toggles: 311729
+toggle_delta_pct: +1.811003
+toggle_status: regression
+```
+
 ## Boundary
 
-This is candidate evidence only. Do not promote it as an accepted Ibex
-optimization until toggle/activity evidence is packaged and independent cold
-replay reproduces the source patch, formal replay, top-level area, and timing
-reports.
+This is rejected scout evidence. The source patch is bounded, formal equivalence
+closes, and top-level area/timing improve, but the pinned toggle convention
+regresses. Do not promote it as an accepted Ibex optimization unless a future,
+independently reviewed variant closes the full bar without weakening the toggle
+convention.
