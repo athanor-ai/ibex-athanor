@@ -1,0 +1,82 @@
+{
+  "ath_ticket": "ATH-2686",
+  "status": "prep_only_no_design_commitment",
+  "current_ibex_headline": {
+    "accepted_artifact": "if_stage_expanded_predicate_factor",
+    "area_delta_percent": -0.02885,
+    "formal_cells": "1956/1956",
+    "toggle_delta_percent": 0.0,
+    "cold_replay": "complete",
+    "note": "Current Ibex transform families are exhausted beyond this accepted lead."
+  },
+  "selection_rule": {
+    "must_differ_from_ibex_if_stage": true,
+    "must_have_top_level_first_harness": true,
+    "must_have_selected_elaboration_residual_check": true,
+    "win_requires_aggregate_movement_beyond_current_accepted_set": true
+  },
+  "candidates": [
+    {
+      "id": "picorv32",
+      "source": "https://github.com/YosysHQ/picorv32",
+      "readiness": "local_recon_ready",
+      "why": [
+        "Compact single-file Verilog core suitable for fast harness iteration.",
+        "Native Makefile includes Yosys and formal flows.",
+        "Different implementation style from Ibex while still customer-relevant RISC-V RTL."
+      ],
+      "local_recon": {
+        "source_file_lines": 3049,
+        "source_only_detector_total_leads": 46,
+        "source_only_shared_term_leads": 2,
+        "source_only_constant_prop_leads": 44,
+        "constant_prop_selected_toolchain_status": "requires_elaborated_residual_check"
+      },
+      "first_harness_work": [
+        "Create selected-flow synth wrapper and stable area/timing report paths.",
+        "Emit elaborated source for residual constant-prop filtering.",
+        "Run top_level_first.py no-op receipt before testing candidate patches."
+      ],
+      "risks": [
+        "Need selected-toolchain timing convention before headline-quality PPA.",
+        "Source-only constant-prop volume must be filtered by selected elaboration before spend."
+      ]
+    },
+    {
+      "id": "serv",
+      "source": "https://github.com/olofk/serv",
+      "readiness": "fetch_and_verify",
+      "why": [
+        "Bit-serial RISC-V core gives a sharply different area/timing profile from Ibex.",
+        "Good stress test for whether detectors transfer to ultra-small datapaths."
+      ],
+      "first_harness_work": [
+        "Fetch and verify license/toolchain reproducibility.",
+        "Identify top module, selected config, and stable synth outputs.",
+        "Run source-only detector reconnaissance before committing."
+      ],
+      "risks": [
+        "Very small/serial architecture may leave little safe structural slack.",
+        "Harness setup may require FuseSoC or project-specific build steps."
+      ]
+    },
+    {
+      "id": "vexriscv",
+      "source": "https://github.com/SpinalHDL/VexRiscv",
+      "readiness": "fetch_and_verify",
+      "why": [
+        "Configurable pipelined 32-bit RISC-V core with a different frontend/backend split from Ibex.",
+        "Customer-relevant class: FPGA-friendly configurable CPU rather than a single fixed public dogfood core."
+      ],
+      "first_harness_work": [
+        "Choose a generated Verilog configuration before running detectors.",
+        "Record generator/version pins if generated RTL is used.",
+        "Add no-op top_level_first.py receipt before optimization candidates."
+      ],
+      "risks": [
+        "Generator stack may make cold replay heavier than PicoRV32.",
+        "Need to pin generated RTL so optimization evidence is not tied to an ambient Scala/Spinal setup."
+      ]
+    }
+  ]
+}
