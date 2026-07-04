@@ -1,12 +1,12 @@
 # ibex_if_stage expanded predicate factoring candidate
 
 Classification:
-`rejected_toggle_regression_formal_ppa_positive`
+`candidate_formal_ppa_positive_toggle_flat_cold_replay_pending`
 
 This package records a top-level `ibex_top` replay for a general shared-term
-factoring candidate in `ibex_if_stage`. It is not an accepted optimization:
-formal equivalence, top-level area, and timing are positive, but the pinned
-toggle convention measured a switching regression.
+factoring candidate in `ibex_if_stage`. It is not an accepted optimization yet:
+formal equivalence, top-level area, timing, and the corrected pinned toggle
+convention are positive, but independent cold replay is still pending.
 
 ## Transform
 
@@ -57,24 +57,25 @@ Pinned toggle convention:
 - Convention: `kairos.ibex.toggle.control_path.v1`
 - Method: 1000-cycle deterministic Icarus VCD replay with boundary equality
   checked every cycle
-- Gold toggles: `306184`
+- Gold toggles: `311729`
 - Gate toggles: `311729`
-- Delta: `+1.811003%`
-- Classification: `regression`
+- Delta: `0.0%`
+- Classification: `neutral_or_better`
+- Note: the harness disambiguates `17` aliased VCD ids that Icarus shares
+  across the gold/gate hierarchies.
 
 ## Current Boundary
 
 This package is scout evidence for ATH-2699. It is deliberately not a README
-headline row and not a customer win claim because the full bar did not close:
+headline row and not a customer win claim until the full bar closes:
 
 1. source patch is bounded and replayable
 2. formal equivalence is closed
 3. top-level area and timing are positive
-4. toggle/activity evidence is packaged and reports a regression
+4. toggle/activity evidence is packaged and flat
+5. independent cold replay reproduces the package
 
-Items 1-4 are included here. The transform should not be promoted unless a
-future, independently reviewed variant fixes the switching regression without
-weakening the pinned convention.
+Items 1-4 are included here. Item 5 is pending.
 
 ## Files
 

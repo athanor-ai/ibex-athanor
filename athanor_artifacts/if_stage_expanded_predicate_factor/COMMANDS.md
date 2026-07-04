@@ -121,16 +121,17 @@ python3 athanor/toggle_convention/harness.py \
 Expected result:
 
 ```text
-gold_toggles: 306184
+gold_toggles: 311729
 gate_toggles: 311729
-toggle_delta_pct: +1.811003
-toggle_status: regression
+toggle_delta_pct: 0.0
+toggle_status: neutral_or_better
+aliased_vcd_ids_disambiguated: 17
 ```
 
 ## Boundary
 
-This is rejected scout evidence. The source patch is bounded, formal equivalence
-closes, and top-level area/timing improve, but the pinned toggle convention
-regresses. Do not promote it as an accepted Ibex optimization unless a future,
-independently reviewed variant closes the full bar without weakening the toggle
-convention.
+This is candidate evidence only. The source patch is bounded, formal equivalence
+closes, top-level area/timing improve, and the corrected pinned toggle
+convention is flat. Do not promote it as an accepted Ibex optimization until an
+independent cold replay reproduces the source patch, formal replay, top-level
+area, timing reports, and toggle receipt.

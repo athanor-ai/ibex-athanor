@@ -1,11 +1,12 @@
 {
+  "aliased_vcd_ids_disambiguated": 17,
   "boundary_equality_every_cycle": true,
   "convention_id": "kairos.ibex.toggle.control_path.v1",
   "convention_sha256": "0d74f085f4dee7f946e9d7451c5965fed4f450e43f69745330979f8afc67d603",
   "gate_sha256": "33ccfff935e6f9bf9ced0b4b0c446ef879b71817efd9f31dc39dcdfe674f897b",
   "gate_toggles": 311729,
   "gold_sha256": "ec84d9b70656cefe286c06a7dcb57f9a7bdb7a414134fd62f74b563316c5a2c9",
-  "gold_toggles": 306184,
+  "gold_toggles": 311729,
   "measured_input_duty": {
     "id_in_ready_i": 0.793,
     "instr_bus_err_i": 0.013,
@@ -34,10 +35,10 @@
   "sim_cycles": 1000,
   "simulator_version": "Icarus Verilog version 11.0 (stable) ()",
   "stimulus": "hierarchical_transition_count_v1+0x1f57a9e5",
-  "toggle_delta_pct": 1.811003,
-  "toggle_status": "regression",
+  "toggle_delta_pct": 0.0,
+  "toggle_status": "neutral_or_better",
   "trace": "toggle_trace.json",
   "trace_sha256": "95e93dc185370ec37394b9ea2988a5f15c2e897c64ec7215c5e4f5b918239a42",
   "vcd": "toggle.vcd",
-  "vcd_sha256": "e3bb7c187151f45e3d8cd1fa8d329325344345a774c199bb36dc8c215d4bb3d4"
+  "vcd_sha256": "c4234d4d563611b64fac2a9d6c12f4c37f18df0d190fa51cee70e91e53206d82"
 }

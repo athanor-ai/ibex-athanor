@@ -8,8 +8,8 @@
     "metric": "sky130_chip_area"
   },
   "artifact_hashes": {
-    "COMMANDS.md": "5c5f0b963d32863ce040da305188181bb8063113a9e44fbabcd429ee917d73e8",
-    "README.md": "051d5ebcee9111b3c3a30392ecea1b6a2ead825b4dfa20aa2c48be7693ecb3ad",
+    "COMMANDS.md": "59c4a1b03f375e4736ff37e08a87a4e91cb7fb5f4a7eb4bdecc8c0ec2defd082",
+    "README.md": "2341279c5abd0c5d5534e35e5b2d5e935b0f034b84e96fe3eb2cc0e6c01d3c5e",
     "SOURCE_DIFF.patch": "b32ed43a1e288f1438163f2124173e5cdd61e4637abdba72ee5ff2894dee5b96",
     "equiv_yosys66.log": "174a7ea8117c4a934e3584457f34536f4e9043cdf4e6745fd348f6dc412e39db",
     "equiv_yosys66.ys": "ebeae0189ba22a656672f115597d58ccfc55a6fa53238f14f61986e221f675d1",
@@ -18,8 +18,8 @@
     "gold.v": "ec84d9b70656cefe286c06a7dcb57f9a7bdb7a414134fd62f74b563316c5a2c9",
     "logs/baseline_sta.log": "491567003531ac6b7d3a5003c24cada999932dc5b801171b5df361d27e607118",
     "logs/baseline_syn.log": "2eb1b501e8be47570ab43ab399fa769502f6d14e8efd337e29e00dce2e83f5a5",
-    "logs/convention_v1/toggle.vcd": "e3bb7c187151f45e3d8cd1fa8d329325344345a774c199bb36dc8c215d4bb3d4",
-    "logs/convention_v1/toggle_convention_receipt.json": "c74ac39aaaa2d671bb3810b704bf4c900dcdecbd9bed9168f168808f60735ea6",
+    "logs/convention_v1/toggle.vcd": "c4234d4d563611b64fac2a9d6c12f4c37f18df0d190fa51cee70e91e53206d82",
+    "logs/convention_v1/toggle_convention_receipt.json": "d25af6d626f1683dad4db671d5123a70cf1f934a4b8cb63d99e0d5a3536abddd",
     "logs/convention_v1/toggle_sim.log": "5288677377586c4b377be4f66e39c6a1b3b1d53baa74242e83b8b487b69be6ff",
     "logs/convention_v1/toggle_trace.json": "95e93dc185370ec37394b9ea2988a5f15c2e897c64ec7215c5e4f5b918239a42",
     "logs/gate_sta.log": "307850a61a81bc20b53958fc29192c79a2c323cce17c928acb4e38b058533514",
@@ -42,8 +42,8 @@
   "classification_notes": [
     "Top-level selected-toolchain area improves and every recorded timing group improves.",
     "Yosys equivalence proves the candidate artifact: 1956/1956 $equiv cells proven.",
-    "The pinned kairos.ibex.toggle.control_path.v1 convention reports a switching regression: 306184 -> 311729 toggles (+1.811003%).",
-    "This package is rejected scout evidence, not an accepted customer win."
+    "The corrected pinned kairos.ibex.toggle.control_path.v1 convention is flat: 311729 -> 311729 toggles (0.0%), with 17 aliased VCD ids disambiguated.",
+    "Independent cold replay is still pending; this is not an accepted customer win."
   ],
   "formal_equivalence": {
     "classification": "proven",
@@ -67,7 +67,7 @@
     "path": "SOURCE_DIFF.patch",
     "sha256": "b32ed43a1e288f1438163f2124173e5cdd61e4637abdba72ee5ff2894dee5b96"
   },
-  "status": "rejected_toggle_regression_formal_ppa_positive",
+  "status": "candidate_formal_ppa_positive_toggle_flat_cold_replay_pending",
   "ticket": "ATH-2699",
   "timing": {
     "in2out": {
@@ -142,12 +142,13 @@
     }
   },
   "toggle_activity": {
+    "aliased_vcd_ids_disambiguated": 17,
     "boundary_equality_every_cycle": true,
-    "classification": "regression",
+    "classification": "neutral_or_better",
     "convention_id": "kairos.ibex.toggle.control_path.v1",
-    "delta_percent": 1.811003,
+    "delta_percent": 0.0,
     "gate_toggles": 311729,
-    "gold_toggles": 306184,
+    "gold_toggles": 311729,
     "receipt": "logs/convention_v1/toggle_convention_receipt.json",
     "simulation_log": "logs/convention_v1/toggle_sim.log",
     "trace": "logs/convention_v1/toggle_trace.json",

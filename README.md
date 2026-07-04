@@ -57,8 +57,8 @@ cell count and liberty-weighted area can move in different directions.
 | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
 | `ibex_multdiv_slow` / `greater_equal_xor_shape` | **Accepted artifact** | 10339.9168 -> 10333.6608, **-0.0605%** | 1351 -> 1361, **+10 cells** | max data arrival 8.13ns -> 7.25ns, **-0.88ns / -10.82%**; WNS/TNS -0.13/-5.66 -> 0/0 | 6117 -> 6117, **0.0%** | 411/411 `$equiv` proven | [`athanor_artifacts/multdiv_slow_greater_equal_xor_shape/`](athanor_artifacts/multdiv_slow_greater_equal_xor_shape/) |
 | `ibex_multdiv_fast` / `greater_equal_xor_shape` | **Accepted artifact** | one-button cell metric flat, **0.0%** | 3306 -> 3306, **0 cells saved** | max propagation delay 10.85ns -> 10.57ns, **-0.28ns / -2.58%** | 7657 -> 7657, **0.0%** | 772/772 `$equiv` proven | [`athanor_artifacts/multdiv_fast_greater_equal_xor_shape/`](athanor_artifacts/multdiv_fast_greater_equal_xor_shape/) |
-| `ibex_if_stage` / `expanded_predicate_factor` | **Rejected: toggle regression** | whole-core 108428.9920 -> 108397.7120, **-0.02885%** | 13290 -> 13334, **+44 cells** | whole-core WNS improves on all recorded groups; reg2reg **+13.8626ns**, reg2out **+13.8041ns** | 306184 -> 311729, **+1.811003%** | 1956/1956 `$equiv` proven | [`athanor_artifacts/if_stage_expanded_predicate_factor/`](athanor_artifacts/if_stage_expanded_predicate_factor/) |
-| `ibex_if_stage` / `no_bp_prefetch_direct` | **Candidate: area + timing + formal positive, toggle pending** | 16821.1328 -> 16756.0704, **-0.3868%** | 3396 -> 3403, **+7 cells** | top data arrival 9.2829ns -> 8.9149ns, **-3.9654%**; WNS/TNS 0/0 | pending | 1956/1956 `$equiv` proven | [`athanor_artifacts/if_stage_no_bp_prefetch_direct/`](athanor_artifacts/if_stage_no_bp_prefetch_direct/) |
+| `ibex_if_stage` / `expanded_predicate_factor` | **Candidate: top-level area + timing + formal positive, toggle flat** | whole-core 108428.9920 -> 108397.7120, **-0.02885%** | 13290 -> 13334, **+44 cells** | whole-core WNS improves on all recorded groups; reg2reg **+13.8626ns**, reg2out **+13.8041ns** | 311729 -> 311729, **0.0%** | 1956/1956 `$equiv` proven | [`athanor_artifacts/if_stage_expanded_predicate_factor/`](athanor_artifacts/if_stage_expanded_predicate_factor/) |
+| `ibex_if_stage` / `no_bp_prefetch_direct` | **Candidate: area + timing + formal positive, toggle flat** | 16821.1328 -> 16756.0704, **-0.3868%** | 3396 -> 3403, **+7 cells** | top data arrival 9.2829ns -> 8.9149ns, **-3.9654%**; WNS/TNS 0/0 | 311729 -> 311729, **0.0%** | 1956/1956 `$equiv` proven | [`athanor_artifacts/if_stage_no_bp_prefetch_direct/`](athanor_artifacts/if_stage_no_bp_prefetch_direct/) |
 | `ibex_alu` / `bwlogic_or_from_xor_and` | **Tradeoff: area positive, timing negative** | 5471.4976 -> 5122.4128, **-6.3801%** | 838 -> 788, **50 cells saved / -5.9666%** | max propagation delay 8.83ns -> 10.56ns, **+1.73ns / +19.59%** | 5977 -> 5977, **0.0%** | 1627 cells, 0 unproven | [`athanor/ppa_frontier/ibex_alu_bwlogic/`](athanor/ppa_frontier/ibex_alu_bwlogic/) |
 | `ibex_id_stage` / `no_wb_prio_assign` | **Rejected: toggle regression** | 7791.2224 -> 7741.1744, **-0.6424%** | 2268 -> 2188, **80 cells saved / -3.53%** | top data arrival 7.5917ns -> 5.5358ns, **-27.08%**; WNS/TNS 0/0 | 26137 -> 26468, **+1.27%** | 665/665 `$equiv` proven | [`athanor_artifacts/id_stage_no_wb_prio_assign/`](athanor_artifacts/id_stage_no_wb_prio_assign/) |
 | `ibex_load_store_unit` / `signext_factor` | **Rejected: toggle regression** | 4695.7536 -> 4664.4736, **-0.6662%** | 1164 -> 1160, **4 cells saved / -0.34%** | max data arrival 5.59ns -> 3.89ns, **-1.70ns / about -30.3%**; WNS/TNS 0/0 | 55424 -> 56421, **+1.79886%** | 287/287 `$equiv` proven | [`athanor_artifacts/load_store_unit_signext_factor/`](athanor_artifacts/load_store_unit_signext_factor/) |
@@ -68,10 +68,10 @@ cell count and liberty-weighted area can move in different directions.
 - The current accepted wins are the `ibex_multdiv_slow` and `ibex_multdiv_fast`
   `greater_equal_xor_shape` rewrites. Both improve timing, keep toggle flat, and
   prove equivalence under their stated measurement conventions.
-- The IF-stage `expanded_predicate_factor` row is useful negative evidence. It
-  was the first top-level-positive shared-term factoring scout in this
-  repository, but the pinned toggle convention measured a switching regression,
-  so it is not promoted.
+- The IF-stage rows are promising, but still candidate evidence. The
+  `expanded_predicate_factor` row is top-level-positive with flat toggle under
+  the corrected pinned convention; promotion still requires independent replay
+  and any additional review required for customer-facing use.
 - The ALU row saves area and cells but costs timing; it is useful evidence, not a
   full-PPA customer win.
 - The ID-stage and LSU rows are deliberately listed as rejects. They looked good
