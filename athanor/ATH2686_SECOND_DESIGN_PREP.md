@@ -53,6 +53,13 @@ iteration, has native Yosys/formal hooks, and the source-only ATH-2685 detector
 finds a broad candidate set while correctly marking constant-prop rows as
 requiring selected-elaboration residual evidence.
 
+A prep-only PicoRV32 baseline probe is recorded in
+[`configs/ath2686_picorv32_baseline.json`](configs/ath2686_picorv32_baseline.json).
+It maps the unmodified core through the selected Yosys/Sky130 path and records
+source, toolchain, liberty, log, and mapped-netlist hashes. This is not a design
+commitment and not an optimization claim; it is only a reproducibility starting
+point if PicoRV32 is selected.
+
 SERV and VexRiscv remain useful comparison targets because their microarchitectures
 are deliberately different from Ibex, but they require fetch/license/toolchain
 verification before commitment.

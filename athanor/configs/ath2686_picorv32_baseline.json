@@ -1,0 +1,26 @@
+{
+  "ath_ticket": "ATH-2686",
+  "status": "prep_only_baseline_no_design_commitment",
+  "claim_boundary": "Unmodified PicoRV32 baseline reproducibility probe only; no transform applied and no optimization or PPA win claim.",
+  "design": {
+    "id": "picorv32",
+    "source_url": "https://github.com/YosysHQ/picorv32",
+    "local_repo_path": "/workdir/oss-demo-targets/picorv32",
+    "git_head": "87c89acc18994c8cf9a2311e871818e87d304568",
+    "top": "picorv32",
+    "source_path": "/workdir/oss-demo-targets/picorv32/picorv32.v",
+    "source_sha256": "0836050971b3c6cdd28ac3b1e5719a67fb645161912bef1e472e63995ceb0622"
+  },
+  "toolchain": {
+    "yosys": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)",
+    "sta": "2.2.0",
+    "liberty_path": "/workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
+  },
+  "baseline": {
+    "yosys_area": 32313.4912,
+    "mapped_netlist_sha256": "f177db141638d3af553697820bc3a2aeddc775f78b7973529d1ba8d7a388357e",
+    "yosys_log_sha256": "b03d144095c2a202cb7f9f5cdf11c5114f68c05acba9ec350068e06d9a83476f",
+    "local_artifact_dir": "/tmp/ath2686_picorv32_baseline"
+  }
+}
