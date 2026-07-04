@@ -168,12 +168,34 @@ def collect_metrics(cfg: dict, syn_out: Path) -> dict:
         if not matches:
             raise SystemExit(f"no timing report for group {group} under {timing_dir}")
         wns[group] = parse_group_wns(matches[-1])
+    generated = []
+    for pattern in cfg.get("generated_artifact_globs", ["generated/*"]):
+        generated.extend(p for p in sorted(syn_out.glob(pattern)) if p.is_file())
     return {
         "area": area,
         "wns": wns,
         "area_report": area_matches[-1],
         "timing_dir": timing_dir,
+        "syn_out": syn_out,
+        "generated_artifacts": generated,
     }
+
+
+def copy_stage_artifacts(out_dir: Path, which: str, metrics: dict) -> None:
+    shutil.copy(metrics["area_report"], out_dir / "logs" / f"{which}_area.rpt")
+    dst = out_dir / "reports" / "timing" / which
+    dst.mkdir(parents=True, exist_ok=True)
+    for f in Path(metrics["timing_dir"]).glob("*"):
+        if f.is_file():
+            shutil.copy(f, dst / f.name)
+    generated_dst = out_dir / "generated" / which
+    for f in metrics.get("generated_artifacts", []):
+        rel = f.relative_to(metrics["syn_out"])
+        if rel.parts and rel.parts[0] == "generated":
+            rel = Path(*rel.parts[1:])
+        target = generated_dst / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(f, target)
 
 
 EQUIV_YS_TEMPLATE = """read_verilog gold.v
@@ -474,12 +496,7 @@ def main() -> int:
             _apply_source_patch(patch_root, patch_copy, reverse=True)
 
     for which, m in (("baseline", base), ("gate", gate)):
-        shutil.copy(m["area_report"], out_dir / "logs" / f"{which}_area.rpt")
-        dst = out_dir / "reports" / "timing" / which
-        dst.mkdir(parents=True, exist_ok=True)
-        for f in Path(m["timing_dir"]).glob("*"):
-            if f.is_file():
-                shutil.copy(f, dst / f.name)
+        copy_stage_artifacts(out_dir, which, m)
 
     # stage 3: area gate
     area_delta = gate["area"] - base["area"]
