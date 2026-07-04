@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from pathlib import Path
+import importlib.util
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -55,3 +56,41 @@ def test_sta_path_groups_use_register_cells() -> None:
     assert "group_path -name in2reg -from $inputs_list -to $flops" in text
     assert "-clock_pins" not in text
     assert "-data_pins" not in text
+
+
+def load_top_level_first():
+    spec = importlib.util.spec_from_file_location(
+        "top_level_first", REPO_ROOT / "athanor/top_level_first.py"
+    )
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_top_level_first_prefers_csv_timing_reports(tmp_path: Path) -> None:
+    top_level_first = load_top_level_first()
+    reports = tmp_path / "reports"
+    timing = reports / "timing"
+    timing.mkdir(parents=True)
+    (reports / "area.rpt").write_text("Chip area for module '\\ibex_top': 12.5\n")
+    (timing / "overall.csv.rpt").write_text(
+        "Start Point, End Point, WNS (ns)\na,b,-2.5\nc,d,-1.0\n"
+    )
+    (timing / "overall.rpt").write_text(
+        "Startpoint: a\nEndpoint: b\nPath Group: clk_i\nPath Type: max\n"
+    )
+
+    metrics = top_level_first.collect_metrics(
+        {
+            "area_report_glob": "reports/*area*.rpt",
+            "top_module": "ibex_top",
+            "timing_report_dir": "reports/timing",
+            "timing_groups": ["overall"],
+        },
+        tmp_path,
+    )
+
+    assert metrics["area"] == 12.5
+    assert metrics["wns"]["overall"] == -2.5
