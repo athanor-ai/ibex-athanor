@@ -2,6 +2,7 @@
 
 from pathlib import Path
 import importlib.util
+import subprocess
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -130,3 +131,76 @@ def test_top_level_first_equivalence_accepts_artifacts_already_in_workdir(
     assert result["unproven_cells"] == 0
     assert ys == tmp_path / "equiv.ys"
     assert log == tmp_path / "equiv.log"
+
+
+def test_top_level_first_patch_root_helpers_apply_and_restore_external_repo(
+    tmp_path: Path,
+) -> None:
+    top_level_first = load_top_level_first()
+    patch_root = tmp_path / "external-core"
+    patch_root.mkdir()
+    target = patch_root / "target.v"
+    target.write_text("module target; wire keep = 1'b0; endmodule\n")
+    subprocess.run(["git", "init"], cwd=patch_root, check=True, capture_output=True)
+    subprocess.run(["git", "add", "target.v"], cwd=patch_root, check=True)
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "user.name=Test",
+            "-c",
+            "user.email=test@example.com",
+            "commit",
+            "-m",
+            "baseline",
+        ],
+        cwd=patch_root,
+        check=True,
+        capture_output=True,
+    )
+
+    patch = tmp_path / "SOURCE_DIFF.patch"
+    patch.write_text(
+        "\n".join(
+            [
+                "diff --git a/target.v b/target.v",
+                "index 0000000..1111111 100644",
+                "--- a/target.v",
+                "+++ b/target.v",
+                "@@ -1 +1 @@",
+                "-module target; wire keep = 1'b0; endmodule",
+                "+module target; wire keep = 1'b1; endmodule",
+                "",
+            ]
+        )
+    )
+
+    assert top_level_first._tree_dirty(patch_root) is False
+    top_level_first._apply_source_patch(patch_root, patch)
+    assert target.read_text() == "module target; wire keep = 1'b1; endmodule\n"
+    assert top_level_first._tree_dirty(patch_root) is True
+    top_level_first._apply_source_patch(patch_root, patch, reverse=True)
+    assert target.read_text() == "module target; wire keep = 1'b0; endmodule\n"
+    assert top_level_first._tree_dirty(patch_root) is False
+
+    staged_only = patch_root / "a.v"
+    staged_only.write_text("module a; endmodule\n")
+    subprocess.run(["git", "add", "a.v"], cwd=patch_root, check=True)
+    assert top_level_first._tree_dirty(patch_root) is True
+
+
+def test_top_level_first_resolves_config_patch_root(tmp_path: Path) -> None:
+    top_level_first = load_top_level_first()
+    config_root = tmp_path / "from-config"
+    override_root = tmp_path / "from-override"
+
+    assert (
+        top_level_first._resolve_patch_root({"patch_root": str(config_root)}, None)
+        == config_root.resolve()
+    )
+    assert (
+        top_level_first._resolve_patch_root(
+            {"patch_root": str(config_root)}, override_root
+        )
+        == override_root.resolve()
+    )

@@ -272,10 +272,36 @@ def _sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-def _git_head() -> str:
+def _git_head(repo_root: Path = REPO_ROOT) -> str:
     return subprocess.run(
-        ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, capture_output=True, text=True
+        ["git", "rev-parse", "HEAD"], cwd=repo_root, capture_output=True, text=True
     ).stdout.strip()
+
+
+def _resolve_patch_root(cfg: dict, override: Path | None) -> Path:
+    root = override if override is not None else cfg.get("patch_root")
+    return (Path(root) if root else REPO_ROOT).expanduser().resolve()
+
+
+def _tree_dirty(repo_root: Path) -> bool:
+    status = subprocess.run(
+        ["git", "status", "--porcelain"],
+        cwd=repo_root,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return bool(status.stdout.strip())
+
+
+def _apply_source_patch(
+    patch_root: Path, patch: Path, *, reverse: bool = False
+) -> None:
+    args = ["git", "apply"]
+    if reverse:
+        args.append("-R")
+    args.append(str(patch))
+    subprocess.run(args, cwd=patch_root, check=True)
 
 
 def emit_receipt(out_dir: Path, receipt: dict) -> Path:
@@ -351,6 +377,12 @@ def main() -> int:
         "--core", required=True, type=Path, help="core config JSON (target-agnostic)"
     )
     ap.add_argument(
+        "--patch-root",
+        type=Path,
+        default=None,
+        help="git checkout where SOURCE_DIFF.patch applies (default: core config patch_root or this repo)",
+    )
+    ap.add_argument(
         "--out",
         type=Path,
         default=None,
@@ -377,6 +409,9 @@ def main() -> int:
     args = ap.parse_args()
 
     cfg = load_core_config(args.core)
+    patch_root = _resolve_patch_root(cfg, args.patch_root)
+    if not patch_root.is_dir():
+        raise SystemExit(f"patch root does not exist: {patch_root}")
     name = args.candidate_name or args.patch.stem
     out_dir = args.out or (REPO_ROOT / "athanor_artifacts" / f"{name}_top_level_first")
     if out_dir.exists() and any(out_dir.iterdir()):
@@ -390,13 +425,16 @@ def main() -> int:
             )
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "logs").mkdir(exist_ok=True)
-    shutil.copy(args.patch, out_dir / "SOURCE_DIFF.patch")
+    patch_copy = (out_dir / "SOURCE_DIFF.patch").resolve()
+    shutil.copy(args.patch, patch_copy)
 
     receipt: dict = {
         "schema": "athanor.top_level_first.v1",
         "candidate": name,
         "core": cfg["core_name"],
         "base_commit": _git_head(),
+        "patch_root": str(patch_root),
+        "patch_root_commit": _git_head(patch_root),
         "tool_pins": cfg.get("tool_pins", {}),
         "stages": {},
     }
@@ -413,18 +451,18 @@ def main() -> int:
         return 0  # a recorded death is a successful run
 
     # stage 1: baseline synth on a clean tree
-    dirty = subprocess.run(["git", "diff", "--quiet"], cwd=REPO_ROOT).returncode != 0
-    if dirty:
-        raise SystemExit("working tree dirty — baseline must run from a clean checkout")
+    for clean_root in {REPO_ROOT.resolve(), patch_root}:
+        if _tree_dirty(clean_root):
+            raise SystemExit(
+                f"working tree dirty at {clean_root} — baseline must run from a clean checkout"
+            )
     baseline_out = run_synth(
         cfg, f"tlf_baseline_{name}", out_dir / "logs" / "baseline_syn.log"
     )
     base = collect_metrics(cfg, baseline_out)
 
     # stage 2: apply patch, gate synth (revert guaranteed unless asked otherwise)
-    subprocess.run(
-        ["git", "apply", str(out_dir / "SOURCE_DIFF.patch")], cwd=REPO_ROOT, check=True
-    )
+    _apply_source_patch(patch_root, patch_copy)
     try:
         gate_out = run_synth(cfg, f"tlf_gate_{name}", out_dir / "logs" / "gate_syn.log")
         gate = collect_metrics(cfg, gate_out)
@@ -433,11 +471,7 @@ def main() -> int:
             # CONTRACT: the tree MUST be restored before this tool proceeds —
             # a silently-still-patched tree poisons every later baseline on
             # this checkout. check=True makes a failed revert fatal and loud.
-            subprocess.run(
-                ["git", "apply", "-R", str(out_dir / "SOURCE_DIFF.patch")],
-                cwd=REPO_ROOT,
-                check=True,
-            )
+            _apply_source_patch(patch_root, patch_copy, reverse=True)
 
     for which, m in (("baseline", base), ("gate", gate)):
         shutil.copy(m["area_report"], out_dir / "logs" / f"{which}_area.rpt")
@@ -483,7 +517,7 @@ def main() -> int:
         raise SystemExit(
             f"--unit required for the equivalence/toggle legs; known units: {sorted(units)}"
         )
-    gold_v, gate_v = _build_unit_artifacts(cfg, units[args.unit], out_dir)
+    gold_v, gate_v = _build_unit_artifacts(cfg, units[args.unit], out_dir, patch_root)
 
     cfg["_active_unit_top"] = units[args.unit].get("top", args.unit)
     equiv, ys, log = run_equivalence(cfg, gold_v, gate_v, out_dir)
@@ -517,7 +551,9 @@ def main() -> int:
     return 0 if ok else 1
 
 
-def _build_unit_artifacts(cfg: dict, ua: dict, out_dir: Path) -> tuple[Path, Path]:
+def _build_unit_artifacts(
+    cfg: dict, ua: dict, out_dir: Path, patch_root: Path
+) -> tuple[Path, Path]:
     """sv2v gold/gate builds for the equivalence/toggle unit (COMMANDS.md recipe)."""
     gold = out_dir / "gold.v"
     gate = out_dir / "gate.v"
@@ -527,11 +563,7 @@ def _build_unit_artifacts(cfg: dict, ua: dict, out_dir: Path) -> tuple[Path, Pat
     files = [str(REPO_ROOT / f) for f in ua["files"]]
     for dst, patched in ((gold, False), (gate, True)):
         if patched:
-            subprocess.run(
-                ["git", "apply", str(out_dir / "SOURCE_DIFF.patch")],
-                cwd=REPO_ROOT,
-                check=True,
-            )
+            _apply_source_patch(patch_root, (out_dir / "SOURCE_DIFF.patch").resolve())
         try:
             with dst.open("w", encoding="utf-8") as fh:
                 subprocess.run(
@@ -541,10 +573,8 @@ def _build_unit_artifacts(cfg: dict, ua: dict, out_dir: Path) -> tuple[Path, Pat
             if patched:
                 # CONTRACT: same restore guarantee as the gate-synth path —
                 # a failed revert here is fatal, never silent.
-                subprocess.run(
-                    ["git", "apply", "-R", str(out_dir / "SOURCE_DIFF.patch")],
-                    cwd=REPO_ROOT,
-                    check=True,
+                _apply_source_patch(
+                    patch_root, (out_dir / "SOURCE_DIFF.patch").resolve(), reverse=True
                 )
     return gold, gate
 
