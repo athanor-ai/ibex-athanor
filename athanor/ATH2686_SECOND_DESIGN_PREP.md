@@ -69,6 +69,13 @@ evidence for the next ATH-2685 filter, not win candidates. No equivalence,
 toggle, or cold replay is warranted until a candidate changes selected-flow
 area/timing in the right direction.
 
+A refreshed replay with the ATH-2685 detector from athanor-kairos main
+`73f6b5b1` used the selected-flow generated STA netlist as the elaborated
+source. It returned the same two residual shared-term rows and zero residual
+constant-propagation rows. That means PicoRV32 is currently a harness/proof of
+transferability, not an optimization-spend surface: the detector has no
+selected-flow, netlist-changing lead to promote into equivalence/toggle spend.
+
 The first reusable selected-flow harness is now
 [`syn/picorv32_yosys66.sh`](../syn/picorv32_yosys66.sh), with the target config
 in [`configs/picorv32_yosys66.json`](configs/picorv32_yosys66.json). It emits
