@@ -140,7 +140,7 @@
     {
       "id": "cv32e40p",
       "source": "https://github.com/openhwgroup/cv32e40p",
-      "readiness": "frontend_recon_ready_profile_required",
+      "readiness": "frontend_recon_lsu_profile_neutral",
       "why": [
         "Customer-relevant OpenHW-class RISC-V core with a larger control/datapath split than Ibex.",
         "SystemVerilog frontend conversion is reproducible with sv2v, so detector evidence can be replayed without an ambient simulator project.",
@@ -166,15 +166,26 @@
         "residual_constant_propagation_leads": 0,
         "detector_output_sha256": "36a48ea7c4d480cdaeb8e26845c3166c37dd85e87b6a78c3f5bb440228c8ff75"
       },
+      "bounded_lsu_profile": {
+        "status": "bounded_module_area_neutral_no_spend",
+        "profile_receipt": "athanor/configs/ath2686_cv32e40p_lsu_profile.json",
+        "script": "syn/cv32e40p_lsu_shared_term_profile.sh",
+        "baseline_cells": 987,
+        "gate_cells": 987,
+        "cell_delta": 0,
+        "summary_sha256": "2f7feb0fd165324b0dd96af1b7ee439d19ac99239c06028bd57e4204771125d4",
+        "manifest_sha256": "c4a30ae005d73aecd34733d2b2c3515ad09f87da95871567db170ea98ad36704"
+      },
       "first_harness_work": [
-        "Profile the load_store_unit and sleep_unit residual shared-term leads with a bounded selected-flow gate.",
-        "Do not run equivalence, toggle, or cold replay until a candidate clears cheap area/timing movement.",
-        "Keep the full-core ABC/STA baseline out of headline language until a bounded run finishes with stable area/timing receipts."
+        "Treat the load_store_unit shared-term factor as a cheap-kill unless a selected-flow full-core harness shows aggregate movement beyond the bounded neutral profile.",
+        "Let the Kairos ATH-2685 formal-context filter remove sleep_unit SVA/property rows before synthesis spend.",
+        "Try new detector families or finish a selected-flow full-core harness before committing CV32E40P equivalence/toggle spend."
       ],
       "risks": [
         "Full selected-flow mapping exceeded the cheap scout budget during ABC mapping of cv32e40p_mult in the scratch run.",
         "The current receipt is frontend/recon only, not a PPA comparator.",
-        "The current detector residual-filters constant-prop leads but does not residual-filter shared-term leads; shared terms require bounded module/top profiling.",
+        "The load_store_unit module profile is generic Yosys only; it is not a full-core selected-flow area/timing comparator.",
+        "Sleep-unit source-level shared terms are formal/SVA predicates and require the Kairos formal-context filter before replay.",
         "SystemVerilog conversion uses a lint-wrapper configuration with FPU disabled; alternate configurations need separate receipts."
       ]
     }

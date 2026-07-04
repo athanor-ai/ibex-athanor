@@ -1,6 +1,6 @@
 {
   "ath_ticket": "ATH-2686",
-  "status": "frontend_recon_ready_module_profile_required",
+  "status": "frontend_recon_lsu_profile_neutral",
   "claim_boundary": "Unmodified CV32E40P frontend/recon only; no transform applied and no full selected-flow PPA baseline, formal, toggle, cold-replay, or optimization-win claim.",
   "design": {
     "id": "cv32e40p",
@@ -80,7 +80,20 @@
         "occurrence_count": 5
       }
     ],
-    "decision": "CV32E40P is the first ATH-2686 target where frontend-filtered replay removes constant-prop leads but leaves source-level shared-term leads to profile. The current detector does not residual-filter shared-term leads, so next spend must be a bounded module/top profile for these two modules before equivalence, toggle, cold replay, or headline language."
+    "decision": "CV32E40P is the first ATH-2686 target where frontend-filtered replay removes constant-prop leads but leaves source-level shared-term rows to inspect. The load_store_unit rows have a bounded neutral module profile, and the sleep_unit rows are formal/SVA property predicates handled by the Kairos ATH-2685 formal-context filter before synthesis spend."
   },
-  "next_step": "Build a bounded CV32E40P module/top selected-flow profile for load_store_unit and sleep_unit leads; promote only if a candidate clears cheap aggregate area/timing movement."
+  "bounded_module_profiles": [
+    {
+      "module": "cv32e40p_load_store_unit",
+      "receipt": "athanor/configs/ath2686_cv32e40p_lsu_profile.json",
+      "script": "syn/cv32e40p_lsu_shared_term_profile.sh",
+      "transform": "factor repeated data_sign_ext_q equality predicates",
+      "baseline_cells": 987,
+      "gate_cells": 987,
+      "cell_delta": 0,
+      "classification": "bounded_module_area_neutral_no_spend",
+      "boundary": "Module-level generic Yosys profile only; no full-core PPA, formal, toggle, cold-replay, or accepted-win claim."
+    }
+  ],
+  "next_step": "After ATH-2685 formal/SVA filtering lands, rerun CV32E40P recon. If only the load_store_unit datapath rows remain and they are still module-area neutral, prefer new detector families or a selected-flow full-core harness before CV32E40P equivalence/toggle spend."
 }
