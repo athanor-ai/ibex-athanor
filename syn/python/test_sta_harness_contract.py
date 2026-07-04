@@ -91,6 +91,20 @@ def test_ultraembedded_selected_flow_harness_exports_opensta_artifacts() -> None
     )
 
 
+def test_cv32e40p_recon_harness_exports_frontend_artifacts() -> None:
+    text = read_repo_file("syn/cv32e40p_recon.sh")
+
+    assert "scripts/lint/config_0p_0f_0z_0lat_0c/cv32e40p_config_pkg.sv" in text
+    assert "rtl/cv32e40p_load_store_unit.sv" in text
+    assert "rtl/cv32e40p_sleep_unit.sv" in text
+    assert "rtl/cv32e40p_fp_wrapper.sv" not in text
+    assert '"$sv2v_bin" "${abs_sources[@]}"' in text
+    assert "hierarchy -check -top $top" in text
+    assert "write_verilog -noattr cv32e40p_frontend.v" in text
+    assert 'yosys -s "$(basename "$frontend_script")"' in text
+    assert "yosys_frontend.normalized.log" in text
+
+
 def test_sta_path_groups_use_register_cells() -> None:
     text = read_repo_file("syn/tcl/sta_utils.tcl")
 

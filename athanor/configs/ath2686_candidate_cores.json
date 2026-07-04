@@ -136,6 +136,47 @@
         "Generator stack may make cold replay heavier than PicoRV32.",
         "Need to pin generated RTL so optimization evidence is not tied to an ambient Scala/Spinal setup."
       ]
+    },
+    {
+      "id": "cv32e40p",
+      "source": "https://github.com/openhwgroup/cv32e40p",
+      "readiness": "frontend_recon_ready_profile_required",
+      "why": [
+        "Customer-relevant OpenHW-class RISC-V core with a larger control/datapath split than Ibex.",
+        "SystemVerilog frontend conversion is reproducible with sv2v, so detector evidence can be replayed without an ambient simulator project.",
+        "Unlike PicoRV32, SERV, and ultraembedded/riscv under the current families, frontend-filtered detector replay still leaves source-level shared-term leads to profile."
+      ],
+      "local_recon": {
+        "source_git_head": "6033d2b1be3295ec774d17ac4cf226faacfdeb08",
+        "frontend_top": "cv32e40p_wrapper",
+        "frontend_receipt": "athanor/configs/ath2686_cv32e40p_recon.json",
+        "sv2v_wrapper_sha256": "60c4ab6801e6de4f3fd8f54c5fe2df00e740423edba68d81b5873f57b24ee232",
+        "frontend_netlist_sha256": "8bd58b2047d3662457ffea69d0ce9898c0d0d8635c7d2b97fe23e1e5f5b95ef1"
+      },
+      "source_only_detector_recon": {
+        "preanalysis_leads": 35,
+        "shared_term_leads": 4,
+        "constant_propagation_leads": 31,
+        "detector_output_sha256": "9ccac77f49c6ca3f6c79135c9388a19486adbbf191d45f6edf86e57fc2e9a5fb"
+      },
+      "frontend_filtered_detector_recon": {
+        "status": "shared_terms_profile_required",
+        "remaining_preanalysis_leads": 4,
+        "source_level_shared_term_leads": 4,
+        "residual_constant_propagation_leads": 0,
+        "detector_output_sha256": "36a48ea7c4d480cdaeb8e26845c3166c37dd85e87b6a78c3f5bb440228c8ff75"
+      },
+      "first_harness_work": [
+        "Profile the load_store_unit and sleep_unit residual shared-term leads with a bounded selected-flow gate.",
+        "Do not run equivalence, toggle, or cold replay until a candidate clears cheap area/timing movement.",
+        "Keep the full-core ABC/STA baseline out of headline language until a bounded run finishes with stable area/timing receipts."
+      ],
+      "risks": [
+        "Full selected-flow mapping exceeded the cheap scout budget during ABC mapping of cv32e40p_mult in the scratch run.",
+        "The current receipt is frontend/recon only, not a PPA comparator.",
+        "The current detector residual-filters constant-prop leads but does not residual-filter shared-term leads; shared terms require bounded module/top profiling.",
+        "SystemVerilog conversion uses a lint-wrapper configuration with FPU disabled; alternate configurations need separate receipts."
+      ]
     }
   ]
 }
