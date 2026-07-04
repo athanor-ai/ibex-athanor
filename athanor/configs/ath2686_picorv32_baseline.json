@@ -34,6 +34,34 @@
     "yosys_log_sha256": "934b7b59d1f23598d45928ddd984d5cb52cf13a958372daa83cd1cd806c03063",
     "local_artifact_dir": "/tmp/ath2686_picorv32_mext_baseline"
   },
+  "selected_timing_flow_baseline": {
+    "description": "Flattened selected-flow area/timing baseline emitted by syn/picorv32_yosys66.sh. This is the comparator shape for top-level-first cheap gates, not an optimization claim.",
+    "parameters": {
+      "ENABLE_FAST_MUL": 1,
+      "ENABLE_DIV": 1
+    },
+    "clock_period_ns": 10.0,
+    "io_delay_ns": 1.0,
+    "yosys_area": 145644.6848,
+    "wns_ns": {
+      "overall": -5.159,
+      "reg2reg": -5.159,
+      "reg2out": 6.7483,
+      "in2reg": 1.8232,
+      "in2out": 7.7694
+    },
+    "artifacts": {
+      "mapped_netlist_sha256": "a3470f445e7269808a6cf19f6af58cfbf806ead5aeef2daa828cef797562b9b8",
+      "sta_netlist_sha256": "9aecf92e40805e9a91a85e7596331020a726ca0cd8de95e8c6a517975b603931",
+      "area_report_sha256": "dec169dd09bac9d51488e5fc97b2570ff8ad5d8aaae6a79b792eae4d9eb62458",
+      "overall_timing_csv_sha256": "5ce1b77530ce11e62ec3103cfad79fc207abe9a3d451c19b4f2c915bef160821",
+      "reg2reg_timing_csv_sha256": "eab69ccdeeeb085cc274c4b7474228bca918e0b642a26c5cca8b58064e7a6d87",
+      "reg2out_timing_csv_sha256": "b279ead372fa5768416821fd1f8953179ba830cff2ab9404ed6fb8e694794217",
+      "in2reg_timing_csv_sha256": "5cec54ed204c6082713ff37b73e57353413a6ec785ac5d560dac14d65ccc99f3",
+      "in2out_timing_csv_sha256": "c6a9550084514429356e2b3cf73424092b201f407e2f5a6b65a8cf1459c19445"
+    },
+    "local_artifact_dir": "/tmp/ath2686_picorv32_selected_flow_script"
+  },
   "selected_flow_detector_recon": {
     "status": "no_win_candidate",
     "claim_boundary": "Residual detector reconnaissance only. No formal, toggle, cold-replay, or accepted-win claim.",

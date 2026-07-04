@@ -69,6 +69,19 @@ evidence for the next ATH-2685 filter, not win candidates. No equivalence,
 toggle, or cold replay is warranted until a candidate changes selected-flow
 area/timing in the right direction.
 
+The first reusable selected-flow harness is now
+[`syn/picorv32_yosys66.sh`](../syn/picorv32_yosys66.sh), with the target config
+in [`configs/picorv32_yosys66.json`](configs/picorv32_yosys66.json). It emits
+the same report shape that `top_level_first.py` consumes for Ibex:
+`reports/area.rpt` plus `reports/timing/{overall,reg2reg,reg2out,in2reg,in2out}.csv.rpt`.
+The selected M-extension baseline is `145644.6848` area with WNS groups
+`overall=-5.1590`, `reg2reg=-5.1590`, `reg2out=6.7483`, `in2reg=1.8232`,
+and `in2out=7.7694`.
+This is the area/timing half of the second-design harness only. Since PicoRV32
+currently lives outside this repository under `/workdir/oss-demo-targets`, the
+candidate patch/equivalence/toggle legs need a follow-up cross-repo artifact
+step before any win can be promoted.
+
 SERV and VexRiscv remain useful comparison targets because their microarchitectures
 are deliberately different from Ibex, but they require fetch/license/toolchain
 verification before commitment.
