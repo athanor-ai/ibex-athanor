@@ -420,9 +420,13 @@ def main() -> int:
         gate = collect_metrics(cfg, gate_out)
     finally:
         if not args.keep_tree_patched:
+            # CONTRACT: the tree MUST be restored before this tool proceeds —
+            # a silently-still-patched tree poisons every later baseline on
+            # this checkout. check=True makes a failed revert fatal and loud.
             subprocess.run(
                 ["git", "apply", "-R", str(out_dir / "SOURCE_DIFF.patch")],
                 cwd=REPO_ROOT,
+                check=True,
             )
 
     for which, m in (("baseline", base), ("gate", gate)):
@@ -525,9 +529,12 @@ def _build_unit_artifacts(cfg: dict, ua: dict, out_dir: Path) -> tuple[Path, Pat
                 )
         finally:
             if patched:
+                # CONTRACT: same restore guarantee as the gate-synth path —
+                # a failed revert here is fatal, never silent.
                 subprocess.run(
                     ["git", "apply", "-R", str(out_dir / "SOURCE_DIFF.patch")],
                     cwd=REPO_ROOT,
+                    check=True,
                 )
     return gold, gate
 
