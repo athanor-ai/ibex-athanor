@@ -105,18 +105,18 @@ proc write_sdc_out {sdc_file_in sdc_file_out} {
   puts $sdc_out "#============ Auto-generated from config ============"
 
   set clk_period_ns [expr $lr_synth_clk_period / 1000.0]
-  puts $sdc_out "create_clock -name $lr_synth_clk_input -period $clk_period_ns {$lr_synth_clk_input}"
+  puts $sdc_out "create_clock -name $lr_synth_clk_input -period $clk_period_ns \[get_ports $lr_synth_clk_input\]"
 
   foreach output $lr_synth_outputs {
     set output_constraint [lindex $output 1]
     set output_constraint [expr (1.0 - ($output_constraint / 100.0)) * $clk_period_ns]
-    puts $sdc_out "set_output_delay -clock $lr_synth_clk_input $output_constraint [lindex $output 0]"
+    puts $sdc_out "set_output_delay -clock $lr_synth_clk_input $output_constraint \[get_ports [lindex $output 0]\]"
   }
 
   foreach input $lr_synth_inputs {
     set input_constraint [lindex $input 1]
     set input_constraint [expr ($input_constraint / 100.0) * $clk_period_ns]
-    puts $sdc_out "set_input_delay -clock $lr_synth_clk_input $input_constraint [lindex $input 0]"
+    puts $sdc_out "set_input_delay -clock $lr_synth_clk_input $input_constraint \[get_ports [lindex $input 0]\]"
   }
 
   close $sdc_out
