@@ -121,6 +121,26 @@ but selected-flow residual replay returned zero leads. That makes it a second
 negative transferability receipt for the current ATH-2685 families, while
 preserving a direct-Verilog customer-relevant baseline for future detector work.
 
+CV32E40P now has a bounded frontend/recon receipt in
+[`configs/ath2686_cv32e40p_recon.json`](configs/ath2686_cv32e40p_recon.json),
+with the target config in
+[`configs/cv32e40p_recon.json`](configs/cv32e40p_recon.json) and the reproducible
+frontend script in [`syn/cv32e40p_recon.sh`](../syn/cv32e40p_recon.sh). The
+script converts the upstream lint-wrapper configuration with `sv2v`, then runs
+only Yosys hierarchy/proc/opt/fsm/memory frontend passes before mapping. That
+bounded stage is intentional: a scratch full-core selected-flow run progressed
+through frontend elaboration but exceeded the cheap scout budget during ABC
+mapping of `cv32e40p_mult`, so no full area/timing comparator is claimed.
+
+The detector signal is different from the dry targets above. Source-only replay
+over 31 files found 35 leads. Supplying the generated Yosys frontend netlist as
+the elaborated view filters constant-prop leads to zero, while four source-level
+shared-term leads remain: two in `cv32e40p_load_store_unit.sv` and two in
+`cv32e40p_sleep_unit.sv`. The current detector does not residual-filter
+shared-term leads, so CV32E40P is still profile-required: the next spend must be
+a bounded area/timing profile for those modules before equivalence, toggle, cold
+replay, or headline language.
+
 VexRiscv remains a useful comparison target because its microarchitecture is
 deliberately different from Ibex, but it still requires fetch/license/toolchain
 verification before commitment.

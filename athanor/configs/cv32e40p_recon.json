@@ -1,0 +1,28 @@
+{
+  "core_name": "cv32e40p",
+  "top_module": "cv32e40p_wrapper",
+  "patch_root": "/workdir/oss-demo-targets/cv32e40p",
+  "patch_root_commit": "6033d2b1be3295ec774d17ac4cf226faacfdeb08",
+  "recon_script": "syn/cv32e40p_recon.sh",
+  "source_manifest": {
+    "path": "reports/source_manifest.sha256",
+    "source_file_count": 31,
+    "manifest_sha256": "e901a2bb898005d2fd665a13d6765bc027c52835e6c31911936a05201d29dcb4"
+  },
+  "generated_artifacts": [
+    "generated/cv32e40p_wrapper.v",
+    "generated/cv32e40p_frontend.ys",
+    "generated/cv32e40p_frontend.v",
+    "reports/source_manifest.sha256",
+    "reports/sv2v_filelist.txt",
+    "log/sv2v.log",
+    "log/yosys_frontend.log",
+    "log/yosys_frontend.normalized.log"
+  ],
+  "env": {
+    "CV32E40P_ROOT": "/workdir/oss-demo-targets/cv32e40p",
+    "CV32E40P_TOP": "cv32e40p_wrapper",
+    "SV2V": "/workdir/.local/bin/sv2v"
+  },
+  "claim_boundary": "CV32E40P frontend/recon only. This does not run full mapping/STA and carries no transform, formal, toggle, cold-replay, PPA, or accepted-win claim."
+}
