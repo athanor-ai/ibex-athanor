@@ -23,6 +23,7 @@ convention to be complete and independently reviewed.
 | [`multdiv_slow_greater_equal_xor_shape/`](multdiv_slow_greater_equal_xor_shape/) | Accepted selected-toolchain artifact: area -0.0605%, max data arrival -0.88ns / -10.82%, toggle flat, formal 411/411. |
 | [`multdiv_fast_greater_equal_xor_shape/`](multdiv_fast_greater_equal_xor_shape/) | Accepted artifact: cell count flat, max propagation delay -0.28ns / -2.58%, toggle flat, formal 772/772. |
 | [`if_stage_expanded_predicate_factor/`](if_stage_expanded_predicate_factor/) | Candidate: top-level area -0.02885%, whole-core WNS improves on all recorded groups, formal 1956/1956, corrected pinned toggle convention flat. |
+| [`if_stage_resetall0_plus_expanded_predicate_factor/`](if_stage_resetall0_plus_expanded_predicate_factor/) | Candidate, cold-replay pending: ResetAll=0 specialization stacked on accepted IF-stage predicate factoring; local five-point receipt is positive. |
 | [`if_stage_no_bp_prefetch_direct/`](if_stage_no_bp_prefetch_direct/) | Candidate: formal replay and area/timing replay are positive under Yosys 0.66, corrected pinned toggle convention flat. |
 | [`id_stage_no_wb_prio_assign/`](id_stage_no_wb_prio_assign/) | Rejected for promotion: area/timing/formal are positive, but quick internal-VCD toggle smoke regresses +1.27%. |
 | [`load_store_unit_signext_factor/`](load_store_unit_signext_factor/) | Rejected for promotion: area/timing/formal are positive, but deterministic LSU-local toggle replay regresses +1.79886%. |

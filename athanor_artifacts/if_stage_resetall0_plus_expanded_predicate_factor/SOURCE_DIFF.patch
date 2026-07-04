@@ -1,0 +1,120 @@
+diff --git a/rtl/ibex_if_stage.sv b/rtl/ibex_if_stage.sv
+index bff11bc3..47b509d7 100644
+--- a/rtl/ibex_if_stage.sv
++++ b/rtl/ibex_if_stage.sv
+@@ -152,6 +152,7 @@ module ibex_if_stage import ibex_pkg::*; #(
+   logic              illegal_c_insn;
+   logic              instr_is_compressed;
+   instr_exp_e        instr_gets_expanded;
++  logic              instr_is_expanded;
+ 
+   logic              if_instr_valid;
+   logic       [31:0] if_instr_rdata;
+@@ -426,6 +427,8 @@ module ibex_if_stage import ibex_pkg::*; #(
+     .illegal_instr_o(illegal_c_insn)
+   );
+ 
++  assign instr_is_expanded = instr_gets_expanded == INSTR_EXPANDED;
++
+   // Dummy instruction insertion
+   if (DummyInstructions) begin : gen_dummy_instr
+     // SEC_CM: CTRL_FLOW.UNPREDICTABLE
+@@ -512,48 +515,19 @@ module ibex_if_stage import ibex_pkg::*; #(
+   // IF-ID pipeline registers, frozen when the ID stage is stalled
+   assign if_id_pipe_reg_we = instr_new_id_d;
+ 
+-  if (ResetAll) begin : g_instr_rdata_ra
+-    always_ff @(posedge clk_i or negedge rst_ni) begin
+-      if (!rst_ni) begin
+-        instr_rdata_id_o         <= '0;
+-        instr_rdata_alu_id_o     <= '0;
+-        instr_fetch_err_o        <= '0;
+-        instr_fetch_err_plus2_o  <= '0;
+-        instr_rdata_c_id_o       <= '0;
+-        instr_is_compressed_id_o <= '0;
+-        instr_gets_expanded_id_o <= INSTR_NOT_EXPANDED;
+-        instr_expanded_id_o      <= '0;
+-        illegal_c_insn_id_o      <= '0;
+-        pc_id_o                  <= '0;
+-      end else if (if_id_pipe_reg_we) begin
+-        instr_rdata_id_o         <= instr_out;
+-        // To reduce fan-out and help timing from the instr_rdata_id flops they are replicated.
+-        instr_rdata_alu_id_o     <= instr_out;
+-        instr_fetch_err_o        <= instr_err_out;
+-        instr_fetch_err_plus2_o  <= if_instr_err_plus2;
+-        instr_rdata_c_id_o       <= if_instr_rdata[15:0];
+-        instr_is_compressed_id_o <= instr_is_compressed_out;
+-        instr_gets_expanded_id_o <= instr_gets_expanded_out;
+-        instr_expanded_id_o      <= if_instr_rdata[15:0];
+-        illegal_c_insn_id_o      <= illegal_c_instr_out;
+-        pc_id_o                  <= pc_if_o;
+-      end
+-    end
+-  end else begin : g_instr_rdata_nr
+-    always_ff @(posedge clk_i) begin
+-      if (if_id_pipe_reg_we) begin
+-        instr_rdata_id_o         <= instr_out;
+-        // To reduce fan-out and help timing from the instr_rdata_id flops they are replicated.
+-        instr_rdata_alu_id_o     <= instr_out;
+-        instr_fetch_err_o        <= instr_err_out;
+-        instr_fetch_err_plus2_o  <= if_instr_err_plus2;
+-        instr_rdata_c_id_o       <= if_instr_rdata[15:0];
+-        instr_is_compressed_id_o <= instr_is_compressed_out;
+-        instr_gets_expanded_id_o <= instr_gets_expanded_out;
+-        instr_expanded_id_o      <= if_instr_rdata[15:0];
+-        illegal_c_insn_id_o      <= illegal_c_instr_out;
+-        pc_id_o                  <= pc_if_o;
+-      end
++  always_ff @(posedge clk_i) begin : g_instr_rdata_nr
++    if (if_id_pipe_reg_we) begin
++      instr_rdata_id_o         <= instr_out;
++      // To reduce fan-out and help timing from the instr_rdata_id flops they are replicated.
++      instr_rdata_alu_id_o     <= instr_out;
++      instr_fetch_err_o        <= instr_err_out;
++      instr_fetch_err_plus2_o  <= if_instr_err_plus2;
++      instr_rdata_c_id_o       <= if_instr_rdata[15:0];
++      instr_is_compressed_id_o <= instr_is_compressed_out;
++      instr_gets_expanded_id_o <= instr_gets_expanded_out;
++      instr_expanded_id_o      <= if_instr_rdata[15:0];
++      illegal_c_insn_id_o      <= illegal_c_instr_out;
++      pc_id_o                  <= pc_if_o;
+     end
+   end
+ 
+@@ -567,7 +541,7 @@ module ibex_if_stage import ibex_pkg::*; #(
+     // request, all of which will set branch_req. Also do not check after reset or for dummy
+     // instructions.
+     assign prev_instr_seq_d = (prev_instr_seq_q | instr_new_id_d) &
+-        ~branch_req & ~if_instr_err & ~stall_dummy_instr & !(instr_gets_expanded == INSTR_EXPANDED);
++        ~branch_req & ~if_instr_err & ~stall_dummy_instr & ~instr_is_expanded;
+ 
+     always_ff @(posedge clk_i or negedge rst_ni) begin
+       if (!rst_ni) begin
+@@ -630,7 +604,7 @@ module ibex_if_stage import ibex_pkg::*; #(
+     assign instr_skid_en = predict_branch_taken & ~pc_set_i & ~id_in_ready_i & ~instr_skid_valid_q;
+ 
+     assign instr_skid_valid_d = (instr_skid_valid_q & ~id_in_ready_i & ~stall_dummy_instr &
+-                                 !(instr_gets_expanded == INSTR_EXPANDED)) | instr_skid_en;
++                                 ~instr_is_expanded) | instr_skid_en;
+ 
+     always_ff @(posedge clk_i or negedge rst_ni) begin
+       if (!rst_ni) begin
+@@ -689,7 +663,7 @@ module ibex_if_stage import ibex_pkg::*; #(
+     assign instr_bp_taken_d = instr_skid_valid_q ? instr_skid_bp_taken_q : predict_branch_taken;
+ 
+     assign fetch_ready = id_in_ready_i & ~stall_dummy_instr &
+-                         !(instr_gets_expanded == INSTR_EXPANDED) & ~instr_skid_valid_q;
++                         ~instr_is_expanded & ~instr_skid_valid_q;
+ 
+     assign instr_bp_taken_o = instr_bp_taken_q;
+ 
+@@ -704,8 +678,7 @@ module ibex_if_stage import ibex_pkg::*; #(
+     assign if_instr_rdata = fetch_rdata;
+     assign if_instr_addr  = fetch_addr;
+     assign if_instr_bus_err = fetch_err;
+-    assign fetch_ready = id_in_ready_i & ~stall_dummy_instr &
+-                         !(instr_gets_expanded == INSTR_EXPANDED);
++    assign fetch_ready = id_in_ready_i & ~stall_dummy_instr & ~instr_is_expanded;
+   end
+ 
+   //////////
