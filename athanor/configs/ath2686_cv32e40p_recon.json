@@ -15,17 +15,17 @@
   "toolchain": {
     "sv2v": "sv2v v0.0.13",
     "yosys_frontend": "Yosys 0.66+142 (git sha1 fe8f29b5f, Release, Clang /usr/bin/clang++ 18.1.8)",
-    "detector_binary_source": "kairos-rtl-rewrite from athanor-kairos main d4a44892"
+    "detector_binary_source": "kairos-rtl-rewrite from athanor-kairos main 3e9214dc"
   },
   "bounded_frontend_receipt": {
     "description": "CV32E40P SystemVerilog conversion plus Yosys hierarchy/proc/opt/fsm/memory frontend only. This intentionally stops before dfflibmap/ABC/STA because full selected-flow mapping exceeded the cheap scout budget in the scratch run.",
-    "local_artifact_dir": "/tmp/ath2686_cv32e40p_recon_fresh",
+    "local_artifact_dir": "/tmp/dexter-ath2686-cv32e40p-rerun",
     "artifacts": {
       "sv2v_wrapper_sha256": "60c4ab6801e6de4f3fd8f54c5fe2df00e740423edba68d81b5873f57b24ee232",
-      "frontend_netlist_sha256": "8bd58b2047d3662457ffea69d0ce9898c0d0d8635c7d2b97fe23e1e5f5b95ef1",
+      "frontend_netlist_sha256": "d05e0e5750f290550d8840672a92caf224c3d155923ba54c85296ab4d96e18f0",
       "frontend_yosys_script_sha256": "3c2aeb8add8b56dca72a375d9e73fc9913c74ea26da0028883a87ad52a85ca45",
       "sv2v_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "frontend_yosys_normalized_log_sha256": "52b3d596369a0449467cf532643ef37eada3887109d4ccc5298606607d050d09"
+      "frontend_yosys_normalized_log_sha256": "75888d5c2aa3cb800a906bfe2ac006df410547808f68a5f672094507e1562486"
     },
     "notes": [
       "The source list excludes cv32e40p_fp_wrapper.sv because this lint-wrapper configuration sets FPU=0; including it requires fpnew_pkg and is not needed for the disabled FPU path.",
@@ -33,26 +33,26 @@
     ]
   },
   "source_only_detector_recon": {
-    "detector_payload_sha256": "e416ac2f5050ccca85376e8cf1c4f68a8e1c6073de53345fefa7965fb3c549da",
-    "detector_full_output_sha256": "9ccac77f49c6ca3f6c79135c9388a19486adbbf191d45f6edf86e57fc2e9a5fb",
+    "detector_payload_sha256": "be691702899afc923a279e0c23b2c14dc1783223f58a79b087dcd9eaeffcef74",
+    "detector_full_output_sha256": "29d56874a945184e635e982a9e8099781bd640bc1a75f55bd0d9b95199bac4d5",
     "source_files_scanned": 31,
     "min_shared_occurrences": 4,
     "min_guard_count": 2,
-    "preanalysis_leads": 35,
-    "shared_term_leads": 4,
+    "preanalysis_leads": 33,
+    "shared_term_leads": 2,
     "constant_propagation_leads": 31,
     "decision": "Source-level signal exists, but spend still requires residual evidence from the selected frontend view."
   },
   "frontend_filtered_detector_recon": {
     "status": "shared_terms_profile_required",
-    "detector_payload_sha256": "d5c30b97bd71afaa2a6c2988a8bf28091e297c85b9749c0086e50084e3b72ee3",
-    "detector_full_output_sha256": "36a48ea7c4d480cdaeb8e26845c3166c37dd85e87b6a78c3f5bb440228c8ff75",
-    "frontend_elaborated_source_sha256": "8bd58b2047d3662457ffea69d0ce9898c0d0d8635c7d2b97fe23e1e5f5b95ef1",
+    "detector_payload_sha256": "32c1350b80f2f5c44919918ff52b1af8d86b93460c381513d9af5bba5014192b",
+    "detector_full_output_sha256": "68b7de072eb3e2c0ef0d026e95092e38cbd8adcee52a6f7207a58f74a2a52b1c",
+    "frontend_elaborated_source_sha256": "d05e0e5750f290550d8840672a92caf224c3d155923ba54c85296ab4d96e18f0",
     "source_files_scanned": 31,
     "min_shared_occurrences": 4,
     "min_guard_count": 2,
-    "remaining_preanalysis_leads": 4,
-    "source_level_shared_term_leads": 4,
+    "remaining_preanalysis_leads": 2,
+    "source_level_shared_term_leads": 2,
     "residual_constant_propagation_leads": 0,
     "remaining_shared_term_leads": [
       {
@@ -66,21 +66,9 @@
         "lead_kind": "shared_term",
         "expression": "2'b10 == data_sign_ext_q",
         "occurrence_count": 7
-      },
-      {
-        "source_path": "rtl/cv32e40p_sleep_unit.sv",
-        "lead_kind": "shared_term",
-        "expression": "1'b1 == core_sleep_o",
-        "occurrence_count": 6
-      },
-      {
-        "source_path": "rtl/cv32e40p_sleep_unit.sv",
-        "lead_kind": "shared_term",
-        "expression": "1'b0 == clock_en",
-        "occurrence_count": 5
       }
     ],
-    "decision": "CV32E40P is the first ATH-2686 target where frontend-filtered replay removes constant-prop leads but leaves source-level shared-term rows to inspect. The load_store_unit rows have a bounded neutral module profile, and the sleep_unit rows are formal/SVA property predicates handled by the Kairos ATH-2685 formal-context filter before synthesis spend."
+    "decision": "Current frontend-filtered replay on athanor-kairos main 3e9214dc removes constant-prop leads and the prior sleep_unit formal/SVA false positives, leaving only the load_store_unit datapath shared-term rows. Those rows have a bounded neutral module profile, so no CV32E40P candidate clears the current pre-spend bar."
   },
   "bounded_module_profiles": [
     {
@@ -95,5 +83,5 @@
       "boundary": "Module-level generic Yosys profile only; no full-core PPA, formal, toggle, cold-replay, or accepted-win claim."
     }
   ],
-  "next_step": "After ATH-2685 formal/SVA filtering lands, rerun CV32E40P recon. If only the load_store_unit datapath rows remain and they are still module-area neutral, prefer new detector families or a selected-flow full-core harness before CV32E40P equivalence/toggle spend."
+  "next_step": "Prefer new detector families or a selected-flow full-core harness before CV32E40P equivalence/toggle spend; the current ATH-2685 shared-term/constant-prop families have no spend-ready CV32E40P lead."
 }

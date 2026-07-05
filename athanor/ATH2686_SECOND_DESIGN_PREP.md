@@ -132,13 +132,12 @@ bounded stage is intentional: a scratch full-core selected-flow run progressed
 through frontend elaboration but exceeded the cheap scout budget during ABC
 mapping of `cv32e40p_mult`, so no full area/timing comparator is claimed.
 
-The detector signal is different from the dry targets above. Source-only replay
-over 31 files found 35 leads. Supplying the generated Yosys frontend netlist as
-the elaborated view filters constant-prop leads to zero, while four source-level
-shared-term leads remained in the first pass: two in
-`cv32e40p_load_store_unit.sv` and two in `cv32e40p_sleep_unit.sv`. The sleep-unit
-rows are formal/SVA property predicates, not synthesis candidates; the Kairos
-ATH-2685 formal-context filter removes that false-positive class before spend.
+The detector signal is different from the dry targets above. A current
+`kairos-rtl-rewrite` replay over 31 files found 33 source-only leads. Supplying
+the generated Yosys frontend netlist as the elaborated view filters
+constant-prop leads to zero and removes the prior `cv32e40p_sleep_unit.sv`
+formal/SVA false positives. Only two source-level shared-term leads remain, both
+in `cv32e40p_load_store_unit.sv`.
 
 The remaining load-store-unit datapath lead has a bounded module profile in
 [`configs/ath2686_cv32e40p_lsu_profile.json`](configs/ath2686_cv32e40p_lsu_profile.json),
@@ -149,6 +148,11 @@ Yosys synthesis on `cv32e40p_load_store_unit` only. The profile is area-neutral:
 `987 -> 987` cells, so it does not clear the cheap pre-spend bar. No
 equivalence, toggle, cold replay, full-core PPA, or headline language is
 warranted for this candidate.
+
+That closes the current CV32E40P pass under the ATH-2685 shared-term and
+constant-prop families: the formal/SVA filter works on a second design, but no
+spend-ready candidate survives. The next useful work is a new detector family or
+a selected-flow full-core harness before any CV32E40P equivalence/toggle spend.
 
 VexRiscv now has a generator-toolchain preflight receipt in
 [`configs/ath2686_vexriscv_preflight.json`](configs/ath2686_vexriscv_preflight.json).
