@@ -1,0 +1,68 @@
+{
+  "ath_ticket": "ATH-2686",
+  "status": "bounded_module_area_negative_no_spend",
+  "claim_boundary": "CV32E40P register_file module-level generic Yosys profile only; no full-core PPA, formal, toggle, cold-replay, or accepted-win claim.",
+  "design": {
+    "id": "cv32e40p",
+    "source_url": "https://github.com/openhwgroup/cv32e40p",
+    "local_repo_path": "/workdir/oss-demo-targets/cv32e40p",
+    "git_head": "6033d2b1be3295ec774d17ac4cf226faacfdeb08",
+    "module": "cv32e40p_register_file",
+    "dependencies": [
+      "rtl/cv32e40p_register_file_latch.sv",
+      "bhv/cv32e40p_sim_clock_gate.sv"
+    ]
+  },
+  "toolchain": {
+    "sv2v": "sv2v v0.0.13",
+    "yosys": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)"
+  },
+  "scout_family": {
+    "name": "register_file_write_enable_guard_factoring",
+    "description": "Factor repeated write-enable equality guards before the generated onehot write-address decoders.",
+    "source_pattern": "cv32e40p_register_file_latch generated waddr_onehot_a/b assignments use repeated (we_*_i == 1'b1) guards",
+    "source_locations": [
+      "rtl/cv32e40p_register_file_latch.sv:141",
+      "rtl/cv32e40p_register_file_latch.sv:142"
+    ]
+  },
+  "bounded_profile": {
+    "local_artifact_dir": "/tmp/dexter-ath2686-cv32e40p-regfile-guard-y66",
+    "baseline_cells": 4010,
+    "gate_cells": 4011,
+    "cell_delta": 1,
+    "classification": "bounded_module_area_negative_no_spend",
+    "baseline_cell_types": {
+      "$_ANDNOT_": 23,
+      "$_AND_": 1355,
+      "$_DFFE_PN0P_": 64,
+      "$_DFF_PN0_": 15,
+      "$_DLATCH_N_": 16,
+      "$_DLATCH_PN0_": 480,
+      "$_MUX_": 480,
+      "$_NAND_": 1536,
+      "$_NOR_": 9,
+      "$_OR_": 32
+    },
+    "gate_cell_types": {
+      "$_ANDNOT_": 22,
+      "$_AND_": 1356,
+      "$_DFFE_PN0P_": 64,
+      "$_DFF_PN0_": 15,
+      "$_DLATCH_N_": 16,
+      "$_DLATCH_PN0_": 480,
+      "$_MUX_": 480,
+      "$_NAND_": 1536,
+      "$_NOR_": 10,
+      "$_OR_": 32
+    },
+    "baseline_source_sha256": "70acb0166bca598d138e8ab48fac4bb030e55b11c9e578dd0396423e89e841d4",
+    "gate_source_sha256": "6173397f0b16591f2cd762fd99611d98239d392b62d054b53a2b1285190fd7c1",
+    "baseline_v2001_sha256": "733d3ea28ce7f757d9f5e6d1d1cc5db9d11c2bea0d762129a33e80b87e268015",
+    "gate_v2001_sha256": "71bc9c8745431842dbd2a620c792f5ece7c33c80d20908124ab78b6f075e7137",
+    "baseline_yosys_log_sha256": "c49a7d9cca1497aeda8e58b319ce735209dbeff8e58004a960a1369ec6183a37",
+    "gate_yosys_log_sha256": "86b0055ef0b8513fdc8acfd0c5967686b46e90ea6f818fb69e58e80cea24a331",
+    "manifest_sha256": "1f2008592ba839b75919b3e36f2e0048485ad9fe4848ae7017c13246d1e70d19"
+  },
+  "decision": "Do not build or spend on register-file write-enable guard factoring. The bounded module profile regresses by one generic Yosys cell under the selected toolchain, so it fails the cheap pre-spend bar."
+}
