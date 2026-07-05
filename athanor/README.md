@@ -9,6 +9,11 @@ and cross-tool sensitivity evidence. The selected baseline is codified in
 [`toolchain_policy.json`](toolchain_policy.json), and
 [`verify_public_receipts.py`](verify_public_receipts.py) enforces that
 customer-facing rows use that policy.
+Each public frontier module manifest must also select a `row_contract` from the
+hash-pinned `row_contracts` registry in
+[`toolchain_policy.json`](toolchain_policy.json). A new frontier survivor
+without a declared, policy-pinned contract type fails the verifier rather than
+silently using an implicit module-name rule.
 
 ## Results Summary
 

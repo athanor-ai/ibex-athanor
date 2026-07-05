@@ -1,0 +1,29 @@
+# Copyright lowRISC contributors.
+# Licensed under the Apache License, Version 2.0, see LICENSE for details.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Athanor public receipt verifier
+
+on:
+  merge_group:
+    types:
+      - checks_requested
+  pull_request:
+    branches:
+      - "*"
+  push:
+    branches:
+      - master
+
+jobs:
+  verify-receipts:
+    name: Verify Athanor public receipts
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Run receipt verifier selftest
+        run: python3 athanor/verify_public_receipts.py --selftest
+
+      - name: Verify public receipt manifests
+        run: python3 athanor/verify_public_receipts.py

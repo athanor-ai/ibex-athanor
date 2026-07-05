@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 from pathlib import Path
 import importlib.util
 import subprocess
@@ -162,6 +163,31 @@ def test_cv32e40p_idstage_fullcore_noabc_profile_is_guarded_no_claim() -> None:
     assert "no formal, no toggle, no " in text
     assert "cold-replay, no accepted optimization, and no " in text
     assert "headline claim" in text
+
+
+def test_public_receipt_verifier_is_ci_wired() -> None:
+    workflow = read_repo_file(".github/workflows/athanor-receipts.yml")
+
+    assert "name: Athanor public receipt verifier" in workflow
+    assert "merge_group:" in workflow
+    assert "pull_request:" in workflow
+    assert "push:" in workflow
+    assert "python3 athanor/verify_public_receipts.py --selftest" in workflow
+    assert "python3 athanor/verify_public_receipts.py" in workflow
+
+
+def test_public_receipt_contract_registry_covers_frontier_manifests() -> None:
+    policy = json.loads(read_repo_file("athanor/toolchain_policy.json"))
+    contracts = policy["row_contracts"]
+    manifests = sorted((REPO_ROOT / "athanor/ppa_frontier").glob("*/manifest.json"))
+
+    for manifest_path in manifests:
+        manifest = json.loads(manifest_path.read_text())
+        assert manifest["row_contract"] in contracts
+        contract = contracts[manifest["row_contract"]]
+        assert contract["required_policy"]
+        assert contract["required_receipts"]
+        assert contract["assertions"]
 
 
 def test_sta_path_groups_use_register_cells() -> None:
