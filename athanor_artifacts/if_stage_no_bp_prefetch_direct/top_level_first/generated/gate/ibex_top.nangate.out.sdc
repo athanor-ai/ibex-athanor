@@ -1,0 +1,35 @@
+# Copyright lowRISC contributors.
+# Licensed under the Apache License, Version 2.0, see LICENSE for details.
+# SPDX-License-Identifier: Apache-2.0
+
+set_driving_cell -lib_cell sky130_fd_sc_hd__buf_2 [all_inputs]
+set_load 10.0 [all_outputs]
+
+#============ Auto-generated from config ============
+create_clock -name clk_i -period 4.0 [get_ports clk_i]
+set_output_delay -clock clk_i 1.2000000000000002 [get_ports instr_req_o]
+set_output_delay -clock clk_i 1.2000000000000002 [get_ports instr_addr_o]
+set_output_delay -clock clk_i 1.2000000000000002 [get_ports data_req_o]
+set_output_delay -clock clk_i 1.2000000000000002 [get_ports data_we_o]
+set_output_delay -clock clk_i 1.2000000000000002 [get_ports data_be_o]
+set_output_delay -clock clk_i 1.2000000000000002 [get_ports data_addr_o]
+set_output_delay -clock clk_i 1.2000000000000002 [get_ports data_wdata_o]
+set_output_delay -clock clk_i 0.7999999999999998 [get_ports core_sleep_o]
+set_input_delay -clock clk_i 0.0 [get_ports test_en_i]
+set_input_delay -clock clk_i 0.0 [get_ports hart_id_i]
+set_input_delay -clock clk_i 0.0 [get_ports boot_addr_i]
+set_input_delay -clock clk_i 1.2 [get_ports instr_gnt_i]
+set_input_delay -clock clk_i 1.2 [get_ports instr_rvalid_i]
+set_input_delay -clock clk_i 1.2 [get_ports instr_rdata_i]
+set_input_delay -clock clk_i 1.2 [get_ports instr_err_i]
+set_input_delay -clock clk_i 1.2 [get_ports data_gnt_i]
+set_input_delay -clock clk_i 1.2 [get_ports data_rvalid_i]
+set_input_delay -clock clk_i 1.2 [get_ports data_rdata_i]
+set_input_delay -clock clk_i 1.2 [get_ports data_err_i]
+set_input_delay -clock clk_i 0.4 [get_ports irq_software_i]
+set_input_delay -clock clk_i 0.4 [get_ports irq_timer_i]
+set_input_delay -clock clk_i 0.4 [get_ports irq_external_i]
+set_input_delay -clock clk_i 0.4 [get_ports irq_fast_i]
+set_input_delay -clock clk_i 0.4 [get_ports irq_nm_i]
+set_input_delay -clock clk_i 0.4 [get_ports debug_req_i]
+set_input_delay -clock clk_i 0.0 [get_ports fetch_enable_i]

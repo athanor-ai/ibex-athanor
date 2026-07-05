@@ -1,0 +1,1315 @@
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[31] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.06 ^ _19233_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.37 ^ _19251_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.30    4.68 ^ _19844_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.15    4.82 v _20502_/Y (sky130_fd_sc_hd__a21oi_1)
+ 199.28  204.11 ^ _20615_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  204.11 ^ instr_addr_o[31] (out)
+         204.11   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -204.11   data arrival time
+---------------------------------------------------------
+        -201.31   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[30] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.06 ^ _19233_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.37 ^ _19251_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.30    4.68 ^ _19844_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.16    4.84 v _20273_/Y (sky130_fd_sc_hd__a21oi_1)
+ 199.26  204.10 ^ _20276_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  204.10 ^ instr_addr_o[30] (out)
+         204.10   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -204.10   data arrival time
+---------------------------------------------------------
+        -201.30   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[27] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.06 ^ _19233_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.37 ^ _19251_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.18    4.56 v _19892_/Y (sky130_fd_sc_hd__a21oi_1)
+ 199.32  203.87 ^ _20282_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  203.87 ^ instr_addr_o[27] (out)
+         203.87   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -203.87   data arrival time
+---------------------------------------------------------
+        -201.07   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[28] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.06 ^ _19233_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.37 ^ _19251_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.15    4.53 v _19887_/Y (sky130_fd_sc_hd__a21oi_1)
+ 199.28  203.81 ^ _20280_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  203.81 ^ instr_addr_o[28] (out)
+         203.81   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -203.81   data arrival time
+---------------------------------------------------------
+        -201.01   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[12] (input port clocked by clk_i)
+Endpoint: instr_addr_o[2] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.02    0.42 v irq_fast_i[12] (in)
+   0.07    0.49 ^ _19194_/Y (sky130_fd_sc_hd__nand2_1)
+   0.10    0.59 v _20057_/Y (sky130_fd_sc_hd__a32oi_1)
+   0.12    0.71 ^ _20058_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.05    0.76 v _20059_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.11    0.88 ^ _20060_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.05    0.93 v _20061_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.11    1.04 ^ _20062_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.05    1.10 v _20063_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.11    1.21 ^ _20064_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.05    1.27 v _20065_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.12    1.38 ^ _20066_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.05    1.44 v _20067_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.12    1.55 ^ _20068_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.06    1.61 v _20069_/Y (sky130_fd_sc_hd__nor3_1)
+   0.18    1.79 v _20072_/X (sky130_fd_sc_hd__o21a_1)
+   0.08    1.88 ^ _20073_/Y (sky130_fd_sc_hd__nor2_1)
+   0.06    1.94 v _20074_/Y (sky130_fd_sc_hd__a221oi_1)
+   2.61    4.55 ^ _20075_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.24    4.79 v _20076_/Y (sky130_fd_sc_hd__a21oi_1)
+ 198.97  203.76 ^ _20327_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  203.76 ^ instr_addr_o[2] (out)
+         203.76   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -203.76   data arrival time
+---------------------------------------------------------
+        -200.96   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[26] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.06 ^ _19233_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.37 ^ _19251_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.16    4.53 v _19897_/Y (sky130_fd_sc_hd__a21oi_1)
+ 199.05  203.58 ^ _20284_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  203.58 ^ instr_addr_o[26] (out)
+         203.58   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -203.58   data arrival time
+---------------------------------------------------------
+        -200.78   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[22] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.06 ^ _19233_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.16    4.22 v _19920_/Y (sky130_fd_sc_hd__a21oi_1)
+ 198.92  203.14 ^ _20291_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  203.14 ^ instr_addr_o[22] (out)
+         203.14   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -203.14   data arrival time
+---------------------------------------------------------
+        -200.34   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[24] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.06 ^ _19233_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.15    4.21 v _19909_/Y (sky130_fd_sc_hd__a21oi_1)
+ 198.92  203.13 ^ _20287_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  203.13 ^ instr_addr_o[24] (out)
+         203.13   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -203.13   data arrival time
+---------------------------------------------------------
+        -200.33   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[23] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.06 ^ _19233_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.18    4.24 v _19914_/Y (sky130_fd_sc_hd__a21oi_1)
+ 198.83  203.07 ^ _20289_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  203.07 ^ instr_addr_o[23] (out)
+         203.07   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -203.07   data arrival time
+---------------------------------------------------------
+        -200.27   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[18] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.16    3.91 v _19942_/Y (sky130_fd_sc_hd__a21oi_1)
+ 199.08  202.99 ^ _20299_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.99 ^ instr_addr_o[18] (out)
+         202.99   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.99   data arrival time
+---------------------------------------------------------
+        -200.19   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[16] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.15    3.90 v _19955_/Y (sky130_fd_sc_hd__a21oi_1)
+ 199.07  202.97 ^ _20303_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.98 ^ instr_addr_o[16] (out)
+         202.98   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.98   data arrival time
+---------------------------------------------------------
+        -200.18   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[20] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.15    3.90 v _19932_/Y (sky130_fd_sc_hd__a21oi_1)
+ 199.04  202.94 ^ _20294_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.94 ^ instr_addr_o[20] (out)
+         202.94   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.94   data arrival time
+---------------------------------------------------------
+        -200.14   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[19] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.18    3.93 v _19937_/Y (sky130_fd_sc_hd__a21oi_1)
+ 198.88  202.81 ^ _20297_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.81 ^ instr_addr_o[19] (out)
+         202.81   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.81   data arrival time
+---------------------------------------------------------
+        -200.01   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[12] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.17    3.60 v _19977_/Y (sky130_fd_sc_hd__a21oi_1)
+ 199.07  202.67 ^ _20310_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.67 ^ instr_addr_o[12] (out)
+         202.67   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.67   data arrival time
+---------------------------------------------------------
+        -199.87   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[14] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.16    3.59 v _19965_/Y (sky130_fd_sc_hd__a21oi_1)
+ 198.99  202.58 ^ _20307_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.58 ^ instr_addr_o[14] (out)
+         202.58   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.58   data arrival time
+---------------------------------------------------------
+        -199.78   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[7] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.18    3.30 v _20001_/Y (sky130_fd_sc_hd__a21oi_1)
+ 199.27  202.57 ^ _20320_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.57 ^ instr_addr_o[7] (out)
+         202.57   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.57   data arrival time
+---------------------------------------------------------
+        -199.77   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[15] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.18    3.62 v _19960_/Y (sky130_fd_sc_hd__a21oi_1)
+ 198.88  202.50 ^ _20305_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.50 ^ instr_addr_o[15] (out)
+         202.50   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.50   data arrival time
+---------------------------------------------------------
+        -199.70   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[9] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.20    3.32 v _19992_/Y (sky130_fd_sc_hd__a21boi_0)
+ 198.99  202.31 ^ _20316_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.31 ^ instr_addr_o[9] (out)
+         202.31   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.31   data arrival time
+---------------------------------------------------------
+        -199.51   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[11] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.16    3.28 v _19982_/Y (sky130_fd_sc_hd__a21oi_1)
+ 198.99  202.27 ^ _20312_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.27 ^ instr_addr_o[11] (out)
+         202.27   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.27   data arrival time
+---------------------------------------------------------
+        -199.47   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[10] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.18    3.30 v _19987_/Y (sky130_fd_sc_hd__a21oi_1)
+ 198.97  202.26 ^ _20314_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.26 ^ instr_addr_o[10] (out)
+         202.26   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.26   data arrival time
+---------------------------------------------------------
+        -199.46   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[8] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.19    3.31 v _19997_/Y (sky130_fd_sc_hd__a21boi_0)
+ 198.95  202.26 ^ _20318_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.26 ^ instr_addr_o[8] (out)
+         202.26   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.26   data arrival time
+---------------------------------------------------------
+        -199.46   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[4] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.25    3.04 v _20034_/Y (sky130_fd_sc_hd__a21oi_1)
+ 199.03  202.07 ^ _20324_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.00  202.07 ^ instr_addr_o[4] (out)
+         202.07   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+        -202.07   data arrival time
+---------------------------------------------------------
+        -199.27   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: core_sleep_o (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.66 v _20590_/Y (sky130_fd_sc_hd__nand2b_1)
+ 116.47  118.14 ^ _20839_/Y (sky130_fd_sc_hd__nor2_1)
+   0.00  118.14 ^ core_sleep_o (out)
+         118.14   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -0.80    3.20   output external delay
+           3.20   data required time
+---------------------------------------------------------
+           3.20   data required time
+        -118.14   data arrival time
+---------------------------------------------------------
+        -114.94   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_req_o (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 ^ input external delay
+   0.04    0.44 ^ irq_fast_i[0] (in)
+   0.15    0.58 ^ _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.06    0.64 v _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.10    0.75 ^ _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.05    0.79 v _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    0.87 ^ _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.07    0.94 v _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.17    1.11 ^ _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.14    1.25 ^ _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.20    1.45 ^ _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.15    1.60 ^ _19846_/X (sky130_fd_sc_hd__or4_1)
+   0.22    1.82 ^ _19847_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.14    1.96 v _20082_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.17    2.13 v _20328_/Y (sky130_fd_sc_hd__nor2b_1)
+  49.67   51.80 ^ _20329_/Y (sky130_fd_sc_hd__inv_1)
+   0.00   51.80 ^ instr_req_o (out)
+          51.80   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+         -51.80   data arrival time
+---------------------------------------------------------
+         -49.00   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[29] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.06 ^ _19233_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.37 ^ _19251_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.30    4.68 ^ _19844_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.09    4.77 v _19845_/Y (sky130_fd_sc_hd__nand2_1)
+   0.11    4.88 ^ _19876_/Y (sky130_fd_sc_hd__nand2_1)
+  30.59   35.47 ^ _20278_/X (sky130_fd_sc_hd__mux2_2)
+   0.00   35.47 ^ instr_addr_o[29] (out)
+          35.47   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+         -35.47   data arrival time
+---------------------------------------------------------
+         -32.67   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[3] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.21    1.25 ^ _20003_/Y (sky130_fd_sc_hd__nor2_1)
+   0.08    1.33 v _20042_/Y (sky130_fd_sc_hd__nor2_1)
+   0.11    1.44 v _20043_/X (sky130_fd_sc_hd__o21a_1)
+   0.18    1.61 ^ _20050_/Y (sky130_fd_sc_hd__o22ai_1)
+   0.06    1.67 v _20051_/Y (sky130_fd_sc_hd__nor2_1)
+   0.10    1.77 ^ _20052_/Y (sky130_fd_sc_hd__nor2_1)
+   0.06    1.82 v _20053_/Y (sky130_fd_sc_hd__a221oi_1)
+   2.61    4.44 ^ _20054_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.20    4.64 ^ _20055_/X (sky130_fd_sc_hd__a21o_1)
+  30.61   35.25 ^ _20325_/X (sky130_fd_sc_hd__mux2_2)
+   0.00   35.25 ^ instr_addr_o[3] (out)
+          35.25   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+         -35.25   data arrival time
+---------------------------------------------------------
+         -32.45   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[6] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 ^ input external delay
+   0.04    0.44 ^ irq_fast_i[0] (in)
+   0.15    0.58 ^ _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.06    0.64 v _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.10    0.75 ^ _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.05    0.79 v _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    0.87 ^ _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.07    0.94 v _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.17    1.11 ^ _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.15    1.26 v _20007_/Y (sky130_fd_sc_hd__nand2_1)
+   0.20    1.45 ^ _20008_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.07    1.53 v _20009_/Y (sky130_fd_sc_hd__a221oi_1)
+   2.88    4.41 ^ _20010_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.19    4.59 ^ _20011_/X (sky130_fd_sc_hd__a21o_1)
+  30.62   35.22 ^ _20321_/X (sky130_fd_sc_hd__mux2_2)
+   0.00   35.22 ^ instr_addr_o[6] (out)
+          35.22   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+         -35.22   data arrival time
+---------------------------------------------------------
+         -32.42   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[25] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.06 ^ _19233_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.37 ^ _19251_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.09    4.47 v _19898_/Y (sky130_fd_sc_hd__nand2_1)
+   0.11    4.57 ^ _19904_/Y (sky130_fd_sc_hd__nand2_1)
+  30.61   35.19 ^ _20285_/X (sky130_fd_sc_hd__mux2_2)
+   0.00   35.19 ^ instr_addr_o[25] (out)
+          35.19   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+         -35.19   data arrival time
+---------------------------------------------------------
+         -32.39   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[21] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    4.06 ^ _19233_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.09    4.15 v _19921_/Y (sky130_fd_sc_hd__nand2_1)
+   0.13    4.28 ^ _19927_/Y (sky130_fd_sc_hd__nand2_1)
+  30.61   34.89 ^ _20292_/X (sky130_fd_sc_hd__mux2_2)
+   0.00   34.89 ^ instr_addr_o[21] (out)
+          34.89   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+         -34.89   data arrival time
+---------------------------------------------------------
+         -32.09   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[5] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 ^ input external delay
+   0.04    0.44 ^ irq_fast_i[0] (in)
+   0.15    0.58 ^ _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.06    0.64 v _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.10    0.75 ^ _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.05    0.79 v _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    0.87 ^ _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.07    0.94 v _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.17    1.11 ^ _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.14    1.25 ^ _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.20    1.45 ^ _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.12    1.57 v _20016_/Y (sky130_fd_sc_hd__a22oi_1)
+   0.11    1.68 ^ _20017_/Y (sky130_fd_sc_hd__nor2_1)
+   0.06    1.74 v _20018_/Y (sky130_fd_sc_hd__a221oi_1)
+   1.88    3.61 ^ _20019_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.16    3.78 v _20020_/Y (sky130_fd_sc_hd__nand2_1)
+   0.20    3.97 ^ _20021_/Y (sky130_fd_sc_hd__nand2_1)
+  30.62   34.59 ^ _20322_/X (sky130_fd_sc_hd__mux2_2)
+   0.00   34.59 ^ instr_addr_o[5] (out)
+          34.59   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+         -34.59   data arrival time
+---------------------------------------------------------
+         -31.79   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[17] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.75 ^ _19232_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.09    3.84 v _19943_/Y (sky130_fd_sc_hd__nand2_1)
+   0.13    3.96 ^ _19949_/Y (sky130_fd_sc_hd__nand2_1)
+  30.60   34.57 ^ _20300_/X (sky130_fd_sc_hd__mux2_2)
+   0.00   34.57 ^ instr_addr_o[17] (out)
+          34.57   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+         -34.57   data arrival time
+---------------------------------------------------------
+         -31.77   slack (VIOLATED)
+
+
+Startpoint: irq_fast_i[0] (input port clocked by clk_i)
+Endpoint: instr_addr_o[13] (output port clocked by clk_i)
+Path Group: in2out
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.40    0.40 v input external delay
+   0.03    0.43 v irq_fast_i[0] (in)
+   0.23    0.66 v _19200_/X (sky130_fd_sc_hd__a22o_1)
+   0.26    0.92 ^ _19201_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.13    1.04 v _19205_/Y (sky130_fd_sc_hd__nand2_1)
+   0.14    1.18 ^ _19206_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    1.26 v _19207_/Y (sky130_fd_sc_hd__nand2_1)
+   0.29    1.55 ^ _19208_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.12    1.67 v _19211_/Y (sky130_fd_sc_hd__nor2_1)
+   0.17    1.84 v _19220_/X (sky130_fd_sc_hd__lpflow_inputiso0n_1)
+   0.14    1.99 v _19221_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.81    2.79 ^ _19229_/Y (sky130_fd_sc_hd__nor4_1)
+   0.33    3.12 ^ _19230_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.31    3.43 ^ _19231_/X (sky130_fd_sc_hd__clkbuf_1)
+   0.09    3.53 v _19966_/Y (sky130_fd_sc_hd__nand2_1)
+   0.11    3.64 ^ _19971_/Y (sky130_fd_sc_hd__nand2_1)
+  30.60   34.24 ^ _20308_/X (sky130_fd_sc_hd__mux2_2)
+   0.00   34.24 ^ instr_addr_o[13] (out)
+          34.24   data arrival time
+
+   4.00    4.00   clock clk_i (rise edge)
+   0.00    4.00   clock network delay (ideal)
+   0.00    4.00   clock reconvergence pessimism
+  -1.20    2.80   output external delay
+           2.80   data required time
+---------------------------------------------------------
+           2.80   data required time
+         -34.24   data arrival time
+---------------------------------------------------------
+         -31.44   slack (VIOLATED)
+
+

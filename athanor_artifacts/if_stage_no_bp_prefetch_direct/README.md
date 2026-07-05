@@ -3,6 +3,25 @@
 This package contains the first local-positive `ibex_if_stage` candidate from the
 selected Yosys 0.66 timing-aware scan.
 
+Current classification:
+`current_master_top_level_five_point_positive_non_author_cold_review_pending`
+
+The original module-local package is preserved at the package root. The
+`top_level_first/` subpackage records a current-master `ibex_top` replay against
+commit `d36df4f695d7407dc67ac83728640b46bff4201e` using the top-level-first
+gate. That replay is five-point positive:
+
+- top-level selected-toolchain area improves `108441.5040 -> 108373.9392`
+  (`-67.5648`, `-0.06231%`)
+- all five recorded WNS groups improve
+- artifact-level equivalence proves `1956/1956` `$equiv` cells
+- pinned toggle convention is flat: `311729 -> 311729`
+
+This is a survivor receipt, not a customer headline. Promotion to an accepted
+demo artifact still requires non-author review/cold verification of the
+`top_level_first/` receipt and any formal-review signoff required for
+customer-facing use.
+
 ## Transform
 
 Candidate: `no_bp_prefetch_direct`
@@ -86,6 +105,58 @@ convention is flat:
 
 Final customer/frontier promotion still requires independent cold replay and any
 additional review required for customer-facing use.
+
+## Current-Master Top-Level Replay
+
+The current-master replay lives in `top_level_first/`.
+
+Replay command:
+
+```bash
+python3 athanor/top_level_first.py \
+  --patch /tmp/ibex_if_stage_no_bp_prefetch_direct.patch \
+  --core athanor/configs/ibex_top_yosys66.json \
+  --candidate-name if_stage_no_bp_prefetch_direct_top_level \
+  --unit ibex_if_stage \
+  --out /tmp/if_stage_no_bp_prefetch_direct_top_level \
+  --force-fresh
+```
+
+The temporary patch was generated from the bounded source delta in this package:
+
+```bash
+diff -u --label a/rtl/ibex_if_stage.sv --label b/rtl/ibex_if_stage.sv \
+  rtl/ibex_if_stage.sv \
+  athanor_artifacts/if_stage_no_bp_prefetch_direct/gate_source.sv \
+  > /tmp/ibex_if_stage_no_bp_prefetch_direct.patch
+```
+
+Current replay result:
+
+```text
+FIVE-POINT POSITIVE
+area: 108441.5040 -> 108373.9392 (-0.06231%)
+overall WNS: -486.5999 ns -> -472.8057 ns (+13.7942 ns)
+reg2reg WNS: -486.5999 ns -> -472.8057 ns (+13.7942 ns)
+reg2out WNS: -437.8436 ns -> -424.0512 ns (+13.7924 ns)
+in2reg WNS: -250.2307 ns -> -249.8900 ns (+0.3407 ns)
+in2out WNS: -201.3074 ns -> -201.1313 ns (+0.1761 ns)
+formal: 1956/1956 proven
+toggle: 311729 -> 311729 (0.0%)
+```
+
+The older stacked scout that combined this no-BP transform with the accepted
+expanded-predicate factoring regressed top-level area and timing, so that stack
+is not used as evidence. The standalone no-BP transform is the survivor.
+
+## Kairos Catch-Up Note
+
+This candidate was driven by hand from the default public Ibex configuration:
+`BranchPredictor=0` makes `predict_branch_taken` statically zero, so
+`branch_req` reduces to `pc_set_i` in the selected branch. Kairos should learn a
+parameter-specialized branch-mux rule that detects this reduction, emits the
+bounded source rewrite, and routes it through top-level-first before spending
+formal/toggle effort.
 
 ## Formal Handoff Notes
 
