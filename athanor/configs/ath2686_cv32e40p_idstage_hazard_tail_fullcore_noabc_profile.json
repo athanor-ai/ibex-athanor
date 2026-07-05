@@ -1,0 +1,103 @@
+{
+  "ath_ticket": "ATH-2686",
+  "status": "whole_core_noabc_area_positive_requires_selected_flow_timing_review",
+  "claim_boundary": "CV32E40P whole-core no-ABC generic Yosys area screen only; no mapped selected-flow area, no OpenSTA timing, no formal, no toggle, no cold-replay, no accepted optimization, and no headline claim.",
+  "design": {
+    "id": "cv32e40p",
+    "source_url": "https://github.com/openhwgroup/cv32e40p",
+    "local_repo_path": "/workdir/oss-demo-targets/cv32e40p",
+    "git_head": "6033d2b1be3295ec774d17ac4cf226faacfdeb08",
+    "top": "cv32e40p_wrapper",
+    "module": "cv32e40p_id_stage"
+  },
+  "toolchain": {
+    "sv2v": "sv2v v0.0.13",
+    "yosys": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)",
+    "yosys_binary": "/workdir/_tools/oss-cad-suite-20260630/bin/yosys",
+    "yosys_command": "synth -top cv32e40p_wrapper -noabc; stat",
+    "version_guard": "syn/cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.sh exits before evidence emission unless Yosys starts with 'Yosys 0.66+181' and sv2v equals 'sv2v v0.0.13'."
+  },
+  "scout_family": {
+    "name": "id_stage_hazard_tail_operand_live_factoring",
+    "description": "Factor the repeated RAW forwarding operand-live tails into per-operand helper wires before the EX/WB/ALU forwarding comparisons.",
+    "source_pattern": "cv32e40p_id_stage reg_d_{ex,wb,alu}_is_reg_{a,b,c}_id assignments repeat operand-used and nonzero register guards",
+    "source_locations": [
+      "rtl/cv32e40p_id_stage.sv:543",
+      "rtl/cv32e40p_id_stage.sv:544",
+      "rtl/cv32e40p_id_stage.sv:545",
+      "rtl/cv32e40p_id_stage.sv:546",
+      "rtl/cv32e40p_id_stage.sv:547",
+      "rtl/cv32e40p_id_stage.sv:548",
+      "rtl/cv32e40p_id_stage.sv:549",
+      "rtl/cv32e40p_id_stage.sv:550",
+      "rtl/cv32e40p_id_stage.sv:551"
+    ]
+  },
+  "whole_core_noabc_profile": {
+    "script": "syn/cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.sh",
+    "local_artifact_dir": "/tmp/ath2686_cv32e40p_idstage_hazard_tail_noabc_fresh",
+    "baseline_cells": 40858,
+    "gate_cells": 40852,
+    "cell_delta": -6,
+    "baseline_id_stage_cells": 3102,
+    "gate_id_stage_cells": 3096,
+    "id_stage_cell_delta": -6,
+    "classification": "whole_core_noabc_area_positive_requires_selected_flow_timing_review",
+    "baseline_warning_count": 3,
+    "gate_warning_count": 3,
+    "baseline_hierarchy_cell_types": {
+      "$_AND_": 12222,
+      "$_DFFE_PN0N_": 36,
+      "$_DFFE_PN0P_": 2214,
+      "$_DFFE_PN1P_": 7,
+      "$_DFF_PN0_": 156,
+      "$_DFF_PN1_": 6,
+      "$_DLATCH_N_": 1,
+      "$_MUX_": 10291,
+      "$_NOT_": 1478,
+      "$_OR_": 8559,
+      "$_XOR_": 5888
+    },
+    "gate_hierarchy_cell_types": {
+      "$_AND_": 12216,
+      "$_DFFE_PN0N_": 36,
+      "$_DFFE_PN0P_": 2214,
+      "$_DFFE_PN1P_": 7,
+      "$_DFF_PN0_": 156,
+      "$_DFF_PN1_": 6,
+      "$_DLATCH_N_": 1,
+      "$_MUX_": 10291,
+      "$_NOT_": 1478,
+      "$_OR_": 8559,
+      "$_XOR_": 5888
+    },
+    "baseline_id_stage_cell_types": {
+      "$_AND_": 1016,
+      "$_DFFE_PN0P_": 406,
+      "$_DFFE_PN1P_": 2,
+      "$_DFF_PN0_": 12,
+      "$_MUX_": 550,
+      "$_NOT_": 126,
+      "$_OR_": 781,
+      "$_XOR_": 209
+    },
+    "gate_id_stage_cell_types": {
+      "$_AND_": 1010,
+      "$_DFFE_PN0P_": 406,
+      "$_DFFE_PN1P_": 2,
+      "$_DFF_PN0_": 12,
+      "$_MUX_": 550,
+      "$_NOT_": 126,
+      "$_OR_": 781,
+      "$_XOR_": 209
+    },
+    "source_manifest_sha256": "e901a2bb898005d2fd665a13d6765bc027c52835e6c31911936a05201d29dcb4",
+    "baseline_verilog_sha256": "60c4ab6801e6de4f3fd8f54c5fe2df00e740423edba68d81b5873f57b24ee232",
+    "gate_verilog_sha256": "23c7f1d9f1fad6cbf3d9afba6841fdba1c3acdff134880c2137db6a3211b8ebe",
+    "baseline_yosys_log_sha256": "1af5aaa3b7114287874a18caaa841a5cd8e55d5c712af708f6f8eec515806f1e",
+    "gate_yosys_log_sha256": "7f4c7238e33440482bf5f9c0298c038ca9529412ca95e65148545313e5ab0762",
+    "summary_sha256": "4d4af7af88d094d59fe65fd3641a1164328e2d43b3b970130b801424c0ec8cf7",
+    "manifest_sha256": "b5a63210d41b7b479a5e2f8c2bc1a2e481d3487829a705cd4fe39c586b8740d4"
+  },
+  "decision": "The whole-core no-ABC generic area screen preserves the bounded id_stage signal at whole-core scope, but it is not selected-flow mapped PPA and has no timing receipt. Promote only to a mapped selected-flow timing/area review next; do not run formal, toggle, cold replay, or headline language until mapped aggregate area/timing clears."
+}

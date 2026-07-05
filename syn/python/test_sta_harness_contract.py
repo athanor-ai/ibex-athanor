@@ -141,6 +141,29 @@ def test_cv32e40p_idstage_hazard_tail_profile_is_bounded_no_claim() -> None:
     )
 
 
+def test_cv32e40p_idstage_fullcore_noabc_profile_is_guarded_no_claim() -> None:
+    text = read_repo_file("syn/cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.sh")
+
+    assert "/workdir/_tools/oss-cad-suite-20260630/bin/yosys" in text
+    assert 'expected_yosys="Yosys 0.66+181"' in text
+    assert 'expected_sv2v="sv2v v0.0.13"' in text
+    assert "Unexpected Yosys version" in text
+    assert "Unexpected sv2v version" in text
+    assert "cv32e40p_recon.sh" in text
+    assert "cv32e40p_wrapper_bundle.v" in text
+    assert "rega_forward_live" in text
+    assert "regb_forward_live" in text
+    assert "regc_forward_live" in text
+    assert "synth -top cv32e40p_wrapper -noabc; stat" in text
+    assert "whole_core_noabc_area_positive_requires_selected_flow_timing_review" in text
+    assert "no mapped " in text
+    assert "selected-flow area" in text
+    assert "no OpenSTA timing" in text
+    assert "no formal, no toggle, no " in text
+    assert "cold-replay, no accepted optimization, and no " in text
+    assert "headline claim" in text
+
+
 def test_sta_path_groups_use_register_cells() -> None:
     text = read_repo_file("syn/tcl/sta_utils.tcl")
 
