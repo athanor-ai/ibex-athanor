@@ -154,6 +154,15 @@ constant-prop families: the formal/SVA filter works on a second design, but no
 spend-ready candidate survives. The next useful work is a new detector family or
 a selected-flow full-core harness before any CV32E40P equivalence/toggle spend.
 
+A first new-family scout checked common-guard output gating in
+`cv32e40p_decoder.sv` (`deassert_we_i ? default : signal` repeated across
+decoder outputs). The bounded module profile is recorded in
+[`configs/ath2686_cv32e40p_common_guard_profile.json`](configs/ath2686_cv32e40p_common_guard_profile.json).
+It rewrites only the zero-default outputs to share `~deassert_we_i`; generic
+Yosys maps baseline and gate to the same 1194 cells with the same cell-type
+breakdown. That family is also a dry scout for now: do not build a detector or
+spend equivalence/toggle until a stronger selected-flow signal appears.
+
 VexRiscv now has a generator-toolchain preflight receipt in
 [`configs/ath2686_vexriscv_preflight.json`](configs/ath2686_vexriscv_preflight.json).
 The checkout is present at git head `680756065e9e6fc50d8c3d6c58191a16e867d822`

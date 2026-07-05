@@ -159,31 +159,31 @@
     {
       "id": "cv32e40p",
       "source": "https://github.com/openhwgroup/cv32e40p",
-      "readiness": "frontend_recon_lsu_profile_neutral",
+      "readiness": "frontend_recon_no_spend_ready",
       "why": [
         "Customer-relevant OpenHW-class RISC-V core with a larger control/datapath split than Ibex.",
         "SystemVerilog frontend conversion is reproducible with sv2v, so detector evidence can be replayed without an ambient simulator project.",
-        "Unlike PicoRV32, SERV, and ultraembedded/riscv under the current families, frontend-filtered detector replay still leaves source-level shared-term leads to profile."
+        "Unlike PicoRV32, SERV, and ultraembedded/riscv under the current families, frontend-filtered detector replay still left source-level shared-term leads to profile before they were cheap-killed."
       ],
       "local_recon": {
         "source_git_head": "6033d2b1be3295ec774d17ac4cf226faacfdeb08",
         "frontend_top": "cv32e40p_wrapper",
         "frontend_receipt": "athanor/configs/ath2686_cv32e40p_recon.json",
         "sv2v_wrapper_sha256": "60c4ab6801e6de4f3fd8f54c5fe2df00e740423edba68d81b5873f57b24ee232",
-        "frontend_netlist_sha256": "8bd58b2047d3662457ffea69d0ce9898c0d0d8635c7d2b97fe23e1e5f5b95ef1"
+        "frontend_netlist_sha256": "d05e0e5750f290550d8840672a92caf224c3d155923ba54c85296ab4d96e18f0"
       },
       "source_only_detector_recon": {
-        "preanalysis_leads": 35,
-        "shared_term_leads": 4,
+        "preanalysis_leads": 33,
+        "shared_term_leads": 2,
         "constant_propagation_leads": 31,
-        "detector_output_sha256": "9ccac77f49c6ca3f6c79135c9388a19486adbbf191d45f6edf86e57fc2e9a5fb"
+        "detector_output_sha256": "29d56874a945184e635e982a9e8099781bd640bc1a75f55bd0d9b95199bac4d5"
       },
       "frontend_filtered_detector_recon": {
-        "status": "shared_terms_profile_required",
-        "remaining_preanalysis_leads": 4,
-        "source_level_shared_term_leads": 4,
+        "status": "lsu_profile_neutral_no_spend",
+        "remaining_preanalysis_leads": 2,
+        "source_level_shared_term_leads": 2,
         "residual_constant_propagation_leads": 0,
-        "detector_output_sha256": "36a48ea7c4d480cdaeb8e26845c3166c37dd85e87b6a78c3f5bb440228c8ff75"
+        "detector_output_sha256": "68b7de072eb3e2c0ef0d026e95092e38cbd8adcee52a6f7207a58f74a2a52b1c"
       },
       "bounded_lsu_profile": {
         "status": "bounded_module_area_neutral_no_spend",
@@ -195,16 +195,25 @@
         "summary_sha256": "2f7feb0fd165324b0dd96af1b7ee439d19ac99239c06028bd57e4204771125d4",
         "manifest_sha256": "c4a30ae005d73aecd34733d2b2c3515ad09f87da95871567db170ea98ad36704"
       },
+      "bounded_common_guard_profile": {
+        "status": "bounded_module_area_neutral_no_spend",
+        "profile_receipt": "athanor/configs/ath2686_cv32e40p_common_guard_profile.json",
+        "module": "cv32e40p_decoder",
+        "baseline_cells": 1194,
+        "gate_cells": 1194,
+        "cell_delta": 0,
+        "summary_sha256": "7b60fc9c23d3102179e33e2d12b38cebd559ef79279cdd48fd27f140fee7d977"
+      },
       "first_harness_work": [
         "Treat the load_store_unit shared-term factor as a cheap-kill unless a selected-flow full-core harness shows aggregate movement beyond the bounded neutral profile.",
-        "Let the Kairos ATH-2685 formal-context filter remove sleep_unit SVA/property rows before synthesis spend.",
+        "Treat common-guard output gating as a cheap-kill unless a stronger selected-flow signal appears.",
         "Try new detector families or finish a selected-flow full-core harness before committing CV32E40P equivalence/toggle spend."
       ],
       "risks": [
         "Full selected-flow mapping exceeded the cheap scout budget during ABC mapping of cv32e40p_mult in the scratch run.",
         "The current receipt is frontend/recon only, not a PPA comparator.",
-        "The load_store_unit module profile is generic Yosys only; it is not a full-core selected-flow area/timing comparator.",
-        "Sleep-unit source-level shared terms are formal/SVA predicates and require the Kairos formal-context filter before replay.",
+        "The load_store_unit and common-guard module profiles are generic Yosys only; they are not full-core selected-flow area/timing comparators.",
+        "The prior sleep-unit source-level shared terms were formal/SVA predicates; current Kairos filtering removes them before synthesis spend.",
         "SystemVerilog conversion uses a lint-wrapper configuration with FPU disabled; alternate configurations need separate receipts."
       ]
     }
