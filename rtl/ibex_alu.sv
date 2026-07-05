@@ -361,7 +361,6 @@ module ibex_alu #(
   logic bwlogic_or;
   logic bwlogic_and;
   logic [31:0] bwlogic_operand_b;
-  logic [31:0] bwlogic_or_result;
   logic [31:0] bwlogic_and_result;
   logic [31:0] bwlogic_xor_result;
   logic [31:0] bwlogic_result;
@@ -383,7 +382,6 @@ module ibex_alu #(
 
   assign bwlogic_and_result = operand_a_i & bwlogic_operand_b;
   assign bwlogic_xor_result = operand_a_i ^ bwlogic_operand_b;
-  assign bwlogic_or_result  = bwlogic_xor_result ^ bwlogic_and_result;
 
   assign bwlogic_or  = (operator_i == ALU_OR)  | (operator_i == ALU_ORN);
   assign bwlogic_and = (operator_i == ALU_AND) | (operator_i == ALU_ANDN);
