@@ -227,16 +227,32 @@
         "summary_sha256": "ae0d232ce1b3548e260b1952de0658c3c5061536f4bbf6987a6284276506ab76",
         "manifest_sha256": "409fff6499ec1a93bf5c3809de616a79f13efe70b1ead8f034f5b09a7ca0bf53"
       },
+      "whole_core_noabc_idstage_hazard_tail_profile": {
+        "status": "whole_core_noabc_area_positive_requires_selected_flow_timing_review",
+        "profile_receipt": "athanor/configs/ath2686_cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.json",
+        "script": "syn/cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.sh",
+        "top": "cv32e40p_wrapper",
+        "module": "cv32e40p_id_stage",
+        "baseline_cells": 40858,
+        "gate_cells": 40852,
+        "cell_delta": -6,
+        "baseline_id_stage_cells": 3102,
+        "gate_id_stage_cells": 3096,
+        "id_stage_cell_delta": -6,
+        "summary_sha256": "4d4af7af88d094d59fe65fd3641a1164328e2d43b3b970130b801424c0ec8cf7",
+        "manifest_sha256": "b5a63210d41b7b479a5e2f8c2bc1a2e481d3487829a705cd4fe39c586b8740d4",
+        "tool_version_guard": "script fails closed unless Yosys is 0.66+181 and sv2v is v0.0.13"
+      },
       "first_harness_work": [
         "Treat the load_store_unit shared-term factor as a cheap-kill unless a selected-flow full-core harness shows aggregate movement beyond the bounded neutral profile.",
         "Treat common-guard output gating as a cheap-kill unless a stronger selected-flow signal appears.",
         "Treat register-file write-enable guard factoring as a cheap-kill because the bounded profile regresses by one generic Yosys cell.",
-        "Promote the id_stage hazard-tail factor only to a selected-flow/full-core cheap check next; do not spend formal/toggle until aggregate area/timing clears."
+        "Promote the id_stage hazard-tail factor only to mapped selected-flow timing/area review next; the whole-core no-ABC generic screen is positive but is not a timing or mapped PPA receipt."
       ],
       "risks": [
         "Full selected-flow mapping exceeded the cheap scout budget during ABC mapping of cv32e40p_mult in the scratch run.",
         "The current receipt is frontend/recon only, not a PPA comparator.",
-        "The load_store_unit, common-guard, register-file guard, and id_stage hazard-tail module profiles are generic Yosys only; they are not full-core selected-flow area/timing comparators.",
+        "The load_store_unit, common-guard, register-file guard, and id_stage hazard-tail module profiles are generic Yosys only; the id_stage whole-core no-ABC receipt is also generic Yosys and has no mapped selected-flow timing.",
         "The prior sleep-unit source-level shared terms were formal/SVA predicates; current Kairos filtering removes them before synthesis spend.",
         "SystemVerilog conversion uses a lint-wrapper configuration with FPU disabled; alternate configurations need separate receipts."
       ]

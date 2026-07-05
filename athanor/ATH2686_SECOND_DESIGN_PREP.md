@@ -183,10 +183,22 @@ It factors the repeated operand-used and nonzero-register guards into
 EX/WB/ALU forwarding comparisons. Under the selected Yosys 0.66 toolchain, the
 bounded profile improves generic module cells (`14959 -> 14917`, with the
 local `cv32e40p_id_stage` section `3274 -> 3232`). This is the first
-CV32E40P bounded-positive scout, but it is not an optimization claim. The next
-gate is a selected-flow/full-core cheap check; no formal, toggle, cold replay,
-full-core PPA, accepted-win language, or headline language is warranted until
-aggregate area/timing clears.
+CV32E40P bounded-positive scout, but it is not an optimization claim.
+
+The follow-up whole-core no-ABC generic Yosys screen is recorded in
+[`configs/ath2686_cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.json`](configs/ath2686_cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.json)
+and replayed by
+[`syn/cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.sh`](../syn/cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.sh).
+That script fails closed unless it is running the exact pinned tools used by
+the receipt (`Yosys 0.66+181` from `oss-cad-suite-20260630` and
+`sv2v v0.0.13`), so the profile cannot silently fall back to a system Yosys.
+Under that pinned toolchain, the whole-core no-ABC screen improves generic
+cells (`40858 -> 40852`) and the local id-stage section accounts for all six
+cells (`3102 -> 3096`). This preserves the bounded signal at whole-core scope,
+but it is still not mapped selected-flow PPA and has no OpenSTA timing receipt.
+The next gate is mapped selected-flow timing/area review; no formal, toggle,
+cold replay, accepted-win language, or headline language is warranted until
+mapped aggregate area/timing clears.
 
 VexRiscv now has a generator-toolchain preflight receipt in
 [`configs/ath2686_vexriscv_preflight.json`](configs/ath2686_vexriscv_preflight.json).
