@@ -151,8 +151,9 @@ warranted for this candidate.
 
 That closes the current CV32E40P pass under the ATH-2685 shared-term and
 constant-prop families: the formal/SVA filter works on a second design, but no
-spend-ready candidate survives. The next useful work is a new detector family or
-a selected-flow full-core harness before any CV32E40P equivalence/toggle spend.
+candidate from those families survives the cheap pre-spend bar. New detector
+families still need bounded profiling before any CV32E40P equivalence/toggle
+spend.
 
 A first new-family scout checked common-guard output gating in
 `cv32e40p_decoder.sv` (`deassert_we_i ? default : signal` repeated across
@@ -171,6 +172,21 @@ onehot write-address decoders. Under the selected Yosys 0.66 toolchain, the
 profile regresses by one generic cell (`4010 -> 4011`), so this family fails
 the cheap pre-spend bar. No equivalence, toggle, cold replay, full-core PPA, or
 headline language is warranted for this candidate.
+
+A third new-family scout checked id-stage RAW forwarding hazard-tail factoring
+in `cv32e40p_id_stage.sv`. The bounded module profile is recorded in
+[`configs/ath2686_cv32e40p_idstage_hazard_tail_profile.json`](configs/ath2686_cv32e40p_idstage_hazard_tail_profile.json)
+and replayed by
+[`syn/cv32e40p_idstage_hazard_tail_profile.sh`](../syn/cv32e40p_idstage_hazard_tail_profile.sh).
+It factors the repeated operand-used and nonzero-register guards into
+`rega_forward_live`, `regb_forward_live`, and `regc_forward_live` before the
+EX/WB/ALU forwarding comparisons. Under the selected Yosys 0.66 toolchain, the
+bounded profile improves generic module cells (`14959 -> 14917`, with the
+local `cv32e40p_id_stage` section `3274 -> 3232`). This is the first
+CV32E40P bounded-positive scout, but it is not an optimization claim. The next
+gate is a selected-flow/full-core cheap check; no formal, toggle, cold replay,
+full-core PPA, accepted-win language, or headline language is warranted until
+aggregate area/timing clears.
 
 VexRiscv now has a generator-toolchain preflight receipt in
 [`configs/ath2686_vexriscv_preflight.json`](configs/ath2686_vexriscv_preflight.json).
