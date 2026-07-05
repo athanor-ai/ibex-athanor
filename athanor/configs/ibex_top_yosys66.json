@@ -26,6 +26,14 @@
       "top": "ibex_if_stage",
       "includes": ["vendor/lowrisc_ip/ip/prim/rtl", "vendor/lowrisc_ip/dv/sv/dv_utils"],
       "files": ["rtl/ibex_pkg.sv", "rtl/ibex_fetch_fifo.sv", "rtl/ibex_prefetch_buffer.sv", "rtl/ibex_compressed_decoder.sv", "rtl/ibex_if_stage.sv"]
+    },
+    "ibex_alu": {
+      "top": "ibex_alu",
+      "parameters": {
+        "RV32B": 0
+      },
+      "includes": ["vendor/lowrisc_ip/ip/prim/rtl", "vendor/lowrisc_ip/dv/sv/dv_utils"],
+      "files": ["rtl/ibex_pkg.sv", "rtl/ibex_alu.sv"]
     }
   }
 }

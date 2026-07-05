@@ -199,6 +199,7 @@ def copy_stage_artifacts(out_dir: Path, which: str, metrics: dict) -> None:
 
 
 EQUIV_YS_TEMPLATE = """read_verilog gold.v
+{gold_chparams}
 hierarchy -check -top {top}
 proc
 memory
@@ -209,6 +210,7 @@ design -stash gold_design
 
 design -reset
 read_verilog gate.v
+{gate_chparams}
 hierarchy -check -top {top}
 proc
 memory
@@ -229,13 +231,47 @@ equiv_status -assert
 """
 
 
+_PARAM_NAME_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_$]*$")
+_PARAM_VALUE_RE = re.compile(r"^-?\d+$|^\d+'[sS]?[hHbBdD][0-9a-fA-F_xXzZ_]+$")
+
+
+def _format_unit_chparams(top: str, parameters: dict) -> str:
+    if not parameters:
+        return ""
+    lines = []
+    for name, value in sorted(parameters.items()):
+        if not _PARAM_NAME_RE.match(name):
+            raise SystemExit(f"invalid unit parameter name {name!r}")
+        if isinstance(value, bool):
+            value_s = "1" if value else "0"
+        elif isinstance(value, int):
+            value_s = str(value)
+        elif isinstance(value, str):
+            value_s = value
+        else:
+            raise SystemExit(f"unsupported unit parameter value for {name}: {value!r}")
+        if not _PARAM_VALUE_RE.match(value_s):
+            raise SystemExit(f"invalid unit parameter value for {name}: {value_s!r}")
+        lines.append(f"chparam -set {name} {value_s} {top}")
+    return "\n".join(lines) + "\n"
+
+
 def run_equivalence(
     cfg: dict, gold_v: Path, gate_v: Path, workdir: Path
 ) -> tuple[dict, Path, Path]:
     top = cfg["_active_unit_top"]
     seq = cfg.get("equiv_seq", 32)
+    chparams = _format_unit_chparams(top, cfg.get("_active_unit_parameters", {}))
     ys = workdir / "equiv.ys"
-    ys.write_text(EQUIV_YS_TEMPLATE.format(top=top, seq=seq), encoding="utf-8")
+    ys.write_text(
+        EQUIV_YS_TEMPLATE.format(
+            top=top,
+            seq=seq,
+            gold_chparams=chparams,
+            gate_chparams=chparams,
+        ),
+        encoding="utf-8",
+    )
     gold_dst = workdir / "gold.v"
     gate_dst = workdir / "gate.v"
     if gold_v.resolve() != gold_dst.resolve():
@@ -541,9 +577,16 @@ def main() -> int:
         raise SystemExit(
             f"--unit required for the equivalence/toggle legs; known units: {sorted(units)}"
         )
-    gold_v, gate_v = _build_unit_artifacts(cfg, units[args.unit], out_dir, patch_root)
+    unit = units[args.unit]
+    receipt["unit"] = {
+        "name": args.unit,
+        "top": unit.get("top", args.unit),
+        "parameters": unit.get("parameters", {}),
+    }
+    gold_v, gate_v = _build_unit_artifacts(cfg, unit, out_dir, patch_root)
 
-    cfg["_active_unit_top"] = units[args.unit].get("top", args.unit)
+    cfg["_active_unit_top"] = unit.get("top", args.unit)
+    cfg["_active_unit_parameters"] = unit.get("parameters", {})
     equiv, ys, log = run_equivalence(cfg, gold_v, gate_v, out_dir)
     receipt["stages"]["equivalence"] = equiv
     if not equiv["proven"]:

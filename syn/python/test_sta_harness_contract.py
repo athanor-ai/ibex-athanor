@@ -190,6 +190,15 @@ def test_public_receipt_contract_registry_covers_frontier_manifests() -> None:
         assert contract["assertions"]
 
 
+def test_ibex_alu_unit_contract_binds_rv32bnone() -> None:
+    cfg = json.loads(read_repo_file("athanor/configs/ibex_top_yosys66.json"))
+    alu = cfg["units"]["ibex_alu"]
+
+    assert alu["top"] == "ibex_alu"
+    assert alu["parameters"] == {"RV32B": 0}
+    assert alu["files"] == ["rtl/ibex_pkg.sv", "rtl/ibex_alu.sv"]
+
+
 def test_sta_path_groups_use_register_cells() -> None:
     text = read_repo_file("syn/tcl/sta_utils.tcl")
 
@@ -320,6 +329,58 @@ def test_top_level_first_equivalence_accepts_artifacts_already_in_workdir(
     assert result["unproven_cells"] == 0
     assert ys == tmp_path / "equiv.ys"
     assert log == tmp_path / "equiv.log"
+
+
+def test_top_level_first_equivalence_binds_unit_parameters(
+    tmp_path: Path, monkeypatch
+) -> None:
+    top_level_first = load_top_level_first()
+    (tmp_path / "gold.v").write_text(
+        "module ibex_alu #(parameter integer RV32B = 1)(); endmodule\n"
+    )
+    (tmp_path / "gate.v").write_text(
+        "module ibex_alu #(parameter integer RV32B = 1)(); endmodule\n"
+    )
+
+    def fake_run(*args, **kwargs):
+        log = kwargs["stdout"]
+        log.write(
+            "Found 1 $equiv cells in equiv:\n"
+            "  Of those cells 1 are proven and 0 are unproven.\n"
+            "Equivalence successfully proven!\n"
+        )
+
+        class Result:
+            returncode = 0
+
+        return Result()
+
+    monkeypatch.setattr(top_level_first.subprocess, "run", fake_run)
+
+    result, ys, _log = top_level_first.run_equivalence(
+        {
+            "_active_unit_top": "ibex_alu",
+            "_active_unit_parameters": {"RV32B": 0},
+            "equiv_seq": 1,
+            "env": {},
+        },
+        tmp_path / "gold.v",
+        tmp_path / "gate.v",
+        tmp_path,
+    )
+
+    ys_text = ys.read_text()
+    assert result["proven"] is True
+    assert ys_text.count("chparam -set RV32B 0 ibex_alu") == 2
+    gold_read = ys_text.index("read_verilog gold.v")
+    gold_chparam = ys_text.index("chparam -set RV32B 0 ibex_alu", gold_read)
+    gold_hierarchy = ys_text.index("hierarchy -check -top ibex_alu", gold_chparam)
+    gate_read = ys_text.index("read_verilog gate.v")
+    gate_chparam = ys_text.index("chparam -set RV32B 0 ibex_alu", gate_read)
+    gate_hierarchy = ys_text.index("hierarchy -check -top ibex_alu", gate_chparam)
+
+    assert gold_read < gold_chparam < gold_hierarchy
+    assert gate_read < gate_chparam < gate_hierarchy
 
 
 def test_top_level_first_patch_root_helpers_apply_and_restore_external_repo(
