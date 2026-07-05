@@ -1,1 +1,12 @@
 waive --rule=module-port --location="spec_instance.sv"
+
+# Top-level-first artifact packages preserve raw generated Verilog evidence.
+# Keep source RTL linted, but do not require style-clean generated receipts.
+waive --rule=no-tabs --location=".*athanor_artifacts/.*/top_level_first/.*\\.v"
+waive --rule=line-length --location=".*athanor_artifacts/.*/top_level_first/.*\\.v"
+waive --rule=always-comb --location=".*athanor_artifacts/.*/top_level_first/.*\\.v"
+waive --rule=explicit-parameter-storage-type --location=".*athanor_artifacts/.*/top_level_first/.*\\.v"
+waive --rule=unpacked-dimensions-range-ordering --location=".*athanor_artifacts/.*/top_level_first/.*\\.v"
+waive --rule=parameter-name-style --location=".*athanor_artifacts/.*/top_level_first/.*\\.v"
+waive --rule=module-filename --location=".*athanor_artifacts/.*/top_level_first/.*\\.v"
+waive --rule=packed-dimensions-range-ordering --location=".*athanor_artifacts/.*/top_level_first/.*\\.v"
