@@ -276,6 +276,16 @@ def test_top_level_first_collects_generated_stage_artifacts(tmp_path: Path) -> N
     ).read_text() == "read_verilog picorv32_mapped.v\n"
 
 
+def test_top_level_first_gate_status_preserves_measured_gate_metric() -> None:
+    top_level_first = load_top_level_first()
+
+    detail = {"baseline": 100.0, "gate": 101.0, "delta": 1.0}
+    marked = top_level_first.with_gate_status(detail, "NEGATIVE")
+
+    assert marked["gate"] == 101.0
+    assert marked["gate_status"] == "NEGATIVE"
+
+
 def test_top_level_first_equivalence_accepts_artifacts_already_in_workdir(
     tmp_path: Path, monkeypatch
 ) -> None:

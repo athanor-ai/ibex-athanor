@@ -344,6 +344,11 @@ def emit_receipt(out_dir: Path, receipt: dict) -> Path:
     return path
 
 
+def with_gate_status(detail: dict, status: str) -> dict:
+    """Attach gate status without replacing measured gate metrics."""
+    return {**detail, "gate_status": status}
+
+
 # ── main flow ───────────────────────────────────────────────────────────────
 
 WIN7 = REPO_ROOT / "athanor_artifacts" / "if_stage_expanded_predicate_factor"
@@ -463,7 +468,7 @@ def main() -> int:
 
     def die_negative(stage: str, detail: dict) -> int:
         receipt["classification"] = f"top_level_negative_{stage}"
-        receipt["stages"][stage] = {**detail, "gate": "NEGATIVE"}
+        receipt["stages"][stage] = with_gate_status(detail, "NEGATIVE")
         receipt["classification_notes"] = [
             f"Stopped at {stage}: expensive legs (equivalence, toggle) intentionally NOT run.",
             "A negative receipt is a successful evaluation — the candidate died cheaply.",
@@ -509,7 +514,7 @@ def main() -> int:
     }
     if area_delta > 0:
         return die_negative("area", receipt["stages"]["area"])
-    receipt["stages"]["area"]["gate"] = "POSITIVE"
+    receipt["stages"]["area"] = with_gate_status(receipt["stages"]["area"], "POSITIVE")
 
     # stage 4: timing gate — every configured group non-regressing
     timing = {}
@@ -526,7 +531,9 @@ def main() -> int:
     if regressed:
         receipt["stages"]["timing"]["regressed_groups"] = regressed
         return die_negative("timing", receipt["stages"]["timing"])
-    receipt["stages"]["timing"]["gate"] = "POSITIVE"
+    receipt["stages"]["timing"] = with_gate_status(
+        receipt["stages"]["timing"], "POSITIVE"
+    )
 
     # stages 5-6 only run past the cheap gates — the whole point of the ordering
     units = cfg.get("units", {})
