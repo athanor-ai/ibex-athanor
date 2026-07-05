@@ -204,15 +204,25 @@
         "cell_delta": 0,
         "summary_sha256": "7b60fc9c23d3102179e33e2d12b38cebd559ef79279cdd48fd27f140fee7d977"
       },
+      "bounded_register_file_guard_profile": {
+        "status": "bounded_module_area_negative_no_spend",
+        "profile_receipt": "athanor/configs/ath2686_cv32e40p_regfile_guard_profile.json",
+        "module": "cv32e40p_register_file",
+        "baseline_cells": 4010,
+        "gate_cells": 4011,
+        "cell_delta": 1,
+        "summary_sha256": "576aef9b1460fd189780c2a1da9d0bade0de88c254f2a645c204c6762188fc10"
+      },
       "first_harness_work": [
         "Treat the load_store_unit shared-term factor as a cheap-kill unless a selected-flow full-core harness shows aggregate movement beyond the bounded neutral profile.",
         "Treat common-guard output gating as a cheap-kill unless a stronger selected-flow signal appears.",
+        "Treat register-file write-enable guard factoring as a cheap-kill because the bounded profile regresses by one generic Yosys cell.",
         "Try new detector families or finish a selected-flow full-core harness before committing CV32E40P equivalence/toggle spend."
       ],
       "risks": [
         "Full selected-flow mapping exceeded the cheap scout budget during ABC mapping of cv32e40p_mult in the scratch run.",
         "The current receipt is frontend/recon only, not a PPA comparator.",
-        "The load_store_unit and common-guard module profiles are generic Yosys only; they are not full-core selected-flow area/timing comparators.",
+        "The load_store_unit, common-guard, and register-file guard module profiles are generic Yosys only; they are not full-core selected-flow area/timing comparators.",
         "The prior sleep-unit source-level shared terms were formal/SVA predicates; current Kairos filtering removes them before synthesis spend.",
         "SystemVerilog conversion uses a lint-wrapper configuration with FPU disabled; alternate configurations need separate receipts."
       ]

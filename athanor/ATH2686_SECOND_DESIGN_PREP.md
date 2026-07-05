@@ -163,6 +163,15 @@ Yosys maps baseline and gate to the same 1194 cells with the same cell-type
 breakdown. That family is also a dry scout for now: do not build a detector or
 spend equivalence/toggle until a stronger selected-flow signal appears.
 
+A second new-family scout checked register-file write-enable guard factoring in
+`cv32e40p_register_file_latch.sv`. The bounded module profile is recorded in
+[`configs/ath2686_cv32e40p_regfile_guard_profile.json`](configs/ath2686_cv32e40p_regfile_guard_profile.json).
+It factors the repeated `(we_*_i == 1'b1)` guards before the generated
+onehot write-address decoders. Under the selected Yosys 0.66 toolchain, the
+profile regresses by one generic cell (`4010 -> 4011`), so this family fails
+the cheap pre-spend bar. No equivalence, toggle, cold replay, full-core PPA, or
+headline language is warranted for this candidate.
+
 VexRiscv now has a generator-toolchain preflight receipt in
 [`configs/ath2686_vexriscv_preflight.json`](configs/ath2686_vexriscv_preflight.json).
 The checkout is present at git head `680756065e9e6fc50d8c3d6c58191a16e867d822`
