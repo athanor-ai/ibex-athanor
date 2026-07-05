@@ -14,7 +14,7 @@ on:
 jobs:
   fv:
     name: Run the Open-Source FV flow
-    runs-on: nixos
+    runs-on: [self-hosted, Linux, X64]
     concurrency:
       group: oss-fv
       cancel-in-progress: false # Only do one oss-fv job at a time, since we will use a huge amount of memory
@@ -45,4 +45,3 @@ jobs:
           make build/aig-manip
           make build/all.aig SHELL=bash
           python3 conductor.py prove --check-complete --max-mem $MAX_MEM_GB
-
