@@ -123,6 +123,24 @@ def test_cv32e40p_lsu_shared_term_profile_is_bounded_no_claim() -> None:
     )
 
 
+def test_cv32e40p_idstage_hazard_tail_profile_is_bounded_no_claim() -> None:
+    text = read_repo_file("syn/cv32e40p_idstage_hazard_tail_profile.sh")
+
+    assert "cv32e40p_recon.sh" in text
+    assert "cv32e40p_id_stage.sv" in text
+    assert "rega_forward_live" in text
+    assert "regb_forward_live" in text
+    assert "regc_forward_live" in text
+    assert "synth -top cv32e40p_id_stage" in text
+    assert 'line.replace(out_dir, "<out-dir>")' in text
+    assert "profile_summary.json" in text
+    assert "bounded_module_area_positive_requires_selected_flow_review" in text
+    assert "no full-core PPA" in text
+    assert (
+        "formal, toggle, cold-replay, accepted optimization, or headline claim" in text
+    )
+
+
 def test_sta_path_groups_use_register_cells() -> None:
     text = read_repo_file("syn/tcl/sta_utils.tcl")
 

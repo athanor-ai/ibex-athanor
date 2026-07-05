@@ -159,7 +159,7 @@
     {
       "id": "cv32e40p",
       "source": "https://github.com/openhwgroup/cv32e40p",
-      "readiness": "frontend_recon_no_spend_ready",
+      "readiness": "frontend_recon_bounded_candidate_requires_selected_flow_review",
       "why": [
         "Customer-relevant OpenHW-class RISC-V core with a larger control/datapath split than Ibex.",
         "SystemVerilog frontend conversion is reproducible with sv2v, so detector evidence can be replayed without an ambient simulator project.",
@@ -213,16 +213,30 @@
         "cell_delta": 1,
         "summary_sha256": "576aef9b1460fd189780c2a1da9d0bade0de88c254f2a645c204c6762188fc10"
       },
+      "bounded_idstage_hazard_tail_profile": {
+        "status": "bounded_module_area_positive_requires_selected_flow_review",
+        "profile_receipt": "athanor/configs/ath2686_cv32e40p_idstage_hazard_tail_profile.json",
+        "script": "syn/cv32e40p_idstage_hazard_tail_profile.sh",
+        "module": "cv32e40p_id_stage",
+        "baseline_cells": 14959,
+        "gate_cells": 14917,
+        "cell_delta": -42,
+        "baseline_top_cells": 3274,
+        "gate_top_cells": 3232,
+        "top_cell_delta": -42,
+        "summary_sha256": "ae0d232ce1b3548e260b1952de0658c3c5061536f4bbf6987a6284276506ab76",
+        "manifest_sha256": "409fff6499ec1a93bf5c3809de616a79f13efe70b1ead8f034f5b09a7ca0bf53"
+      },
       "first_harness_work": [
         "Treat the load_store_unit shared-term factor as a cheap-kill unless a selected-flow full-core harness shows aggregate movement beyond the bounded neutral profile.",
         "Treat common-guard output gating as a cheap-kill unless a stronger selected-flow signal appears.",
         "Treat register-file write-enable guard factoring as a cheap-kill because the bounded profile regresses by one generic Yosys cell.",
-        "Try new detector families or finish a selected-flow full-core harness before committing CV32E40P equivalence/toggle spend."
+        "Promote the id_stage hazard-tail factor only to a selected-flow/full-core cheap check next; do not spend formal/toggle until aggregate area/timing clears."
       ],
       "risks": [
         "Full selected-flow mapping exceeded the cheap scout budget during ABC mapping of cv32e40p_mult in the scratch run.",
         "The current receipt is frontend/recon only, not a PPA comparator.",
-        "The load_store_unit, common-guard, and register-file guard module profiles are generic Yosys only; they are not full-core selected-flow area/timing comparators.",
+        "The load_store_unit, common-guard, register-file guard, and id_stage hazard-tail module profiles are generic Yosys only; they are not full-core selected-flow area/timing comparators.",
         "The prior sleep-unit source-level shared terms were formal/SVA predicates; current Kairos filtering removes them before synthesis spend.",
         "SystemVerilog conversion uses a lint-wrapper configuration with FPU disabled; alternate configurations need separate receipts."
       ]
