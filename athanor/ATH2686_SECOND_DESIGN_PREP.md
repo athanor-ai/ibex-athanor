@@ -196,9 +196,15 @@ Under that pinned toolchain, the whole-core no-ABC screen improves generic
 cells (`40858 -> 40852`) and the local id-stage section accounts for all six
 cells (`3102 -> 3096`). This preserves the bounded signal at whole-core scope,
 but it is still not mapped selected-flow PPA and has no OpenSTA timing receipt.
-The next gate is mapped selected-flow timing/area review; no formal, toggle,
-cold replay, accepted-win language, or headline language is warranted until
-mapped aggregate area/timing clears.
+The follow-up partitioned mapped-area gate is recorded in
+[`configs/ath2686_cv32e40p_idstage_hazard_tail_partitioned_mapped_profile.json`](configs/ath2686_cv32e40p_idstage_hazard_tail_partitioned_mapped_profile.json)
+and replayed by
+[`syn/cv32e40p_idstage_hazard_tail_partitioned_mapped_profile.sh`](../syn/cv32e40p_idstage_hazard_tail_partitioned_mapped_profile.sh).
+It reuses the same fail-closed Yosys/sv2v version guard, maps only
+`cv32e40p_id_stage` with the pinned Sky130 liberty, and regresses mapped area
+(`111488.1760 -> 111553.2384`, `+0.05836%`). That kills the candidate at the
+cheap pre-spend gate. No OpenSTA timing, formal, toggle, cold replay,
+accepted-win language, or headline language is warranted.
 
 VexRiscv now has a generator-toolchain preflight receipt in
 [`configs/ath2686_vexriscv_preflight.json`](configs/ath2686_vexriscv_preflight.json).

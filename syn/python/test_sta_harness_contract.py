@@ -190,6 +190,29 @@ def test_public_receipt_contract_registry_covers_frontier_manifests() -> None:
         assert contract["assertions"]
 
 
+def test_cv32e40p_idstage_partitioned_mapped_profile_is_guarded_no_spend() -> None:
+    text = read_repo_file(
+        "syn/cv32e40p_idstage_hazard_tail_partitioned_mapped_profile.sh"
+    )
+
+    assert "/workdir/_tools/oss-cad-suite-20260630/bin/yosys" in text
+    assert 'expected_yosys="Yosys 0.66+181"' in text
+    assert 'expected_sv2v="sv2v v0.0.13"' in text
+    assert "Unexpected Yosys version" in text
+    assert "Unexpected sv2v version" in text
+    assert "cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.sh" in text
+    assert "cv32e40p_wrapper_bundle.v" in text
+    assert "hierarchy -check -top cv32e40p_id_stage" in text
+    assert "dfflibmap -liberty $liberty" in text
+    assert "abc -liberty $liberty" in text
+    assert "stat -liberty $liberty" in text
+    assert "partitioned_mapped_area_negative_no_spend" in text
+    assert "not full-core selected-flow PPA" in text
+    assert "no OpenSTA timing" in text
+    assert "no formal, no toggle, " in text
+    assert "no cold-replay, no accepted optimization, and no headline claim" in text
+
+
 def test_sta_path_groups_use_register_cells() -> None:
     text = read_repo_file("syn/tcl/sta_utils.tcl")
 
