@@ -1,0 +1,61 @@
+{
+  "ath_ticket": "ATH-2686",
+  "status": "bounded_module_area_neutral_no_spend",
+  "claim_boundary": "CV32E40P decoder module-level generic Yosys profile only; no full-core PPA, formal, toggle, cold-replay, or optimization-win claim.",
+  "design": {
+    "id": "cv32e40p",
+    "source_url": "https://github.com/openhwgroup/cv32e40p",
+    "local_repo_path": "/workdir/oss-demo-targets/cv32e40p",
+    "git_head": "6033d2b1be3295ec774d17ac4cf226faacfdeb08",
+    "module": "cv32e40p_decoder"
+  },
+  "scout_family": {
+    "name": "common_guard_output_gating",
+    "description": "Share the repeated deassert_we_i guard across zero-default decoder outputs instead of emitting independent ternary zero gates.",
+    "source_pattern": "cv32e40p_decoder repeated deassert_we_i ? default : signal output assignments",
+    "source_locations": [
+      "rtl/cv32e40p_decoder.sv:2997",
+      "rtl/cv32e40p_decoder.sv:2998",
+      "rtl/cv32e40p_decoder.sv:2999",
+      "rtl/cv32e40p_decoder.sv:3000",
+      "rtl/cv32e40p_decoder.sv:3001",
+      "rtl/cv32e40p_decoder.sv:3002",
+      "rtl/cv32e40p_decoder.sv:3003",
+      "rtl/cv32e40p_decoder.sv:3004"
+    ]
+  },
+  "toolchain": {
+    "sv2v": "sv2v v0.0.13",
+    "yosys": "Yosys 0.66+142 (git sha1 fe8f29b5f, Release, Clang /usr/bin/clang++ 18.1.8)"
+  },
+  "bounded_profile": {
+    "local_artifact_dir": "/tmp/dexter-ath2686-cv32e40p-common-guard",
+    "baseline_cells": 1194,
+    "gate_cells": 1194,
+    "cell_delta": 0,
+    "classification": "bounded_module_area_neutral",
+    "baseline_cell_types": {
+      "$_AND_": 531,
+      "$_MUX_": 15,
+      "$_NAND_": 431,
+      "$_NOR_": 76,
+      "$_NOT_": 41,
+      "$_OR_": 100
+    },
+    "gate_cell_types": {
+      "$_AND_": 531,
+      "$_MUX_": 15,
+      "$_NAND_": 431,
+      "$_NOR_": 76,
+      "$_NOT_": 41,
+      "$_OR_": 100
+    },
+    "baseline_source_sha256": "6e12f673e05380e34a35c38d8ee8b6878935d96b6f2dfda72c67f8a6e92a6e4e",
+    "gate_source_sha256": "5357e9d3c5d00c971480e7ae25a5954ecd455da5caf3bd8901dec83eb7a84953",
+    "baseline_v2001_sha256": "acb82896cf2016de12a5eda19d7c81e3ce72b07bacd3b1ae8c71a22bf66ac4e7",
+    "gate_v2001_sha256": "65f81a2e24b3daee68bff0935c06e64b9736e4b53a13c5f61d1dd4b744bb7e74",
+    "baseline_yosys_log_sha256": "6c0ef0b4b958a8111a3632871803e1b49fc3a6c7aaf0b3d0b0ed7c11d8f72c3f",
+    "gate_yosys_log_sha256": "38f36bbec840f4d702c246fe7650674f463219cdd60ac69fd5300987622a7c6e"
+  },
+  "decision": "Do not build or spend on a common-guard output-gating detector yet. The first bounded module profile is cell-neutral, so the family needs a stronger predictor or a selected-flow full-core signal before formal/toggle spend."
+}
