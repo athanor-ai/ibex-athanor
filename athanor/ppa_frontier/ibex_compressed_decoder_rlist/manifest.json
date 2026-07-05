@@ -42,6 +42,7 @@
         }
     },
     "module": "ibex_compressed_decoder",
+    "row_contract": "cross_tool_sensitive_rebaseline_pending",
     "schema": "public_frontier_manifest_v1",
     "status": "formal_pass_yosys09_pinned_ppa_positive_cross_tool_sensitive",
     "toolchain_policy": {

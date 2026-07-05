@@ -46,6 +46,7 @@
         }
     },
     "module": "ibex_alu",
+    "row_contract": "area_tradeoff_yosys66",
     "schema": "public_frontier_manifest_v1",
     "status": "formal_pass_yosys66_area_positive_toggle_flat_propagation_delay_negative",
     "toolchain_policy": {

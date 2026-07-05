@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import json
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -13,7 +14,11 @@ from typing import Any
 ROOT = Path(__file__).resolve().parent
 POLICY_PATH = ROOT / "toolchain_policy.json"
 FRONTIER_ROOT = ROOT / "ppa_frontier"
-PUBLIC_TEXT_PATHS = [ROOT.parent / "README.md", ROOT / "README.md", FRONTIER_ROOT / "README.md"]
+PUBLIC_TEXT_PATHS = [
+    ROOT.parent / "README.md",
+    ROOT / "README.md",
+    FRONTIER_ROOT / "README.md",
+]
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -32,6 +37,12 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _sha256_json(data: Any) -> str:
+    return hashlib.sha256(
+        json.dumps(data, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
 
 
 def _sha256_vcd_normalized(path: Path) -> str:
@@ -57,11 +68,15 @@ def _verify_manifest_hashes(manifest_path: Path, manifest: dict[str, Any]) -> No
     module_dir = manifest_path.parent
     for artifact_name, artifact_ref in artifacts.items():
         if not isinstance(artifact_ref, dict):
-            raise SystemExit(f"{manifest_path}: artifact {artifact_name} must be an object")
+            raise SystemExit(
+                f"{manifest_path}: artifact {artifact_name} must be an object"
+            )
         rel_path = artifact_ref.get("path")
         expected_sha = artifact_ref.get("sha256")
         if not isinstance(rel_path, str) or not isinstance(expected_sha, str):
-            raise SystemExit(f"{manifest_path}: artifact {artifact_name} missing path or sha256")
+            raise SystemExit(
+                f"{manifest_path}: artifact {artifact_name} missing path or sha256"
+            )
         artifact_path = module_dir / rel_path
         if not artifact_path.is_file():
             raise SystemExit(f"{manifest_path}: artifact {rel_path} does not exist")
@@ -73,49 +88,146 @@ def _verify_manifest_hashes(manifest_path: Path, manifest: dict[str, Any]) -> No
             )
 
 
-def _verify_alu_row(manifest_path: Path, manifest: dict[str, Any], selected_toolchain_id: str) -> None:
+def _lookup_path(data: Any, dotted_path: str) -> Any:
+    current = data
+    for part in dotted_path.split("."):
+        if not isinstance(current, dict) or part not in current:
+            raise KeyError(dotted_path)
+        current = current[part]
+    return current
+
+
+def _load_row_contracts(policy: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    contracts = policy.get("row_contracts")
+    if not isinstance(contracts, dict) or not contracts:
+        raise SystemExit(f"{POLICY_PATH}: missing row_contracts registry")
+    expected_sha = policy.get("row_contracts_sha256")
+    actual_sha = _sha256_json(contracts)
+    if expected_sha != actual_sha:
+        raise SystemExit(
+            f"{POLICY_PATH}: row_contracts registry sha256 mismatch "
+            f"(expected {expected_sha}, got {actual_sha})"
+        )
+    for name, contract in contracts.items():
+        if not isinstance(name, str) or not name:
+            raise SystemExit(f"{POLICY_PATH}: row_contract names must be non-empty")
+        if not isinstance(contract, dict):
+            raise SystemExit(f"{POLICY_PATH}: row_contract {name!r} must be an object")
+        if not isinstance(contract.get("required_policy"), dict):
+            raise SystemExit(
+                f"{POLICY_PATH}: row_contract {name!r} missing required_policy"
+            )
+        required_receipts = contract.get("required_receipts")
+        if not isinstance(required_receipts, list) or not all(
+            isinstance(item, str) and item for item in required_receipts
+        ):
+            raise SystemExit(
+                f"{POLICY_PATH}: row_contract {name!r} missing required_receipts"
+            )
+        assertions = contract.get("assertions")
+        if not isinstance(assertions, list):
+            raise SystemExit(f"{POLICY_PATH}: row_contract {name!r} missing assertions")
+    return contracts
+
+
+def _verify_manifest_contract(
+    manifest_path: Path,
+    manifest: dict[str, Any],
+    row_contracts: dict[str, dict[str, Any]],
+) -> str:
+    module = manifest.get("module")
+    if not isinstance(module, str) or not module:
+        raise SystemExit(f"{manifest_path}: missing public module name")
+    contract_name = manifest.get("row_contract")
+    if not isinstance(contract_name, str) or not contract_name:
+        raise SystemExit(f"{manifest_path}: missing row_contract")
+    contract = row_contracts.get(contract_name)
+    if contract is None:
+        raise SystemExit(
+            f"{manifest_path}: row_contract {contract_name!r} is not in the pinned "
+            "toolchain policy registry"
+        )
     policy = manifest.get("toolchain_policy")
     if not isinstance(policy, dict):
         raise SystemExit(f"{manifest_path}: missing toolchain_policy")
-    if policy.get("selected_toolchain_id") != selected_toolchain_id:
-        raise SystemExit(f"{manifest_path}: ALU row must use selected Yosys 0.66 toolchain")
-    if policy.get("customer_status") != "customer_area_tradeoff_yosys66":
-        raise SystemExit(f"{manifest_path}: ALU row must be classified as area tradeoff, not full PPA")
-    if policy.get("full_ppa_frontier") is not False:
-        raise SystemExit(f"{manifest_path}: timing-hostile ALU row must not be full_ppa_frontier")
-    area_receipt = policy.get("selected_area_receipt")
-    timing_receipt = policy.get("selected_timing_receipt")
-    if area_receipt != "area_yosys66.json" or timing_receipt != "toggle_timing_yosys66.json":
-        raise SystemExit(f"{manifest_path}: ALU row must point to Yosys 0.66 area/timing receipts")
+    for key, expected in contract["required_policy"].items():
+        if policy.get(key) != expected:
+            raise SystemExit(
+                f"{manifest_path}: row_contract {contract_name!r} requires "
+                f"toolchain_policy.{key}={expected!r}, got {policy.get(key)!r}"
+            )
 
-    area = _load_json(manifest_path.parent / "area_yosys66.json")
-    timing = _load_json(manifest_path.parent / "toggle_timing_yosys66.json")
-    if area.get("toolchain", {}).get("yosys") != "Yosys 0.66+181":
-        raise SystemExit(f"{manifest_path}: area_yosys66.json is not Yosys 0.66+181")
-    propagation = timing.get("propagation_delay")
-    if not isinstance(propagation, dict):
-        raise SystemExit(f"{manifest_path}: missing propagation_delay timing block")
-    if propagation.get("status") != "regression":
-        raise SystemExit(f"{manifest_path}: ALU timing tradeoff must record propagation-delay regression")
-    if propagation.get("timing_convention") != "combinational_max_propagation_delay":
-        raise SystemExit(f"{manifest_path}: ALU row must record max-propagation-delay timing convention")
-    if float(propagation.get("gate_delay_ns", 0.0)) <= float(propagation.get("gold_delay_ns", 0.0)):
-        raise SystemExit(f"{manifest_path}: ALU timing tradeoff requires gate delay > gold delay")
+    receipts: dict[str, dict[str, Any]] = {}
+    for receipt_name in contract["required_receipts"]:
+        receipt_path = manifest_path.parent / receipt_name
+        if not receipt_path.is_file():
+            raise SystemExit(
+                f"{manifest_path}: row_contract {contract_name!r} requires "
+                f"receipt {receipt_name!r}"
+            )
+        receipts[receipt_name] = _load_json(receipt_path)
 
-
-def _verify_cross_tool_sensitive_row(manifest_path: Path, manifest: dict[str, Any]) -> None:
-    policy = manifest.get("toolchain_policy")
-    if not isinstance(policy, dict):
-        raise SystemExit(f"{manifest_path}: missing toolchain_policy")
-    if policy.get("customer_status") != "formal_only_cross_tool_sensitive_rebaseline_pending":
-        raise SystemExit(f"{manifest_path}: compressed decoder must remain rebaseline-pending")
-    if policy.get("customer_frontier") is not False:
-        raise SystemExit(f"{manifest_path}: cross-tool-sensitive row must not be customer frontier")
-    if policy.get("full_ppa_frontier") is not False:
-        raise SystemExit(f"{manifest_path}: cross-tool-sensitive row must not be full PPA frontier")
-    sensitivity = _load_json(manifest_path.parent / "area.json").get("toolchain_sensitivity")
-    if not isinstance(sensitivity, dict) or sensitivity.get("classification") != "cross_tool_sensitive":
-        raise SystemExit(f"{manifest_path}: missing cross-tool sensitivity evidence")
+    for assertion in contract["assertions"]:
+        if not isinstance(assertion, dict):
+            raise SystemExit(
+                f"{POLICY_PATH}: row_contract {contract_name!r} assertion must be an object"
+            )
+        receipt_name = assertion.get("receipt")
+        if not isinstance(receipt_name, str) or receipt_name not in receipts:
+            raise SystemExit(
+                f"{POLICY_PATH}: row_contract {contract_name!r} assertion references "
+                f"unknown receipt {receipt_name!r}"
+            )
+        receipt = receipts[receipt_name]
+        if "equals" in assertion:
+            path = assertion.get("path")
+            if not isinstance(path, str):
+                raise SystemExit(
+                    f"{POLICY_PATH}: row_contract {contract_name!r} equality assertion "
+                    "missing path"
+                )
+            try:
+                actual = _lookup_path(receipt, path)
+            except KeyError:
+                raise SystemExit(
+                    f"{manifest_path}: receipt {receipt_name!r} missing assertion path {path!r}"
+                ) from None
+            if actual != assertion["equals"]:
+                raise SystemExit(
+                    f"{manifest_path}: receipt {receipt_name!r} path {path!r} "
+                    f"expected {assertion['equals']!r}, got {actual!r}"
+                )
+        elif "compare" in assertion:
+            compare = assertion["compare"]
+            if (
+                not isinstance(compare, list)
+                or len(compare) != 3
+                or compare[1] != ">"
+                or not all(isinstance(item, str) for item in compare)
+            ):
+                raise SystemExit(
+                    f"{POLICY_PATH}: row_contract {contract_name!r} has invalid compare assertion"
+                )
+            left_path, _, right_path = compare
+            try:
+                left = float(_lookup_path(receipt, left_path))
+                right = float(_lookup_path(receipt, right_path))
+            except (KeyError, TypeError, ValueError):
+                raise SystemExit(
+                    f"{manifest_path}: receipt {receipt_name!r} cannot evaluate "
+                    f"compare assertion {compare!r}"
+                ) from None
+            if not left > right:
+                raise SystemExit(
+                    f"{manifest_path}: receipt {receipt_name!r} expected "
+                    f"{left_path} > {right_path}, got {left} <= {right}"
+                )
+        else:
+            raise SystemExit(
+                f"{POLICY_PATH}: row_contract {contract_name!r} assertion must use "
+                "equals or compare"
+            )
+    return module
 
 
 def _verify_toggle_receipt(receipt_path: Path, policy: dict[str, Any]) -> None:
@@ -153,8 +265,13 @@ def _verify_toggle_receipt(receipt_path: Path, policy: dict[str, Any]) -> None:
     ):
         value = receipt.get(field)
         if not isinstance(value, str) or len(value) != 64:
-            raise SystemExit(f"{receipt_path}: toggle receipt missing hash-pinned {field}")
-    if receipt.get("no_x_or_z_on_primary_inputs") != "construction_guaranteed_binary_assignments":
+            raise SystemExit(
+                f"{receipt_path}: toggle receipt missing hash-pinned {field}"
+            )
+    if (
+        receipt.get("no_x_or_z_on_primary_inputs")
+        != "construction_guaranteed_binary_assignments"
+    ):
         raise SystemExit(
             f"{receipt_path}: toggle receipt missing no_x_or_z_on_primary_inputs "
             "construction guarantee"
@@ -162,15 +279,22 @@ def _verify_toggle_receipt(receipt_path: Path, policy: dict[str, Any]) -> None:
     for name_field, hash_field in (("trace", "trace_sha256"), ("vcd", "vcd_sha256")):
         rel = receipt.get(name_field)
         if not isinstance(rel, str) or not rel:
-            raise SystemExit(f"{receipt_path}: toggle receipt missing {name_field} file reference")
+            raise SystemExit(
+                f"{receipt_path}: toggle receipt missing {name_field} file reference"
+            )
         candidate = receipt_path.parent / rel
         if not candidate.is_file():
-            raise SystemExit(f"{receipt_path}: {name_field} file {rel!r} does not exist")
+            raise SystemExit(
+                f"{receipt_path}: {name_field} file {rel!r} does not exist"
+            )
         if _sha256(candidate) != receipt[hash_field]:
-            raise SystemExit(f"{receipt_path}: {name_field} file does not match {hash_field}")
-        if name_field == "vcd" and _sha256_vcd_normalized(candidate) != receipt[
-            "normalized_vcd_sha256"
-        ]:
+            raise SystemExit(
+                f"{receipt_path}: {name_field} file does not match {hash_field}"
+            )
+        if (
+            name_field == "vcd"
+            and _sha256_vcd_normalized(candidate) != receipt["normalized_vcd_sha256"]
+        ):
             raise SystemExit(
                 f"{receipt_path}: vcd file does not match normalized_vcd_sha256"
             )
@@ -184,7 +308,9 @@ def _selftest_toggle_gate() -> None:
 
     policy = _load_json(POLICY_PATH)
     conv = policy["selected_toggle_convention"]
-    conv_sha = hashlib.sha256(json.dumps(conv, indent=4, sort_keys=True).encode()).hexdigest()
+    conv_sha = hashlib.sha256(
+        json.dumps(conv, indent=4, sort_keys=True).encode()
+    ).hexdigest()
     trace_bytes = b'{"cycle": 0}\n'
     vcd_text = "$date\n  selftest\n$end\n$version\n  test\n$end\n"
     good = {
@@ -233,7 +359,9 @@ def _selftest_toggle_gate() -> None:
             except SystemExit:
                 outcome = False
             if outcome != should_pass:
-                raise SystemExit(f"selftest case {name!r}: expected pass={should_pass}, got {outcome}")
+                raise SystemExit(
+                    f"selftest case {name!r}: expected pass={should_pass}, got {outcome}"
+                )
         for missing_name in ("missing_trace_file", "missing_vcd_file"):
             tmp_missing = tmp / missing_name
             tmp_missing.mkdir()
@@ -249,9 +377,105 @@ def _selftest_toggle_gate() -> None:
                 _verify_toggle_receipt(rp, policy)
             except SystemExit:
                 continue
-            raise SystemExit(f"selftest case {missing_name!r}: expected pass=False, got True")
+            raise SystemExit(
+                f"selftest case {missing_name!r}: expected pass=False, got True"
+            )
     total_cases = len(cases) + 2
     print(f"toggle-gate selftest: {total_cases}/{total_cases} cases behave as required")
+
+
+def _selftest_contract_gate() -> None:
+    policy = _load_json(POLICY_PATH)
+    contracts = _load_row_contracts(policy)
+    manifest_path = FRONTIER_ROOT / "ibex_alu_bwlogic" / "manifest.json"
+    manifest = _load_json(manifest_path)
+
+    def with_temp_files(
+        manifest_update: dict[str, Any] | None = None,
+        receipt_update: dict[str, Any] | None = None,
+        remove_receipt: str | None = None,
+    ) -> tuple[Path, dict[str, Any]]:
+        tmp = Path(tempfile.mkdtemp())
+        module_dir = tmp / "ibex_alu_bwlogic"
+        module_dir.mkdir()
+        candidate_manifest = json.loads(json.dumps(manifest))
+        if manifest_update:
+            candidate_manifest.update(manifest_update)
+        for receipt_name in ("area_yosys66.json", "toggle_timing_yosys66.json"):
+            if receipt_name == remove_receipt:
+                continue
+            receipt = _load_json(manifest_path.parent / receipt_name)
+            if receipt_name == "toggle_timing_yosys66.json" and receipt_update:
+                receipt = json.loads(json.dumps(receipt))
+                current = receipt
+                for key in ("propagation_delay",):
+                    current = current.setdefault(key, {})
+                current.update(receipt_update)
+            (module_dir / receipt_name).write_text(json.dumps(receipt))
+        return module_dir / "manifest.json", candidate_manifest
+
+    cases = [
+        ("declared_contract", {}, None, None, contracts, True),
+        ("missing_row_contract", {"row_contract": None}, None, None, contracts, False),
+        (
+            "unknown_row_contract",
+            {"row_contract": "unknown_contract"},
+            None,
+            None,
+            contracts,
+            False,
+        ),
+        (
+            "assertion_violated",
+            {},
+            {"status": "improvement"},
+            None,
+            contracts,
+            False,
+        ),
+        ("missing_receipt", {}, None, "toggle_timing_yosys66.json", contracts, False),
+        (
+            "edited_registry",
+            {},
+            None,
+            None,
+            {
+                **contracts,
+                "area_tradeoff_yosys66": {
+                    **contracts["area_tradeoff_yosys66"],
+                    "assertions": [],
+                },
+            },
+            False,
+        ),
+    ]
+    for (
+        name,
+        manifest_update,
+        receipt_update,
+        remove_receipt,
+        candidate_contracts,
+        should_pass,
+    ) in cases:
+        try:
+            candidate_manifest_path, candidate_manifest = with_temp_files(
+                manifest_update, receipt_update, remove_receipt
+            )
+            if name == "edited_registry":
+                policy_candidate = {**policy, "row_contracts": candidate_contracts}
+                _load_row_contracts(policy_candidate)
+            else:
+                _verify_manifest_contract(
+                    candidate_manifest_path, candidate_manifest, candidate_contracts
+                )
+            outcome = True
+        except SystemExit:
+            outcome = False
+        if outcome != should_pass:
+            raise SystemExit(
+                f"contract selftest {name!r}: expected pass={should_pass}, got {outcome}"
+            )
+    print(f"contract-gate selftest: {len(cases)}/{len(cases)} cases behave as required")
 
 
 def _verify_public_text() -> None:
@@ -267,12 +491,15 @@ def _verify_public_text() -> None:
         text = path.read_text(encoding="utf-8")
         for token in forbidden:
             if token in text:
-                raise SystemExit(f"{path}: public text contains internal token {token!r}")
+                raise SystemExit(
+                    f"{path}: public text contains internal token {token!r}"
+                )
 
 
 def main() -> int:
     if "--selftest" in sys.argv:
         _selftest_toggle_gate()
+        _selftest_contract_gate()
         return 0
     policy = _load_json(POLICY_PATH)
     selected = policy.get("selected_toolchain")
@@ -281,26 +508,28 @@ def main() -> int:
     selected_toolchain_id = selected.get("id")
     if selected_toolchain_id != "yosys_0_66_181_oss_cad_suite_2026_06_30":
         raise SystemExit(f"{POLICY_PATH}: selected toolchain must be Yosys 0.66+181")
+    row_contracts = _load_row_contracts(policy)
 
     manifests = sorted(FRONTIER_ROOT.glob("*/manifest.json"))
     if not manifests:
         raise SystemExit(f"{FRONTIER_ROOT}: no module manifests found")
 
+    seen_modules: set[str] = set()
     for manifest_path in manifests:
         manifest = _load_json(manifest_path)
         if manifest.get("schema") != "public_frontier_manifest_v1":
             raise SystemExit(f"{manifest_path}: unexpected manifest schema")
         _verify_manifest_hashes(manifest_path, manifest)
-        module = manifest.get("module")
-        if module == "ibex_alu":
-            _verify_alu_row(manifest_path, manifest, selected_toolchain_id)
-        elif module == "ibex_compressed_decoder":
-            _verify_cross_tool_sensitive_row(manifest_path, manifest)
-        else:
-            raise SystemExit(f"{manifest_path}: unrecognized public module {module!r}")
+        seen_modules.add(
+            _verify_manifest_contract(manifest_path, manifest, row_contracts)
+        )
 
-    toggle_receipts = sorted(FRONTIER_ROOT.glob("*/toggle_convention_receipt.json")) + sorted(
-        (POLICY_PATH.parent.parent / "athanor_artifacts").glob("*/logs/*/toggle_convention_receipt.json")
+    toggle_receipts = sorted(
+        FRONTIER_ROOT.glob("*/toggle_convention_receipt.json")
+    ) + sorted(
+        (POLICY_PATH.parent.parent / "athanor_artifacts").glob(
+            "*/logs/*/toggle_convention_receipt.json"
+        )
     )
     for receipt_path in toggle_receipts:
         _verify_toggle_receipt(receipt_path, policy)
