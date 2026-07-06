@@ -1,128 +1,114 @@
-# Athanor Optimized Ibex
+# Athanor Ibex: Verifiable RISC-V Optimization
 
-Athanor AI applies formally checked RTL transformations to production hardware
-designs and records the PPA evidence needed to audit each result. This fork
-starts from the industry-standard lowRISC Ibex RISC-V core and adds optimized
-RTL plus public proof and measurement receipts. Results are pinned to the
-recorded open-source toolchain and should be read as reproducible evidence for
-the stated toolchain. The current customer-facing area baseline is OSS CAD
-Suite 2026-06-30 / Yosys 0.66+181 with the Sky130 liberty and ABC mapping
-recipe recorded in the receipts. Public manifests are checked by
-[`athanor/verify_public_receipts.py`](athanor/verify_public_receipts.py) so
-future receipt updates must preserve the selected-toolchain policy.
+Ibex is a real open-source 32-bit RISC-V CPU core. This fork uses it as a
+public testbed for a hard hardware problem: finding small RTL changes that
+improve power, performance, or area without weakening correctness.
 
-## Executive Scorecard
+The goal is not to collect anecdotes. Every result here is tied to receipts:
+selected-toolchain PPA, equivalence or formal proof, toggle/activity checks,
+hash replay, and non-author review. If a row has not cleared that bar, it is
+called a candidate, not a win.
 
-Customer-safe accepted evidence today:
+## Current Status
 
-- **Accepted selected-toolchain optimizations:** 3 artifacts: 2 module-level
-  artifacts and 1 cold-verified whole-core entry.
-- **Best accepted module timing movement:** `ibex_multdiv_slow` improves max
-  data arrival by **10.82%** with flat toggle and full formal replay.
-- **First accepted whole-core timing movement:** `ibex_if_stage`
-  `expanded_predicate_factor` improves all five recorded WNS groups; reg2reg
-  improves by **13.8626ns**.
-- **Accepted area movement:** `ibex_multdiv_slow` improves selected-toolchain
-  area by **0.0605%**; `ibex_multdiv_fast` is area/cell flat while improving
-  timing by **2.58%**; `ibex_if_stage` `expanded_predicate_factor` improves
-  whole-core selected-toolchain area by **0.02885%**.
-- **Rejected rows are visible by design:** area/timing/formal-positive changes
-  that regress toggle are kept in the table as evidence that promotion is
-  blocked by the full PPA bar.
-- **Whole-core Ibex PPA headline entry:** `ibex_if_stage`
-  `expanded_predicate_factor` reduces selected-toolchain `ibex_top` area by
-  **0.02885%**, improves all five recorded WNS groups, keeps toggle flat at
-  **0.0%**, closes **1956/1956** formal equivalence cells, and has independent
-  cold replay of the full package.
+| Topic | State |
+| --- | --- |
+| Accepted evidence | Four accepted rows have replayable receipts under the selected OSS CAD Suite 2026-06-30 / Yosys 0.66+181 baseline, including the routed PR #31 top-level survivor. |
+| Latest frontier result | PR #31, `ibex_top` / `no_bp_prefetch_direct`, is accepted on `master` after hosted OSS-FV proved the candidate RTL and non-author cold review passed. |
+| Tooling claim | Athanor/Kairos is used here as the measurement, filtering, replay, and evidence pipeline. This README does **not** claim autonomous discovery for #31. |
+| Main gaps | Add machine-enforced proof-subject binding, make autonomous rediscovery reproducible, and broaden top-level survivors beyond one path family. |
 
-Next headline target: add more top-level-surviving accepted transforms and
-report an aggregate selected-toolchain whole-core line only after integration,
-replay, and independent cold verification.
+## Evidence Bar
 
-## Where Kairos Sits
+Promotion requires evidence for the exact claim:
 
-Kairos is the optimization and evidence layer above customer RTL. It proposes
-bounded RTL rewrites, then gates each candidate through parsing, synthesis,
-formal equivalence, timing, area, toggle/activity, hash manifests, and human
-review before a result is promoted. Ibex is the public dogfood design in this
-repository; the defensible asset is the reusable optimization and evidence
-pipeline, not a one-off chip-specific patch.
+1. Bounded RTL diff.
+2. Selected-flow area and timing on the recorded toolchain.
+3. Equivalence or hosted formal proof on the exact subject.
+4. Toggle/activity check under the stated convention.
+5. Replayable hashes plus non-author cold review.
 
-## Current Toolchain Rebaseline
+Module-local movement is useful evidence, but whole-core claims require an
+`ibex_top` receipt. Local wins are not added together without an integrated
+top-level run.
 
-The table below is the customer-facing summary of the latest Ibex optimization
-work in this repository. "Accepted artifact" means the package passes the
-current five-part evidence bar for the stated toolchain: area, timing,
-toggle/activity, formal equivalence, and replayable hashes. "Candidate" means
-some vectors are still missing. "Rejected" means the evidence found a real
-regression and the transform should not be promoted as a win. Area is the
-primary selected-toolchain metric; mapped-cell count is shown separately because
-cell count and liberty-weighted area can move in different directions.
+## Results Snapshot
 
-| Module / transform | Status | Area result | Mapped cells | Timing result | Toggle/activity | Formal result | Evidence |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| `ibex_multdiv_slow` / `greater_equal_xor_shape` | **Accepted artifact** | 10339.9168 -> 10333.6608, **-0.0605%** | 1351 -> 1361, **+10 cells** | max data arrival 8.13ns -> 7.25ns, **-0.88ns / -10.82%**; WNS/TNS -0.13/-5.66 -> 0/0 | 6117 -> 6117, **0.0%** | 411/411 `$equiv` proven | [`athanor_artifacts/multdiv_slow_greater_equal_xor_shape/`](athanor_artifacts/multdiv_slow_greater_equal_xor_shape/) |
-| `ibex_multdiv_fast` / `greater_equal_xor_shape` | **Accepted artifact** | one-button cell metric flat, **0.0%** | 3306 -> 3306, **0 cells saved** | max propagation delay 10.85ns -> 10.57ns, **-0.28ns / -2.58%** | 7657 -> 7657, **0.0%** | 772/772 `$equiv` proven | [`athanor_artifacts/multdiv_fast_greater_equal_xor_shape/`](athanor_artifacts/multdiv_fast_greater_equal_xor_shape/) |
-| `ibex_if_stage` / `expanded_predicate_factor` | **Accepted artifact: cold-verified whole-core area + timing positive, toggle flat** | whole-core 108428.9920 -> 108397.7120, **-0.02885%** | 13290 -> 13334, **+44 cells** | whole-core WNS improves on all recorded groups; reg2reg **+13.8626ns**, reg2out **+13.8041ns** | 311729 -> 311729, **0.0%** | 1956/1956 `$equiv` proven | [`athanor_artifacts/if_stage_expanded_predicate_factor/`](athanor_artifacts/if_stage_expanded_predicate_factor/) |
-| `ibex_if_stage` / `no_bp_prefetch_direct` | **Candidate: area + timing + formal positive, toggle flat** | 16821.1328 -> 16756.0704, **-0.3868%** | 3396 -> 3403, **+7 cells** | top data arrival 9.2829ns -> 8.9149ns, **-3.9654%**; WNS/TNS 0/0 | 311729 -> 311729, **0.0%** | 1956/1956 `$equiv` proven | [`athanor_artifacts/if_stage_no_bp_prefetch_direct/`](athanor_artifacts/if_stage_no_bp_prefetch_direct/) |
-| `ibex_alu` / `bwlogic_or_from_xor_and` | **Tradeoff: area positive, timing negative** | 5471.4976 -> 5122.4128, **-6.3801%** | 838 -> 788, **50 cells saved / -5.9666%** | max propagation delay 8.83ns -> 10.56ns, **+1.73ns / +19.59%** | 5977 -> 5977, **0.0%** | 1627 cells, 0 unproven | [`athanor/ppa_frontier/ibex_alu_bwlogic/`](athanor/ppa_frontier/ibex_alu_bwlogic/) |
-| `ibex_id_stage` / `no_wb_prio_assign` | **Rejected: toggle regression** | 7791.2224 -> 7741.1744, **-0.6424%** | 2268 -> 2188, **80 cells saved / -3.53%** | top data arrival 7.5917ns -> 5.5358ns, **-27.08%**; WNS/TNS 0/0 | 26137 -> 26468, **+1.27%** | 665/665 `$equiv` proven | [`athanor_artifacts/id_stage_no_wb_prio_assign/`](athanor_artifacts/id_stage_no_wb_prio_assign/) |
-| `ibex_load_store_unit` / `signext_factor` | **Rejected: toggle regression** | 4695.7536 -> 4664.4736, **-0.6662%** | 1164 -> 1160, **4 cells saved / -0.34%** | max data arrival 5.59ns -> 3.89ns, **-1.70ns / about -30.3%**; WNS/TNS 0/0 | 55424 -> 56421, **+1.79886%** | 287/287 `$equiv` proven | [`athanor_artifacts/load_store_unit_signext_factor/`](athanor_artifacts/load_store_unit_signext_factor/) |
+| Transform | Status | PPA signal | Correctness / activity | Receipt |
+| --- | --- | --- | --- | --- |
+| `ibex_multdiv_slow` / `greater_equal_xor_shape` | Accepted artifact | Area `10339.9168 -> 10333.6608`; data arrival `8.13ns -> 7.25ns` | Toggle flat `6117 -> 6117`; Yosys equiv `411/411` | [`athanor_artifacts/multdiv_slow_greater_equal_xor_shape/`](athanor_artifacts/multdiv_slow_greater_equal_xor_shape/) |
+| `ibex_multdiv_fast` / `greater_equal_xor_shape` | Accepted artifact | Cell metric flat `3306 -> 3306`; max delay `10.85ns -> 10.57ns` | Toggle flat `7657 -> 7657`; Yosys equiv `772/772` | [`athanor_artifacts/multdiv_fast_greater_equal_xor_shape/`](athanor_artifacts/multdiv_fast_greater_equal_xor_shape/) |
+| `ibex_if_stage` / `expanded_predicate_factor` | Accepted top-level artifact | `ibex_top` area `108428.9920 -> 108397.7120`; all recorded WNS groups improve | Toggle flat `311729 -> 311729`; Yosys equiv `1956/1956`; cold replay `6/6` | [`athanor_artifacts/if_stage_expanded_predicate_factor/`](athanor_artifacts/if_stage_expanded_predicate_factor/) |
+| PR #31: `ibex_top` / `no_bp_prefetch_direct` | Accepted survivor | `ibex_top` area `108441.5040 -> 108373.9392`; WNS deltas `+13.7942/+13.7942/+13.7924/+0.3407/+0.1761ns` | Toggle flat `311729 -> 311729`; Yosys equiv `1956/1956`; hosted OSS-FV green; cold review passed | [#31 top-level selected-flow receipt](https://github.com/athanor-ai/ibex-athanor/blob/ea0e5bc50e2322369a5cee166161acadbda417f0/athanor_artifacts/if_stage_no_bp_prefetch_direct/top_level_first/top_level_first_receipt.json) |
 
-### What This Means
+## Latest Accepted Survivor: PR #31
 
-- The current accepted wins are the `ibex_multdiv_slow` and `ibex_multdiv_fast`
-  `greater_equal_xor_shape` rewrites plus the cold-verified whole-core
-  `ibex_if_stage` `expanded_predicate_factor` rewrite. All three keep toggle
-  flat and prove equivalence under their stated measurement conventions.
-- The `expanded_predicate_factor` row is the first top-level-first accepted
-  artifact in this repository: area improves at `ibex_top`, every recorded WNS
-  group improves, formal replay closes, and the independent cold replay matched
-  the full package exactly.
-- The ALU row saves area and cells but costs timing; it is useful evidence, not a
-  full-PPA customer win.
-- The ID-stage and LSU rows are deliberately listed as rejects. They looked good
-  on area/timing/formal, but switching activity regressed, so the promotion bar
-  correctly stopped them.
-- One whole-core percent is claimed today for the cold-verified
-  `expanded_predicate_factor` transform. No aggregate cross-transform
-  whole-core percent is claimed yet; aggregation still requires top-level
-  integration and replay because module-local deltas cannot be safely added
-  together across configurations.
+`no_bp_prefetch_direct` specializes the instruction-fetch prefetch branch/address
+path for the no-branch-predictor configuration. In that configuration,
+`predict_branch_taken` is statically zero, so `branch_req = pc_set_i |
+predict_branch_taken` collapses to `pc_set_i`. The branch-predictor path remains
+intact when `BranchPredictor=1`.
 
-## Historical / Cross-Tool Evidence
+The local package
+[`athanor_artifacts/if_stage_no_bp_prefetch_direct/`](athanor_artifacts/if_stage_no_bp_prefetch_direct/)
+records module-local precursor evidence. The accepted row above uses the
+top-level PR #31 receipt because the claim is about `ibex_top`, not just
+`ibex_if_stage`.
 
-`ibex_compressed_decoder` / `rlist_init_formula` remains formally proven and was
-area-positive under the historical Yosys 0.9 recipe: chip area
-4782.0864 -> 4668.2272 (**-2.38095%**), mapped cells 810 -> 774
-(**36 cells saved / -4.44%**), RTL/VCD toggle flat at 800 -> 800, and OpenSTA
-10ns timing met with max data arrival 3.00ns -> 2.55ns. It is not listed as a
-current selected-toolchain customer frontier row because later replays showed
-cross-tool sensitivity; selected Yosys 0.66+181 packaging is required before
-promotion.
+PR #31 is an accepted survivor on `master` because hosted OSS-FV proved the
+candidate RTL and the cold review passed. It is still not an autonomous-discovery
+claim: the structural insight was human-guided, while Athanor/Kairos supplied
+the measurement, filtering, replay, and evidence chain.
 
-## Receipt Layout
+## What This Shows
 
-- Public frontier receipts: [`athanor/ppa_frontier/`](athanor/ppa_frontier/)
-- Candidate artifact packages:
-  [`athanor_artifacts/`](athanor_artifacts/)
-- Selected toolchain policy:
-  [`athanor/toolchain_policy.json`](athanor/toolchain_policy.json)
-- Public manifest verifier:
-  `python3 athanor/verify_public_receipts.py`
-- Area receipts: `area.json`
-- Toggle/activity receipts: `power.json`
-- Timing receipts: `timing.json`
-- Formal equivalence receipts: `formal_cert.json`
-- Machine-checked helper proofs: `lean_receipt.json` and the linked Lean files
+- Small RTL rewrites can move PPA on a real RISC-V core.
+- The useful signal is multi-axis: area, timing, toggle, proof, and replay all
+  matter.
+- Some positive-looking edits are only tradeoffs or do not compose at top level.
+- Today, Athanor/Kairos is strongest as an evidence pipeline; autonomous
+  rediscovery is a separate gap to close with before/after receipts.
 
-Historical Yosys 0.9 receipts remain available under
-[`athanor/ppa_frontier/`](athanor/ppa_frontier/) for auditability. They are
-cross-tool sensitivity evidence, not a substitute for the selected
-customer-facing Yosys 0.66+181 baseline.
+## Gaps And Next Work
+
+1. Add proof-subject binding so a green formal row cannot prove the wrong RTL.
+2. Teach the proposer to rediscover RISC-V optimization classes from RTL context.
+3. Improve toggle/power coverage for each candidate's touched cone.
+4. Broaden accepted top-level survivors beyond one path family.
+5. Keep PPA constraint sets configurable for future customer targets.
+
+## Audit Map
+
+- Toolchain policy: [`athanor/toolchain_policy.json`](athanor/toolchain_policy.json)
+- Receipt verifier: `python3 athanor/verify_public_receipts.py`
+- Artifact packages: [`athanor_artifacts/`](athanor_artifacts/)
+- Frontier receipt layout: [`athanor/ppa_frontier/`](athanor/ppa_frontier/)
+- Flow scripts and tests: [`athanor/`](athanor/) and [`syn/`](syn/)
+
+Common receipt files:
+
+- `SOURCE_DIFF.patch` or gate source: bounded RTL change.
+- `top_level_ppa_yosys66.json`, `area*.json`, or `reports/`: PPA data.
+- `equiv_yosys66.ys` and `equiv_yosys66.log`: equivalence replay.
+- `logs/convention_v1/`: toggle/activity receipt and traces.
+- `SHA256SUMS`: package hash binding.
+- `COMMANDS.md`: replay commands where available.
+
+## Historical And Rejected Rows
+
+Rejected rows stay visible because they teach the search:
+
+- `ibex_alu` / `bwlogic_or_from_xor_and` saves area and cells but worsens timing,
+  so it is a tradeoff row, not a full-PPA win.
+- `ibex_id_stage` / `no_wb_prio_assign` and `ibex_load_store_unit` /
+  `signext_factor` showed positive area/timing/formal signals but regressed
+  toggle/activity.
+- `ibex_compressed_decoder` / `rlist_init_formula` is historical evidence under
+  an older Yosys 0.9 recipe and is not part of the current selected-toolchain
+  frontier.
 
 ## Upstream Ibex
 
-The original lowRISC documentation, examples, and source tree are preserved in
-this repository. Start with [`doc/`](doc/) for the upstream Ibex manual and
-[`LICENSE`](LICENSE) for license terms.
+The original lowRISC documentation, examples, and source tree are preserved.
+Start with [`doc/`](doc/) for the upstream Ibex manual and [`LICENSE`](LICENSE)
+for license terms.
