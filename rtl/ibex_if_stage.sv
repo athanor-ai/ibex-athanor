@@ -259,8 +259,13 @@ module ibex_if_stage import ibex_pkg::*; #(
   // There are two possible "branch please" signals that are computed in the IF stage: branch_req
   // and nt_branch_mispredict_i. These should be mutually exclusive (see the NoMispredBranch
   // assertion), so we can just OR the signals together.
-  assign prefetch_branch = branch_req | nt_branch_mispredict_i;
-  assign prefetch_addr   = branch_req ? {fetch_addr_n[31:1], 1'b0} : nt_branch_addr_i;
+  if (BranchPredictor) begin : g_bp_prefetch_branch_mux
+    assign prefetch_branch = branch_req | nt_branch_mispredict_i;
+    assign prefetch_addr   = branch_req ? {fetch_addr_n[31:1], 1'b0} : nt_branch_addr_i;
+  end else begin : g_no_bp_prefetch_branch_mux
+    assign prefetch_branch = pc_set_i | nt_branch_mispredict_i;
+    assign prefetch_addr   = pc_set_i ? {fetch_addr_n[31:1], 1'b0} : nt_branch_addr_i;
+  end
 
   // The fetch_valid signal that comes out of the icache or prefetch buffer should be squashed if we
   // had a misprediction.

@@ -1,0 +1,3 @@
+VCD info: dumpfile ../toggle.vcd opened for output.
+toggle convention replay completed cycles=1000
+tb.v:28236: $finish called at 10070000 (1ps)
