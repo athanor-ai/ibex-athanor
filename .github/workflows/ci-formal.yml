@@ -12,28 +12,69 @@ on:
       - '*'
 
 jobs:
+  classify:
+    name: Classify OSS-FV scope
+    runs-on: ubuntu-22.04
+    outputs:
+      requires_oss_fv: ${{ steps.scope.outputs.requires_oss_fv }}
+      runner_labels: ${{ steps.scope.outputs.runner_labels }}
+      summary: ${{ steps.scope.outputs.summary }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Run OSS-FV scope selftest
+        run: python3 ci/oss_fv_scope.py --selftest
+
+      - name: Classify changed files
+        id: scope
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            python3 ci/oss_fv_scope.py \
+              --base "${{ github.event.pull_request.base.sha }}" \
+              --github-output "$GITHUB_OUTPUT"
+          else
+            python3 ci/oss_fv_scope.py \
+              --require \
+              --reason "event ${{ github.event_name }} requires OSS-FV" \
+              --github-output "$GITHUB_OUTPUT"
+          fi
+
   fv:
     name: Run the Open-Source FV flow
-    runs-on: [self-hosted, Linux, X64]
+    needs: classify
+    runs-on: ${{ fromJSON(needs.classify.outputs.runner_labels) }}
     concurrency:
-      group: oss-fv-${{ github.ref }}
+      group: ${{ needs.classify.outputs.requires_oss_fv == 'true' && format('oss-fv-{0}', github.ref) || format('oss-fv-docs-{0}', github.run_id) }}
       cancel-in-progress: false # Only do one oss-fv job at a time, since we will use a huge amount of memory
     steps:
       - name: Setup env
+        if: needs.classify.outputs.requires_oss_fv == 'true'
         run: |
           echo "MAX_MEM_GB=60" >> $GITHUB_ENV # Maximum memory available to conductor.py, which is inversely proportional to time. 200GB -> 40 mins
           echo "NIX_CONFIG=accept-flake-config = true" >> $GITHUB_ENV
 
       - name: Notify about queued execution
+        if: needs.classify.outputs.requires_oss_fv == 'true'
         run: |
           echo "Warning: This job will block other oss-fv jobs until it finishes, since it uses a lot of memory."
 
+      - name: Emit docs-only OSS-FV status
+        if: needs.classify.outputs.requires_oss_fv != 'true'
+        run: |
+          echo "::notice::OSS-FV not required for this change set: ${{ needs.classify.outputs.summary }}"
+          echo "No RTL, DV/formal, toolchain, workflow, artifact, or unknown path changed."
+
       - uses: actions/checkout@v6
+        if: needs.classify.outputs.requires_oss_fv == 'true'
 
       - name: Check formal subject binding
+        if: needs.classify.outputs.requires_oss_fv == 'true'
         run: python3 athanor/check_formal_subject_binding.py
 
       - name: Install Nix
+        if: needs.classify.outputs.requires_oss_fv == 'true'
         uses: cachix/install-nix-action@v27
         with:
           extra_nix_config: |
@@ -41,6 +82,7 @@ jobs:
             trusted-public-keys = nix-cache.lowrisc.org-public-1:O6JLD0yXzaJDPiQW1meVu32JIDViuaPtGDfjlOopU7o= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
 
       - name: Run OSS Env
+        if: needs.classify.outputs.requires_oss_fv == 'true'
         run: |
           source <(nix print-dev-env .#oss-dev)
 
