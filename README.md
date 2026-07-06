@@ -13,10 +13,10 @@ called a candidate, not a win.
 
 | Topic | State |
 | --- | --- |
-| Accepted evidence | Three packaged artifact rows have replayable receipts under the selected OSS CAD Suite 2026-06-30 / Yosys 0.66+181 baseline. |
-| Frontier candidate | PR #31, `ibex_top` / `no_bp_prefetch_direct`, has positive top-level PPA/equiv/toggle evidence. It is **not accepted** until hosted OSS-FV terminals green on the candidate RTL and cold review passes. |
+| Accepted evidence | Four accepted rows have replayable receipts under the selected OSS CAD Suite 2026-06-30 / Yosys 0.66+181 baseline, including the routed PR #31 top-level survivor. |
+| Latest frontier result | PR #31, `ibex_top` / `no_bp_prefetch_direct`, is accepted on `master` after hosted OSS-FV proved the candidate RTL and non-author cold review passed. |
 | Tooling claim | Athanor/Kairos is used here as the measurement, filtering, replay, and evidence pipeline. This README does **not** claim autonomous discovery for #31. |
-| Main gaps | Close hosted formal proof for #31, make autonomous rediscovery reproducible, and broaden top-level survivors beyond one path family. |
+| Main gaps | Add machine-enforced proof-subject binding, make autonomous rediscovery reproducible, and broaden top-level survivors beyond one path family. |
 
 ## Evidence Bar
 
@@ -39,9 +39,9 @@ top-level run.
 | `ibex_multdiv_slow` / `greater_equal_xor_shape` | Accepted artifact | Area `10339.9168 -> 10333.6608`; data arrival `8.13ns -> 7.25ns` | Toggle flat `6117 -> 6117`; Yosys equiv `411/411` | [`athanor_artifacts/multdiv_slow_greater_equal_xor_shape/`](athanor_artifacts/multdiv_slow_greater_equal_xor_shape/) |
 | `ibex_multdiv_fast` / `greater_equal_xor_shape` | Accepted artifact | Cell metric flat `3306 -> 3306`; max delay `10.85ns -> 10.57ns` | Toggle flat `7657 -> 7657`; Yosys equiv `772/772` | [`athanor_artifacts/multdiv_fast_greater_equal_xor_shape/`](athanor_artifacts/multdiv_fast_greater_equal_xor_shape/) |
 | `ibex_if_stage` / `expanded_predicate_factor` | Accepted top-level artifact | `ibex_top` area `108428.9920 -> 108397.7120`; all recorded WNS groups improve | Toggle flat `311729 -> 311729`; Yosys equiv `1956/1956`; cold replay `6/6` | [`athanor_artifacts/if_stage_expanded_predicate_factor/`](athanor_artifacts/if_stage_expanded_predicate_factor/) |
-| PR #31: `ibex_top` / `no_bp_prefetch_direct` | Candidate only | `ibex_top` area `108441.5040 -> 108373.9392`; WNS deltas `+13.7942/+13.7942/+13.7924/+0.3407/+0.1761ns` | Toggle flat `311729 -> 311729`; Yosys equiv `1956/1956`; hosted OSS-FV and cold review still required | [#31 top-level selected-flow receipt](https://github.com/athanor-ai/ibex-athanor/blob/50c1bf840199d0e6a197d355f35579d7340e1335/athanor_artifacts/if_stage_no_bp_prefetch_direct/top_level_first/top_level_first_receipt.json) |
+| PR #31: `ibex_top` / `no_bp_prefetch_direct` | Accepted survivor | `ibex_top` area `108441.5040 -> 108373.9392`; WNS deltas `+13.7942/+13.7942/+13.7924/+0.3407/+0.1761ns` | Toggle flat `311729 -> 311729`; Yosys equiv `1956/1956`; hosted OSS-FV green; cold review passed | [#31 top-level selected-flow receipt](https://github.com/athanor-ai/ibex-athanor/blob/ea0e5bc50e2322369a5cee166161acadbda417f0/athanor_artifacts/if_stage_no_bp_prefetch_direct/top_level_first/top_level_first_receipt.json) |
 
-## Active Frontier: PR #31
+## Latest Accepted Survivor: PR #31
 
 `no_bp_prefetch_direct` specializes the instruction-fetch prefetch branch/address
 path for the no-branch-predictor configuration. In that configuration,
@@ -51,13 +51,14 @@ intact when `BranchPredictor=1`.
 
 The local package
 [`athanor_artifacts/if_stage_no_bp_prefetch_direct/`](athanor_artifacts/if_stage_no_bp_prefetch_direct/)
-records module-local precursor evidence. The live frontier row above uses the
+records module-local precursor evidence. The accepted row above uses the
 top-level PR #31 receipt because the claim is about `ibex_top`, not just
 `ibex_if_stage`.
 
-PR #31 is still candidate evidence. It becomes an accepted RISC-V result only if
-hosted OSS-FV proves the candidate RTL on the exact head and the cold review
-passes.
+PR #31 is an accepted survivor on `master` because hosted OSS-FV proved the
+candidate RTL and the cold review passed. It is still not an autonomous-discovery
+claim: the structural insight was human-guided, while Athanor/Kairos supplied
+the measurement, filtering, replay, and evidence chain.
 
 ## What This Shows
 
@@ -70,10 +71,10 @@ passes.
 
 ## Gaps And Next Work
 
-1. Finish #31 hosted formal proof and cold review.
-2. Add proof-subject binding so a green formal row cannot prove the wrong RTL.
-3. Teach the proposer to rediscover RISC-V optimization classes from RTL context.
-4. Improve toggle/power coverage for each candidate's touched cone.
+1. Add proof-subject binding so a green formal row cannot prove the wrong RTL.
+2. Teach the proposer to rediscover RISC-V optimization classes from RTL context.
+3. Improve toggle/power coverage for each candidate's touched cone.
+4. Broaden accepted top-level survivors beyond one path family.
 5. Keep PPA constraint sets configurable for future customer targets.
 
 ## Audit Map
