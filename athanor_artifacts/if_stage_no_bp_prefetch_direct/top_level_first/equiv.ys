@@ -1,0 +1,28 @@
+read_verilog gold.v
+hierarchy -check -top ibex_if_stage
+proc
+memory
+flatten
+opt
+rename ibex_if_stage gold
+design -stash gold_design
+
+design -reset
+read_verilog gate.v
+hierarchy -check -top ibex_if_stage
+proc
+memory
+flatten
+opt
+rename ibex_if_stage gate
+design -stash gate_design
+
+design -reset
+design -copy-from gold_design gold
+design -copy-from gate_design gate
+equiv_make gold gate equiv
+hierarchy -top equiv
+async2sync
+equiv_induct -undef -seq 32
+equiv_simple
+equiv_status -assert

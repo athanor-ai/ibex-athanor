@@ -50,6 +50,11 @@ lint_off -rule UNUSED -file "*/rtl/sim/simulator_ctrl.sv" -match "*'wdata_i'[31:
 // entire 32-bit address around to make the code a bit cleaner.
 lint_off -rule UNUSED -file "*/rtl/timer.sv" -match "*'timer_addr_i'[31:10]*"
 
+// In BranchPredictor=0 builds, no_bp_prefetch_direct specializes the prefetch
+// path to pc_set_i and leaves branch_req intentionally unused. BranchPredictor=1
+// builds still consume branch_req in the predictor prefetch mux.
+lint_off -rule UNUSED -file "*/rtl/ibex_if_stage.sv" -match "*branch_req*"
+
 // Signal is not used: clk_i
 // leaving clk and reset connected in-case we want to add assertions
 lint_off -rule UNUSED -file "*/rtl/ibex_pmp.sv" -match "*clk_i*"
