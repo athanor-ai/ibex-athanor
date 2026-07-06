@@ -16,7 +16,7 @@ jobs:
     name: Run the Open-Source FV flow
     runs-on: [self-hosted, Linux, X64]
     concurrency:
-      group: oss-fv
+      group: oss-fv-${{ github.ref }}
       cancel-in-progress: false # Only do one oss-fv job at a time, since we will use a huge amount of memory
     steps:
       - name: Setup env
