@@ -20,7 +20,7 @@ verification, and clear gaps before broader autonomous discovery can be claimed.
 | Topic | Current state |
 | --- | --- |
 | Accepted evidence | Three accepted artifact rows are packaged under the selected OSS CAD Suite 2026-06-30 / Yosys 0.66+181 baseline. |
-| Active frontier | `ibex_if_stage` `no_bp_prefetch_direct` is the current candidate path. It has positive local area/timing/equiv/toggle receipts, but it is **not accepted** until hosted OSS-FV terminals green and cold review passes. |
+| Active frontier | PR #31, `ibex_top` / `no_bp_prefetch_direct`, is the current top-level selected-flow candidate. It has positive area/timing/equiv/toggle receipts, but it is **not accepted** until hosted OSS-FV terminals green and cold review passes. |
 | Tooling role | Kairos/Athanor provides the measurement, filtering, replay, and evidence pipeline. Current README claims are evidence claims, not autonomous-discovery claims. |
 | Main gap | Turn candidate evidence into accepted evidence only when the full bar closes: hosted formal proof, top-level replay, toggle/activity, pinned tools, and non-author review. |
 
@@ -45,14 +45,16 @@ change local improvements.
 
 ## Current Results
 
-These are the rows a hardware engineer can audit directly from this tree.
+These are the rows a hardware engineer can audit directly from this tree, plus
+the live #31 frontier receipt linked to its exact PR head until that package is
+merged.
 
 | Transform | Status | What moved | Correctness / activity | Receipt |
 | --- | --- | --- | --- | --- |
 | `ibex_multdiv_slow` / `greater_equal_xor_shape` | Accepted artifact | Area `10339.9168 -> 10333.6608` (`-0.0605%`); max data arrival `8.13ns -> 7.25ns` (`-0.88ns / -10.8241%`) | Toggle flat `6117 -> 6117`; Yosys equiv `411/411` proven | [`athanor_artifacts/multdiv_slow_greater_equal_xor_shape/`](athanor_artifacts/multdiv_slow_greater_equal_xor_shape/) |
 | `ibex_multdiv_fast` / `greater_equal_xor_shape` | Accepted artifact | Cell metric flat `3306 -> 3306`; max delay `10.85ns -> 10.57ns` (`-0.28ns / -2.58%`) | Toggle flat `7657 -> 7657`; Yosys equiv `772/772` proven | [`athanor_artifacts/multdiv_fast_greater_equal_xor_shape/`](athanor_artifacts/multdiv_fast_greater_equal_xor_shape/) |
 | `ibex_if_stage` / `expanded_predicate_factor` | Accepted top-level artifact | Whole-core `ibex_top` area `108428.9920 -> 108397.7120` (`-0.02885%`); all recorded WNS groups improve, including reg2reg `+13.8626ns` | Toggle flat `311729 -> 311729`; Yosys equiv `1956/1956`; independent cold replay `6/6` exact | [`athanor_artifacts/if_stage_expanded_predicate_factor/`](athanor_artifacts/if_stage_expanded_predicate_factor/) |
-| `ibex_if_stage` / `no_bp_prefetch_direct` | Candidate only | Module area `16821.1328 -> 16756.0704` (`-0.3868%`); top data arrival `9.2829ns -> 8.9149ns` (`-3.9654%`) | Toggle flat `311729 -> 311729`; Yosys equiv `1956/1956`; hosted OSS-FV and cold review still required | [`athanor_artifacts/if_stage_no_bp_prefetch_direct/`](athanor_artifacts/if_stage_no_bp_prefetch_direct/) |
+| PR #31: `ibex_top` / `no_bp_prefetch_direct` | Candidate only | Whole-core `ibex_top` area `108441.5040 -> 108373.9392` (`-0.06231%`); WNS deltas `+13.7942/+13.7942/+13.7924/+0.3407/+0.1761ns` across overall/reg2reg/reg2out/in2reg/in2out | Toggle flat `311729 -> 311729`; Yosys equiv `1956/1956`; hosted OSS-FV and cold review still required | [#31 top-level selected-flow receipt](https://github.com/athanor-ai/ibex-athanor/blob/12233fcfe681107e61d5dd3ad0694eaaf8f157c9/athanor_artifacts/if_stage_no_bp_prefetch_direct/top_level_first/top_level_first_receipt.json) |
 
 ### The Active Frontier Candidate
 
@@ -62,6 +64,12 @@ configuration, `predict_branch_taken` is statically zero, so `branch_req =
 pc_set_i | predict_branch_taken` collapses to `pc_set_i`. The candidate keeps
 the branch-predictor path intact when `BranchPredictor=1` and simplifies only
 the no-predictor path.
+
+The local package
+[`athanor_artifacts/if_stage_no_bp_prefetch_direct/`](athanor_artifacts/if_stage_no_bp_prefetch_direct/)
+records the module-local precursor evidence. The active frontier claim uses the
+top-level selected-flow receipt on PR #31, linked in the table above, because
+whole-core PPA must be audited at `ibex_top`.
 
 That is promising, but still candidate evidence. It must not be described as an
 accepted RISC-V win until the hosted open-source formal-verification run
