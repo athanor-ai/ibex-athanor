@@ -30,6 +30,9 @@ jobs:
 
       - uses: actions/checkout@v6
 
+      - name: Check formal subject binding
+        run: python3 athanor/check_formal_subject_binding.py
+
       - name: Install Nix
         uses: cachix/install-nix-action@v27
         with:
