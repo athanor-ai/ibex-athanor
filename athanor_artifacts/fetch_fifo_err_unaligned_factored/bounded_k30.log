@@ -1,0 +1,791 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+
+-- Running command `read_verilog -sv -DFORMAL=0 "/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v"; hierarchy -top ibex_fetch_fifo; proc; memory; async2sync; flatten; opt; rename ibex_fetch_fifo __kairos_gold_sat; design -save __kairos_gold_sat_design; design -reset; read_verilog -sv -DFORMAL=0 "/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v"; hierarchy -top ibex_fetch_fifo; proc; memory; async2sync; flatten; opt; rename ibex_fetch_fifo __kairos_gate_sat; design -copy-from __kairos_gold_sat_design __kairos_gold_sat; miter -equiv __kairos_gold_sat __kairos_gate_sat miter; flatten miter; opt; sat -seq 30 -set-init-zero -prove trigger 0 -show-ports miter' --
+
+1. Executing Verilog-2005 frontend: /workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v
+Parsing SystemVerilog input from `/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v' to AST representation.
+Generating RTLIL representation for module `\ibex_fetch_fifo'.
+Successfully finished Verilog frontend.
+
+2. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1. Analyzing design hierarchy..
+Top module:  \ibex_fetch_fifo
+
+2.2. Analyzing design hierarchy..
+Top module:  \ibex_fetch_fifo
+Removed 0 unused modules.
+
+3. Executing PROC pass (convert processes to netlists).
+
+3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+Cleaned up 1 empty switch.
+
+3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48 in module ibex_fetch_fifo.
+Marked 2 switch rules as full_case in process $proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29 in module ibex_fetch_fifo.
+Removed a total of 0 dead cases.
+
+3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 1 redundant assignment.
+Promoted 5 assignments to connections.
+
+3.4. Executing PROC_INIT pass (extract init attributes).
+
+3.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_ni in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48'.
+
+3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~6 debug messages>
+
+3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$81'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
+     1/2: $0\err_q[2:2]
+     2/2: $0\rdata_q[95:64]
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
+     1/2: $0\err_q[1:1]
+     2/2: $0\rdata_q[63:32]
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
+     1/2: $0\err_q[0:0]
+     2/2: $0\rdata_q[31:0]
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$50'.
+     1/1: $0\instr_addr_q[30:0]
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48'.
+     1/1: $0\valid_q[2:0]
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+     1/5: $2\out_valid_o[0:0]
+     2/5: $1\out_valid_o[0:0]
+     3/5: $1\out_err_plus2_o[0:0]
+     4/5: $1\out_err_o[0:0]
+     5/5: $1\out_rdata_o[31:0]
+
+3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\ibex_fetch_fifo.\_sv2v_0' from process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$81'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_valid_o' from process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_rdata_o' from process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_err_o' from process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_err_plus2_o' from process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+
+3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\ibex_fetch_fifo.\rdata_q [95:64]' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
+  created $dff cell `$procdff$114' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\err_q [2]' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
+  created $dff cell `$procdff$115' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\rdata_q [63:32]' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
+  created $dff cell `$procdff$116' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\err_q [1]' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
+  created $dff cell `$procdff$117' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\rdata_q [31:0]' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
+  created $dff cell `$procdff$118' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\err_q [0]' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
+  created $dff cell `$procdff$119' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\instr_addr_q' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$50'.
+  created $dff cell `$procdff$120' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\valid_q' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48'.
+  created $adff cell `$procdff$125' with positive edge clock and positive level reset.
+
+3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$81'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$50'.
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$50'.
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48'.
+Found and cleaned up 2 empty switches in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+Cleaned up 6 empty switches.
+
+3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_fetch_fifo.
+<suppressed ~2 debug messages>
+
+4. Executing MEMORY pass.
+
+4.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+4.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+4.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+4.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+4.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+4.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_fetch_fifo..
+Removed 2 unused cells and 71 unused wires.
+<suppressed ~3 debug messages>
+
+4.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+4.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+4.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_fetch_fifo..
+
+4.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+4.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+5. Executing ASYNC2SYNC pass.
+Replacing ibex_fetch_fifo.$procdff$125 ($adff): ARST=\rst_ni, D=\valid_d, Q=\valid_q
+
+6. Executing FLATTEN pass (flatten design).
+
+7. Executing OPT pass (performing simple optimizations).
+
+7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_fetch_fifo.
+
+7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_fetch_fifo'.
+Computing hashes of 95 cells of `\ibex_fetch_fifo'.
+Finding duplicate cells in `\ibex_fetch_fifo'.
+Computing hashes of 84 cells of `\ibex_fetch_fifo'.
+Finding duplicate cells in `\ibex_fetch_fifo'.
+<suppressed ~33 debug messages>
+Removed a total of 11 cells.
+
+7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_fetch_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$100.
+Removed 1 multiplexer ports.
+<suppressed ~47 debug messages>
+
+7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_fetch_fifo.
+Performed a total of 0 changes.
+
+7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_fetch_fifo'.
+Computing hashes of 83 cells of `\ibex_fetch_fifo'.
+Finding duplicate cells in `\ibex_fetch_fifo'.
+Removed a total of 0 cells.
+
+7.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$114 ($dff) from module ibex_fetch_fifo (D = \in_rdata_i, Q = \rdata_q [95:64]).
+Adding EN signal on $procdff$115 ($dff) from module ibex_fetch_fifo (D = \in_err_i, Q = \err_q [2]).
+Adding EN signal on $procdff$116 ($dff) from module ibex_fetch_fifo (D = \rdata_d [63:32], Q = \rdata_q [63:32]).
+Adding EN signal on $procdff$117 ($dff) from module ibex_fetch_fifo (D = \err_d [1], Q = \err_q [1]).
+Adding EN signal on $procdff$118 ($dff) from module ibex_fetch_fifo (D = \rdata_d [31:0], Q = \rdata_q [31:0]).
+Adding EN signal on $procdff$119 ($dff) from module ibex_fetch_fifo (D = \err_d [0], Q = \err_q [0]).
+Adding EN signal on $procdff$120 ($dff) from module ibex_fetch_fifo (D = \instr_addr_d, Q = \instr_addr_q).
+
+7.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_fetch_fifo..
+Removed 7 unused cells and 19 unused wires.
+<suppressed ~8 debug messages>
+
+7.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_fetch_fifo.
+
+7.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+7.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_fetch_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~37 debug messages>
+
+7.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_fetch_fifo.
+Performed a total of 0 changes.
+
+7.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_fetch_fifo'.
+Computing hashes of 76 cells of `\ibex_fetch_fifo'.
+Finding duplicate cells in `\ibex_fetch_fifo'.
+Removed a total of 0 cells.
+
+7.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_fetch_fifo..
+
+7.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_fetch_fifo.
+
+7.16. Finished fast OPT passes. (There is nothing left to do.)
+Renaming module \ibex_fetch_fifo to \__kairos_gold_sat.
+
+8. Executing Verilog-2005 frontend: /workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v
+Parsing SystemVerilog input from `/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v' to AST representation.
+Generating RTLIL representation for module `\ibex_fetch_fifo'.
+Successfully finished Verilog frontend.
+
+9. Executing HIERARCHY pass (managing design hierarchy).
+
+9.1. Analyzing design hierarchy..
+Top module:  \ibex_fetch_fifo
+
+9.2. Analyzing design hierarchy..
+Top module:  \ibex_fetch_fifo
+Removed 0 unused modules.
+
+10. Executing PROC pass (convert processes to netlists).
+
+10.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+Cleaned up 1 empty switch.
+
+10.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184 in module ibex_fetch_fifo.
+Marked 2 switch rules as full_case in process $proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165 in module ibex_fetch_fifo.
+Removed a total of 0 dead cases.
+
+10.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 1 redundant assignment.
+Promoted 5 assignments to connections.
+
+10.4. Executing PROC_INIT pass (extract init attributes).
+
+10.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_ni in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184'.
+
+10.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~6 debug messages>
+
+10.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$217'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
+     1/2: $0\err_q[2:2]
+     2/2: $0\rdata_q[95:64]
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
+     1/2: $0\err_q[1:1]
+     2/2: $0\rdata_q[63:32]
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
+     1/2: $0\err_q[0:0]
+     2/2: $0\rdata_q[31:0]
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$186'.
+     1/1: $0\instr_addr_q[30:0]
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184'.
+     1/1: $0\valid_q[2:0]
+Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+     1/5: $2\out_valid_o[0:0]
+     2/5: $1\out_valid_o[0:0]
+     3/5: $1\out_err_plus2_o[0:0]
+     4/5: $1\out_err_o[0:0]
+     5/5: $1\out_rdata_o[31:0]
+
+10.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\ibex_fetch_fifo.\_sv2v_0' from process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$217'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_valid_o' from process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_rdata_o' from process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_err_o' from process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_err_plus2_o' from process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+
+10.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\ibex_fetch_fifo.\rdata_q [95:64]' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
+  created $dff cell `$procdff$250' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\err_q [2]' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
+  created $dff cell `$procdff$251' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\rdata_q [63:32]' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
+  created $dff cell `$procdff$252' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\err_q [1]' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
+  created $dff cell `$procdff$253' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\rdata_q [31:0]' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
+  created $dff cell `$procdff$254' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\err_q [0]' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
+  created $dff cell `$procdff$255' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\instr_addr_q' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$186'.
+  created $dff cell `$procdff$256' with positive edge clock.
+Creating register for signal `\ibex_fetch_fifo.\valid_q' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184'.
+  created $adff cell `$procdff$261' with positive edge clock and positive level reset.
+
+10.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+10.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$217'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$186'.
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$186'.
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184'.
+Found and cleaned up 2 empty switches in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+Cleaned up 6 empty switches.
+
+10.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_fetch_fifo.
+<suppressed ~2 debug messages>
+
+11. Executing MEMORY pass.
+
+11.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+11.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+11.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+11.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+11.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+11.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_fetch_fifo..
+Removed 2 unused cells and 71 unused wires.
+<suppressed ~3 debug messages>
+
+11.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+11.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+11.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_fetch_fifo..
+
+11.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+11.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+12. Executing ASYNC2SYNC pass.
+Replacing ibex_fetch_fifo.$procdff$261 ($adff): ARST=\rst_ni, D=\valid_d, Q=\valid_q
+
+13. Executing FLATTEN pass (flatten design).
+
+14. Executing OPT pass (performing simple optimizations).
+
+14.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_fetch_fifo.
+
+14.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_fetch_fifo'.
+Computing hashes of 97 cells of `\ibex_fetch_fifo'.
+Finding duplicate cells in `\ibex_fetch_fifo'.
+Computing hashes of 85 cells of `\ibex_fetch_fifo'.
+Finding duplicate cells in `\ibex_fetch_fifo'.
+<suppressed ~36 debug messages>
+Removed a total of 12 cells.
+
+14.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_fetch_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$236.
+Removed 1 multiplexer ports.
+<suppressed ~46 debug messages>
+
+14.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_fetch_fifo.
+Performed a total of 0 changes.
+
+14.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_fetch_fifo'.
+Computing hashes of 84 cells of `\ibex_fetch_fifo'.
+Finding duplicate cells in `\ibex_fetch_fifo'.
+Removed a total of 0 cells.
+
+14.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$250 ($dff) from module ibex_fetch_fifo (D = \in_rdata_i, Q = \rdata_q [95:64]).
+Adding EN signal on $procdff$251 ($dff) from module ibex_fetch_fifo (D = \in_err_i, Q = \err_q [2]).
+Adding EN signal on $procdff$252 ($dff) from module ibex_fetch_fifo (D = \rdata_d [63:32], Q = \rdata_q [63:32]).
+Adding EN signal on $procdff$253 ($dff) from module ibex_fetch_fifo (D = \err_d [1], Q = \err_q [1]).
+Adding EN signal on $procdff$254 ($dff) from module ibex_fetch_fifo (D = \rdata_d [31:0], Q = \rdata_q [31:0]).
+Adding EN signal on $procdff$255 ($dff) from module ibex_fetch_fifo (D = \err_d [0], Q = \err_q [0]).
+Adding EN signal on $procdff$256 ($dff) from module ibex_fetch_fifo (D = \instr_addr_d, Q = \instr_addr_q).
+
+14.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_fetch_fifo..
+Removed 7 unused cells and 20 unused wires.
+<suppressed ~8 debug messages>
+
+14.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_fetch_fifo.
+
+14.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+14.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_fetch_fifo..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~36 debug messages>
+
+14.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_fetch_fifo.
+Performed a total of 0 changes.
+
+14.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_fetch_fifo'.
+Computing hashes of 77 cells of `\ibex_fetch_fifo'.
+Finding duplicate cells in `\ibex_fetch_fifo'.
+Removed a total of 0 cells.
+
+14.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+14.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_fetch_fifo..
+
+14.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_fetch_fifo.
+
+14.16. Finished fast OPT passes. (There is nothing left to do.)
+Renaming module \ibex_fetch_fifo to \__kairos_gate_sat.
+
+15. Executing MITER pass (creating miter circuit).
+Creating miter cell "miter" with gold cell "__kairos_gold_sat" and gate cell "__kairos_gate_sat".
+
+16. Executing FLATTEN pass (flatten design).
+<suppressed ~2 debug messages>
+
+17. Executing OPT pass (performing simple optimizations).
+
+17.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module miter.
+Optimizing module __kairos_gold_sat.
+Optimizing module __kairos_gate_sat.
+
+17.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\miter'.
+Computing hashes of 163 cells of `\miter'.
+Finding duplicate cells in `\miter'.
+Computing hashes of 162 cells of `\miter'.
+Finding duplicate cells in `\miter'.
+<suppressed ~3 debug messages>
+Finding identical cells in module `\__kairos_gold_sat'.
+Computing hashes of 76 cells of `\__kairos_gold_sat'.
+Finding duplicate cells in `\__kairos_gold_sat'.
+Finding identical cells in module `\__kairos_gate_sat'.
+Computing hashes of 77 cells of `\__kairos_gate_sat'.
+Finding duplicate cells in `\__kairos_gate_sat'.
+Removed a total of 1 cells.
+
+17.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \miter..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \__kairos_gold_sat..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \__kairos_gate_sat..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~146 debug messages>
+
+17.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \miter.
+  Optimizing cells in module \__kairos_gold_sat.
+  Optimizing cells in module \__kairos_gate_sat.
+Performed a total of 0 changes.
+
+17.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\miter'.
+Computing hashes of 162 cells of `\miter'.
+Finding duplicate cells in `\miter'.
+Finding identical cells in module `\__kairos_gold_sat'.
+Computing hashes of 76 cells of `\__kairos_gold_sat'.
+Finding duplicate cells in `\__kairos_gold_sat'.
+Finding identical cells in module `\__kairos_gate_sat'.
+Computing hashes of 77 cells of `\__kairos_gate_sat'.
+Finding duplicate cells in `\__kairos_gate_sat'.
+Removed a total of 0 cells.
+
+17.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+17.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \miter..
+Finding unused cells or wires in module \__kairos_gold_sat..
+Finding unused cells or wires in module \__kairos_gate_sat..
+Removed 0 unused cells and 1 unused wires.
+<suppressed ~1 debug messages>
+
+17.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module miter.
+Optimizing module __kairos_gold_sat.
+Optimizing module __kairos_gate_sat.
+
+17.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+17.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \miter..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \__kairos_gold_sat..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \__kairos_gate_sat..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~146 debug messages>
+
+17.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \miter.
+  Optimizing cells in module \__kairos_gold_sat.
+  Optimizing cells in module \__kairos_gate_sat.
+Performed a total of 0 changes.
+
+17.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\miter'.
+Computing hashes of 162 cells of `\miter'.
+Finding duplicate cells in `\miter'.
+Finding identical cells in module `\__kairos_gold_sat'.
+Computing hashes of 76 cells of `\__kairos_gold_sat'.
+Finding duplicate cells in `\__kairos_gold_sat'.
+Finding identical cells in module `\__kairos_gate_sat'.
+Computing hashes of 77 cells of `\__kairos_gate_sat'.
+Finding duplicate cells in `\__kairos_gate_sat'.
+Removed a total of 0 cells.
+
+17.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+17.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \miter..
+Finding unused cells or wires in module \__kairos_gold_sat..
+Finding unused cells or wires in module \__kairos_gate_sat..
+
+17.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module miter.
+Optimizing module __kairos_gold_sat.
+Optimizing module __kairos_gate_sat.
+
+17.16. Finished fast OPT passes. (There is nothing left to do.)
+
+18. Executing SAT pass (solving SAT problems in the circuit).
+Using SAT solver `minisat`.
+
+Setting up time step 1:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Final init constraint equation: { $flatten\gold.$auto$async2sync.cc:253:execute$126 \gold.instr_addr_q \gold.err_q [0] \gold.rdata_q [31:0] \gold.err_q [1] \gold.rdata_q [63:32] \gold.err_q [2] \gold.rdata_q [95:64] $flatten\gate.$auto$async2sync.cc:253:execute$262 \gate.instr_addr_q \gate.err_q [0] \gate.rdata_q [31:0] \gate.err_q [1] \gate.rdata_q [63:32] \gate.err_q [2] \gate.rdata_q [95:64] } = 266'00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 2:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 3:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 4:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 5:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 6:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 7:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 8:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 9:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 10:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 11:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 12:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 13:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 14:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 15:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 16:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 17:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 18:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 19:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 20:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 21:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 22:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 23:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 24:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 25:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 26:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 27:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 28:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 29:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+
+Setting up time step 30:
+Final constraint equation: { } = { }
+Imported 162 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+Import show expression: \in_clk_i
+Import show expression: \in_rst_ni
+Import show expression: \in_clear_i
+Import show expression: \in_in_valid_i
+Import show expression: \in_in_addr_i
+Import show expression: \in_in_rdata_i
+Import show expression: \in_in_err_i
+Import show expression: \in_out_ready_i
+Import show expression: \trigger
+
+Solving problem with 179309 variables and 482932 clauses..
+SAT proof finished - no model found: SUCCESS!
+
+                  /$$$$$$      /$$$$$$$$     /$$$$$$$    
+                 /$$__  $$    | $$_____/    | $$__  $$   
+                | $$  \ $$    | $$          | $$  \ $$   
+                | $$  | $$    | $$$$$       | $$  | $$   
+                | $$  | $$    | $$__/       | $$  | $$   
+                | $$/$$ $$    | $$          | $$  | $$   
+                |  $$$$$$/ /$$| $$$$$$$$ /$$| $$$$$$$//$$
+                 \____ $$$|__/|________/|__/|_______/|__/
+                       \__/                              
+
+End of script. Logfile hash: 95e313a722, time: 106.48s, user: 106.34s, system: 0.14s, MEM: 270.77 MB peak
+Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+Time spent: 99% 1x sat (106 sec), 0% 10x opt_clean (0 sec), ...

@@ -1,0 +1,12 @@
+{
+  "gate_toggles": 34031,
+  "gold_toggles": 34031,
+  "lead_manifest_toggle": {
+    "evidence": "gold.saif/gate.saif and toggle_power VCDs",
+    "gate_toggles": 4008,
+    "gold_toggles": 4008,
+    "toggle_delta_pct": 0.0
+  },
+  "method": "saif_tc_sum",
+  "toggle_delta_pct": 0.0
+}
