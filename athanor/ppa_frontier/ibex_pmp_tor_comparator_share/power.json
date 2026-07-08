@@ -1,0 +1,18 @@
+{
+  "compile_file_order": {
+    "gate": [
+      "artifacts/ibex_pkg.sv",
+      "artifacts/ibex_pmp_tor_comparator_share.sv"
+    ],
+    "gold": [
+      "artifacts/ibex_pkg.sv",
+      "artifacts/ibex_pmp.sv"
+    ]
+  },
+  "gate_toggles": 2664,
+  "gold_toggles": 2664,
+  "power_method": "iverilog_toggle",
+  "status": "measured_pass",
+  "toggle_delta_pct": 0.0,
+  "toggle_source_kind": "sv2v_normalized"
+}

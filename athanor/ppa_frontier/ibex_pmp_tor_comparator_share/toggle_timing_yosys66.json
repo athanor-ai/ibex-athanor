@@ -1,0 +1,37 @@
+{
+  "propagation_delay": {
+    "delta_ns": 0.048,
+    "delta_pct": 0.878,
+    "gate_delay_ns": 5.515,
+    "gold_delay_ns": 5.467,
+    "method": "OpenSTA report_checks -path_delay max over Yosys 0.66+181 + ABC mapped netlists with loose virtual clock and zero I/O delay",
+    "status": "regression",
+    "timing_convention": "combinational_max_propagation_delay"
+  },
+  "status": "area_positive_toggle_flat_propagation_delay_negative",
+  "timing": {
+    "clock_period_ns": 10.0,
+    "error": null,
+    "gate_tns_ns": 0.0,
+    "gate_wns_ns": 0.0,
+    "gold_tns_ns": 0.0,
+    "gold_wns_ns": 0.0,
+    "method": "OpenSTA over Yosys 0.66+181 + ABC mapped netlists, loose virtual clock",
+    "sdc_status": "opensta_liberty (opensta_virtual_sdc; source_prep=sv2v_normalized)",
+    "timing_met": true
+  },
+  "toggle": {
+    "gate_toggles": 2664,
+    "gold_toggles": 2664,
+    "method": "iverilog_toggle on sv2v-normalized RTL",
+    "sim_cycles": 200,
+    "simulator": "iverilog_toggle",
+    "toggle_delta_pct": 0.0
+  },
+  "toolchain": {
+    "abc": "yosys-abc bundled with OSS CAD Suite 2026-06-30",
+    "oss_cad_suite_release": "2026-06-30",
+    "yosys": "Yosys 0.66+181",
+    "yosys_git_sha": "afe6b18f2"
+  }
+}

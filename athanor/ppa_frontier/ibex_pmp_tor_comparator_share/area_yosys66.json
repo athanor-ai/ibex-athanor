@@ -1,0 +1,34 @@
+{
+  "abc_mapped_cells": {
+    "delta_pct": -9.7151,
+    "gate_cells": 1933,
+    "gold_cells": 2141,
+    "metric_note": "Final mapped Sky130 cell histogram after Yosys 0.66+181 synth, dfflibmap, abc, stat."
+  },
+  "replay_artifact_hashes": {
+    "gate_v2001_sha256": "8610f319801ecafac52d7ef04af27ca39174ef52b5d6ef4370b036030a84d150",
+    "gate_yosys_area_log_sha256": "6b245d709fd7e919411edb533e3800bc6090d6110a304ae6c8b057bd80d6a47e",
+    "gold_v2001_sha256": "e2d3793e73023bc35ec5847e72b7633d6059cae9af58b989e4a72cd2f510525f",
+    "gold_yosys_area_log_sha256": "d5dddd334cfdd719c992841dfcee47ecbc8ad5cb084daf857f05f6c9b3c76619"
+  },
+  "replay_status": {
+    "independent_replay_required": true,
+    "timing_replay_required": false,
+    "timing_replay_status": "propagation_delay_negative",
+    "toggle_replay_required": false,
+    "toggle_replay_status": "flat"
+  },
+  "stat_liberty_chip_area": {
+    "delta_pct": -12.5096,
+    "gate_area": 11410.944,
+    "gold_area": 13042.5088,
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+    "metric_note": "Current-toolchain area replay is positive (-12.51%). Full-PPA customer-facing use is blocked by the Yosys 0.66/OpenSTA max-propagation-delay regression in toggle_timing_yosys66.json."
+  },
+  "toolchain": {
+    "abc": "yosys-abc bundled with OSS CAD Suite 2026-06-30",
+    "oss_cad_suite_release": "2026-06-30",
+    "yosys": "Yosys 0.66+181",
+    "yosys_git_sha": "afe6b18f2"
+  }
+}

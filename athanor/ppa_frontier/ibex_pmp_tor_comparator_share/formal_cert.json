@@ -1,0 +1,9 @@
+{
+  "detail": "yosys_sat_miter status pass; combinational two-file equivalence, all inputs + trigger imported over pmp_req_err_o, no model found (non-vacuous).",
+  "independent_verification": {
+    "note": "Single-instrument (author box) yosys 0.9 SAT miter: SUCCESS, non-vacuous. Independent cross-VM replay of the comb-EC bites + area/toggle/propagation-delay is required before acceptance (Quan/Ronald).",
+    "status": "pending_cross_vm"
+  },
+  "method": "yosys_sat_miter",
+  "proved": true
+}
