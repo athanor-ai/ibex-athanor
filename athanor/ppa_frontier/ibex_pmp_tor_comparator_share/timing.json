@@ -1,0 +1,10 @@
+{
+  "error": null,
+  "gate_tns_ns": 0.0,
+  "gate_wns_ns": 0.0,
+  "gold_tns_ns": 0.0,
+  "gold_wns_ns": 0.0,
+  "sdc_status": "opensta_liberty (opensta_virtual_sdc; source_prep=sv2v_normalized)",
+  "status": "measured_met",
+  "timing_note": "All paths meet under a loose 10ns virtual clock; the load-bearing metric for this combinational row is max propagation delay (toggle_timing_yosys66.json), which regresses."
+}

@@ -1,0 +1,21 @@
+{
+  "abc_mapped_cells": {
+    "delta_pct": -9.7151,
+    "gate_cells": 1933,
+    "gold_cells": 2141,
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+    "metric_note": "Mapped Sky130 cell count after Yosys 0.66+181 synth, dfflibmap, abc, stat."
+  },
+  "generic_cells": {
+    "delta_pct": -18.6157,
+    "gate_cells": 2916,
+    "gold_cells": 3583
+  },
+  "stat_liberty_chip_area": {
+    "delta_pct": -12.5096,
+    "gate_area": 11410.944,
+    "gold_area": 13042.5088,
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+    "metric_note": "Customer-facing area metric, selected Yosys 0.66+181 toolchain."
+  }
+}
