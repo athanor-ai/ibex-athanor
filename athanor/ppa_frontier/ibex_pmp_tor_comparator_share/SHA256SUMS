@@ -1,4 +1,4 @@
-fc4b95ff5aaefc1b92d1cac31074ac87d8a40a6f67785292cb1aa392cc2c47b5  ./COMMANDS.md
+4e83b005fc2b47c36d1d3efcfb6cb9fbd8d49b7a1b22229d415f93a74b4d73b3  ./COMMANDS.md
 4eb9aeb3e4a2f2a2e18254677b4fe8fedf9ef9b86c227e06411fe66b546ddda1  ./area.json
 d94e4ac3c3ba4d6f5284e0e36640a8525234fa89bf07bbfbf797aa0f7d4ac664  ./area_yosys66.json
 d4e240442dab1080a7cc3a7c63368ad7f725e560fa8397ff05410242c67dabb8  ./artifacts/ibex_pkg.sv
@@ -14,4 +14,6 @@ d5dddd334cfdd719c992841dfcee47ecbc8ad5cb084daf857f05f6c9b3c76619  ./logs/gold_ar
 f03c015fd3f6314314ee4331c016294effd5d6cbd673261e24db86cfd2bbfdff  ./manifest.json
 5f4b73dc40777e0ef5943e77df71e282fc965a79da10cb6bc7a0dbab0ab344ee  ./power.json
 b9bcab849c9cbb1c0e19cc0ed48e747b9bf0cd79433094a8fa5d93e10dea1d70  ./timing.json
+73aa41deba54d0fb1d4f469b70942d92d5958faefdac8830f4481ee738e5c266  ./toggle/count_toggle.py
+c28f6bd5cc9654512810d9afa38812b2e222f7ab07f97e676774e5eeee8f6059  ./toggle/tb_toggle.v
 c8c7c8f41d803182bc2645c47c292ce013976573ccf014c9f21ebf54692eb2e9  ./toggle_timing_yosys66.json

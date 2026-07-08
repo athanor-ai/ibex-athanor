@@ -34,3 +34,9 @@ row_contract `area_tradeoff_yosys66`, status
 
 ## Verify
     python3 athanor/verify_public_receipts.py   # must be green
+
+## Toggle cold-replay (closes Ronald cross-VM note — reproduce the exact 2664)
+    iverilog -g2012 -D VCDF='"tog_gold.vcd"' -o tog_gold.vvp toggle/tb_toggle.v artifacts/ibex_pmp_gold_v2001.v && vvp tog_gold.vvp
+    iverilog -g2012 -D VCDF='"tog_gate.vcd"' -o tog_gate.vvp toggle/tb_toggle.v artifacts/ibex_pmp_tor_comparator_share_v2001.v && vvp tog_gate.vvp
+    python3 toggle/count_toggle.py tog_gold.vcd   # 2664
+    python3 toggle/count_toggle.py tog_gate.vcd   # 2664  => flat
