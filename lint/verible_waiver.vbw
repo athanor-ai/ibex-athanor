@@ -20,22 +20,14 @@ waive --rule=explicit-parameter-storage-type --location=".*athanor_artifacts/fet
 waive --rule=parameter-name-style --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*[.]v"
 waive --rule=module-filename --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*"
 
-# ibex_pmp TOR-comparator-share tradeoff-row replay bundle: sv2v-generated replay
-# netlists + the toggle testbench are preserved for cold-replay (customer-falsifiable
-# on every row_contract-named leg). Packet integrity + replay are checked by
-# SHA256SUMS + COMMANDS.md; Verible style-only + testbench system-function warnings
-# on these generated artifacts are waived. The classified row's source RTL (.sv in
-# ppa_frontier/) stays fully linted.
-waive --rule=forbidden-system-functions --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
-waive --rule=no-tabs --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
-waive --rule=line-length --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
-waive --rule=always-comb --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
-waive --rule=explicit-parameter-storage-type --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
-waive --rule=unpacked-dimensions-range-ordering --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
-waive --rule=packed-dimensions-range-ordering --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
-waive --rule=parameter-name-style --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
-waive --rule=module-filename --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
-waive --rule=generate-label --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
-waive --rule=macro-name-style --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
-waive --rule=explicit-function-lifetime --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
-waive --rule=explicit-task-lifetime --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/.*[.]v"
+# ibex_pmp TOR-comparator-share tradeoff row — two justified waivers (Ronald-verified,
+# upstream Verible v0.0-4080 returns exit 0 on the packet files with exactly these):
+#  1. toggle/tb_toggle.v uses $random (rule invalid-system-task-function) — a cold-replay
+#     TESTBENCH, not shipped RTL. The rule targets synthesizable RTL, so waiving it on the
+#     replay harness is correct, not papering.
+#  2. the ppa_frontier gate snapshot ibex_pmp_tor_comparator_share.sv intentionally declares
+#     module ibex_pmp (drop-in gold-equivalent for the miter / synth -top ibex_pmp) while the
+#     file is named for the row (rule module-filename) — a snapshot-naming mismatch, not an
+#     RTL defect. The classified row's other source .sv stays fully linted.
+waive --rule=invalid-system-task-function --location=".*athanor_artifacts/ibex_pmp_tor_comparator_share/toggle/tb_toggle[.]v"
+waive --rule=module-filename --location=".*athanor/ppa_frontier/ibex_pmp_tor_comparator_share/artifacts/ibex_pmp_tor_comparator_share[.]sv"
