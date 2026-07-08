@@ -1,11 +1,11 @@
 # combinational SAT equivalence miter: gold vs TOR-comparator-share gate
-read_verilog artifacts/ibex_pmp_gold_v2001.v
+read_verilog ibex_pmp_gold_v2001.v
 hierarchy -top ibex_pmp
 proc
 opt -purge
 rename ibex_pmp gold
 design -stash gold
-read_verilog artifacts/ibex_pmp_tor_comparator_share_v2001.v
+read_verilog ibex_pmp_tor_comparator_share_v2001.v
 hierarchy -top ibex_pmp
 proc
 opt -purge
