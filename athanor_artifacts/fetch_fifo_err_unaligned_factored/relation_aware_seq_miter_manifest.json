@@ -8,7 +8,7 @@
   "source_diff_sha256": "e44ee66e78b87e0333f6220f9a4a46513822db41eccb4414cc3239171e4f744d",
   "classification": "local_relation_aware_seq_miter_closed",
   "customer_claim_ready": false,
-  "boundary": "local selected-toolchain relation-aware sequential miter receipt; public promotion still requires accepted-row packaging with COMMANDS.md/SHA256SUMS/replay scripts and selected PPA/timing/toggle presentation",
+  "boundary": "draft packet relation-aware sequential miter receipt; public promotion still requires independent replay, ibex-lane sanity-read, and accepted-row review before landing on master",
   "selected_toolchain": {
     "yosys_version": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)",
     "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"

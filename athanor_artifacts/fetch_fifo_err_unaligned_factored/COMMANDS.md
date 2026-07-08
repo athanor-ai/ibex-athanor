@@ -25,8 +25,19 @@ Check the source-level transform:
 git diff --no-index -- gold_source.sv gate_source.sv
 ```
 
-The selected discovery lead numbers are recorded in `lead_manifest.json`:
-generic cells 396 -> 395, liberty cells 456 -> 451, and toggle proxy
-4008 -> 4008. The relation-aware sequential miter in `replay_equiv.sh`
-is the formal closure for the FIFO occupancy relation that the first
-canonical equivalence screen could not infer.
+The corrected packet reports:
+
+- `replay_area.py`: selected generic cells 396 -> 395 and selected liberty
+  cells 456 -> 451.
+- `replay_timing.py`: OpenSTA timing is flat at 6.32 ns with WNS/TNS 0.0.
+- `replay_toggle.py`: primary replay toggle metric is SAIF transition-count
+  sum 34031 -> 34031, delta 0.0%. The older discovery-probe counter
+  4008 -> 4008 is retained in `lead_manifest.json` as historical probe
+  context, not as a separate claim.
+- `replay_equiv.sh`: relation-aware temporal-induction miter closes, the
+  no-external-occupancy variant closes, and the bad mutant fails as the
+  non-vacuity bite.
+
+The old canonical `equiv_simple + equiv_induct` screen that left 1/454 cells
+unproven is retained as prior evidence only. The active packet classification
+is the relation-aware miter closure.

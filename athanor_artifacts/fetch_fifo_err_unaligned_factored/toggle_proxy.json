@@ -1,11 +1,20 @@
 {
   "gate_toggles": 34031,
   "gold_toggles": 34031,
-  "lead_manifest_toggle": {
+  "lead_manifest_toggle_context": {
     "evidence": "gold.saif/gate.saif and toggle_power VCDs",
-    "gate_toggles": 4008,
-    "gold_toggles": 4008,
-    "toggle_delta_pct": 0.0
+    "historical_lead_probe": {
+      "gate_toggles": 4008,
+      "gold_toggles": 4008,
+      "method": "lead_probe_counter",
+      "toggle_delta_pct": 0.0
+    },
+    "primary_replay_metric": {
+      "gate_toggles": 34031,
+      "gold_toggles": 34031,
+      "method": "saif_tc_sum",
+      "toggle_delta_pct": 0.0
+    }
   },
   "method": "saif_tc_sum",
   "toggle_delta_pct": 0.0

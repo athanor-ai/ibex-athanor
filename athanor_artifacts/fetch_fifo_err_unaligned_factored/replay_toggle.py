@@ -21,7 +21,7 @@ receipt = {
     "gold_toggles": gold_toggles,
     "gate_toggles": gate_toggles,
     "toggle_delta_pct": (gate_toggles - gold_toggles) / gold_toggles * 100 if gold_toggles else None,
-    "lead_manifest_toggle": json.loads((HERE / "lead_manifest.json").read_text())["toggle"],
+    "lead_manifest_toggle_context": json.loads((HERE / "lead_manifest.json").read_text())["toggle"],
 }
 (HERE / "toggle_proxy.json").write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
 print(json.dumps(receipt, indent=2, sort_keys=True))
