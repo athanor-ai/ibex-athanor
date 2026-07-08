@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-module tb;
+module tb_toggle;
   reg  [23:0]  csr_pmp_cfg_i;
   reg  [135:0] csr_pmp_addr_i;
   reg  [2:0]   csr_pmp_mseccfg_i;
@@ -15,7 +15,7 @@ module tb;
     .pmp_req_type_i(pmp_req_type_i), .pmp_req_err_o(pmp_req_err_o));
   initial begin
     $dumpfile(`VCDF);
-    $dumpvars(0, tb);
+    $dumpvars(0, tb_toggle);
     csr_pmp_cfg_i=0; csr_pmp_addr_i=0; csr_pmp_mseccfg_i=0; debug_mode_i=0;
     priv_mode_i=0; pmp_req_addr_i=0; pmp_req_type_i=0; #2;
     for (i=0;i<200;i=i+1) begin
