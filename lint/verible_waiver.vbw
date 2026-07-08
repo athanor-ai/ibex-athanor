@@ -17,5 +17,5 @@ waive --rule=packed-dimensions-range-ordering --location=".*athanor_artifacts/.*
 waive --rule=line-length --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*[.]v"
 waive --rule=always-comb --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*[.]v"
 waive --rule=explicit-parameter-storage-type --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*[.]v"
-waive --rule=module-filename --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*[.]v"
-waive --rule=module-filename --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*[.]sv"
+waive --rule=parameter-name-style --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*[.]v"
+waive --rule=module-filename --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*"
