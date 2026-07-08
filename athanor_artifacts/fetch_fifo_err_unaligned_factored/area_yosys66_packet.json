@@ -1,17 +1,17 @@
 {
   "delta": {
-    "generic_cells": 1,
-    "generic_pct": 0.22624434389140274,
-    "liberty_area": -21.270399999999427,
-    "liberty_pct": -0.3430185633575372
+    "generic_cells": -1,
+    "generic_pct": -0.25252525252525254,
+    "liberty_cells": -5,
+    "liberty_pct": -1.0964912280701753
   },
   "gate": {
-    "generic_cells": 443,
-    "liberty_area": 6179.6768
+    "generic_cells": 395,
+    "liberty_cells": 451
   },
   "gold": {
-    "generic_cells": 442,
-    "liberty_area": 6200.9472
+    "generic_cells": 396,
+    "liberty_cells": 456
   },
   "selected_lead_manifest_summary": {
     "generic_delta_cells": -1,
