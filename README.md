@@ -13,8 +13,8 @@ called a candidate, not a win.
 
 | Topic | State |
 | --- | --- |
-| Accepted evidence | Four accepted rows have replayable receipts under the selected OSS CAD Suite 2026-06-30 / Yosys 0.66+181 baseline, including the routed PR #31 top-level survivor. |
-| Latest frontier result | PR #31, `ibex_top` / `no_bp_prefetch_direct`, is accepted on `master` after hosted OSS-FV proved the candidate RTL and non-author cold review passed. |
+| Accepted evidence | Five accepted rows have replayable receipts under the selected OSS CAD Suite 2026-06-30 / Yosys 0.66+181 baseline, including the routed PR #31 top-level survivor and the `ibex_fetch_fifo` module-local row. |
+| Latest frontier result | PR #31, `ibex_top` / `no_bp_prefetch_direct`, remains the latest accepted top-level survivor. The latest accepted module-local row is `ibex_fetch_fifo` / `err_unaligned_factored`. |
 | Tooling claim | Athanor/Kairos is used here as the measurement, filtering, replay, and evidence pipeline. This README does **not** claim autonomous discovery for #31. |
 | Main gaps | Add machine-enforced proof-subject binding, make autonomous rediscovery reproducible, and broaden top-level survivors beyond one path family. |
 
@@ -40,6 +40,7 @@ top-level run.
 | `ibex_multdiv_fast` / `greater_equal_xor_shape` | Accepted artifact | Cell metric flat `3306 -> 3306`; max delay `10.85ns -> 10.57ns` | Toggle flat `7657 -> 7657`; Yosys equiv `772/772` | [`athanor_artifacts/multdiv_fast_greater_equal_xor_shape/`](athanor_artifacts/multdiv_fast_greater_equal_xor_shape/) |
 | `ibex_if_stage` / `expanded_predicate_factor` | Accepted top-level artifact | `ibex_top` area `108428.9920 -> 108397.7120`; all recorded WNS groups improve | Toggle flat `311729 -> 311729`; Yosys equiv `1956/1956`; cold replay `6/6` | [`athanor_artifacts/if_stage_expanded_predicate_factor/`](athanor_artifacts/if_stage_expanded_predicate_factor/) |
 | PR #31: `ibex_top` / `no_bp_prefetch_direct` | Accepted survivor | `ibex_top` area `108441.5040 -> 108373.9392`; WNS deltas `+13.7942/+13.7942/+13.7924/+0.3407/+0.1761ns` | Toggle flat `311729 -> 311729`; Yosys equiv `1956/1956`; hosted OSS-FV green; cold review passed | [#31 top-level selected-flow receipt](https://github.com/athanor-ai/ibex-athanor/blob/ea0e5bc50e2322369a5cee166161acadbda417f0/athanor_artifacts/if_stage_no_bp_prefetch_direct/top_level_first/top_level_first_receipt.json) |
+| `ibex_fetch_fifo` / `err_unaligned_factored` | Accepted module-local artifact | Generic cells `396 -> 395`; liberty cells `456 -> 451` (`-1.0965%`); timing flat at `6.32ns` | SAIF transition-count flat `34031 -> 34031`; relation-aware sequential miter closes; no-external-occupancy miter closes; bad mutant fails | [`athanor_artifacts/fetch_fifo_err_unaligned_factored/`](athanor_artifacts/fetch_fifo_err_unaligned_factored/) and [`athanor/ppa_frontier/fetch_fifo_err_unaligned_factored/`](athanor/ppa_frontier/fetch_fifo_err_unaligned_factored/) |
 
 ## Latest Accepted Survivor: PR #31
 
@@ -59,6 +60,15 @@ PR #31 is an accepted survivor on `master` because hosted OSS-FV proved the
 candidate RTL and the cold review passed. It is still not an autonomous-discovery
 claim: the structural insight was human-guided, while Athanor/Kairos supplied
 the measurement, filtering, replay, and evidence chain.
+
+## Latest Accepted Module-Local Discovery: fetch FIFO
+
+`err_unaligned_factored` factors the `ibex_fetch_fifo` unaligned-error predicate.
+The selected-toolchain public row records a liberty-mapped cell reduction
+`456 -> 451` with timing and toggle flat. Correctness is carried by a
+relation-aware sequential miter that derives FIFO occupancy from reset and
+reachability, plus a non-vacuity bite where a bad `err_unaligned` mutant fails
+the miter. This is a module-local row, not a whole-core `ibex_top` claim.
 
 ## What This Shows
 

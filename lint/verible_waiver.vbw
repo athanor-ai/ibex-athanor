@@ -10,3 +10,12 @@ waive --rule=unpacked-dimensions-range-ordering --location=".*athanor_artifacts/
 waive --rule=parameter-name-style --location=".*athanor_artifacts/.*/top_level_first/.*[.]v"
 waive --rule=module-filename --location=".*athanor_artifacts/.*/top_level_first/.*[.]v"
 waive --rule=packed-dimensions-range-ordering --location=".*athanor_artifacts/.*/top_level_first/.*[.]v"
+
+# Fetch FIFO discovery packet preserves generated Verilog replay artifacts and
+# source/gate snapshots. Packet integrity and replay are checked by SHA256SUMS
+# and COMMANDS.md; Verible style-only generated-artifact warnings are waived.
+waive --rule=line-length --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*[.]v"
+waive --rule=always-comb --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*[.]v"
+waive --rule=explicit-parameter-storage-type --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*[.]v"
+waive --rule=parameter-name-style --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*[.]v"
+waive --rule=module-filename --location=".*athanor_artifacts/fetch_fifo_err_unaligned_factored/.*"

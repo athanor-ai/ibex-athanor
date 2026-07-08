@@ -24,5 +24,6 @@ convention to be complete and independently reviewed.
 | [`multdiv_fast_greater_equal_xor_shape/`](multdiv_fast_greater_equal_xor_shape/) | Accepted artifact: cell count flat, max propagation delay -0.28ns / -2.58%, toggle flat, formal 772/772. |
 | [`if_stage_expanded_predicate_factor/`](if_stage_expanded_predicate_factor/) | Candidate: top-level area -0.02885%, whole-core WNS improves on all recorded groups, formal 1956/1956, corrected pinned toggle convention flat. |
 | [`if_stage_no_bp_prefetch_direct/`](if_stage_no_bp_prefetch_direct/) | Current-master five-point survivor: top-level area -0.06231%, all recorded WNS groups improve, formal 1956/1956, pinned toggle flat; non-author cold review pending. |
+| [`fetch_fifo_err_unaligned_factored/`](fetch_fifo_err_unaligned_factored/) | Accepted module-local selected-toolchain row: liberty cells 456 -> 451 (-1.0965%), timing flat, SAIF transition-count flat, relation-aware miter closes with mutant bite. |
 | [`id_stage_no_wb_prio_assign/`](id_stage_no_wb_prio_assign/) | Rejected for promotion: area/timing/formal are positive, but quick internal-VCD toggle smoke regresses +1.27%. |
 | [`load_store_unit_signext_factor/`](load_store_unit_signext_factor/) | Rejected for promotion: area/timing/formal are positive, but deterministic LSU-local toggle replay regresses +1.79886%. |

@@ -1,0 +1,79 @@
+{
+  "schema": "ibex_fetch_fifo_relation_aware_seq_miter_v1",
+  "module": "ibex_fetch_fifo",
+  "candidate_id": "err_unaligned_factored_risky",
+  "ibex_commit": "634f37dbe1e831e30a5b0cdbaf3dc459aa60496e",
+  "source_sha256": "b4e811b6dd8f6659dc3a2b56a9ddedf0700210652762f1e0dff63e91abbd6068",
+  "candidate_sha256": "5a9c8d51e1b0db1d887ac862e1d122e1b2228166c6b7d407d7090d80ac4fca8a",
+  "source_diff_sha256": "e44ee66e78b87e0333f6220f9a4a46513822db41eccb4414cc3239171e4f744d",
+  "classification": "local_relation_aware_seq_miter_closed",
+  "customer_claim_ready": true,
+  "boundary": "accepted module-local relation-aware sequential miter receipt; independent replay, ibex-lane sanity-read, and accepted-row review are complete",
+  "selected_toolchain": {
+    "yosys_version": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)",
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
+  },
+  "ppa_summary_from_lead_manifest": {
+    "generic_delta_cells": -1,
+    "generic_delta_pct": -0.2525,
+    "liberty_delta_cells": -5,
+    "liberty_delta_pct": -1.0965,
+    "toggle_delta_pct": 0
+  },
+  "prior_canonical_equiv_screen": {
+    "method": "yosys equiv_simple + equiv_induct",
+    "proven_cells": 453,
+    "unproven_cells": 1,
+    "interpretation": "canonical structural equiv screen does not infer the FIFO occupancy/reachability relation"
+  },
+  "positive_checks": [
+    {
+      "name": "relation_aware_seq_miter",
+      "top": "ibex_fetch_fifo_relation_seq_miter",
+      "command_shape": "yosys prep -flatten; async2sync; opt; sat -seq 4 -tempinduct -set-init-zero -prove-asserts",
+      "result": "temporal induction SUCCESS",
+      "log": "ibex_fetch_fifo_relation_seq_miter_tempinduct_k4.log",
+      "log_sha256": "aa183ffd314d018ccc1e57c538f800fe2cc53cf0774d524f32ab1975c7f38f9a",
+      "note": "closes with state equality, occupancy assertions, and observable output equality"
+    },
+    {
+      "name": "reachable_no_external_occupancy",
+      "top": "ibex_fetch_fifo_relation_seq_no_occupancy_miter",
+      "command_shape": "yosys prep -flatten; async2sync; opt; sat -seq 4 -tempinduct -set-init-zero -prove-asserts",
+      "result": "temporal induction SUCCESS",
+      "log": "ibex_fetch_fifo_relation_seq_no_occupancy_miter_tempinduct_k4.log",
+      "log_sha256": "7089446c084daaef762bde857170b7d2a93ae14d4d49a89807a3d36e96fceedf",
+      "note": "closing without explicit occupancy assertions means the miter derives the occupancy relation from reset/reachability"
+    }
+  ],
+  "negative_controls": [
+    {
+      "name": "bad_err_unaligned_mutant",
+      "top": "ibex_fetch_fifo_relation_seq_miter",
+      "gate_file": "ibex_fetch_fifo_gate_mutant_exposed.v",
+      "mutation": "drops the incoming-error term from err_unaligned",
+      "result": "base case FAIL",
+      "log": "ibex_fetch_fifo_relation_seq_mutant_tempinduct_k4.log",
+      "log_sha256": "85d1c5abb53d26f31689f8b6832baa3b428ccce771710d9d91d9e396f210ef75"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "ibex_fetch_fifo_gold_exposed.v",
+      "sha256": "ca689ec954ad5dab608a78b4659bb1f87957696232433afcfb19b95a1e94c842"
+    },
+    {
+      "path": "ibex_fetch_fifo_gate_exposed.v",
+      "sha256": "7b32ff7c7ec8259f9022dfa71714784805cc2d23f9d4956192015b6244ffa66e"
+    },
+    {
+      "path": "ibex_fetch_fifo_gate_mutant_exposed.v",
+      "sha256": "87a19675e3fb6793d9cefb13d5623ea26b02acd2767d43aa916caef91e70ad7d"
+    },
+    {
+      "path": "ibex_fetch_fifo_relation_seq_miter.sv",
+      "sha256": "5e84eab5139209b9c6339c8ae2e7238e27cfec768d3719191c8edc9718c64ee0"
+    }
+  ],
+  "interpretation": "The formal blocker named by the lead is locally closed by a relation-aware temporal-induction miter, and the bad-mutant bite fails. The lead is no longer blocked on the earlier 1/454 canonical equiv_induct cell; the remaining work is public accepted-row packaging and selected receipt replay, not candidate correctness."
+}

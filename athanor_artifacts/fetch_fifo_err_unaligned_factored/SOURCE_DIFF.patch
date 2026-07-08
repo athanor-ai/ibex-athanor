@@ -1,0 +1,15 @@
+--- /workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/ibex_fetch_fifo.sv	2026-07-07 14:53:11.544940854 -0700
++++ /workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/ibex_fetch_fifo.sv	2026-07-07 15:07:46.508899789 -0700
+@@ -89,9 +89,9 @@
+   // If entry[1] is not valid, and entry[0] is, an error can come from entry[0] or the incoming
+   // data, unless the instruction in entry[0] is compressed
+   // If entry[0] is not valid, the error must come from the incoming data
+-  assign err_unaligned   = valid_q[1] ? ((err_q[1] & ~unaligned_is_compressed) | err_q[0]) :
+-                                        ((valid_q[0] & err_q[0]) |
+-                                         (in_err_i & (~valid_q[0] | ~unaligned_is_compressed)));
++  assign err_unaligned   = (valid_q[0] & err_q[0]) |
++                           (valid_q[1] & err_q[1] & ~unaligned_is_compressed) |
++                           (~valid_q[1] & in_err_i & (~valid_q[0] | ~unaligned_is_compressed));
+ 
+   // Record when an error is caused by the second half of an unaligned 32bit instruction.
+   // Only needs to be correct when unaligned and if err_unaligned is set

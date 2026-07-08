@@ -18,7 +18,7 @@
         "cross_tool_sensitive_rows_must_not_be_customer_frontier": true,
         "historical_toolchain_receipts_are_sensitivity_evidence_only": true
     },
-    "row_contracts_sha256": "893bae052045de407b6fcd917218ebbd047733fe94b6dc4ecde64929b1d8fb44",
+    "row_contracts_sha256": "b51f734f28be051b812ca150295770ea46041a316c29a86fb9a6c3b6544d251d",
     "row_contracts": {
         "area_tradeoff_yosys66": {
             "required_policy": {
@@ -58,6 +58,86 @@
                 }
             ]
         },
+        "module_full_ppa_yosys66": {
+            "required_policy": {
+                "customer_status": "customer_module_full_ppa_yosys66",
+                "full_ppa_frontier": true,
+                "selected_area_receipt": "area_yosys66.json",
+                "selected_formal_receipt": "formal_yosys66.json",
+                "selected_timing_receipt": "timing_yosys66.json",
+                "selected_toggle_receipt": "toggle_yosys66.json",
+                "selected_toolchain_id": "yosys_0_66_181_oss_cad_suite_2026_06_30"
+            },
+            "required_receipts": [
+                "area_yosys66.json",
+                "timing_yosys66.json",
+                "toggle_yosys66.json",
+                "formal_yosys66.json"
+            ],
+            "assertions": [
+                {
+                    "receipt": "area_yosys66.json",
+                    "path": "toolchain.yosys",
+                    "equals": "Yosys 0.66+181"
+                },
+                {
+                    "receipt": "area_yosys66.json",
+                    "compare": [
+                        "gold.generic_cells",
+                        ">",
+                        "gate.generic_cells"
+                    ]
+                },
+                {
+                    "receipt": "area_yosys66.json",
+                    "compare": [
+                        "gold.liberty_cells",
+                        ">",
+                        "gate.liberty_cells"
+                    ]
+                },
+                {
+                    "receipt": "timing_yosys66.json",
+                    "path": "status",
+                    "equals": "flat"
+                },
+                {
+                    "receipt": "timing_yosys66.json",
+                    "path": "delta.data_arrival_ns",
+                    "equals": 0
+                },
+                {
+                    "receipt": "toggle_yosys66.json",
+                    "path": "status",
+                    "equals": "flat"
+                },
+                {
+                    "receipt": "toggle_yosys66.json",
+                    "path": "toggle_delta_pct",
+                    "equals": 0
+                },
+                {
+                    "receipt": "formal_yosys66.json",
+                    "path": "status",
+                    "equals": "success"
+                },
+                {
+                    "receipt": "formal_yosys66.json",
+                    "path": "relation_aware_seq_miter.status",
+                    "equals": "temporal_induction_success"
+                },
+                {
+                    "receipt": "formal_yosys66.json",
+                    "path": "no_external_occupancy.status",
+                    "equals": "temporal_induction_success"
+                },
+                {
+                    "receipt": "formal_yosys66.json",
+                    "path": "non_vacuity.status",
+                    "equals": "mutant_failed_base_case"
+                }
+            ]
+        },
         "cross_tool_sensitive_rebaseline_pending": {
             "required_policy": {
                 "customer_frontier": false,
@@ -79,6 +159,7 @@
     },
     "approved_public_statuses": [
         "customer_area_tradeoff_yosys66",
+        "customer_module_full_ppa_yosys66",
         "formal_only_cross_tool_sensitive_rebaseline_pending"
     ],
     "selected_toggle_convention": {
