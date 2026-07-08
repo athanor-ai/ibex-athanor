@@ -1,0 +1,22 @@
+{
+  "candidate_id": "err_unaligned_factored_risky",
+  "module": "ibex_fetch_fifo",
+  "non_vacuity": {
+    "mutation": "drops the incoming-error term from err_unaligned",
+    "status": "mutant_failed_base_case"
+  },
+  "no_external_occupancy": {
+    "interpretation": "FIFO occupancy is derived from reset/reachability",
+    "status": "temporal_induction_success"
+  },
+  "relation_aware_seq_miter": {
+    "command_shape": "yosys prep -flatten; async2sync; opt; sat -seq 4 -tempinduct -set-init-zero -prove-asserts",
+    "status": "temporal_induction_success"
+  },
+  "replay_packet": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/relation_aware_seq_miter_manifest.json",
+  "status": "success",
+  "toolchain": {
+    "yosys": "Yosys 0.66+181",
+    "yosys_git_sha": "afe6b18f2"
+  }
+}

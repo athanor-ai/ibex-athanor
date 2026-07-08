@@ -1,0 +1,14 @@
+{
+  "gate_toggles": 34031,
+  "gold_toggles": 34031,
+  "method": "saif_tc_sum",
+  "replay_packet": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/toggle_proxy.json",
+  "status": "flat",
+  "toggle_delta_pct": 0,
+  "trace_evidence": {
+    "gate_saif": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/gate.saif",
+    "gate_vcd": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/gate_toggle.vcd",
+    "gold_saif": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/gold.saif",
+    "gold_vcd": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/gold_toggle.vcd"
+  }
+}

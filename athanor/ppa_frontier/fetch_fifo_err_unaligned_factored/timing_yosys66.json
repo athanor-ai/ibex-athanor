@@ -1,0 +1,28 @@
+{
+  "delta": {
+    "data_arrival_ns": 0,
+    "data_arrival_pct": 0
+  },
+  "gate": {
+    "max_data_arrival_ns": 6.32,
+    "status": "ok",
+    "tns_ns": 0,
+    "wns_ns": 0
+  },
+  "gold": {
+    "max_data_arrival_ns": 6.32,
+    "status": "ok",
+    "tns_ns": 0,
+    "wns_ns": 0
+  },
+  "replay_packet": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/timing_yosys66_10ns_2ns_io.json",
+  "status": "flat",
+  "timing_convention": "opensta_max_data_arrival_selected_mapped_netlists",
+  "toolchain": {
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+    "opensta": "system sta",
+    "oss_cad_suite_release": "2026-06-30",
+    "yosys": "Yosys 0.66+181",
+    "yosys_git_sha": "afe6b18f2"
+  }
+}

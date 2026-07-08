@@ -2,9 +2,8 @@
 
 Discovery packet for the `ibex_fetch_fifo` `err_unaligned` factoring lead.
 
-Status: draft candidate packet with independent replay requested. Do not land
-as a public accepted row until independent replay and ibex-lane review both
-stamp the corrected packet.
+Status: accepted module-local public row. Independent replay, ibex-lane review,
+and public row-contract wiring have all stamped the corrected packet.
 
 Current packet summary:
 

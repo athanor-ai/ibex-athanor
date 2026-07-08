@@ -1,0 +1,81 @@
+{
+  "artifacts": {
+    "area_yosys66.json": {
+      "path": "area_yosys66.json",
+      "sha256": "dec87ea1c289130ff622e2b7babc12cc1f44c8f4d53502074a1d980bc35e742c"
+    },
+    "formal_yosys66.json": {
+      "path": "formal_yosys66.json",
+      "sha256": "d7eb6a313a40c9aeed97a6212801c85e839988ab8576d4ef2ad8c4e029ebfb28"
+    },
+    "packet/COMMANDS.md": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/COMMANDS.md",
+      "sha256": "653b8a004a6799c66bc5f34c9b07838200fc0ce416df243de9aac9e8c6aa648c"
+    },
+    "packet/README.md": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/README.md",
+      "sha256": "a760d6a00434e835c462565b846e72d465b070facb659c93f63b0ebe5edce73e"
+    },
+    "packet/SHA256SUMS": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/SHA256SUMS",
+      "sha256": "b09b7d0f32aff66138ff337a7052831795742aeed8327daa54c2a0f7dd281fad"
+    },
+    "packet/SOURCE_DIFF.patch": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/SOURCE_DIFF.patch",
+      "sha256": "e44ee66e78b87e0333f6220f9a4a46513822db41eccb4414cc3239171e4f744d"
+    },
+    "packet/area_yosys66_packet.json": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/area_yosys66_packet.json",
+      "sha256": "b768855fab16122562005db0cba9e0bc1436e535fb436a27bebe25f1e5c2dc1f"
+    },
+    "packet/gate_source.sv": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/gate_source.sv",
+      "sha256": "5a9c8d51e1b0db1d887ac862e1d122e1b2228166c6b7d407d7090d80ac4fca8a"
+    },
+    "packet/gold_source.sv": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/gold_source.sv",
+      "sha256": "b4e811b6dd8f6659dc3a2b56a9ddedf0700210652762f1e0dff63e91abbd6068"
+    },
+    "packet/lead_manifest.json": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/lead_manifest.json",
+      "sha256": "6aadcc06995a45ffef95631e3780c533fa4447de5f964631c9691f519f21d9d4"
+    },
+    "packet/relation_aware_seq_miter_manifest.json": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/relation_aware_seq_miter_manifest.json",
+      "sha256": "594cc6e10027b4c754ad8099b66cc9483993c20087a2f139a314a6f3b2a1f9de"
+    },
+    "packet/timing_yosys66_10ns_2ns_io.json": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/timing_yosys66_10ns_2ns_io.json",
+      "sha256": "3ead390b813bda40e5e9669ee685ee847027951744cf9210e898345605b73ca7"
+    },
+    "packet/toggle_proxy.json": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/toggle_proxy.json",
+      "sha256": "836995b2370f856a3167c69a1f73bd334952d7f902e2e1da7688f7e6942991d3"
+    },
+    "timing_yosys66.json": {
+      "path": "timing_yosys66.json",
+      "sha256": "5eff1bc357114aaa2f8a8fd5b7340796ab19211517d0b3d85250cccba12a747a"
+    },
+    "toggle_yosys66.json": {
+      "path": "toggle_yosys66.json",
+      "sha256": "7b6cfa262d2bdb765b25fa1d099d8c2200a9b7891698d3d29cb38cd5eeac7f0d"
+    }
+  },
+  "module": "ibex_fetch_fifo",
+  "row_contract": "module_full_ppa_yosys66",
+  "schema": "public_frontier_manifest_v1",
+  "status": "formal_pass_yosys66_area_positive_timing_flat_toggle_flat",
+  "toolchain_policy": {
+    "customer_status": "customer_module_full_ppa_yosys66",
+    "full_ppa_frontier": true,
+    "module_local_only": true,
+    "selected_area_receipt": "area_yosys66.json",
+    "selected_formal_receipt": "formal_yosys66.json",
+    "selected_timing_receipt": "timing_yosys66.json",
+    "selected_toggle_receipt": "toggle_yosys66.json",
+    "selected_toolchain_id": "yosys_0_66_181_oss_cad_suite_2026_06_30",
+    "top_level_frontier": false,
+    "top_level_note": "This is an accepted module-local PPA row for ibex_fetch_fifo. It is not a whole-core ibex_top claim and is not added to other local wins."
+  },
+  "transform_class": "fetch_fifo_error_predicate_factoring"
+}

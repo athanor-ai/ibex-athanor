@@ -1,0 +1,25 @@
+{
+  "delta": {
+    "generic_cells": -1,
+    "generic_pct": -0.25252525252525254,
+    "liberty_cells": -5,
+    "liberty_pct": -1.0964912280701753
+  },
+  "gate": {
+    "generic_cells": 395,
+    "liberty_cells": 451
+  },
+  "gold": {
+    "generic_cells": 396,
+    "liberty_cells": 456
+  },
+  "replay_packet": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/area_yosys66_packet.json",
+  "toolchain": {
+    "abc": "yosys-abc bundled with OSS CAD Suite 2026-06-30",
+    "liberty": "sky130_fd_sc_hd__tt_025C_1v80.lib",
+    "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
+    "oss_cad_suite_release": "2026-06-30",
+    "yosys": "Yosys 0.66+181",
+    "yosys_git_sha": "afe6b18f2"
+  }
+}
