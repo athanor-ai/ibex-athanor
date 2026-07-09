@@ -91,11 +91,23 @@ jobs:
         # poisoned runner self-heal on its next job.
         run: |
           NIX_BIN=/nix/var/nix/profiles/default/bin
-          if [ -x "$NIX_BIN/nix" ] && "$NIX_BIN/nix" --version >/dev/null 2>&1; then
-            echo "usable Nix already present ($("$NIX_BIN/nix" --version)); skipping installer"
-            echo "$NIX_BIN" >> "$GITHUB_PATH"
-            echo "skip_install=true" >> "$GITHUB_OUTPUT"
-            exit 0
+          # Reuse ONLY behind a DAEMON-BACKED probe: `nix --version` alone is
+          # too weak (it passed on r3 while the daemon socket was broken --
+          # "cannot open connection to remote store 'daemon': Connection reset
+          # by peer" -- and the job then died at nix print-dev-env). Restart
+          # the daemon and require a store ping through it, which exercises
+          # the same path `nix print-dev-env` needs. Anything less falls
+          # through to normalize + fresh install.
+          if [ -x "$NIX_BIN/nix" ]; then
+            sudo systemctl restart nix-daemon.service 2>/dev/null || true
+            if "$NIX_BIN/nix" --extra-experimental-features nix-command \
+                store ping --store daemon >/dev/null 2>&1; then
+              echo "usable daemon-backed Nix present ($("$NIX_BIN/nix" --version)); skipping installer"
+              echo "$NIX_BIN" >> "$GITHUB_PATH"
+              echo "skip_install=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "existing Nix failed the daemon-backed probe; normalizing + reinstalling"
           fi
           echo "skip_install=false" >> "$GITHUB_OUTPUT"
           sudo systemctl stop nix-daemon.service nix-daemon.socket 2>/dev/null || true
