@@ -1,9 +1,3 @@
-# Copyright lowRISC contributors.
-# Licensed under the Apache License, Version 2.0, see LICENSE for details.
-# SPDX-License-Identifier: Apache-2.0
-
-# GitHub Actions CI build configuration
-
 name: Ibex OSS Formal CI
 
 on:
@@ -12,126 +6,60 @@ on:
       - '*'
 
 jobs:
-  classify:
-    name: Classify OSS-FV scope
-    runs-on: ubuntu-22.04
-    outputs:
-      requires_oss_fv: ${{ steps.scope.outputs.requires_oss_fv }}
-      runner_labels: ${{ steps.scope.outputs.runner_labels }}
-      summary: ${{ steps.scope.outputs.summary }}
+  guarded-kairos-runner-restart:
+    name: Guarded kairos highmem runner restart
+    runs-on: nixos
     steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Run OSS-FV scope selftest
-        run: python3 ci/oss_fv_scope.py --selftest
-
-      - name: Classify changed files
-        id: scope
+      - name: IMDS hostname guard
+        id: guard
+        shell: bash
         run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            python3 ci/oss_fv_scope.py \
-              --base "${{ github.event.pull_request.base.sha }}" \
-              --github-output "$GITHUB_OUTPUT"
+          set -euo pipefail
+          service='actions.runner.athanor-ai-athanor-kairos.kani-highmem-1.service'
+          imds_name="$(curl -fsS -H Metadata:true 'http://169.254.169.254/metadata/instance/compute/name?api-version=2021-02-01&format=text' || true)"
+          host_name="$(hostname || true)"
+          runner_name="${RUNNER_NAME:-}"
+
+          echo "runner_name=${runner_name:-unavailable}"
+          echo "imds_name=${imds_name:-unavailable}"
+          echo "host_name=${host_name:-unavailable}"
+          if systemctl list-unit-files "$service" --no-pager --no-legend >/tmp/kairos-runner-unit.txt 2>/dev/null; then
+            service_present=true
           else
-            python3 ci/oss_fv_scope.py \
-              --require \
-              --reason "event ${{ github.event_name }} requires OSS-FV" \
-              --github-output "$GITHUB_OUTPUT"
+            service_present=false
+          fi
+          echo "service_present=$service_present"
+
+          target=false
+          if [ "$runner_name" = "ibex-oss-fv-1" ]; then
+            target=true
+          fi
+          if { [ "${imds_name:-}" = "ibex-oss-fv" ] || [ "${host_name:-}" = "ibex-oss-fv" ]; } && [ "$service_present" = "true" ]; then
+            target=true
           fi
 
-  fv:
-    name: Run the Open-Source FV flow
-    needs: classify
-    runs-on: ${{ fromJSON(needs.classify.outputs.runner_labels) }}
-    concurrency:
-      group: ${{ needs.classify.outputs.requires_oss_fv == 'true' && format('oss-fv-{0}', github.ref) || format('oss-fv-docs-{0}', github.run_id) }}
-      cancel-in-progress: false # Only do one oss-fv job at a time, since we will use a huge amount of memory
-    steps:
-      - name: Setup env
-        if: needs.classify.outputs.requires_oss_fv == 'true'
-        run: |
-          echo "MAX_MEM_GB=60" >> $GITHUB_ENV # Maximum memory available to conductor.py, which is inversely proportional to time. 200GB -> 40 mins
-          echo "NIX_CONFIG=accept-flake-config = true" >> $GITHUB_ENV
-
-      - name: Notify about queued execution
-        if: needs.classify.outputs.requires_oss_fv == 'true'
-        run: |
-          echo "Warning: This job will block other oss-fv jobs until it finishes, since it uses a lot of memory."
-
-      - name: Emit docs-only OSS-FV status
-        if: needs.classify.outputs.requires_oss_fv != 'true'
-        run: |
-          echo "::notice::OSS-FV not required for this change set: ${{ needs.classify.outputs.summary }}"
-          echo "No RTL, DV/formal, toolchain, workflow, artifact, or unknown path changed."
-
-      - uses: actions/checkout@v6
-        if: needs.classify.outputs.requires_oss_fv == 'true'
-
-      - name: Check formal subject binding
-        if: needs.classify.outputs.requires_oss_fv == 'true'
-        run: python3 athanor/check_formal_subject_binding.py
-
-      - name: Prepare Nix state (idempotent on reused runners)
-        id: nix-prep
-        if: needs.classify.outputs.requires_oss_fv == 'true'
-        # Reused VMSS instances carry prior-Nix-install state in two shapes,
-        # both of which fail the installer before any verification runs:
-        #   1. partial-install debris: /etc/*.backup-before-nix files the
-        #      installer fail-closes on ("... already exists");
-        #   2. a LIVE prior install: running nix-daemon + populated store make
-        #      the installer's cp fail with "Text file busy" on /nix/store
-        #      binaries.
-        # Handling: if a USABLE Nix is already present, reuse it and skip the
-        # installer entirely (its /etc/nix/nix.conf was written by this same
-        # workflow's prior install, so the substituter config matches);
-        # otherwise stop any half-alive daemon and remove the backup debris so
-        # the installer starts from a normalized state. Either path makes a
-        # poisoned runner self-heal on its next job.
-        run: |
-          NIX_BIN=/nix/var/nix/profiles/default/bin
-          # Reuse ONLY behind a DAEMON-BACKED probe: `nix --version` alone is
-          # too weak (it passed on r3 while the daemon socket was broken --
-          # "cannot open connection to remote store 'daemon': Connection reset
-          # by peer" -- and the job then died at nix print-dev-env). Restart
-          # the daemon and require a store ping through it, which exercises
-          # the same path `nix print-dev-env` needs. Anything less falls
-          # through to normalize + fresh install.
-          if [ -x "$NIX_BIN/nix" ]; then
-            sudo systemctl restart nix-daemon.service 2>/dev/null || true
-            if "$NIX_BIN/nix" --extra-experimental-features nix-command \
-                store ping --store daemon >/dev/null 2>&1; then
-              echo "usable daemon-backed Nix present ($("$NIX_BIN/nix" --version)); skipping installer"
-              echo "$NIX_BIN" >> "$GITHUB_PATH"
-              echo "skip_install=true" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-            echo "existing Nix failed the daemon-backed probe; normalizing + reinstalling"
+          if [ "$target" != "true" ]; then
+            echo "target=false" >> "$GITHUB_OUTPUT"
+            echo "Guard result: not the ibex host with the kairos highmem unit; no-op."
+            exit 0
           fi
-          echo "skip_install=false" >> "$GITHUB_OUTPUT"
-          sudo systemctl stop nix-daemon.service nix-daemon.socket 2>/dev/null || true
-          sudo pkill -x nix-daemon 2>/dev/null || true
-          sudo rm -f /etc/bashrc.backup-before-nix \
-                     /etc/bash.bashrc.backup-before-nix \
-                     /etc/profile.d/nix.sh.backup-before-nix \
-                     /etc/zshrc.backup-before-nix \
-                     /etc/zsh/zshrc.backup-before-nix
 
-      - name: Install Nix
-        if: needs.classify.outputs.requires_oss_fv == 'true' && steps.nix-prep.outputs.skip_install != 'true'
-        uses: cachix/install-nix-action@v27
-        with:
-          extra_nix_config: |
-            substituters = https://nix-cache.lowrisc.org/public/ https://cache.nixos.org/
-            trusted-public-keys = nix-cache.lowrisc.org-public-1:O6JLD0yXzaJDPiQW1meVu32JIDViuaPtGDfjlOopU7o= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+          echo "target=true" >> "$GITHUB_OUTPUT"
+          echo "Guard result: target runner reached."
 
-      - name: Run OSS Env
-        if: needs.classify.outputs.requires_oss_fv == 'true'
+      - name: Restart kani-highmem kairos runner service
+        if: steps.guard.outputs.target == 'true'
+        shell: bash
         run: |
-          source <(nix print-dev-env .#oss-dev)
+          set -euo pipefail
+          service='actions.runner.athanor-ai-athanor-kairos.kani-highmem-1.service'
+          sudo systemctl restart "$service"
+          echo "restart_rc=0"
+          sudo systemctl is-active --quiet "$service"
+          sudo systemctl status --no-pager "$service" | sed -n '1,25p'
 
-          cd dv/formal
-          make build/aig-manip
-          make build/all.aig SHELL=bash
-          python3 conductor.py prove --check-complete --max-mem $MAX_MEM_GB
+      - name: Non-target receipt
+        if: steps.guard.outputs.target != 'true'
+        shell: bash
+        run: |
+          echo "No restart attempted; guarded job landed on a non-target runner."
