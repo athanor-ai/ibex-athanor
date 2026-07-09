@@ -73,6 +73,21 @@ jobs:
         if: needs.classify.outputs.requires_oss_fv == 'true'
         run: python3 athanor/check_formal_subject_binding.py
 
+      - name: Clean stale Nix install debris
+        if: needs.classify.outputs.requires_oss_fv == 'true'
+        # A prior partial Nix install on a reused VMSS instance leaves
+        # /etc/*.backup-before-nix files, and the installer fail-closes on
+        # them ("... .backup-before-nix already exists"), failing the whole
+        # job before any verification runs. Pre-removing the debris makes the
+        # install idempotent AND self-heals a poisoned runner on its next
+        # job — no out-of-band instance surgery needed.
+        run: |
+          sudo rm -f /etc/bashrc.backup-before-nix \
+                     /etc/bash.bashrc.backup-before-nix \
+                     /etc/profile.d/nix.sh.backup-before-nix \
+                     /etc/zshrc.backup-before-nix \
+                     /etc/zsh/zshrc.backup-before-nix
+
       - name: Install Nix
         if: needs.classify.outputs.requires_oss_fv == 'true'
         uses: cachix/install-nix-action@v27
