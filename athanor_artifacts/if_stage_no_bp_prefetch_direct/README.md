@@ -4,7 +4,7 @@ This package contains the first local-positive `ibex_if_stage` candidate from th
 selected Yosys 0.66 timing-aware scan.
 
 Current classification:
-`current_master_top_level_five_point_positive_non_author_cold_review_pending`
+`accepted_top_level_survivor_package_not_customer_frontier`
 
 The original module-local package is preserved at the package root. The
 `top_level_first/` subpackage records a current-master `ibex_top` replay against
@@ -17,10 +17,10 @@ gate. That replay is five-point positive:
 - artifact-level equivalence proves `1956/1956` `$equiv` cells
 - pinned toggle convention is flat: `311729 -> 311729`
 
-This is a survivor receipt, not a customer headline. Promotion to an accepted
-demo artifact still requires non-author review/cold verification of the
-`top_level_first/` receipt and any formal-review signoff required for
-customer-facing use.
+This is a survivor receipt, not a customer headline. PR #31 accepted the
+top-level survivor package as engineering evidence on master. It is still not a
+customer-facing frontier row: promotion requires the public frontier manifest
+policy and the current proof-subject binding gate.
 
 ## Transform
 
@@ -92,7 +92,7 @@ Result: `1956` `$equiv` cells proven, `0` unproven.
 
 ## Current Classification
 
-`formal_closed_area_positive_timing_positive_toggle_flat_cold_replay_pending`
+`formal_closed_area_positive_timing_positive_toggle_flat_top_level_survivor`
 
 The selected-toolchain area and timing replay is positive, and artifact-level
 formal equivalence closes on these exact hashes. The corrected pinned toggle
@@ -103,8 +103,21 @@ convention is flat:
 - Delta: `0.0%`
 - Aliased VCD ids disambiguated: `17`
 
-Final customer/frontier promotion still requires independent cold replay and any
-additional review required for customer-facing use.
+Final customer/frontier promotion still requires the public frontier manifest
+policy and any additional review required for customer-facing use.
+
+## #31 Provenance Note
+
+PR #31 landed this package as an accepted top-level survivor artifact at merge
+commit `ea0e5bc50e2322369a5cee166161acadbda417f0`. The package remains outside
+`athanor/ppa_frontier/` because it is not a policy-pinned customer frontier row.
+
+After #31, the formal workflow learned an explicit proof-subject binding guard:
+the checked-out RTL under proof must match `SOURCE_DIFF.patch` applied to the
+receipt's pinned `base_commit`. That guard is now enforced by
+`athanor/verify_subject_binding.py` and its red-known #31-shaped regression
+fixture, so future green formal rows cannot silently prove repository RTL while
+the candidate only lives in the receipt patch.
 
 ## Current-Master Top-Level Replay
 

@@ -22,6 +22,7 @@ ledger, not in this frontier branch.
 | `ibex_alu` | `bwlogic_or_from_xor_and` | `area_tradeoff_yosys66` | Area-positive selected-toolchain tradeoff; timing regresses. |
 | `ibex_compressed_decoder` | `rlist_init_formula` | `cross_tool_sensitive_rebaseline_pending` | Historical cross-tool-sensitive evidence; selected-toolchain rebaseline pending. |
 | `ibex_fetch_fifo` | `err_unaligned_factored` | `module_full_ppa_yosys66` | Accepted module-local selected-toolchain PPA row: area positive, timing flat, toggle flat, relation-aware miter closed with mutant bite. |
+| `ibex_pmp` | `tor_boundary_comparator_share` | `area_tradeoff_yosys66` | Area-positive selected-toolchain tradeoff: area improves and toggle is flat, but max propagation delay regresses. |
 
 The selected public replay baseline is defined by
 [`../toolchain_policy.json`](../toolchain_policy.json). Run
