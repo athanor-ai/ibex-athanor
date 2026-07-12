@@ -70,6 +70,28 @@ relation-aware sequential miter that derives FIFO occupancy from reset and
 reachability, plus a non-vacuity bite where a bad `err_unaligned` mutant fails
 the miter. This is a module-local row, not a whole-core `ibex_top` claim.
 
+## Latest ATH-2924 Timing-Route Replays
+
+The ATH-2924 timing route adds a missing evidence step: saved structural leads
+can now be replayed with complete OpenSTA gold and gate timing fields before
+any acceptance language.
+
+- `ibex_multdiv_slow` / `greater_equal_xor_shape` converted to a complete
+  selected-toolchain module receipt. Yosys formal equivalence closed `411/411`
+  `$equiv` cells; selected Yosys area improved `-0.0605%`; OpenSTA timing
+  measured and met. This remains a module-level artifact, not an integrated
+  whole-core result.
+- `ibex_branch_predict` / candidate 2 was honestly rejected. Its early
+  pre-route signal reported lower cell count and toggle activity, but full
+  selected-toolchain replay measured area `1289.9872 -> 1361.3056`
+  (`+5.5286%`). The output SAT miter closed and OpenSTA timing met, but area
+  regression blocks acceptance.
+
+The rejected package is public on purpose:
+[`athanor_artifacts/branch_predict_candidate2_area_reject/`](athanor_artifacts/branch_predict_candidate2_area_reject/).
+Publishing rejected receipts makes the acceptance bar inspectable; a candidate
+that fails a required axis stays a rejection even when another axis improves.
+
 ## What This Shows
 
 - Small RTL rewrites can move PPA on a real RISC-V core.
@@ -110,9 +132,12 @@ Rejected rows stay visible because they teach the search:
 
 - `ibex_alu` / `bwlogic_or_from_xor_and` saves area and cells but worsens timing,
   so it is a tradeoff row, not a full-PPA win.
+- `ibex_branch_predict` / candidate 2 passes the output SAT miter and meets
+  OpenSTA timing, but mapped selected-toolchain area regresses, so it is an
+  honest reject rather than an optimization artifact.
 - `ibex_id_stage` / `no_wb_prio_assign` and `ibex_load_store_unit` /
-  `signext_factor` showed positive area/timing/formal signals but regressed
-  toggle/activity.
+  `signext_factor` showed positive area, timing, and Yosys-equivalence signals
+  but regressed toggle/activity.
 - `ibex_compressed_decoder` / `rlist_init_formula` is historical evidence under
   an older Yosys 0.9 recipe and is not part of the current selected-toolchain
   frontier.

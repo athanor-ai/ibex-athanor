@@ -1,0 +1,450 @@
+Startpoint: fetch_rdata_i[13] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[31] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   2.00    2.00 ^ input external delay
+   0.00    2.00 ^ fetch_rdata_i[13] (in)
+   0.70    2.70 ^ _217_/Y (sky130_fd_sc_hd__nor4bb_1)
+   0.22    2.92 v _226_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.42    3.34 ^ _229_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.27    3.61 ^ _236_/X (sky130_fd_sc_hd__maj3_1)
+   0.18    3.79 ^ _249_/X (sky130_fd_sc_hd__o211a_1)
+   0.11    3.90 v _255_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.23    4.13 ^ _264_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.20    4.32 ^ _280_/X (sky130_fd_sc_hd__o311a_1)
+   0.15    4.47 v _295_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.33    4.80 ^ _311_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.16    4.96 v _319_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.30    5.26 ^ _332_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.19    5.45 v _338_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.39    5.84 ^ _353_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.25    6.09 ^ _364_/X (sky130_fd_sc_hd__o311a_1)
+   0.21    6.30 ^ _379_/X (sky130_fd_sc_hd__a31o_1)
+   0.12    6.42 v _185_/Y (sky130_fd_sc_hd__nand4_1)
+   0.22    6.64 ^ _188_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.10    6.74 v _199_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.27    7.02 ^ _202_/Y (sky130_fd_sc_hd__o31ai_1)
+   0.14    7.15 ^ _204_/Y (sky130_fd_sc_hd__xnor2_1)
+   0.00    7.15 ^ predict_branch_pc_o[31] (out)
+           7.15   data arrival time
+
+  10.00   10.00   clock clk_i (rise edge)
+   0.00   10.00   clock network delay (ideal)
+   0.00   10.00   clock reconvergence pessimism
+  -2.00    8.00   output external delay
+           8.00   data required time
+---------------------------------------------------------
+           8.00   data required time
+          -7.15   data arrival time
+---------------------------------------------------------
+           0.85   slack (MET)
+
+
+Startpoint: fetch_rdata_i[13] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[30] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   2.00    2.00 ^ input external delay
+   0.00    2.00 ^ fetch_rdata_i[13] (in)
+   0.70    2.70 ^ _217_/Y (sky130_fd_sc_hd__nor4bb_1)
+   0.22    2.92 v _226_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.42    3.34 ^ _229_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.27    3.61 ^ _236_/X (sky130_fd_sc_hd__maj3_1)
+   0.18    3.79 ^ _249_/X (sky130_fd_sc_hd__o211a_1)
+   0.11    3.90 v _255_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.23    4.13 ^ _264_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.20    4.32 ^ _280_/X (sky130_fd_sc_hd__o311a_1)
+   0.15    4.47 v _295_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.33    4.80 ^ _311_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.16    4.96 v _319_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.30    5.26 ^ _332_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.19    5.45 v _338_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.39    5.84 ^ _353_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.25    6.09 ^ _364_/X (sky130_fd_sc_hd__o311a_1)
+   0.21    6.30 ^ _379_/X (sky130_fd_sc_hd__a31o_1)
+   0.12    6.42 v _185_/Y (sky130_fd_sc_hd__nand4_1)
+   0.22    6.64 ^ _188_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.10    6.74 v _199_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.15    6.89 ^ _200_/Y (sky130_fd_sc_hd__nor2_1)
+   0.12    7.01 ^ _201_/Y (sky130_fd_sc_hd__xnor2_1)
+   0.00    7.01 ^ predict_branch_pc_o[30] (out)
+           7.01   data arrival time
+
+  10.00   10.00   clock clk_i (rise edge)
+   0.00   10.00   clock network delay (ideal)
+   0.00   10.00   clock reconvergence pessimism
+  -2.00    8.00   output external delay
+           8.00   data required time
+---------------------------------------------------------
+           8.00   data required time
+          -7.01   data arrival time
+---------------------------------------------------------
+           0.99   slack (MET)
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[27] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   2.00    2.00 v input external delay
+   0.00    2.00 v fetch_rdata_i[4] (in)
+   0.19    2.19 v _210_/Y (sky130_fd_sc_hd__nand3b_1)
+   0.76    2.96 ^ _212_/Y (sky130_fd_sc_hd__nor3_1)
+   0.32    3.28 ^ _244_/Y (sky130_fd_sc_hd__mux2i_1)
+   0.12    3.40 v _247_/Y (sky130_fd_sc_hd__xnor2_1)
+   0.13    3.53 v _249_/X (sky130_fd_sc_hd__o211a_1)
+   0.23    3.77 ^ _255_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.14    3.91 v _264_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.35    4.26 v _280_/X (sky130_fd_sc_hd__o311a_1)
+   0.37    4.63 ^ _295_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.17    4.80 v _311_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.26    5.05 ^ _319_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.13    5.19 v _332_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.30    5.49 ^ _338_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.18    5.67 v _353_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.38    6.05 v _364_/X (sky130_fd_sc_hd__o311a_1)
+   0.23    6.28 v _379_/X (sky130_fd_sc_hd__a31o_1)
+   0.08    6.37 ^ _177_/Y (sky130_fd_sc_hd__nand3_1)
+   0.09    6.45 v _178_/Y (sky130_fd_sc_hd__nand2_1)
+   0.37    6.83 v _181_/X (sky130_fd_sc_hd__maj3_1)
+   0.16    6.99 v _183_/X (sky130_fd_sc_hd__xor2_1)
+   0.00    6.99 v predict_branch_pc_o[27] (out)
+           6.99   data arrival time
+
+  10.00   10.00   clock clk_i (rise edge)
+   0.00   10.00   clock network delay (ideal)
+   0.00   10.00   clock reconvergence pessimism
+  -2.00    8.00   output external delay
+           8.00   data required time
+---------------------------------------------------------
+           8.00   data required time
+          -6.99   data arrival time
+---------------------------------------------------------
+           1.01   slack (MET)
+
+
+Startpoint: fetch_rdata_i[13] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[29] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   2.00    2.00 ^ input external delay
+   0.00    2.00 ^ fetch_rdata_i[13] (in)
+   0.70    2.70 ^ _217_/Y (sky130_fd_sc_hd__nor4bb_1)
+   0.22    2.92 v _226_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.42    3.34 ^ _229_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.27    3.61 ^ _236_/X (sky130_fd_sc_hd__maj3_1)
+   0.18    3.79 ^ _249_/X (sky130_fd_sc_hd__o211a_1)
+   0.11    3.90 v _255_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.23    4.13 ^ _264_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.20    4.32 ^ _280_/X (sky130_fd_sc_hd__o311a_1)
+   0.15    4.47 v _295_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.33    4.80 ^ _311_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.16    4.96 v _319_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.30    5.26 ^ _332_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.19    5.45 v _338_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.39    5.84 ^ _353_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.25    6.09 ^ _364_/X (sky130_fd_sc_hd__o311a_1)
+   0.21    6.30 ^ _379_/X (sky130_fd_sc_hd__a31o_1)
+   0.12    6.42 v _185_/Y (sky130_fd_sc_hd__nand4_1)
+   0.22    6.64 ^ _188_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.08    6.72 v _191_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.19    6.91 v _196_/X (sky130_fd_sc_hd__xor2_1)
+   0.00    6.91 v predict_branch_pc_o[29] (out)
+           6.91   data arrival time
+
+  10.00   10.00   clock clk_i (rise edge)
+   0.00   10.00   clock network delay (ideal)
+   0.00   10.00   clock reconvergence pessimism
+  -2.00    8.00   output external delay
+           8.00   data required time
+---------------------------------------------------------
+           8.00   data required time
+          -6.91   data arrival time
+---------------------------------------------------------
+           1.09   slack (MET)
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[25] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   2.00    2.00 v input external delay
+   0.00    2.00 v fetch_rdata_i[4] (in)
+   0.19    2.19 v _210_/Y (sky130_fd_sc_hd__nand3b_1)
+   0.76    2.96 ^ _212_/Y (sky130_fd_sc_hd__nor3_1)
+   0.32    3.28 ^ _244_/Y (sky130_fd_sc_hd__mux2i_1)
+   0.12    3.40 v _247_/Y (sky130_fd_sc_hd__xnor2_1)
+   0.13    3.53 v _249_/X (sky130_fd_sc_hd__o211a_1)
+   0.23    3.77 ^ _255_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.14    3.91 v _264_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.35    4.26 v _280_/X (sky130_fd_sc_hd__o311a_1)
+   0.37    4.63 ^ _295_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.17    4.80 v _311_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.26    5.05 ^ _319_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.13    5.19 v _332_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.30    5.49 ^ _338_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.18    5.67 v _353_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.38    6.05 v _364_/X (sky130_fd_sc_hd__o311a_1)
+   0.23    6.28 v _379_/X (sky130_fd_sc_hd__a31o_1)
+   0.37    6.66 v _382_/X (sky130_fd_sc_hd__maj3_1)
+   0.16    6.82 v _384_/X (sky130_fd_sc_hd__xor2_1)
+   0.00    6.82 v predict_branch_pc_o[25] (out)
+           6.82   data arrival time
+
+  10.00   10.00   clock clk_i (rise edge)
+   0.00   10.00   clock network delay (ideal)
+   0.00   10.00   clock reconvergence pessimism
+  -2.00    8.00   output external delay
+           8.00   data required time
+---------------------------------------------------------
+           8.00   data required time
+          -6.82   data arrival time
+---------------------------------------------------------
+           1.18   slack (MET)
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[23] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   2.00    2.00 v input external delay
+   0.00    2.00 v fetch_rdata_i[4] (in)
+   0.19    2.19 v _210_/Y (sky130_fd_sc_hd__nand3b_1)
+   0.76    2.96 ^ _212_/Y (sky130_fd_sc_hd__nor3_1)
+   0.32    3.28 ^ _244_/Y (sky130_fd_sc_hd__mux2i_1)
+   0.12    3.40 v _247_/Y (sky130_fd_sc_hd__xnor2_1)
+   0.13    3.53 v _249_/X (sky130_fd_sc_hd__o211a_1)
+   0.23    3.77 ^ _255_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.14    3.91 v _264_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.35    4.26 v _280_/X (sky130_fd_sc_hd__o311a_1)
+   0.37    4.63 ^ _295_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.17    4.80 v _311_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.26    5.05 ^ _319_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.13    5.19 v _332_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.30    5.49 ^ _338_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.18    5.67 v _353_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.38    6.05 v _364_/X (sky130_fd_sc_hd__o311a_1)
+   0.07    6.13 ^ _370_/Y (sky130_fd_sc_hd__nand2_1)
+   0.08    6.21 v _371_/Y (sky130_fd_sc_hd__nand2_1)
+   0.37    6.58 v _374_/X (sky130_fd_sc_hd__maj3_1)
+   0.16    6.74 v _376_/X (sky130_fd_sc_hd__xor2_1)
+   0.00    6.74 v predict_branch_pc_o[23] (out)
+           6.74   data arrival time
+
+  10.00   10.00   clock clk_i (rise edge)
+   0.00   10.00   clock network delay (ideal)
+   0.00   10.00   clock reconvergence pessimism
+  -2.00    8.00   output external delay
+           8.00   data required time
+---------------------------------------------------------
+           8.00   data required time
+          -6.74   data arrival time
+---------------------------------------------------------
+           1.26   slack (MET)
+
+
+Startpoint: fetch_rdata_i[13] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[28] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   2.00    2.00 ^ input external delay
+   0.00    2.00 ^ fetch_rdata_i[13] (in)
+   0.70    2.70 ^ _217_/Y (sky130_fd_sc_hd__nor4bb_1)
+   0.22    2.92 v _226_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.42    3.34 ^ _229_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.27    3.61 ^ _236_/X (sky130_fd_sc_hd__maj3_1)
+   0.18    3.79 ^ _249_/X (sky130_fd_sc_hd__o211a_1)
+   0.11    3.90 v _255_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.23    4.13 ^ _264_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.20    4.32 ^ _280_/X (sky130_fd_sc_hd__o311a_1)
+   0.15    4.47 v _295_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.33    4.80 ^ _311_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.16    4.96 v _319_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.30    5.26 ^ _332_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.19    5.45 v _338_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.39    5.84 ^ _353_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.25    6.09 ^ _364_/X (sky130_fd_sc_hd__o311a_1)
+   0.21    6.30 ^ _379_/X (sky130_fd_sc_hd__a31o_1)
+   0.12    6.42 v _185_/Y (sky130_fd_sc_hd__nand4_1)
+   0.22    6.64 ^ _188_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.06    6.70 v _190_/Y (sky130_fd_sc_hd__nor2b_1)
+   0.00    6.70 v predict_branch_pc_o[28] (out)
+           6.70   data arrival time
+
+  10.00   10.00   clock clk_i (rise edge)
+   0.00   10.00   clock network delay (ideal)
+   0.00   10.00   clock reconvergence pessimism
+  -2.00    8.00   output external delay
+           8.00   data required time
+---------------------------------------------------------
+           8.00   data required time
+          -6.70   data arrival time
+---------------------------------------------------------
+           1.30   slack (MET)
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[26] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   2.00    2.00 v input external delay
+   0.00    2.00 v fetch_rdata_i[4] (in)
+   0.19    2.19 v _210_/Y (sky130_fd_sc_hd__nand3b_1)
+   0.76    2.96 ^ _212_/Y (sky130_fd_sc_hd__nor3_1)
+   0.32    3.28 ^ _244_/Y (sky130_fd_sc_hd__mux2i_1)
+   0.12    3.40 v _247_/Y (sky130_fd_sc_hd__xnor2_1)
+   0.13    3.53 v _249_/X (sky130_fd_sc_hd__o211a_1)
+   0.23    3.77 ^ _255_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.14    3.91 v _264_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.35    4.26 v _280_/X (sky130_fd_sc_hd__o311a_1)
+   0.37    4.63 ^ _295_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.17    4.80 v _311_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.26    5.05 ^ _319_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.13    5.19 v _332_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.30    5.49 ^ _338_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.18    5.67 v _353_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.38    6.05 v _364_/X (sky130_fd_sc_hd__o311a_1)
+   0.23    6.28 v _379_/X (sky130_fd_sc_hd__a31o_1)
+   0.08    6.37 ^ _177_/Y (sky130_fd_sc_hd__nand3_1)
+   0.09    6.45 v _178_/Y (sky130_fd_sc_hd__nand2_1)
+   0.16    6.61 v _180_/X (sky130_fd_sc_hd__xor2_1)
+   0.00    6.61 v predict_branch_pc_o[26] (out)
+           6.61   data arrival time
+
+  10.00   10.00   clock clk_i (rise edge)
+   0.00   10.00   clock network delay (ideal)
+   0.00   10.00   clock reconvergence pessimism
+  -2.00    8.00   output external delay
+           8.00   data required time
+---------------------------------------------------------
+           8.00   data required time
+          -6.61   data arrival time
+---------------------------------------------------------
+           1.39   slack (MET)
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[24] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   2.00    2.00 v input external delay
+   0.00    2.00 v fetch_rdata_i[4] (in)
+   0.19    2.19 v _210_/Y (sky130_fd_sc_hd__nand3b_1)
+   0.76    2.96 ^ _212_/Y (sky130_fd_sc_hd__nor3_1)
+   0.32    3.28 ^ _244_/Y (sky130_fd_sc_hd__mux2i_1)
+   0.12    3.40 v _247_/Y (sky130_fd_sc_hd__xnor2_1)
+   0.13    3.53 v _249_/X (sky130_fd_sc_hd__o211a_1)
+   0.23    3.77 ^ _255_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.14    3.91 v _264_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.35    4.26 v _280_/X (sky130_fd_sc_hd__o311a_1)
+   0.37    4.63 ^ _295_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.17    4.80 v _311_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.26    5.05 ^ _319_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.13    5.19 v _332_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.30    5.49 ^ _338_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.18    5.67 v _353_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.38    6.05 v _364_/X (sky130_fd_sc_hd__o311a_1)
+   0.23    6.28 v _379_/X (sky130_fd_sc_hd__a31o_1)
+   0.16    6.45 v _381_/X (sky130_fd_sc_hd__xor2_1)
+   0.00    6.45 v predict_branch_pc_o[24] (out)
+           6.45   data arrival time
+
+  10.00   10.00   clock clk_i (rise edge)
+   0.00   10.00   clock network delay (ideal)
+   0.00   10.00   clock reconvergence pessimism
+  -2.00    8.00   output external delay
+           8.00   data required time
+---------------------------------------------------------
+           8.00   data required time
+          -6.45   data arrival time
+---------------------------------------------------------
+           1.55   slack (MET)
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[22] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk_i (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   2.00    2.00 v input external delay
+   0.00    2.00 v fetch_rdata_i[4] (in)
+   0.19    2.19 v _210_/Y (sky130_fd_sc_hd__nand3b_1)
+   0.76    2.96 ^ _212_/Y (sky130_fd_sc_hd__nor3_1)
+   0.32    3.28 ^ _244_/Y (sky130_fd_sc_hd__mux2i_1)
+   0.12    3.40 v _247_/Y (sky130_fd_sc_hd__xnor2_1)
+   0.13    3.53 v _249_/X (sky130_fd_sc_hd__o211a_1)
+   0.23    3.77 ^ _255_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.14    3.91 v _264_/Y (sky130_fd_sc_hd__a21oi_1)
+   0.35    4.26 v _280_/X (sky130_fd_sc_hd__o311a_1)
+   0.37    4.63 ^ _295_/Y (sky130_fd_sc_hd__o311ai_0)
+   0.17    4.80 v _311_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.26    5.05 ^ _319_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.13    5.19 v _332_/Y (sky130_fd_sc_hd__a211oi_1)
+   0.30    5.49 ^ _338_/Y (sky130_fd_sc_hd__o21ai_0)
+   0.18    5.67 v _353_/Y (sky130_fd_sc_hd__a311oi_1)
+   0.38    6.05 v _364_/X (sky130_fd_sc_hd__o311a_1)
+   0.07    6.13 ^ _370_/Y (sky130_fd_sc_hd__nand2_1)
+   0.08    6.21 v _371_/Y (sky130_fd_sc_hd__nand2_1)
+   0.16    6.37 v _373_/X (sky130_fd_sc_hd__xor2_1)
+   0.00    6.37 v predict_branch_pc_o[22] (out)
+           6.37   data arrival time
+
+  10.00   10.00   clock clk_i (rise edge)
+   0.00   10.00   clock network delay (ideal)
+   0.00   10.00   clock reconvergence pessimism
+  -2.00    8.00   output external delay
+           8.00   data required time
+---------------------------------------------------------
+           8.00   data required time
+          -6.37   data arrival time
+---------------------------------------------------------
+           1.63   slack (MET)

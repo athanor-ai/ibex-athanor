@@ -1,0 +1,516 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+
+-- Running command `
+read_verilog gold_elab.v
+hierarchy -check -top ibex_branch_predict
+proc; opt; memory; opt
+techmap; opt
+dfflibmap -liberty replay_sky130_fd_sc_hd__tt_025C_1v80.lib
+abc -dff -liberty replay_sky130_fd_sc_hd__tt_025C_1v80.lib
+clean
+stat -liberty replay_sky130_fd_sc_hd__tt_025C_1v80.lib
+write_verilog -noattr -noexpr -nohex -nodec gold_mapped.v
+' --
+
+1. Executing Verilog-2005 frontend: gold_elab.v
+Parsing Verilog input from `gold_elab.v' to AST representation.
+Warning: Encountered `parallel_case' comment! Such legacy hot comments are supported by Yosys, but are not part of any formal language specification. Using the Verilog `parallel_case' attribute or the SystemVerilog `unique' or `priority' keywords is recommended!
+Generating RTLIL representation for module `\ibex_branch_predict'.
+Successfully finished Verilog frontend.
+
+2. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1. Analyzing design hierarchy..
+Top module:  \ibex_branch_predict
+
+2.2. Analyzing design hierarchy..
+Top module:  \ibex_branch_predict
+Removed 0 unused modules.
+
+3. Executing PROC pass (convert processes to netlists).
+
+3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$gold_elab.v:74$21 in module ibex_branch_predict.
+Removed a total of 0 dead cases.
+
+3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 5 assignments to connections.
+
+3.4. Executing PROC_INIT pass (extract init attributes).
+
+3.5. Executing PROC_ARST pass (detect async resets in processes).
+
+3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~1 debug messages>
+
+3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\ibex_branch_predict.$proc$gold_elab.v:74$21'.
+     1/1: $1\_29_$func$gold_elab.v:74$2.$result[31:0]$27
+
+3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\ibex_branch_predict.\_29_$func$gold_elab.v:74$1.$result' from process `\ibex_branch_predict.$proc$gold_elab.v:74$21'.
+
+3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\ibex_branch_predict.$proc$gold_elab.v:74$21'.
+Removing empty process `ibex_branch_predict.$proc$gold_elab.v:74$21'.
+Cleaned up 1 empty switch.
+
+3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_branch_predict.
+
+4. Executing OPT pass (performing simple optimizations).
+
+4.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_branch_predict.
+
+4.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_branch_predict'.
+Computing hashes of 19 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+Removed a total of 0 cells.
+
+4.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_branch_predict..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+4.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_branch_predict.
+Performed a total of 0 changes.
+
+4.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_branch_predict'.
+Computing hashes of 19 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+Removed a total of 0 cells.
+
+4.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_branch_predict..
+Removed 0 unused cells and 30 unused wires.
+<suppressed ~1 debug messages>
+
+4.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_branch_predict.
+
+4.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_branch_predict..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+4.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_branch_predict.
+Performed a total of 0 changes.
+
+4.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_branch_predict'.
+Computing hashes of 19 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+Removed a total of 0 cells.
+
+4.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_branch_predict..
+
+4.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_branch_predict.
+
+4.16. Finished fast OPT passes. (There is nothing left to do.)
+
+5. Executing MEMORY pass.
+
+5.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+5.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+5.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+5.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+5.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+5.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_branch_predict..
+
+5.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+5.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+5.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_branch_predict..
+
+5.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+5.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+6. Executing OPT pass (performing simple optimizations).
+
+6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_branch_predict.
+
+6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_branch_predict'.
+Computing hashes of 19 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+Removed a total of 0 cells.
+
+6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_branch_predict..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_branch_predict.
+Performed a total of 0 changes.
+
+6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_branch_predict'.
+Computing hashes of 19 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+Removed a total of 0 cells.
+
+6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_branch_predict..
+
+6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_branch_predict.
+
+6.9. Finished fast OPT passes. (There is nothing left to do.)
+
+7. Executing TECHMAP pass (map to technology primitives).
+
+7.1. Executing Verilog-2005 frontend: /workdir/_tools/oss-cad-suite-20260630/lib/../share/yosys/techmap.v
+Parsing Verilog input from `/workdir/_tools/oss-cad-suite-20260630/lib/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+7.2. Continuing TECHMAP pass.
+Running "alumacc" on wrapper $extern:wrap:$add:Y_WIDTH=32:B_WIDTH=32:A_WIDTH=32:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$add:Y_WIDTH=32:B_WIDTH=32:A_WIDTH=32:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$add:Y_WIDTH=32:B_WIDTH=32:A_WIDTH=32:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47.
+Using extmapper simplemap for cells of type $and.
+Using extmapper simplemap for cells of type $eq.
+Using extmapper simplemap for cells of type $or.
+Using extmapper simplemap for cells of type $pmux.
+Using template $paramod$fbc7873bff55778c0b3173955b7e4bce1d9d6834\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $xor.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000100000 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000100000 for cells of type $lcu.
+Using extmapper simplemap for cells of type $pos.
+Using extmapper simplemap for cells of type $mux.
+Using extmapper simplemap for cells of type $not.
+No more expansions possible.
+<suppressed ~435 debug messages>
+
+8. Executing OPT pass (performing simple optimizations).
+
+8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_branch_predict.
+<suppressed ~172 debug messages>
+
+8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_branch_predict'.
+Computing hashes of 506 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+Computing hashes of 440 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+Computing hashes of 426 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+Computing hashes of 414 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+Computing hashes of 403 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+Computing hashes of 392 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+<suppressed ~342 debug messages>
+Removed a total of 114 cells.
+
+8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_branch_predict..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_branch_predict.
+Performed a total of 0 changes.
+
+8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_branch_predict'.
+Computing hashes of 392 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+Removed a total of 0 cells.
+
+8.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_branch_predict..
+Removed 35 unused cells and 164 unused wires.
+<suppressed ~36 debug messages>
+
+8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_branch_predict.
+
+8.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+8.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \ibex_branch_predict..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+8.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \ibex_branch_predict.
+Performed a total of 0 changes.
+
+8.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\ibex_branch_predict'.
+Computing hashes of 357 cells of `\ibex_branch_predict'.
+Finding duplicate cells in `\ibex_branch_predict'.
+Removed a total of 0 cells.
+
+8.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+8.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \ibex_branch_predict..
+
+8.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module ibex_branch_predict.
+
+8.16. Finished fast OPT passes. (There is nothing left to do.)
+
+9. Executing DFFLIBMAP pass (mapping DFF cells to sequential cells from liberty file).
+  cell sky130_fd_sc_hd__dfxtp_1 (noninv, pins=3, area=20.02) is a direct match for cell type $_DFF_P_.
+  cell sky130_fd_sc_hd__dfrtn_1 (noninv, pins=4, area=25.02) is a direct match for cell type $_DFF_NN0_.
+  cell sky130_fd_sc_hd__dfrtp_1 (noninv, pins=4, area=25.02) is a direct match for cell type $_DFF_PN0_.
+  cell sky130_fd_sc_hd__dfstp_2 (noninv, pins=4, area=26.28) is a direct match for cell type $_DFF_PN1_.
+  cell sky130_fd_sc_hd__edfxtp_1 (noninv, pins=4, area=30.03) is a direct match for cell type $_DFFE_PP_.
+  cell sky130_fd_sc_hd__dfbbn_1 (noninv, pins=6, area=32.53) is a direct match for cell type $_DFFSR_NNN_.
+  cell sky130_fd_sc_hd__dfbbp_1 (noninv, pins=6, area=32.53) is a direct match for cell type $_DFFSR_PNN_.
+  final dff cell mappings:
+    unmapped dff cell: $_DFF_N_
+    \sky130_fd_sc_hd__dfxtp_1 _DFF_P_ (.CLK( C), .D( D), .Q( Q));
+    \sky130_fd_sc_hd__dfrtn_1 _DFF_NN0_ (.CLK_N( C), .D( D), .Q( Q), .RESET_B( R));
+    unmapped dff cell: $_DFF_NN1_
+    unmapped dff cell: $_DFF_NP0_
+    unmapped dff cell: $_DFF_NP1_
+    \sky130_fd_sc_hd__dfrtp_1 _DFF_PN0_ (.CLK( C), .D( D), .Q( Q), .RESET_B( R));
+    \sky130_fd_sc_hd__dfstp_2 _DFF_PN1_ (.CLK( C), .D( D), .Q( Q), .SET_B( R));
+    unmapped dff cell: $_DFF_PP0_
+    unmapped dff cell: $_DFF_PP1_
+    unmapped dff cell: $_DFFE_NN_
+    unmapped dff cell: $_DFFE_NP_
+    unmapped dff cell: $_DFFE_PN_
+    \sky130_fd_sc_hd__edfxtp_1 _DFFE_PP_ (.CLK( C), .D( D), .DE( E), .Q( Q));
+    \sky130_fd_sc_hd__dfbbn_1 _DFFSR_NNN_ (.CLK_N( C), .D( D), .Q( Q), .Q_N(~Q), .RESET_B( R), .SET_B( S));
+    unmapped dff cell: $_DFFSR_NNP_
+    unmapped dff cell: $_DFFSR_NPN_
+    unmapped dff cell: $_DFFSR_NPP_
+    \sky130_fd_sc_hd__dfbbp_1 _DFFSR_PNN_ (.CLK( C), .D( D), .Q( Q), .Q_N(~Q), .RESET_B( R), .SET_B( S));
+    unmapped dff cell: $_DFFSR_PNP_
+    unmapped dff cell: $_DFFSR_PPN_
+    unmapped dff cell: $_DFFSR_PPP_
+
+9.1. Executing DFFLEGALIZE pass (convert FFs to types supported by the target).
+<suppressed ~24 debug messages>
+Mapping DFF cells in module `\ibex_branch_predict':
+
+10. Executing ABC pass (technology mapping using ABC).
+
+10.1. Summary of detected clock domains:
+  357 cells in clk={ }, en={ }, arst={ }, srst={ }
+
+10.2. Extracting gate netlist of module `\ibex_branch_predict' to `<abc-temp-dir>/input.blif'..
+No matching clock domain found. Not extracting any FF cells.
+
+10.2.1. Executed ABC.
+Extracted 357 gates and 421 wires to a netlist network with 64 inputs and 32 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: UC Berkeley, ABC 1.01 (compiled Jun 30 2026 04:50:19)
+ABC: abc 01> empty
+ABC: abc 01> source <abc-temp-dir>/abc.script
+ABC: + read_blif <abc-temp-dir>/input.blif
+ABC: + read_scl /tmp/yosys-liberty-scl-cache/yosys_merged_eebea61a.scl
+ABC: Warning: Detected 9 multi-output cells (for example, "sky130_fd_sc_hd__fa_1").
+ABC: + strash
+ABC: + &get -n
+ABC: + &fraig -x
+ABC: + &put
+ABC: + scorr
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2
+ABC: + dretime
+ABC: + strash
+ABC: + &get -n
+ABC: + &dch -f
+ABC: + &nf
+ABC: + &put
+ABC: + write_blif <abc-temp-dir>/output.blif
+ABC:
+ABC: YOSYS_ABC_DONE
+
+10.2.2. Re-integrating ABC results.
+ABC RESULTS:   sky130_fd_sc_hd__a2111oi_0 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a21o_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a21oi_1 cells:        8
+ABC RESULTS:   sky130_fd_sc_hd__a221oi_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a22o_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a22oi_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__a311oi_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__a31oi_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__a32oi_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__and2_0 cells:        5
+ABC RESULTS:   sky130_fd_sc_hd__and3_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__and3b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__and4b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__clkinv_1 cells:       12
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_inputiso1p_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__lpflow_isobufsrc_1 cells:        9
+ABC RESULTS:   sky130_fd_sc_hd__maj3_1 cells:       10
+ABC RESULTS:   sky130_fd_sc_hd__mux2i_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__nand2_1 cells:       35
+ABC RESULTS:   sky130_fd_sc_hd__nand2b_1 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__nand3_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__nand3b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nor2_1 cells:       11
+ABC RESULTS:   sky130_fd_sc_hd__nor2b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nor3_1 cells:        4
+ABC RESULTS:   sky130_fd_sc_hd__nor3b_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nor4_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__nor4bb_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o2111ai_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o21a_1 cells:        3
+ABC RESULTS:   sky130_fd_sc_hd__o21ai_0 cells:        6
+ABC RESULTS:   sky130_fd_sc_hd__o311ai_0 cells:        2
+ABC RESULTS:   sky130_fd_sc_hd__o31ai_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o41a_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__o41ai_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__or3_1 cells:        1
+ABC RESULTS:   sky130_fd_sc_hd__xnor2_1 cells:       43
+ABC RESULTS:   sky130_fd_sc_hd__xor2_1 cells:       10
+ABC RESULTS:        internal signals:      325
+ABC RESULTS:           input signals:       64
+ABC RESULTS:          output signals:       32
+Removing temp directory.
+Removing global temp directory.
+Removed 0 unused cells and 312 unused wires.
+
+11. Printing statistics.
+
+=== ibex_branch_predict ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        |
+      181        - wires
+      588        - wire bits
+       17        - public wires
+      424        - public wire bits
+        7        - ports
+      100        - port bits
+      196 1.29E+03 cells
+        1    8.758   sky130_fd_sc_hd__a2111oi_0
+        1    7.507   sky130_fd_sc_hd__a21o_1
+        8   40.038   sky130_fd_sc_hd__a21oi_1
+        1    8.758   sky130_fd_sc_hd__a221oi_1
+        2   17.517   sky130_fd_sc_hd__a22o_1
+        2   15.014   sky130_fd_sc_hd__a22oi_1
+        1    8.758   sky130_fd_sc_hd__a311oi_1
+        3   18.768   sky130_fd_sc_hd__a31oi_1
+        1    8.758   sky130_fd_sc_hd__a32oi_1
+        5    31.28   sky130_fd_sc_hd__and2_0
+        1    6.256   sky130_fd_sc_hd__and3_1
+        1    8.758   sky130_fd_sc_hd__and3b_1
+        1    10.01   sky130_fd_sc_hd__and4b_1
+       12   45.043   sky130_fd_sc_hd__clkinv_1
+        3   18.768   sky130_fd_sc_hd__lpflow_inputiso1p_1
+        9   56.304   sky130_fd_sc_hd__lpflow_isobufsrc_1
+       10  100.096   sky130_fd_sc_hd__maj3_1
+        4   40.038   sky130_fd_sc_hd__mux2i_1
+       35  131.376   sky130_fd_sc_hd__nand2_1
+        2   12.512   sky130_fd_sc_hd__nand2b_1
+        4   20.019   sky130_fd_sc_hd__nand3_1
+        1    7.507   sky130_fd_sc_hd__nand3b_1
+       11    41.29   sky130_fd_sc_hd__nor2_1
+        1    6.256   sky130_fd_sc_hd__nor2b_1
+        4   20.019   sky130_fd_sc_hd__nor3_1
+        1    7.507   sky130_fd_sc_hd__nor3b_1
+        1    6.256   sky130_fd_sc_hd__nor4_1
+        1    10.01   sky130_fd_sc_hd__nor4bb_1
+        1    8.758   sky130_fd_sc_hd__o2111ai_1
+        3   22.522   sky130_fd_sc_hd__o21a_1
+        6   30.029   sky130_fd_sc_hd__o21ai_0
+        2   17.517   sky130_fd_sc_hd__o311ai_0
+        1    7.507   sky130_fd_sc_hd__o31ai_1
+        1   11.261   sky130_fd_sc_hd__o41a_1
+        1    8.758   sky130_fd_sc_hd__o41ai_1
+        1    6.256   sky130_fd_sc_hd__or3_1
+       43  376.611   sky130_fd_sc_hd__xnor2_1
+       10   87.584   sky130_fd_sc_hd__xor2_1
+
+   Chip area for module '\ibex_branch_predict': 1289.987200
+     of which used for sequential elements: 0.000000 (0.00%)
+
+12. Executing Verilog backend.
+Dumping module `\ibex_branch_predict'.
+
+Warnings: 1 unique messages, 1 total
+End of script. Logfile hash: 6f2f6463cd, time: 0.40s, user: 0.13s, system: 0.03s, MEM: 44.00 MB peak
+Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+Time spent: 67% 1x abc (0 sec), 11% 1x dfflibmap (0 sec), ...

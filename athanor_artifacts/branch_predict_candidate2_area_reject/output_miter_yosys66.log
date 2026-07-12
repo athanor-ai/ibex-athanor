@@ -1,0 +1,585 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+
+-- Executing script file `replay_output_miter_yosys66.ys' --
+
+1. Executing Verilog-2005 frontend: gold_elab.v
+Parsing Verilog input from `gold_elab.v' to AST representation.
+Warning: Encountered `parallel_case' comment! Such legacy hot comments are supported by Yosys, but are not part of any formal language specification. Using the Verilog `parallel_case' attribute or the SystemVerilog `unique' or `priority' keywords is recommended!
+Generating RTLIL representation for module `\ibex_branch_predict'.
+Successfully finished Verilog frontend.
+Renaming module \ibex_branch_predict to \gold.
+
+2. Executing Verilog-2005 frontend: gate_elab.v
+Parsing Verilog input from `gate_elab.v' to AST representation.
+Generating RTLIL representation for module `\ibex_branch_predict_gate'.
+Successfully finished Verilog frontend.
+Renaming module \ibex_branch_predict_gate to \gate.
+
+3. Executing PROC pass (convert processes to netlists).
+
+3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$gold_elab.v:74$21 in module gold.
+Removed a total of 0 dead cases.
+
+3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 5 assignments to connections.
+
+3.4. Executing PROC_INIT pass (extract init attributes).
+
+3.5. Executing PROC_ARST pass (detect async resets in processes).
+
+3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~1 debug messages>
+
+3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\gold.$proc$gold_elab.v:74$21'.
+     1/1: $1\_29_$func$gold_elab.v:74$2.$result[31:0]$27
+
+3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\gold.\_29_$func$gold_elab.v:74$1.$result' from process `\gold.$proc$gold_elab.v:74$21'.
+
+3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\gold.$proc$gold_elab.v:74$21'.
+Removing empty process `gold.$proc$gold_elab.v:74$21'.
+Cleaned up 1 empty switch.
+
+3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gate.
+Optimizing module gold.
+
+4. Executing OPT pass (performing simple optimizations).
+
+4.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gate.
+Optimizing module gold.
+
+4.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+4.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gate..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \gold..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~60 debug messages>
+
+4.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gate.
+  Optimizing cells in module \gold.
+Performed a total of 0 changes.
+
+4.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+4.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+Removed 0 unused cells and 89 unused wires.
+<suppressed ~2 debug messages>
+
+4.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gate.
+Optimizing module gold.
+
+4.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gate..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \gold..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~60 debug messages>
+
+4.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gate.
+  Optimizing cells in module \gold.
+Performed a total of 0 changes.
+
+4.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+4.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+
+4.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gate.
+Optimizing module gold.
+
+4.16. Finished fast OPT passes. (There is nothing left to do.)
+
+5. Executing MEMORY pass.
+
+5.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+5.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+5.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+5.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+5.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+5.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+
+5.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+5.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+5.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+
+5.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+5.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+6. Executing OPT pass (performing simple optimizations).
+
+6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gate.
+Optimizing module gold.
+
+6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gate..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \gold..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~60 debug messages>
+
+6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gate.
+  Optimizing cells in module \gold.
+Performed a total of 0 changes.
+
+6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+
+6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gate.
+Optimizing module gold.
+
+6.9. Finished fast OPT passes. (There is nothing left to do.)
+
+7. Executing MITER pass (creating miter circuit).
+Creating miter cell "miter" with gold cell "gold" and gate cell "gate".
+
+8. Executing PREP pass.
+
+8.1. Executing HIERARCHY pass (managing design hierarchy).
+
+8.1.1. Analyzing design hierarchy..
+Top module:  \miter
+Used module:     \gate
+Used module:     \gold
+
+8.1.2. Analyzing design hierarchy..
+Top module:  \miter
+Used module:     \gate
+Used module:     \gold
+Removed 0 unused modules.
+
+8.2. Executing PROC pass (convert processes to netlists).
+
+8.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+8.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+8.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 0 assignments to connections.
+
+8.2.4. Executing PROC_INIT pass (extract init attributes).
+
+8.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+8.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+8.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+
+8.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+8.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+8.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+8.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+8.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module miter.
+Optimizing module gate.
+Optimizing module gold.
+
+8.3. Executing FUTURE pass.
+
+8.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module miter.
+Optimizing module gate.
+Optimizing module gold.
+
+8.5. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \miter..
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+
+8.6. Executing CHECK pass (checking for obvious problems).
+Checking module miter...
+Checking module gate...
+Checking module gold...
+Found and reported 0 problems.
+
+8.7. Executing OPT pass (performing simple optimizations).
+
+8.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module miter.
+Optimizing module gate.
+Optimizing module gold.
+
+8.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\miter'.
+Computing hashes of 6 cells of `\miter'.
+Finding duplicate cells in `\miter'.
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+8.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \miter..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \gate..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \gold..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~60 debug messages>
+
+8.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \miter.
+  Optimizing cells in module \gate.
+  Optimizing cells in module \gold.
+Performed a total of 0 changes.
+
+8.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\miter'.
+Computing hashes of 6 cells of `\miter'.
+Finding duplicate cells in `\miter'.
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+8.7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \miter..
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+
+8.7.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module miter.
+Optimizing module gate.
+Optimizing module gold.
+
+8.7.8. Finished fast OPT passes. (There is nothing left to do.)
+
+8.8. Executing WREDUCE pass (reducing word size of cells).
+Removed top 2 bits (of 3) from port B of cell gold.$eq$gold_elab.v:51$13 ($eq).
+Removed top 1 bits (of 2) from port B of cell gold.$eq$gold_elab.v:52$14 ($eq).
+
+8.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \miter..
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+
+8.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+8.11. Executing OPT pass (performing simple optimizations).
+
+8.11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module miter.
+Optimizing module gate.
+Optimizing module gold.
+
+8.11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\miter'.
+Computing hashes of 6 cells of `\miter'.
+Finding duplicate cells in `\miter'.
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+8.11.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \miter..
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+
+8.11.4. Finished fast OPT passes.
+
+8.12. Executing SORT pass.
+
+8.13. Printing statistics.
+
+=== gate ===
+
+        +----------Local Count, excluding submodules.
+        |
+       46 wires
+      201 wire bits
+       46 public wires
+      201 public wire bits
+        7 ports
+      100 port bits
+       59 cells
+        1   $add
+       11   $and
+        2   $eq
+       38   $mux
+        2   $not
+        5   $or
+
+=== gold ===
+
+        +----------Local Count, excluding submodules.
+        |
+       33 wires
+      440 wire bits
+       33 public wires
+      440 public wire bits
+        7 ports
+      100 port bits
+       19 cells
+        1   $add
+        5   $and
+        7   $eq
+        5   $or
+        1   $pmux
+
+=== miter ===
+
+        +----------Local Count, excluding submodules.
+        |
+       13 wires
+      137 wire bits
+       10 public wires
+      134 public wire bits
+        6 ports
+       68 port bits
+        4 cells
+        2   $eqx
+        1   $not
+        1   $reduce_and
+        2 submodules
+        1   gate
+        1   gold
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        |
+       82 miter
+       59 gate
+       19 gold
+
+        +----------Count including submodules.
+        |
+       92 wires
+      778 wire bits
+       89 public wires
+      775 public wire bits
+       20 ports
+      268 port bits
+        - memories
+        - memory bits
+        - processes
+       82 cells
+        2   $add
+       16   $and
+        9   $eq
+        2   $eqx
+       38   $mux
+        3   $not
+       10   $or
+        1   $pmux
+        1   $reduce_and
+        2 submodules
+        1   gate
+        1   gold
+
+8.14. Executing CHECK pass (checking for obvious problems).
+Checking module gate...
+Checking module gold...
+Checking module miter...
+Found and reported 0 problems.
+
+9. Executing FLATTEN pass (flatten design).
+Deleting now unused module gate.
+Deleting now unused module gold.
+<suppressed ~2 debug messages>
+
+10. Executing OPT pass (performing simple optimizations).
+
+10.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module miter.
+
+10.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\miter'.
+Computing hashes of 84 cells of `\miter'.
+Finding duplicate cells in `\miter'.
+Removed a total of 0 cells.
+
+10.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \miter..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~60 debug messages>
+
+10.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \miter.
+Performed a total of 0 changes.
+
+10.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\miter'.
+Computing hashes of 84 cells of `\miter'.
+Finding duplicate cells in `\miter'.
+Removed a total of 0 cells.
+
+10.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+10.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \miter..
+
+10.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module miter.
+
+10.9. Finished fast OPT passes. (There is nothing left to do.)
+
+11. Executing SAT pass (solving SAT problems in the circuit).
+Using SAT solver `minisat`.
+
+Setting up SAT problem:
+Final constraint equation: { } = { }
+Imported 84 cells to SAT database.
+Import proof-constraint: \trigger = 1'0
+Final proof equation: \trigger = 1'0
+Import show expression: \in_clk_i
+Import show expression: \in_fetch_pc_i
+Import show expression: \in_fetch_rdata_i
+Import show expression: \in_fetch_valid_i
+Import show expression: \in_rst_ni
+Import show expression: \trigger
+
+Solving problem with 1761 variables and 4780 clauses..
+SAT proof finished - no model found: SUCCESS!
+
+                  /$$$$$$      /$$$$$$$$     /$$$$$$$
+                 /$$__  $$    | $$_____/    | $$__  $$
+                | $$  \ $$    | $$          | $$  \ $$
+                | $$  | $$    | $$$$$       | $$  | $$
+                | $$  | $$    | $$__/       | $$  | $$
+                | $$/$$ $$    | $$          | $$  | $$
+                |  $$$$$$/ /$$| $$$$$$$$ /$$| $$$$$$$//$$
+                 \____ $$$|__/|________/|__/|_______/|__/
+                       \__/
+
+Warnings: 1 unique messages, 1 total
+End of script. Logfile hash: ca5d921577, time: 0.04s, user: 0.04s, system: 0.01s, MEM: 19.00 MB peak
+Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+Time spent: 38% 1x sat (0 sec), 16% 4x read_verilog (0 sec), ...

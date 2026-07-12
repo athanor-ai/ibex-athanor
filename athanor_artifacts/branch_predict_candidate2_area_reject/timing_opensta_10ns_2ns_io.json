@@ -1,0 +1,18 @@
+{
+  "delta": {
+    "data_arrival_ns": -1.709999999999999,
+    "data_arrival_pct": -19.300225733634303
+  },
+  "gate": {
+    "max_data_arrival_ns": 7.15,
+    "status": "ok",
+    "tns_ns": 0.0,
+    "wns_ns": 0.0
+  },
+  "gold": {
+    "max_data_arrival_ns": 8.86,
+    "status": "ok",
+    "tns_ns": -5.92,
+    "wns_ns": -0.86
+  }
+}

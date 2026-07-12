@@ -1,0 +1,87 @@
+{
+  "schema": "athanor.ath2924.timing_conversion_replay.v1",
+  "created_at": "2026-07-12T01:49:40Z",
+  "attempt": {
+    "attempt_dir": "/workdir/_tmp/dexter-ath2924-multdiv-timing-conversion-20260712T014704Z",
+    "started_at": "2026-07-12T01:47:04Z",
+    "source_package": "/workdir/_tmp/dexter-ibex-gpt55-target-multdiv-20260711T1518/athanor_artifacts/multdiv_slow_greater_equal_xor_shape",
+    "main_head": "ee4ed4df8f96eb7536cd013f4e46508d54c4b95f",
+    "module": "ibex_multdiv_slow",
+    "candidate": "greater_equal_xor_shape"
+  },
+  "tools": {
+    "yosys": {
+      "path": "/workdir/_tools/oss-cad-suite-20260630/bin/yosys",
+      "sha256": "7c3e3396b38c129dd7485be5a0a0f0da8e495a94c8fd486059e3bea043a588d6",
+      "version": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)"
+    },
+    "abc": {
+      "path": "/workdir/_tools/oss-cad-suite-20260630/libexec/yosys-abc",
+      "sha256": "13628867b58b6d917fb087b48d6e180edcd18f031f3463752872285f4505e154"
+    },
+    "opensta": {
+      "path": "/usr/local/bin/sta",
+      "sha256": "4be87ddb9323b86bb4f6cd404f8a4793ea639e9728a48f809603a6606fd2ae83",
+      "version": "OpenSTA 2.2.0"
+    },
+    "liberty": {
+      "path": "/tmp/ak-dexter-main-ee4/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+      "sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
+    }
+  },
+  "input_hash_check": {
+    "status": "passed",
+    "log": "hash_check.log"
+  },
+  "area": {
+    "status": "area_positive",
+    "tool": "yosys",
+    "gold_area": 10339.9168,
+    "gate_area": 10333.6608,
+    "delta_area_pct": -0.06050338818975044,
+    "log": "replay_area_20260712.log"
+  },
+  "timing": {
+    "status": "timing_verified_and_met",
+    "tool": "opensta",
+    "clock_period_ns": 10.0,
+    "io_delay_ns": 2.0,
+    "timing_verified": true,
+    "timing_met": true,
+    "gold": {
+      "wns_ns": -0.13,
+      "tns_ns": -5.66,
+      "max_delay_ns": 8.13
+    },
+    "gate": {
+      "wns_ns": 0.0,
+      "tns_ns": 0.0,
+      "max_delay_ns": 7.25
+    },
+    "delta": {
+      "max_delay_ns": -0.8800000000000008,
+      "max_delay_pct": -10.82410824108242
+    },
+    "log": "replay_timing_opensta_20260712.log"
+  },
+  "equivalence": {
+    "status": "proven",
+    "tool": "yosys",
+    "equiv_cells_total": 411,
+    "equiv_cells_proven": 411,
+    "equiv_cells_unproven": 0,
+    "exit_code": 0,
+    "log": "replay_equiv_20260712.log"
+  },
+  "classification": {
+    "result": "receipt_complete_timing_positive_equivalence_positive_area_positive_selected_toolchain_replay",
+    "accepted_for_customer_claim": false,
+    "integrated_to_main_rtl": false,
+    "optimizer_acceptance_changed": false,
+    "notes": [
+      "This converts the previously fail-closed multdiv structural lead into a measured selected-toolchain replay after the ATH-2924 OpenSTA/SDC timing route landed.",
+      "This is not a customer-ready claim, proof/customer-authority expansion, or production RTL integration."
+    ]
+  },
+  "boundary": "Selected-toolchain replay artifact only; no customer claim, no proof/customer authority, no optimizer acceptance change, no model route change, and no runtime customer behavior change."
+}

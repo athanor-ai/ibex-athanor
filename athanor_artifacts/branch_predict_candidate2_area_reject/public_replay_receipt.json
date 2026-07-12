@@ -1,0 +1,87 @@
+{
+  "area": {
+    "delta_area_pct": 5.528612997090194,
+    "gate_area": 1361.3056,
+    "gold_area": 1289.9872,
+    "log": "replay_area_20260712.log",
+    "status": "area_regressed",
+    "tool": "yosys+abc+liberty"
+  },
+  "candidate": "candidate_2_repaired_gate_from_iter_1_bundle",
+  "classification": {
+    "accepted_for_customer_claim": false,
+    "integrated_to_main_rtl": false,
+    "notes": [
+      "The banked summary lead reported -5.91% cell delta and -29.66% toggle delta, but replay through selected Yosys+ABC+Liberty maps gate area larger than gold by +5.53%.",
+      "Timing route works: complete OpenSTA fields are present and gate timing meets the replay policy.",
+      "Output miter SAT closes on the copied candidate artifact; this still does not overcome selected-toolchain area regression."
+    ],
+    "optimizer_acceptance_changed": false,
+    "result": "honest_reject_selected_toolchain_area_regression_despite_timing_and_output_equiv"
+  },
+  "created_at_utc": "2026-07-12T02:12:03Z",
+  "formal_evidence": {
+    "exit_code": 0,
+    "log": "output_miter_yosys66.log",
+    "raw_equiv_scope_note": "internal-name $equiv check left 66/81 cells marked equivalent and 15 internal same-name cells unclosed; output miter SAT is the acceptance-relevant replay leg for this receipt.",
+    "scope": "output miter over predict_branch_taken_o and predict_branch_pc_o",
+    "status": "output_miter_sat_passed",
+    "tool": "yosys sat miter"
+  },
+  "module": "ibex_branch_predict",
+  "original_summary_lead": {
+    "content_sha256": "40defa3db2e1a05cc58c13b25dc638afd44f2141f3f3c68ffd2fd5bb5b43957e",
+    "reported_gate_cells": 191,
+    "reported_gold_cells": 203,
+    "reported_measured_delta_pct": -5.91,
+    "reported_reason": "timing_gate_unavailable: SDC constraints were generated, but the old toolchain path could not consume them. Area looked favorable in the pre-route summary, but OpenSTA timing had not been measured yet; prior miter extraction was unavailable in the saved summary lead.",
+    "reported_toggle_delta_pct": -29.66,
+    "storage_ref": "knowledge_entries:40defa3db2e1a05cc58c13b25dc638afd44f2141f3f3c68ffd2fd5bb5b43957e"
+  },
+  "public_boundary": "Rejected selected-toolchain replay artifact only. This is not a customer win claim, not integrated RTL, not optimizer acceptance, and not proof/customer authority expansion.",
+  "published_files_note": "This public bundle includes replayable RTL artifacts, Yosys/OpenSTA scripts and logs, checksums, and this receipt. It intentionally omits internal discovery prompts and orchestration logs.",
+  "schema": "athanor.public.ibex.branch_predict_candidate2_replay_receipt.v1",
+  "timing": {
+    "clock_period_ns": 10.0,
+    "delta": {
+      "max_delay_ns": -1.709999999999999,
+      "max_delay_pct": -19.300225733634303
+    },
+    "gate": {
+      "max_delay_ns": 7.15,
+      "tns_ns": 0.0,
+      "wns_ns": 0.0
+    },
+    "gold": {
+      "max_delay_ns": 8.86,
+      "tns_ns": -5.92,
+      "wns_ns": -0.86
+    },
+    "io_delay_ns": 2.0,
+    "log": "replay_timing_opensta_20260712.log",
+    "status": "timing_verified_and_met",
+    "timing_met": true,
+    "timing_verified": true,
+    "tool": "opensta"
+  },
+  "tool_hashes": {
+    "abc": {
+      "path": "/workdir/_tools/oss-cad-suite-20260630/libexec/yosys-abc",
+      "sha256": "13628867b58b6d917fb087b48d6e180edcd18f031f3463752872285f4505e154"
+    },
+    "liberty": {
+      "path": "/tmp/ak-dexter-main-ee4/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+      "sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
+    },
+    "opensta": {
+      "path": "/usr/local/bin/sta",
+      "sha256": "4be87ddb9323b86bb4f6cd404f8a4793ea639e9728a48f809603a6606fd2ae83",
+      "version": "2.2.0"
+    },
+    "yosys": {
+      "path": "/workdir/_tools/oss-cad-suite-20260630/bin/yosys",
+      "sha256": "7c3e3396b38c129dd7485be5a0a0f0da8e495a94c8fd486059e3bea043a588d6",
+      "version": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)"
+    }
+  }
+}
