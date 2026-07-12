@@ -1,0 +1,69 @@
+OpenSTA 2.2.0 02b129d48f Copyright (c) 2019, Parallax Software, Inc.
+License GPLv3: GNU GPL version 3 <http://gnu.org/licenses/gpl.html>
+
+This is free software, and you are free to change and redistribute it
+under certain conditions; type `show_copying' for details.
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show_warranty'.
+Error: gold_mapped.v, line 1262 syntax error.
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[31] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[30] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[27] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[23] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[29] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[25] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[26] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[28] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[22] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+Startpoint: fetch_rdata_i[4] (input port clocked by clk_i)
+Endpoint: predict_branch_pc_o[24] (output port clocked by clk_i)
+Path Group: clk_i
+Path Type: max
+
+
+tns -5.92
+wns -0.86

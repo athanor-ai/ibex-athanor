@@ -1,0 +1,10 @@
+read_verilog gold_elab.v
+rename ibex_branch_predict gold
+read_verilog gate_elab.v
+rename ibex_branch_predict_gate gate
+proc; opt; memory; opt
+miter -equiv gold gate miter
+prep -top miter
+flatten
+opt
+sat -verify -prove trigger 0 -show-ports miter

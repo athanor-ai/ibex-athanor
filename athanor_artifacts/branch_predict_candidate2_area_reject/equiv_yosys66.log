@@ -1,0 +1,872 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+
+-- Executing script file `replay_equiv_yosys66.ys' --
+
+1. Executing Verilog-2005 frontend: gold_elab.v
+Parsing Verilog input from `gold_elab.v' to AST representation.
+Warning: Encountered `parallel_case' comment! Such legacy hot comments are supported by Yosys, but are not part of any formal language specification. Using the Verilog `parallel_case' attribute or the SystemVerilog `unique' or `priority' keywords is recommended!
+Generating RTLIL representation for module `\ibex_branch_predict'.
+Successfully finished Verilog frontend.
+Renaming module \ibex_branch_predict to \gold.
+
+2. Executing Verilog-2005 frontend: gate_elab.v
+Parsing Verilog input from `gate_elab.v' to AST representation.
+Generating RTLIL representation for module `\ibex_branch_predict_gate'.
+Successfully finished Verilog frontend.
+Renaming module \ibex_branch_predict_gate to \gate.
+
+3. Executing PROC pass (convert processes to netlists).
+
+3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$gold_elab.v:74$21 in module gold.
+Removed a total of 0 dead cases.
+
+3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 5 assignments to connections.
+
+3.4. Executing PROC_INIT pass (extract init attributes).
+
+3.5. Executing PROC_ARST pass (detect async resets in processes).
+
+3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~1 debug messages>
+
+3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\gold.$proc$gold_elab.v:74$21'.
+     1/1: $1\_29_$func$gold_elab.v:74$2.$result[31:0]$27
+
+3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\gold.\_29_$func$gold_elab.v:74$1.$result' from process `\gold.$proc$gold_elab.v:74$21'.
+
+3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\gold.$proc$gold_elab.v:74$21'.
+Removing empty process `gold.$proc$gold_elab.v:74$21'.
+Cleaned up 1 empty switch.
+
+3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gate.
+Optimizing module gold.
+
+4. Executing OPT pass (performing simple optimizations).
+
+4.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gate.
+Optimizing module gold.
+
+4.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+4.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gate..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \gold..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~60 debug messages>
+
+4.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gate.
+  Optimizing cells in module \gold.
+Performed a total of 0 changes.
+
+4.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+4.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+Removed 0 unused cells and 89 unused wires.
+<suppressed ~2 debug messages>
+
+4.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gate.
+Optimizing module gold.
+
+4.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+4.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gate..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \gold..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~60 debug messages>
+
+4.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gate.
+  Optimizing cells in module \gold.
+Performed a total of 0 changes.
+
+4.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+4.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+4.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+
+4.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gate.
+Optimizing module gold.
+
+4.16. Finished fast OPT passes. (There is nothing left to do.)
+
+5. Executing MEMORY pass.
+
+5.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+5.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+5.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+5.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+5.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+5.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+
+5.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+5.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+5.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+
+5.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+5.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+6. Executing OPT pass (performing simple optimizations).
+
+6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gate.
+Optimizing module gold.
+
+6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \gate..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \gold..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~60 debug messages>
+
+6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \gate.
+  Optimizing cells in module \gold.
+Performed a total of 0 changes.
+
+6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\gate'.
+Computing hashes of 59 cells of `\gate'.
+Finding duplicate cells in `\gate'.
+Finding identical cells in module `\gold'.
+Computing hashes of 19 cells of `\gold'.
+Finding duplicate cells in `\gold'.
+Removed a total of 0 cells.
+
+6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \gate..
+Finding unused cells or wires in module \gold..
+
+6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module gate.
+Optimizing module gold.
+
+6.9. Finished fast OPT passes. (There is nothing left to do.)
+
+7. Executing FLATTEN pass (flatten design).
+
+8. Executing FLATTEN pass (flatten design).
+
+9. Executing EQUIV_MAKE pass (creating equiv checking module).
+Presumably equivalent wires: instr_j_gold (\instr_j_gold), instr_j_gate (\instr_j_gate) -> instr_j
+Presumably equivalent wires: instr_cj_gold (\instr_cj_gold), instr_cj_gate (\instr_cj_gate) -> instr_cj
+Presumably equivalent wires: instr_cb_gold (\instr_cb_gold), instr_cb_gate (\instr_cb_gate) -> instr_cb
+Presumably equivalent wires: instr_b_taken_gold (\instr_b_taken_gold), instr_b_taken_gate (\instr_b_taken_gate) -> instr_b_taken
+Presumably equivalent wires: instr_b_gold (\instr_b_gold), instr_b_gate (\instr_b_gate) -> instr_b
+Presumably equivalent wires: instr_gold (\fetch_rdata_i_gold), instr_gate (\fetch_rdata_i_gate) -> instr
+Presumably equivalent wires: branch_imm_gold (\branch_imm_gold), branch_imm_gate ({ \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20:1] 1'0 }) -> branch_imm
+Presumably equivalent wires: _10__gold (\_10__gold), _10__gate (\_10__gate) -> _10_
+Presumably equivalent wires: _09__gold (\_09__gold), _09__gate (\_09__gate) -> _09_
+Presumably equivalent wires: _08__gold (\_08__gold), _08__gate (\_08__gate) -> _08_
+Presumably equivalent wires: _07__gold (\_07__gold), _07__gate (\_07__gate) -> _07_
+Presumably equivalent wires: _06__gold (\_06__gold), _06__gate (\_06__gate) -> _06_
+Presumably equivalent wires: _05__gold (\_05__gold), _05__gate (\_05__gate) -> _05_
+Presumably equivalent wires: _04__gold (\_04__gold), _04__gate (\_04__gate) -> _04_
+Presumably equivalent wires: _03__gold (\_03__gold), _03__gate (\_03__gate) -> _03_
+Presumably equivalent wires: _02__gold (\_02__gold), _02__gate (\_02__gate) -> _02_
+Presumably equivalent wires: _01__gold (\_01__gold), _01__gate (\_01__gate) -> _01_
+Presumably equivalent wires: _00__gold (\_00__gold), _00__gate (\_00__gate) -> _00_
+Presumably equivalent wires: predict_branch_pc_o_gold (\predict_branch_pc_o_gold), predict_branch_pc_o_gate (\predict_branch_pc_o_gate) -> predict_branch_pc_o
+Presumably equivalent wires: predict_branch_taken_o_gold (\predict_branch_taken_o_gold), predict_branch_taken_o_gate (\predict_branch_taken_o_gate) -> predict_branch_taken_o
+Presumably equivalent wires: fetch_valid_i_gold (\fetch_valid_i_gold), fetch_valid_i_gate (\fetch_valid_i_gate) -> fetch_valid_i
+Presumably equivalent wires: fetch_pc_i_gold (\fetch_pc_i_gold), fetch_pc_i_gate (\fetch_pc_i_gate) -> fetch_pc_i
+Presumably equivalent wires: fetch_rdata_i_gold (\fetch_rdata_i_gold), fetch_rdata_i_gate (\fetch_rdata_i_gate) -> fetch_rdata_i
+Presumably equivalent wires: rst_ni_gold (\rst_ni_gold), rst_ni_gate (\rst_ni_gate) -> rst_ni
+Presumably equivalent wires: clk_i_gold (\clk_i_gold), clk_i_gate (\clk_i_gate) -> clk_i
+Changing input S of cell $ternary$gate_elab.v:114$85_gate ($mux): \instr_cj_gate -> \instr_cj
+Changing input S of cell $ternary$gate_elab.v:113$84_gate ($mux): \instr_cb_gate -> \instr_cb
+Changing input S of cell $ternary$gate_elab.v:112$83_gate ($mux): \instr_j_gate -> \instr_j
+Changing input S of cell $ternary$gate_elab.v:111$82_gate ($mux): \instr_cj_gate -> \instr_cj
+Changing input S of cell $ternary$gate_elab.v:110$81_gate ($mux): \instr_cb_gate -> \instr_cb
+Changing input S of cell $ternary$gate_elab.v:109$80_gate ($mux): \instr_j_gate -> \instr_j
+Changing input S of cell $ternary$gate_elab.v:108$79_gate ($mux): \instr_cj_gate -> \instr_cj
+Changing input S of cell $ternary$gate_elab.v:107$78_gate ($mux): \instr_j_gate -> \instr_j
+Changing input S of cell $ternary$gate_elab.v:106$77_gate ($mux): \instr_j_gate -> \instr_j
+Changing input S of cell $ternary$gate_elab.v:105$76_gate ($mux): \instr_cj_gate -> \instr_cj
+Changing input S of cell $ternary$gate_elab.v:104$75_gate ($mux): \instr_cb_gate -> \instr_cb
+Changing input S of cell $ternary$gate_elab.v:103$74_gate ($mux): \instr_j_gate -> \instr_j
+Changing input S of cell $ternary$gate_elab.v:102$73_gate ($mux): \instr_cj_gate -> \instr_cj
+Changing input S of cell $ternary$gate_elab.v:101$72_gate ($mux): \instr_cb_gate -> \instr_cb
+Changing input S of cell $ternary$gate_elab.v:100$71_gate ($mux): \instr_j_gate -> \instr_j
+Changing input S of cell $ternary$gate_elab.v:99$70_gate ($mux): \instr_cj_gate -> \instr_cj
+Changing input S of cell $ternary$gate_elab.v:98$69_gate ($mux): \instr_cb_gate -> \instr_cb
+Changing input S of cell $ternary$gate_elab.v:97$68_gate ($mux): \instr_j_gate -> \instr_j
+Changing input S of cell $ternary$gate_elab.v:96$67_gate ($mux): \instr_cj_gate -> \instr_cj
+Changing input S of cell $ternary$gate_elab.v:95$66_gate ($mux): \instr_cb_gate -> \instr_cb
+Changing input S of cell $ternary$gate_elab.v:94$65_gate ($mux): \instr_j_gate -> \instr_j
+Changing input S of cell $ternary$gate_elab.v:93$64_gate ($mux): \instr_cj_gate -> \instr_cj
+Changing input S of cell $ternary$gate_elab.v:92$63_gate ($mux): \instr_cb_gate -> \instr_cb
+Changing input S of cell $ternary$gate_elab.v:91$62_gate ($mux): \instr_j_gate -> \instr_j
+Changing input S of cell $ternary$gate_elab.v:90$61_gate ($mux): \instr_cj_gate -> \instr_cj
+Changing input S of cell $ternary$gate_elab.v:89$60_gate ($mux): \instr_cb_gate -> \instr_cb
+Changing input S of cell $ternary$gate_elab.v:87$58_gate ($mux): \instr_j_gate -> \instr_j
+Changing input S of cell $ternary$gate_elab.v:86$57_gate ($mux): \_08__gate -> \_08_
+Changing input S of cell $ternary$gate_elab.v:85$56_gate ($mux): \instr_j_gate -> \instr_j
+Changing input A of cell $ternary$gate_elab.v:85$56_gate ($mux): \branch_imm_gate [20] -> \branch_imm [20]
+Changing input S of cell $ternary$gate_elab.v:83$54_gate ($mux): \instr_j_gate -> \instr_j
+Changing input A of cell $ternary$gate_elab.v:83$54_gate ($mux): \branch_imm_gate [20] -> \branch_imm [20]
+Changing input S of cell $ternary$gate_elab.v:82$53_gate ($mux): \instr_j_gate -> \instr_j
+Changing input A of cell $ternary$gate_elab.v:82$53_gate ($mux): \branch_imm_gate [20] -> \branch_imm [20]
+Changing input S of cell $ternary$gate_elab.v:81$52_gate ($mux): \instr_j_gate -> \instr_j
+Changing input A of cell $ternary$gate_elab.v:81$52_gate ($mux): \branch_imm_gate [20] -> \branch_imm [20]
+Changing input S of cell $ternary$gate_elab.v:80$51_gate ($mux): \instr_j_gate -> \instr_j
+Changing input A of cell $ternary$gate_elab.v:80$51_gate ($mux): \branch_imm_gate [20] -> \branch_imm [20]
+Changing input S of cell $ternary$gate_elab.v:79$50_gate ($mux): \instr_j_gate -> \instr_j
+Changing input A of cell $ternary$gate_elab.v:79$50_gate ($mux): \branch_imm_gate [20] -> \branch_imm [20]
+Changing input S of cell $ternary$gate_elab.v:78$49_gate ($mux): \instr_j_gate -> \instr_j
+Changing input A of cell $ternary$gate_elab.v:78$49_gate ($mux): \branch_imm_gate [20] -> \branch_imm [20]
+Changing input B of cell $or$gate_elab.v:77$48_gate ($or): \instr_b_taken_gate -> \instr_b_taken
+Changing input A of cell $or$gate_elab.v:77$48_gate ($or): \_09__gate -> \_09_
+Changing input B of cell $or$gate_elab.v:76$47_gate ($or): \instr_cj_gate -> \instr_cj
+Changing input A of cell $or$gate_elab.v:76$47_gate ($or): \instr_j_gate -> \instr_j
+Changing input B of cell $or$gate_elab.v:75$46_gate ($or): \_03__gate -> \_03_
+Changing input A of cell $or$gate_elab.v:75$46_gate ($or): \_02__gate -> \_02_
+Changing input A of cell $or$gate_elab.v:74$45_gate ($or): \instr_j_gate -> \instr_j
+Changing input B of cell $or$gate_elab.v:73$44_gate ($or): \instr_cb_gate -> \instr_cb
+Changing input A of cell $or$gate_elab.v:73$44_gate ($or): \instr_cj_gate -> \instr_cj
+Changing input B of cell $and$gate_elab.v:68$39_gate ($and): \_10__gate -> \_10_
+Changing input A of cell $and$gate_elab.v:67$38_gate ($and): \instr_cb_gate -> \instr_cb
+Changing input A of cell $and$gate_elab.v:66$37_gate ($and): \instr_b_gate -> \instr_b
+Changing input A of cell $and$gate_elab.v:65$36_gate ($and): \_01__gate -> \_01_
+Changing input B of cell $and$gate_elab.v:64$35_gate ($and): \_07__gate -> \_07_
+Changing input A of cell $and$gate_elab.v:63$34_gate ($and): \_00__gate -> \_00_
+Changing input B of cell $and$gate_elab.v:61$32_gate ($and): \_05__gate -> \_05_
+Changing input B of cell $and$gate_elab.v:60$31_gate ($and): \_04__gate -> \_04_
+Changing input A of cell $and$gate_elab.v:59$30_gate ($and): \_06__gate -> \_06_
+Changing input B of cell $add$gate_elab.v:57$28_gate ($add): { \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20] \branch_imm_gate [20:1] 1'0 } -> { \branch_imm [20] \branch_imm [20] \branch_imm [20] \branch_imm [20] \branch_imm [20] \branch_imm [20] \branch_imm [20] \branch_imm [20] \branch_imm [20] \branch_imm [20] \branch_imm [20] \branch_imm [20:1] 1'0 }
+Changing input S of cell $ternary$gate_elab.v:115$86_gate ($mux): \instr_j_gate -> \instr_j
+Changing input B of cell $or$gold_elab.v:58$20_gold ($or): \instr_b_taken_gold -> \instr_b_taken
+Changing input A of cell $or$gold_elab.v:58$20_gold ($or): \_09__gold -> \_09_
+Changing input B of cell $or$gold_elab.v:57$19_gold ($or): \instr_cj_gold -> \instr_cj
+Changing input A of cell $or$gold_elab.v:57$19_gold ($or): \instr_j_gold -> \instr_j
+Changing input B of cell $or$gold_elab.v:56$18_gold ($or): \_01__gold -> \_01_
+Changing input A of cell $or$gold_elab.v:56$18_gold ($or): \_00__gold -> \_00_
+Changing input B of cell $or$gold_elab.v:55$17_gold ($or): \_05__gold -> \_05_
+Changing input A of cell $or$gold_elab.v:55$17_gold ($or): \_06__gold -> \_06_
+Changing input B of cell $or$gold_elab.v:54$16_gold ($or): \_04__gold -> \_04_
+Changing input A of cell $or$gold_elab.v:54$16_gold ($or): \_03__gold -> \_03_
+Changing input B of cell $and$gold_elab.v:46$8_gold ($and): \_10__gold -> \_10_
+Changing input A of cell $and$gold_elab.v:45$7_gold ($and): \instr_cb_gold -> \instr_cb
+Changing input A of cell $and$gold_elab.v:44$6_gold ($and): \instr_b_gold -> \instr_b
+Changing input B of cell $and$gold_elab.v:43$5_gold ($and): \_08__gold -> \_08_
+Changing input A of cell $and$gold_elab.v:43$5_gold ($and): \_02__gold -> \_02_
+Changing input B of cell $and$gold_elab.v:42$4_gold ($and): \_07__gold -> \_07_
+Changing input A of cell $and$gold_elab.v:42$4_gold ($and): \_02__gold -> \_02_
+Changing input B of cell $add$gold_elab.v:41$3_gold ($add): \branch_imm_gold -> \branch_imm
+Changing input S of cell $procmux$88_gold ($pmux): { \instr_cb_gold \instr_cj_gold \instr_j_gold } -> { \instr_cb \instr_cj \instr_j }
+
+10. Executing HIERARCHY pass (managing design hierarchy).
+
+10.1. Analyzing design hierarchy..
+Top module:  \equiv
+
+10.2. Analyzing design hierarchy..
+Top module:  \equiv
+Removing unused module `\gate'.
+Removing unused module `\gold'.
+Removed 2 unused modules.
+
+11. Executing PROC pass (convert processes to netlists).
+
+11.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+11.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+11.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 0 assignments to connections.
+
+11.4. Executing PROC_INIT pass (extract init attributes).
+
+11.5. Executing PROC_ARST pass (detect async resets in processes).
+
+11.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+11.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+
+11.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+11.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+11.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+11.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+11.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+12. Executing OPT pass (performing simple optimizations).
+
+12.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+12.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 191 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Computing hashes of 186 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+<suppressed ~15 debug messages>
+Removed a total of 5 cells.
+
+12.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \equiv..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~60 debug messages>
+
+12.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \equiv.
+Performed a total of 0 changes.
+
+12.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 186 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Removed a total of 0 cells.
+
+12.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+12.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \equiv..
+Removed 32 unused cells and 1 unused wires.
+<suppressed ~33 debug messages>
+
+12.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+12.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+12.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \equiv..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~60 debug messages>
+
+12.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \equiv.
+Performed a total of 0 changes.
+
+12.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 154 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Removed a total of 0 cells.
+
+12.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+12.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \equiv..
+
+12.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+12.16. Finished fast OPT passes. (There is nothing left to do.)
+
+13. Executing MEMORY pass.
+
+13.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+13.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+13.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+13.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+13.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+13.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \equiv..
+
+13.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+13.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+13.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \equiv..
+
+13.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+13.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+14. Executing OPT pass (performing simple optimizations).
+
+14.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+14.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 154 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Removed a total of 0 cells.
+
+14.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \equiv..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~60 debug messages>
+
+14.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \equiv.
+Performed a total of 0 changes.
+
+14.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\equiv'.
+Computing hashes of 154 cells of `\equiv'.
+Finding duplicate cells in `\equiv'.
+Removed a total of 0 cells.
+
+14.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+14.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \equiv..
+
+14.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module equiv.
+
+14.9. Finished fast OPT passes. (There is nothing left to do.)
+
+15. Executing EQUIV_SIMPLE pass.
+Found 78 unproven $equiv cells (16 groups) in equiv:
+ Grouping SAT models for \predict_branch_pc_o:
+  Trying to prove $equiv for \predict_branch_pc_o [0]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [1]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [2]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [3]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [4]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [5]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [6]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [7]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [8]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [9]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [10]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [11]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [12]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [13]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [14]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [15]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [16]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [17]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [18]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [19]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [20]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [21]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [22]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [23]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [24]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [25]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [26]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [27]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [28]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [29]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [30]:ezsat
+ success!
+  Trying to prove $equiv for \predict_branch_pc_o [31]:ezsat
+ success!
+  Trying to prove $equiv for \_00_:ezsat
+ failed.
+  Trying to prove $equiv for \_01_:ezsat
+ failed.
+  Trying to prove $equiv for \_02_:ezsat
+ failed.
+  Trying to prove $equiv for \_03_:ezsat
+ failed.
+  Trying to prove $equiv for \_04_:ezsat
+ failed.
+  Trying to prove $equiv for \_05_:ezsat
+ failed.
+  Trying to prove $equiv for \_06_:ezsat
+ failed.
+  Trying to prove $equiv for \_07_:ezsat
+ failed.
+  Trying to prove $equiv for \_08_:ezsat
+ failed.
+ Grouping SAT models for \branch_imm:
+  Trying to prove $equiv for \branch_imm [0]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [1]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [2]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [3]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [4]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [5]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [6]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [7]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [8]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [9]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [10]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [11]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [12]:ezsat
+ failed.
+  Trying to prove $equiv for \branch_imm [13]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [14]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [15]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [16]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [17]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [18]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [19]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [20]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [21]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [22]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [23]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [24]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [25]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [26]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [27]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [28]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [29]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [30]:ezsat
+ success!
+  Trying to prove $equiv for \branch_imm [31]:ezsat
+ success!
+  Trying to prove $equiv for \instr_b:ezsat
+ failed.
+  Trying to prove $equiv for \instr_b_taken:ezsat
+ failed.
+  Trying to prove $equiv for \instr_cb:ezsat
+ failed.
+  Trying to prove $equiv for \instr_cj:ezsat
+ failed.
+  Trying to prove $equiv for \instr_j:ezsat
+ failed.
+Proved 63 previously unproven $equiv cells.
+
+16. Executing EQUIV_INDUCT pass.
+Found 15 unproven $equiv cells in module equiv:
+  Proving existence of base case for step 1. (4946 clauses over 1868 variables)
+  Proving induction step 1. (9891 clauses over 3735 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 2. (9892 clauses over 3735 variables)
+  Proving induction step 2. (14837 clauses over 5602 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 3. (14838 clauses over 5602 variables)
+  Proving induction step 3. (19783 clauses over 7469 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 4. (19784 clauses over 7469 variables)
+  Proving induction step 4. (24729 clauses over 9336 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 5. (24730 clauses over 9336 variables)
+  Proving induction step 5. (29675 clauses over 11203 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 6. (29676 clauses over 11203 variables)
+  Proving induction step 6. (34621 clauses over 13070 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 7. (34622 clauses over 13070 variables)
+  Proving induction step 7. (39567 clauses over 14937 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 8. (39568 clauses over 14937 variables)
+  Proving induction step 8. (44513 clauses over 16804 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 9. (44514 clauses over 16804 variables)
+  Proving induction step 9. (49459 clauses over 18671 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 10. (49460 clauses over 18671 variables)
+  Proving induction step 10. (54405 clauses over 20538 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 11. (54406 clauses over 20538 variables)
+  Proving induction step 11. (59351 clauses over 22405 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 12. (59352 clauses over 22405 variables)
+  Proving induction step 12. (64297 clauses over 24272 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 13. (64298 clauses over 24272 variables)
+  Proving induction step 13. (69243 clauses over 26139 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 14. (69244 clauses over 26139 variables)
+  Proving induction step 14. (74189 clauses over 28006 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 15. (74190 clauses over 28006 variables)
+  Proving induction step 15. (79135 clauses over 29873 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 16. (79136 clauses over 29873 variables)
+  Proving induction step 16. (84081 clauses over 31740 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 17. (84082 clauses over 31740 variables)
+  Proving induction step 17. (89027 clauses over 33607 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 18. (89028 clauses over 33607 variables)
+  Proving induction step 18. (93973 clauses over 35474 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 19. (93974 clauses over 35474 variables)
+  Proving induction step 19. (98919 clauses over 37341 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 20. (98920 clauses over 37341 variables)
+  Proving induction step 20. (103865 clauses over 39208 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 21. (103866 clauses over 39208 variables)
+  Proving induction step 21. (108811 clauses over 41075 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 22. (108812 clauses over 41075 variables)
+  Proving induction step 22. (113757 clauses over 42942 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 23. (113758 clauses over 42942 variables)
+  Proving induction step 23. (118703 clauses over 44809 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 24. (118704 clauses over 44809 variables)
+  Proving induction step 24. (123649 clauses over 46676 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 25. (123650 clauses over 46676 variables)
+  Proving induction step 25. (128595 clauses over 48543 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 26. (128596 clauses over 48543 variables)
+  Proving induction step 26. (133541 clauses over 50410 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 27. (133542 clauses over 50410 variables)
+  Proving induction step 27. (138487 clauses over 52277 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 28. (138488 clauses over 52277 variables)
+  Proving induction step 28. (143433 clauses over 54144 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 29. (143434 clauses over 54144 variables)
+  Proving induction step 29. (148379 clauses over 56011 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 30. (148380 clauses over 56011 variables)
+  Proving induction step 30. (153325 clauses over 57878 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 31. (153326 clauses over 57878 variables)
+  Proving induction step 31. (158271 clauses over 59745 variables)
+  Proof for induction step failed. Extending to next time step.
+  Proving existence of base case for step 32. (158272 clauses over 59745 variables)
+  Proving induction step 32. (163217 clauses over 61612 variables)
+  Proof for induction step failed. Trying to prove individual $equiv from workset.
+  Trying to prove $equiv for \branch_imm [12]: failed.
+  Trying to prove $equiv for \_08_: failed.
+  Trying to prove $equiv for \_06_: failed.
+  Trying to prove $equiv for \_05_: failed.
+  Trying to prove $equiv for \_04_: failed.
+  Trying to prove $equiv for \_03_: failed.
+  Trying to prove $equiv for \_07_: failed.
+  Trying to prove $equiv for \instr_j: failed.
+  Trying to prove $equiv for \instr_cj: failed.
+  Trying to prove $equiv for \instr_b_taken: failed.
+  Trying to prove $equiv for \instr_cb: failed.
+  Trying to prove $equiv for \_02_: failed.
+  Trying to prove $equiv for \_01_: failed.
+  Trying to prove $equiv for \_00_: failed.
+  Trying to prove $equiv for \instr_b: failed.
+Proved 0 previously unproven $equiv cells.
+
+17. Executing EQUIV_SIMPLE pass.
+Found 15 unproven $equiv cells (15 groups) in equiv:
+  Trying to prove $equiv for \_00_:ezsat
+ failed.
+  Trying to prove $equiv for \_01_:ezsat
+ failed.
+  Trying to prove $equiv for \_02_:ezsat
+ failed.
+  Trying to prove $equiv for \_03_:ezsat
+ failed.
+  Trying to prove $equiv for \_04_:ezsat
+ failed.
+  Trying to prove $equiv for \_05_:ezsat
+ failed.
+  Trying to prove $equiv for \_06_:ezsat
+ failed.
+  Trying to prove $equiv for \_07_:ezsat
+ failed.
+  Trying to prove $equiv for \_08_:ezsat
+ failed.
+  Trying to prove $equiv for \branch_imm [12]:ezsat
+ failed.
+  Trying to prove $equiv for \instr_b:ezsat
+ failed.
+  Trying to prove $equiv for \instr_b_taken:ezsat
+ failed.
+  Trying to prove $equiv for \instr_cb:ezsat
+ failed.
+  Trying to prove $equiv for \instr_cj:ezsat
+ failed.
+  Trying to prove $equiv for \instr_j:ezsat
+ failed.
+Proved 0 previously unproven $equiv cells.
+
+18. Executing EQUIV_STATUS pass.
+Found 81 $equiv cells in equiv:
+  Of those cells 66 are proven and 15 are unproven.
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$167: \_04__gold \_04__gate
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$166: \_05__gold \_05__gate
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$165: \_06__gold \_06__gate
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$164: \_07__gold \_07__gate
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$163: \_08__gold \_08__gate
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$141: \branch_imm_gold [12] \branch_imm_gate [12]
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$171: \_00__gold \_00__gate
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$170: \_01__gold \_01__gate
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$169: \_02__gold \_00__gold
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$168: \_03__gold \_01__gold
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$96: \instr_b_gold \instr_b_gate
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$95: \instr_b_taken_gold \instr_b_taken_gate
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$94: \instr_cb_gold \instr_cb_gate
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$93: \instr_cj_gold \instr_cj_gate
+  Unproven $equiv $auto$equiv_make.cc:295:find_same_wires$92: \instr_j_gold \instr_j_gate
+Found a total of 15 unproven $equiv cells.
+
+Warnings: 1 unique messages, 1 total
+End of script. Logfile hash: bd3dfffe0f, time: 0.35s, user: 0.34s, system: 0.02s, MEM: 56.62 MB peak
+Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
+Time spent: 85% 1x equiv_induct (0 sec), 7% 2x equiv_simple (0 sec), ...

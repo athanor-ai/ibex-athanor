@@ -1,14 +1,14 @@
 # ibex_multdiv_slow greater_equal_xor_shape Candidate
 
-This package records an independently replayed `ibex_multdiv_slow`
-selected-toolchain optimization artifact.
+This package records a replayed `ibex_multdiv_slow` selected-toolchain
+optimization artifact.
 
 Classification:
-`independently_verified_area_positive_timing_positive_formal_closed_toggle_flat`
+`area_positive_timing_positive_yosys_equivalence_closed_toggle_flat`
 
-This package is accepted artifact evidence for the stated toolchain. Promotion
-into the customer-facing `athanor/ppa_frontier/` layout and main optimized RTL
-is a separate integration step.
+This package is accepted module-level artifact evidence for the stated
+toolchain. Promotion into the customer-facing `athanor/ppa_frontier/` layout
+and main optimized RTL is a separate integration step.
 
 ## Transform
 
@@ -38,6 +38,10 @@ source edit is limited to this replacement.
 - `replay_equiv_yosys66.ys`, `replay_equiv.sh`: Yosys sequential equivalence
   replay.
 - `toggle_proxy.json`: deterministic 200-cycle toggle proxy receipt.
+- `ath2924_public_replay_receipt.json`: public machine-readable receipt from
+  the ATH-2924 OpenSTA timing-route conversion replay.
+- `ath2924_timing_conversion_receipt.json`: source local replay receipt kept
+  for traceability; the public receipt above removes local-only context.
 - `INPUT_SHA256SUMS`: hashes for the primary replay inputs.
 - `SHA256SUMS`: hashes for the full package.
 
@@ -109,3 +113,22 @@ An independent cold replay from this package's exact hashes confirmed all of:
 4. Sequential equivalence replay proves all `411/411` `$equiv` cells from a clean
    run.
 5. The deterministic toggle proxy remains flat.
+
+## ATH-2924 Timing-Route Conversion Receipt
+
+After the ATH-2924 OpenSTA/SDC timing route landed, this saved lead was replayed
+through the route and recorded in `ath2924_public_replay_receipt.json`.
+
+Formal evidence and measurements are deliberately separated:
+
+- Formal evidence: Yosys sequential equivalence replay closed `411/411`
+  `$equiv` cells with exit code `0` for the module replay artifacts.
+- Area measurement: selected Yosys area improved `10339.9168 -> 10333.6608`
+  (`-0.0605%`).
+- Timing measurement: OpenSTA reported complete gold and gate WNS/TNS/max-delay
+  fields, with gate timing meeting the replay policy (`WNS=0.00`, `TNS=0.00`,
+  max delay `7.25 ns`).
+
+This is still a selected-toolchain module replay artifact. It is not a
+customer-ready claim, not a whole-core `ibex_top` result, not integrated RTL,
+and not proof/customer authority expansion.

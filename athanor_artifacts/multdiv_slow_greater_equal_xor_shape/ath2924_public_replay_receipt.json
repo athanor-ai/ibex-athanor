@@ -1,0 +1,79 @@
+{
+  "area": {
+    "delta_area_pct": -0.06050338818975044,
+    "gate_area": 10333.6608,
+    "gold_area": 10339.9168,
+    "log": "replay_area_20260712.log",
+    "status": "area_positive",
+    "tool": "yosys"
+  },
+  "candidate": "greater_equal_xor_shape",
+  "classification": {
+    "accepted_for_customer_claim": false,
+    "integrated_to_main_rtl": false,
+    "notes": [
+      "This converts the previously fail-closed multdiv structural lead into a measured selected-toolchain replay after the ATH-2924 OpenSTA/SDC timing route landed.",
+      "This is not a customer-ready claim, proof/customer-authority expansion, or production RTL integration."
+    ],
+    "optimizer_acceptance_changed": false,
+    "result": "receipt_complete_timing_positive_equivalence_positive_area_positive_selected_toolchain_replay"
+  },
+  "created_at_utc": "2026-07-12T01:49:40Z",
+  "formal_evidence": {
+    "equiv_cells_proven": 411,
+    "equiv_cells_total": 411,
+    "equiv_cells_unproven": 0,
+    "exit_code": 0,
+    "log": "replay_equiv_20260712.log",
+    "scope": "Yosys sequential equivalence over ibex_multdiv_slow module replay artifacts",
+    "status": "proven",
+    "tool": "yosys"
+  },
+  "main_head": "ee4ed4df8f96eb7536cd013f4e46508d54c4b95f",
+  "module": "ibex_multdiv_slow",
+  "public_boundary": "Selected-toolchain module replay artifact only. This is not a customer-ready claim, not integrated RTL, not optimizer acceptance, and not proof/customer authority expansion.",
+  "schema": "athanor.public.ibex.multdiv_slow_timing_conversion_receipt.v1",
+  "timing": {
+    "clock_period_ns": 10.0,
+    "delta": {
+      "max_delay_ns": -0.8800000000000008,
+      "max_delay_pct": -10.82410824108242
+    },
+    "gate": {
+      "max_delay_ns": 7.25,
+      "tns_ns": 0.0,
+      "wns_ns": 0.0
+    },
+    "gold": {
+      "max_delay_ns": 8.13,
+      "tns_ns": -5.66,
+      "wns_ns": -0.13
+    },
+    "io_delay_ns": 2.0,
+    "log": "replay_timing_opensta_20260712.log",
+    "status": "timing_verified_and_met",
+    "timing_met": true,
+    "timing_verified": true,
+    "tool": "opensta"
+  },
+  "tool_hashes": {
+    "abc": {
+      "path": "/workdir/_tools/oss-cad-suite-20260630/libexec/yosys-abc",
+      "sha256": "13628867b58b6d917fb087b48d6e180edcd18f031f3463752872285f4505e154"
+    },
+    "liberty": {
+      "path": "/tmp/ak-dexter-main-ee4/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+      "sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
+    },
+    "opensta": {
+      "path": "/usr/local/bin/sta",
+      "sha256": "4be87ddb9323b86bb4f6cd404f8a4793ea639e9728a48f809603a6606fd2ae83",
+      "version": "OpenSTA 2.2.0"
+    },
+    "yosys": {
+      "path": "/workdir/_tools/oss-cad-suite-20260630/bin/yosys",
+      "sha256": "7c3e3396b38c129dd7485be5a0a0f0da8e495a94c8fd486059e3bea043a588d6",
+      "version": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+read_verilog gold_elab.v
+rename ibex_branch_predict gold
+read_verilog gate_elab.v
+rename ibex_branch_predict_gate gate
+proc; opt; memory; opt
+flatten gold
+flatten gate
+equiv_make gold gate equiv
+hierarchy -top equiv
+proc; opt; memory; opt
+equiv_simple -seq 5
+equiv_induct -seq 32
+equiv_simple -seq 5
+equiv_status

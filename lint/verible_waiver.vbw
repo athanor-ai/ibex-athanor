@@ -43,3 +43,15 @@ waive --rule=packed-dimensions-range-ordering --location=".*athanor_artifacts/ib
 # the ppa_frontier gate snapshot intentionally declares module ibex_pmp (drop-in
 # gold-equivalent for the miter / synth -top ibex_pmp) while named for the row:
 waive --rule=module-filename --location=".*athanor/ppa_frontier/ibex_pmp_tor_comparator_share/artifacts/ibex_pmp_tor_comparator_share[.]sv"
+
+# ATH-2924 public replay packets preserve generated/snapshotted Verilog exactly
+# as replayed. Packet integrity and replay commands are checked by SHA256SUMS,
+# COMMANDS.md, and athanor/verify_public_receipts.py; style-only diagnostics on
+# receipt artifacts are waived so the required lint row stays focused on source
+# RTL rather than generated evidence files.
+waive --rule=line-length --location=".*athanor_artifacts/branch_predict_candidate2_area_reject/.*[.][sv]v?"
+waive --rule=module-filename --location=".*athanor_artifacts/branch_predict_candidate2_area_reject/.*[.][sv]v?"
+waive --rule=explicit-function-lifetime --location=".*athanor_artifacts/branch_predict_candidate2_area_reject/.*[.][sv]v?"
+waive --rule=line-length --location=".*athanor_artifacts/multdiv_slow_greater_equal_xor_shape/.*[.][sv]v?"
+waive --rule=module-filename --location=".*athanor_artifacts/multdiv_slow_greater_equal_xor_shape/.*[.][sv]v?"
+waive --rule=explicit-function-lifetime --location=".*athanor_artifacts/multdiv_slow_greater_equal_xor_shape/.*[.][sv]v?"
