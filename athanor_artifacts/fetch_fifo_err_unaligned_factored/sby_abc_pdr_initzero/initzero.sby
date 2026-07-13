@@ -1,0 +1,22 @@
+[tasks]
+pdr
+
+[options]
+pdr: mode prove
+pdr: multiclock off
+pdr: aigsmt none
+
+[engines]
+pdr: abc pdr
+
+[script]
+read_verilog -formal ibex_fetch_fifo_gold_exposed.v
+read_verilog -formal ibex_fetch_fifo_gate_exposed.v
+read_verilog -formal -sv miter_initzero.sv
+prep -top ibex_fetch_fifo_relation_seq_no_occupancy_miter_initzero
+async2sync
+
+[files]
+ibex_fetch_fifo_gold_exposed.v
+ibex_fetch_fifo_gate_exposed.v
+miter_initzero.sv

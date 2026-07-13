@@ -3,7 +3,9 @@
 Discovery packet for the `ibex_fetch_fifo` `err_unaligned` factoring lead.
 
 Status: accepted module-local public row. Independent replay, ibex-lane review,
-and public row-contract wiring have all stamped the corrected packet.
+and public row-contract wiring have all stamped the corrected packet. This is
+not a whole-core `ibex_top` claim and not a customer-ready RTL integration
+claim.
 
 Current packet summary:
 
@@ -19,10 +21,16 @@ Current packet summary:
 - Relation-aware sequential miter: temporal induction SUCCESS.
 - No-external-occupancy miter: temporal induction SUCCESS, so the occupancy
   relation is derived from reset/reachability rather than externally assumed.
+- Relation-aware SBY/ABC PDR: SUCCESS under explicit init-zero state relation.
 - Non-vacuity bite: bad `err_unaligned` mutant FAILS in the base case.
+- PDR non-vacuity bite: the same bad `err_unaligned` mutant FAILS under the
+  relation-aware SBY/ABC PDR replay.
 
 The proof packet derives the FIFO occupancy relation from reset/reachability
-instead of assuming it externally. The source-level transform is in
+instead of assuming it externally. The nested
+`sby_abc_pdr_initzero/` packet adds a distinct SBY/ABC PDR proof leg under an
+explicit init-zero state relation. The source-level transform is in
 `SOURCE_DIFF.patch`. The old canonical `equiv_simple + equiv_induct` result
 that left 1/454 cells unproven is retained as prior evidence only; it is not
-the active packet classification after the relation-aware miter closure.
+the active packet classification after the relation-aware miter and SBY/PDR
+closures.

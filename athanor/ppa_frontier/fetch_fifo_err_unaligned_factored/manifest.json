@@ -6,19 +6,19 @@
     },
     "formal_yosys66.json": {
       "path": "formal_yosys66.json",
-      "sha256": "d7eb6a313a40c9aeed97a6212801c85e839988ab8576d4ef2ad8c4e029ebfb28"
+      "sha256": "25608546f0097ea807d3482c27118097e5d639194ac6afc8f24baf7c17b670e2"
     },
     "packet/COMMANDS.md": {
       "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/COMMANDS.md",
-      "sha256": "653b8a004a6799c66bc5f34c9b07838200fc0ce416df243de9aac9e8c6aa648c"
+      "sha256": "4cb26ad3b56796c51ef21d6f04af61051a9810e9b21212dad97e5f9aaf595da5"
     },
     "packet/README.md": {
       "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/README.md",
-      "sha256": "a760d6a00434e835c462565b846e72d465b070facb659c93f63b0ebe5edce73e"
+      "sha256": "9b74b865a2e5e856b45ea3f48b3cb992c2db1dc989c0923edc156bf998432a90"
     },
     "packet/SHA256SUMS": {
       "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/SHA256SUMS",
-      "sha256": "b09b7d0f32aff66138ff337a7052831795742aeed8327daa54c2a0f7dd281fad"
+      "sha256": "37310e32affcf2d2f84eeb56931d39b44b2534da96db59e0146f7ffb512f9a81"
     },
     "packet/SOURCE_DIFF.patch": {
       "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/SOURCE_DIFF.patch",
@@ -38,11 +38,39 @@
     },
     "packet/lead_manifest.json": {
       "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/lead_manifest.json",
-      "sha256": "6aadcc06995a45ffef95631e3780c533fa4447de5f964631c9691f519f21d9d4"
+      "sha256": "76038faa5b8ebaab113c146c8b04870bdba137311f71d6154d8b7cfc973873d7"
     },
     "packet/relation_aware_seq_miter_manifest.json": {
       "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/relation_aware_seq_miter_manifest.json",
-      "sha256": "594cc6e10027b4c754ad8099b66cc9483993c20087a2f139a314a6f3b2a1f9de"
+      "sha256": "67316a87003e0836ae65622afd69c327fec23197b2bdab8f7d7ca65e56d0ce30"
+    },
+    "packet/sby_abc_pdr_initzero/COMMANDS.md": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/sby_abc_pdr_initzero/COMMANDS.md",
+      "sha256": "0846c55c3a9e7c8dbf7f21627b2a1fa39d67da0f93e2f8dc53fbdc383e645cc2"
+    },
+    "packet/sby_abc_pdr_initzero/README.md": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/sby_abc_pdr_initzero/README.md",
+      "sha256": "a9db701dbda824bd306c3c10c81fcd06f550ff884966db3c3114d08adabffcfe"
+    },
+    "packet/sby_abc_pdr_initzero/SHA256SUMS": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/sby_abc_pdr_initzero/SHA256SUMS",
+      "sha256": "91b8b076d26ec811dced2defd7c082e37ed7028736d87231c081e9b5128ecb04"
+    },
+    "packet/sby_abc_pdr_initzero/initzero.sby": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/sby_abc_pdr_initzero/initzero.sby",
+      "sha256": "e31719b1164d758d46dcd4a410d7657d804be0e1bd17ee905f27238b59d21d29"
+    },
+    "packet/sby_abc_pdr_initzero/miter_initzero.sv": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/sby_abc_pdr_initzero/miter_initzero.sv",
+      "sha256": "f7bdc4fa5be75c6047a056c0049f133595a7a41ef8daffd1537b5908efeca167"
+    },
+    "packet/sby_abc_pdr_initzero/replay_sby_pdr.sh": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/sby_abc_pdr_initzero/replay_sby_pdr.sh",
+      "sha256": "6c3beaf6bfa95d4e8c88c0d3a7370e07976174927e808f070ffbf792ac5bda58"
+    },
+    "packet/sby_abc_pdr_initzero/sby_pdr_initzero_manifest.json": {
+      "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/sby_abc_pdr_initzero/sby_pdr_initzero_manifest.json",
+      "sha256": "53989e5afec8fafeefc75cc84097982194bdb254d303817da2aeea7f72762341"
     },
     "packet/timing_yosys66_10ns_2ns_io.json": {
       "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/timing_yosys66_10ns_2ns_io.json",
