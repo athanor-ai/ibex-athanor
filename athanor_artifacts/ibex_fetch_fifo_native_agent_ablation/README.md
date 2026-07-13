@@ -22,7 +22,7 @@ area, timing, and toggle/activity results.
 | --- | --- | --- | --- | --- |
 | Kairos reference | Kairos orchestrated flow | Complete | Dexter | Accepted module-local packet in `../fetch_fifo_err_unaligned_factored/`. |
 | GPT-5.5 one-shot pilot | `gpt-5.5` | Raw candidate captured | Dexter | Codex subagent pilot, not native-clean; useful raw candidate, but not a final native-vs-Kairos science cell. |
-| Opus 4.8 native-clean one-shot | `opus-4.8` | Raw candidate captured (pending full replay) | Quan | native_clean=true (strip probe passed); ran claude -p --safe-mode in an artifact-free 8bd96601 checkout; candidate S1 self-reported equiv-proven, modest ~1-2 gate area win; verdict pending the fetch_fifo_err_unaligned_factored scorer. No acceptance, no frontier claim. |
+| Opus 4.8 native-clean one-shot | `opus-4.8` | Selected replay complete; rejected on area | Quan | native_clean=true (strip probe passed); S1 proof legs pass, but selected area replay is generic `396 -> 397` and liberty `456 -> 456`. No acceptance, no frontier claim. |
 
 ## Native-Clean Bar
 

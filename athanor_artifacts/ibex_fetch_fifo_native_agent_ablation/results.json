@@ -53,9 +53,9 @@
       "lane_id": "opus48_quan_one_shot",
       "agent_type": "native_one_shot",
       "model_id": "opus-4.8",
-      "status": "raw_candidate_captured",
-      "candidate_status": "pending_full_replay",
-      "proposal_quality": "inconclusive",
+      "status": "full_selected_replay_complete",
+      "candidate_status": "rejected_selected_area",
+      "proposal_quality": "rejected_unverified",
       "native_clean": true,
       "mechanism": "claude -p --safe-mode --model claude-opus-4-8 (OAuth-served; --dangerously-skip-permissions in an artifact-free /tmp checkout of rtl/ibex_fetch_fifo.sv at 8bd96601, athanor/ + artifacts stripped)",
       "strip_probe": {
@@ -78,10 +78,15 @@
         "run": "50 turns, ~26 min wall, oss-cad-suite (Yosys 0.45+139, ABC, eqy, Verilator 5.029, Icarus 11.0)"
       },
       "validation": {
-        "full_selected_replay": "not_run",
-        "scorer": "fetch_fifo_err_unaligned_factored packet scorer (area/timing/equiv/toggle/PDR) required before acceptance"
+        "full_selected_replay": "run",
+        "selected_replay_receipt": "opus48_selected_replay_receipt.json",
+        "scorer": "fetch_fifo_err_unaligned_factored selected-toolchain packet scorer",
+        "formal_or_equivalence": "pass: relation-aware temporal induction and no-external-occupancy temporal induction both SUCCESS; SBY/ABC PDR positive PASS and mutant FAIL",
+        "area": "reject: generic cells 396 -> 397 (+1); liberty cells 456 -> 456 (flat), while the Kairos reference is 396 -> 395 generic and 456 -> 451 liberty",
+        "timing": "pass: max data arrival 6.32 ns -> 6.31 ns, WNS/TNS 0",
+        "toggle": "not emitted for S1: the committed public SAIF traces are candidate-specific and the generic toggle-convention harness refused this FIFO target as under-exercised; area rejection already closes the verdict"
       },
-      "verdict": "pending_full_replay"
+      "verdict": "rejected_selected_area"
     }
   ]
 }

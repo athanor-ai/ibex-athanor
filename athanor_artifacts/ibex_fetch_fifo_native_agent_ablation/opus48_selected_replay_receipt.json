@@ -1,0 +1,55 @@
+{
+  "artifact": "ibex_fetch_fifo_native_agent_ablation",
+  "lane_id": "opus48_quan_one_shot",
+  "candidate": "S1: rewrite the err_unaligned entry[1]-invalid branch to reuse the existing err bypass signal",
+  "candidate_patch": "raw/opus48_quan_one_shot.patch",
+  "replay_basis": {
+    "repo_sha": "8bd96601c0023de8bc5daa32759aae18505f9776",
+    "reference_packet": "../fetch_fifo_err_unaligned_factored/",
+    "method": "temporary selected-toolchain replay packet derived from the public fetch_fifo_err_unaligned_factored packet with only the gate-side err_unaligned expression replaced by the Opus S1 candidate"
+  },
+  "toolchain": {
+    "yosys": "/workdir/_tools/oss-cad-suite-20260630/bin/yosys",
+    "yosys_version": "Yosys 0.66+181",
+    "sby": "/workdir/_tools/oss-cad-suite-20260630/bin/sby",
+    "sta": "/usr/local/bin/sta",
+    "liberty": "sky130_fd_sc_hd__tt_025C_1v80.lib"
+  },
+  "selected_replay": {
+    "area": {
+      "status": "reject",
+      "gold_generic_cells": 396,
+      "gate_generic_cells": 397,
+      "generic_delta_cells": 1,
+      "gold_liberty_cells": 456,
+      "gate_liberty_cells": 456,
+      "liberty_delta_cells": 0,
+      "reference_generic_cells": "396 -> 395",
+      "reference_liberty_cells": "456 -> 451"
+    },
+    "timing": {
+      "status": "pass",
+      "gold_max_data_arrival_ns": 6.32,
+      "gate_max_data_arrival_ns": 6.31,
+      "wns_ns": 0.0,
+      "tns_ns": 0.0
+    },
+    "formal": {
+      "relation_aware_temporal_induction": "SUCCESS",
+      "no_external_occupancy_temporal_induction": "SUCCESS",
+      "relation_aware_sby_abc_pdr": "positive PASS",
+      "bad_err_unaligned_mutant": "FAIL as expected"
+    },
+    "toggle": {
+      "status": "not_emitted",
+      "reason": "The committed fetch_fifo public SAIF traces are candidate-specific. The generic toggle-convention harness refused this FIFO replay as under-exercised for its selected convention, and the selected area rejection already closes the candidate verdict."
+    }
+  },
+  "verdict": "rejected_selected_area",
+  "proposal_quality": "rejected_unverified",
+  "customer_claim_ready": false,
+  "notes": [
+    "The native Opus one-shot produced a proof-clean RTL rewrite, but its self-reported small area win did not survive the selected public area replay.",
+    "This is a negative ablation result for S1, not an accepted PPA frontier result and not a whole-core claim."
+  ]
+}
