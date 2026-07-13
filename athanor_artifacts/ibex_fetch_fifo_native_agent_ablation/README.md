@@ -22,7 +22,7 @@ area, timing, and toggle/activity results.
 | --- | --- | --- | --- | --- |
 | Kairos reference | Kairos orchestrated flow | Complete | Dexter | Accepted module-local packet in `../fetch_fifo_err_unaligned_factored/`. |
 | GPT-5.5 one-shot pilot | `gpt-5.5` | Raw candidate captured | Dexter | Codex subagent pilot, not native-clean; useful raw candidate, but not a final native-vs-Kairos science cell. |
-| Opus 4.8 native-clean one-shot | `opus-4.8` | Planned | Quan | Same prompt hash and scoring rubric; must run in bare, artifact-free, memory-free mode. |
+| Opus 4.8 native-clean one-shot | `opus-4.8` | Planned | Quan | Same prompt hash and scoring rubric; must run in safe-mode, artifact-free, memory-free mode. |
 
 ## Native-Clean Bar
 
@@ -30,8 +30,17 @@ The comparable native baseline must run from a clean checkout at the recorded
 `repo_sha` with only the target RTL and ordinary toolchain access. It must pin
 the model, disable memory/hooks/project guidance, hide Athanor artifacts, run
 one attempt, and score only after the raw response is captured. For Claude
-Code, the intended mechanism is `claude -p --bare --model <model>` from an
-artifact-free workdir.
+Code Opus, the intended mechanism is `claude -p --safe-mode --model
+claude-opus-4-8 --permission-mode acceptEdits` from an artifact-free workdir.
+`--safe-mode` preserves the OAuth subscription path while disabling hooks,
+auto-memory, `CLAUDE.md`, plugins, skills, and MCP. `--bare` is a dead fleet
+path for this lane because no Opus-serving Anthropic API key exists and
+`--bare` refuses OAuth.
+
+Caveats: this is OAuth-served native Claude Code Opus 4.8 on the same
+subscription as the Kairos arm, not a pure API/no-system-prompt baseline;
+admin policy settings may still apply but must probe clean; and the run draws
+on the Claude Code subscription rather than an API budget.
 
 ## Scoring Contract
 
