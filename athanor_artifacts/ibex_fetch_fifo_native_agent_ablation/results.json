@@ -1,0 +1,64 @@
+{
+  "artifact": "ibex_fetch_fifo_native_agent_ablation",
+  "prompt_sha256": "0f8f92302a2d0b809ba7d2c4e0a8b93294ab9f7640e5c19ccc80070e675d89b4",
+  "results": [
+    {
+      "lane_id": "kairos_orchestrated_reference",
+      "agent_type": "kairos_orchestrated",
+      "model_id": "multi_agent",
+      "status": "complete",
+      "candidate_status": "accepted_module_local",
+      "proposal_quality": "verified_win",
+      "artifact_path": "../fetch_fifo_err_unaligned_factored/",
+      "validation": {
+        "parse_or_elaboration": "pass",
+        "formal_or_equivalence": "pass",
+        "sby_abc_pdr": "pass",
+        "bad_mutant_bite": "pass",
+        "area": "liberty cells 456 -> 451",
+        "timing": "flat at 6.32 ns",
+        "toggle": "SAIF transition-count flat 34031 -> 34031"
+      },
+      "verdict": "accepted_reference"
+    },
+    {
+      "lane_id": "gpt55_native_one_shot",
+      "agent_type": "native_one_shot",
+      "model_id": "gpt-5.5",
+      "status": "raw_candidate_captured",
+      "candidate_status": "pending_full_replay",
+      "native_clean": false,
+      "validity_class": "codex_one_shot_pilot_not_native_clean",
+      "proposal_quality": "inconclusive",
+      "raw_response_path": "raw/gpt55_native_one_shot_response.md",
+      "patch_path": "raw/gpt55_native_one_shot.patch",
+      "patch_extraction": "Raw response preserved verbatim; extracted patch was normalized with the missing trailing blank context line so git apply --check passes.",
+      "native_self_report": {
+        "proposal_quality": "verified_win",
+        "lint": "pass",
+        "bounded_equivalence_k20": "pass",
+        "temporal_induction_k20": "pass",
+        "yosys_area_proxy": "unchanged totals, both 556 cells",
+        "yosys_timing_proxy": "unchanged longest topological path, both length 13",
+        "activity_proxy": "orig_entry_en2=3057 cand_entry_en2=1371"
+      },
+      "validation": {
+        "native_clean_baseline": "no",
+        "full_selected_replay": "not_run",
+        "scorer": "fetch_fifo_err_unaligned_factored packet scorer required before acceptance"
+      },
+      "verdict": "pending_full_replay"
+    },
+    {
+      "lane_id": "opus48_quan_one_shot",
+      "agent_type": "native_one_shot",
+      "model_id": "opus-4.8",
+      "status": "planned",
+      "candidate_status": "not_run",
+      "native_clean_required": true,
+      "proposal_quality": "inconclusive",
+      "validation": {},
+      "verdict": "planned"
+    }
+  ]
+}

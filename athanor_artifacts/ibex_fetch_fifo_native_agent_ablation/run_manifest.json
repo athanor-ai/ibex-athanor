@@ -1,0 +1,83 @@
+{
+  "artifact": "ibex_fetch_fifo_native_agent_ablation",
+  "created_utc": "2026-07-13T08:04:28Z",
+  "benchmark_target": {
+    "repo": "athanor-ai/ibex-athanor",
+    "repo_sha": "8bd96601c0023de8bc5daa32759aae18505f9776",
+    "rtl_path": "rtl/ibex_fetch_fifo.sv",
+    "module": "ibex_fetch_fifo",
+    "configuration": {
+      "NUM_REQS": 2,
+      "ResetAll": 0
+    }
+  },
+  "prompt": {
+    "path": "PROMPT.md",
+    "sha256": "0f8f92302a2d0b809ba7d2c4e0a8b93294ab9f7640e5c19ccc80070e675d89b4"
+  },
+  "reference_lane": {
+    "lane_id": "kairos_orchestrated_reference",
+    "status": "complete",
+    "artifact_path": "../fetch_fifo_err_unaligned_factored/",
+    "summary": "Accepted module-local packet: liberty cells 456 -> 451, timing flat, toggle flat, relation-aware temporal induction and SBY/ABC PDR close, bad mutant fails."
+  },
+  "native_lanes": [
+    {
+      "lane_id": "gpt55_native_one_shot",
+      "model_id": "gpt-5.5",
+      "launcher": "dexter",
+      "status": "raw_candidate_captured",
+      "native_clean": false,
+      "validity_class": "codex_one_shot_pilot_not_native_clean",
+      "raw_response_path": "raw/gpt55_native_one_shot_response.md",
+      "patch_path": "raw/gpt55_native_one_shot.patch"
+    },
+    {
+      "lane_id": "opus48_quan_one_shot",
+      "model_id": "opus-4.8",
+      "launcher": "quan",
+      "status": "planned",
+      "same_prompt_sha256": true,
+      "native_clean_required": true,
+      "raw_response_path": "raw/opus48_quan_one_shot_response.md",
+      "patch_path": "raw/opus48_quan_one_shot.patch"
+    }
+  ],
+  "rules": {
+    "one_shot": true,
+    "allowed_target_files": [
+      "rtl/ibex_fetch_fifo.sv"
+    ],
+    "forbidden_hint_sources": [
+      "Kairos orchestration",
+      "kairos optimize",
+      "Athanor artifact directories",
+      "prior Athanor optimization receipts",
+      "iterative rejection feedback"
+    ],
+    "accepted_candidate_requires": [
+      "parse_or_elaboration_pass",
+      "formal_or_equivalence_pass",
+      "area_timing_toggle_receipts",
+      "no_regression_on_other_recorded_axes"
+    ]
+  },
+  "native_clean_requirements": {
+    "model_pinned": true,
+    "single_attempt": true,
+    "memory_recall_disabled": true,
+    "fleet_hooks_disabled": true,
+    "project_guidance_disabled": true,
+    "athanor_artifact_dirs_hidden": true,
+    "kairos_orchestration_unavailable": true,
+    "score_after_raw_response": true,
+    "recommended_claude_invocation": "claude -p --bare --model <model>"
+  },
+  "candidate_quality_vocabulary": {
+    "verified_win": "Full Athanor replay accepted the candidate.",
+    "rejected_unverified": "Native agent produced a candidate but full replay has not accepted it.",
+    "no_candidate": "Native agent returned no patch.",
+    "syntax_or_elab_failure": "Candidate failed parsing or elaboration.",
+    "inconclusive": "Lane is pending, incomplete, or lacks enough receipts for a stronger class."
+  }
+}
