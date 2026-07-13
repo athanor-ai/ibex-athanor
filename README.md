@@ -72,6 +72,17 @@ explicit init-zero state relation. A bad `err_unaligned` mutant fails the same
 PDR replay, preserving the non-vacuity bite. This is a module-local row, not a
 whole-core `ibex_top` claim or customer-ready RTL integration claim.
 
+## Benchmarks
+
+Benchmarks are replayable customer-facing evidence packages. They show what RTL
+subject was tested, which property was evaluated, which proof method was used,
+and where a customer can independently replay the result. Module-local
+benchmarks do not imply a whole-core `ibex_top` claim.
+
+| Benchmark | Module | What it tests | Proof method | Result | Replay |
+| --- | --- | --- | --- | --- | --- |
+| Fetch FIFO sequential equivalence | `ibex_fetch_fifo` | `err_unaligned_factored` preserves FIFO behavior under reset/state relation | Relation-aware temporal induction + SBY/ABC PDR; bad mutant fails | Cells `456 -> 451`; timing/toggle flat; `customer_claim_ready=false` | [`artifact`](athanor_artifacts/fetch_fifo_err_unaligned_factored/) |
+
 ## Latest ATH-2924 Timing-Route Replays
 
 The ATH-2924 timing route adds a missing evidence step: saved structural leads
