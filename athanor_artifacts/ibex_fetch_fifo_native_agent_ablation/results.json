@@ -56,6 +56,8 @@
       "status": "planned",
       "candidate_status": "not_run",
       "native_clean_required": true,
+      "planned_invocation": "claude -p --safe-mode --model claude-opus-4-8",
+      "strip_probe_required": true,
       "proposal_quality": "inconclusive",
       "validation": {},
       "verdict": "planned"
