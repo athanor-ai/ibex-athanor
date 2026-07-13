@@ -16,6 +16,7 @@ sha256sum -c SHA256SUMS
 ./replay_timing.py
 ./replay_equiv.sh
 ./replay_toggle.py
+(cd sby_abc_pdr_initzero && ./replay_sby_pdr.sh)
 sha256sum -c SHA256SUMS
 ```
 
@@ -37,7 +38,10 @@ The corrected packet reports:
 - `replay_equiv.sh`: relation-aware temporal-induction miter closes, the
   no-external-occupancy variant closes, and the bad mutant fails as the
   non-vacuity bite.
+- `sby_abc_pdr_initzero/replay_sby_pdr.sh`: relation-aware SBY/ABC PDR closes
+  under the explicit init-zero state relation, and the same bad mutant fails.
 
 The old canonical `equiv_simple + equiv_induct` screen that left 1/454 cells
 unproven is retained as prior evidence only. The active packet classification
-is the relation-aware miter closure.
+is the relation-aware miter closure plus the distinct relation-aware SBY/ABC PDR
+leg.

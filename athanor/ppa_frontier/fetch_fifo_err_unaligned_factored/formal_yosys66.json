@@ -13,6 +13,20 @@
     "command_shape": "yosys prep -flatten; async2sync; opt; sat -seq 4 -tempinduct -set-init-zero -prove-asserts",
     "status": "temporal_induction_success"
   },
+  "sby_pdr_observational": {
+    "engine": "SymbiYosys ABC PDR",
+    "replay_packet": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/sby_abc_pdr_initzero/sby_pdr_initzero_manifest.json",
+    "scope": "explicit init-zero state relation over exposed FIFO state vectors",
+    "status": "abc_pdr_success"
+  },
+  "sequential_two_receipt_evidence": {
+    "legs": [
+      "relation_aware_seq_miter",
+      "sby_pdr_observational"
+    ],
+    "negative_control": "bad err_unaligned mutant fails under both relation-aware proof routes",
+    "status": "success"
+  },
   "replay_packet": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/relation_aware_seq_miter_manifest.json",
   "status": "success",
   "toolchain": {

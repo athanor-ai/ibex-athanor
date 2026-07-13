@@ -31,8 +31,9 @@
   ],
   "candidate_id": "err_unaligned_factored_risky",
   "candidate_sha256": "5a9c8d51e1b0db1d887ac862e1d122e1b2228166c6b7d407d7090d80ac4fca8a",
-  "classification": "accepted_public_row_relation_aware_seq_miter_closed",
-  "customer_claim_ready": true,
+  "classification": "accepted_public_row_relation_aware_seq_miter_and_sby_pdr_closed",
+  "customer_claim_ready": false,
+  "customer_claim_boundary": "module-local public benchmark evidence only; not whole-core, not customer-ready RTL integration, and not a top-level acceptance claim",
   "equiv_induct_screen": {
     "detail": "1 unproven cells remain after equiv_simple + equiv_induct",
     "method": "yosys_equiv",
@@ -44,17 +45,24 @@
   "ibex_commit": "634f37dbe1e831e30a5b0cdbaf3dc459aa60496e",
   "module": "ibex_fetch_fifo",
   "prior_classification": "area_positive_filter_formal_harness_missing",
-  "reason": "selected-toolchain area-positive, timing-flat, toggle-flat, bounded checks clean through k30, and relation-aware sequential miter closes with a bad-mutant non-vacuity bite. Independent replay, ibex-lane acceptance, and public row-contract wiring are complete for this module-local row.",
+  "reason": "selected-toolchain area-positive, timing-flat, toggle-flat, bounded checks clean through k30, relation-aware temporal induction closes, and relation-aware SBY/ABC PDR closes under explicit init-zero state relation. The bad err_unaligned mutant fails both proof routes. Independent replay, ibex-lane acceptance, and public row-contract wiring are complete for this module-local row.",
   "relation_aware_seq_miter": {
     "classification": "local_relation_aware_seq_miter_closed",
     "negative_control": "bad err_unaligned mutant fails base case",
     "no_external_occupancy": "temporal induction SUCCESS; FIFO occupancy is derived from reset/reachability",
     "positive": "temporal induction SUCCESS"
   },
-  "risk_note": "The older canonical equiv_simple + equiv_induct screen left 1/454 cells unproven because it did not infer FIFO occupancy/reachability. That screen is historical prior evidence, not the active packet classification after the relation-aware miter closure.",
+  "sby_abc_pdr_initzero": {
+    "classification": "module_local_relation_aware_sby_abc_pdr_closed",
+    "negative_control": "bad err_unaligned mutant FAIL 2 0",
+    "positive": "ABC PDR PASS 0 0",
+    "replay_packet": "sby_abc_pdr_initzero/sby_pdr_initzero_manifest.json",
+    "scope": "explicit init-zero state relation over exposed FIFO state vectors"
+  },
+  "risk_note": "The older canonical equiv_simple + equiv_induct screen left 1/454 cells unproven because it did not infer FIFO occupancy/reachability. That screen is historical prior evidence, not the active packet classification after the relation-aware temporal-induction and SBY/PDR closures. The active claim remains module-local.",
   "schema": "ibex_fetch_fifo_discovery_lead_v1",
   "selected_toolchain": {
-    "liberty": "/workdir/_tmp/ronald-kairos-main-4484/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+    "liberty": "sky130_fd_sc_hd__tt_025C_1v80.lib",
     "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9",
     "yosys_version": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)"
   },

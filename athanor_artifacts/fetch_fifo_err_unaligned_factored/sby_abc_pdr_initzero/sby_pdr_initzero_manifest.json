@@ -1,0 +1,78 @@
+{
+  "schema": "ibex_fetch_fifo_sby_abc_pdr_initzero_v1",
+  "module": "ibex_fetch_fifo",
+  "candidate_id": "err_unaligned_factored_risky",
+  "classification": "module_local_relation_aware_sby_abc_pdr_closed",
+  "customer_claim_ready": false,
+  "boundary": "module-local sequential proof leg under explicit init-zero/state-relation scope; not a whole-core claim and not a customer-ready RTL integration claim",
+  "engine": {
+    "driver": "SymbiYosys",
+    "backend": "ABC PDR",
+    "sby_file": "initzero.sby"
+  },
+  "proof_scope": {
+    "top": "ibex_fetch_fifo_relation_seq_no_occupancy_miter_initzero",
+    "initial_relation": "both exposed FIFO state vectors are constrained to zero at the initial step",
+    "state_relation": [
+      "valid_q equality",
+      "err_q equality",
+      "rdata_q equality",
+      "instr_addr_q equality"
+    ],
+    "observable_relation": [
+      "busy_o equality",
+      "out_valid_o equality",
+      "out_addr_o equality",
+      "out_rdata_o equality",
+      "out_err_o equality",
+      "out_err_plus2_o equality"
+    ]
+  },
+  "positive_check": {
+    "name": "relation_aware_sby_abc_pdr_initzero",
+    "gate_file": "../ibex_fetch_fifo_gate_exposed.v",
+    "expected_exit_code": 0,
+    "expected_status_file": "PASS 0 0",
+    "scratch_replay_status": "PASS 0 0",
+    "scratch_replay_result": "ABC PDR proved outputs 0 through 8 in frame 9"
+  },
+  "negative_control": {
+    "name": "bad_err_unaligned_mutant",
+    "gate_file": "../ibex_fetch_fifo_gate_mutant_exposed.v",
+    "mutation": "drops the incoming-error term from err_unaligned",
+    "expected_exit_code": 2,
+    "expected_status_file": "FAIL 2 0",
+    "scratch_replay_status": "FAIL 2 0",
+    "scratch_replay_result": "ABC PDR asserted output 7 in frame 2"
+  },
+  "source_files": [
+    {
+      "path": "../ibex_fetch_fifo_gold_exposed.v",
+      "sha256": "ed23f92ca5a01030d18f4aec9be30aa6531a52cf4d122d49cace0f5ec5da105d"
+    },
+    {
+      "path": "../ibex_fetch_fifo_gate_exposed.v",
+      "sha256": "896fc4ab5a82721cc31eed8b3e1c18d825b98d30b7737a89d79b523b09c249f7"
+    },
+    {
+      "path": "../ibex_fetch_fifo_gate_mutant_exposed.v",
+      "sha256": "b105167b2264f4a2500cf5dd33ffb2f1e85bf560250571fe2d1ffb0f02696899"
+    },
+    {
+      "path": "miter_initzero.sv",
+      "sha256": "89966712e7a8e78b333a46553abe1bb847e1a5df454edb0e79e5e028ea841d44"
+    },
+    {
+      "path": "initzero.sby",
+      "sha256": "e9989dea8ac04f8709cb2ccfece1a9b5d4ce22fe5a2bf298fb68200325790b3a"
+    }
+  ],
+  "replay": {
+    "commands": [
+      "sha256sum -c SHA256SUMS",
+      "./replay_sby_pdr.sh",
+      "sha256sum -c SHA256SUMS"
+    ],
+    "output_directory": "sby_pdr_replay_out"
+  }
+}
