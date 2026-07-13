@@ -36,11 +36,12 @@
       "lane_id": "opus48_quan_one_shot",
       "model_id": "opus-4.8",
       "launcher": "quan",
-      "status": "planned",
+      "status": "raw_candidate_captured",
       "same_prompt_sha256": true,
       "native_clean_required": true,
       "raw_response_path": "raw/opus48_quan_one_shot_response.md",
-      "patch_path": "raw/opus48_quan_one_shot.patch"
+      "patch_path": "raw/opus48_quan_one_shot.patch",
+      "strip_probe_passed": true
     }
   ],
   "rules": {

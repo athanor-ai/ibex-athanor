@@ -82,7 +82,7 @@ benchmarks do not imply a whole-core `ibex_top` claim.
 | Benchmark | Module | What it tests | Proof method | Result | Replay |
 | --- | --- | --- | --- | --- | --- |
 | Fetch FIFO sequential equivalence | `ibex_fetch_fifo` | `err_unaligned_factored` preserves FIFO behavior under reset/state relation | Relation-aware temporal induction + SBY/ABC PDR; bad mutant fails | Cells `456 -> 451`; timing/toggle flat; `customer_claim_ready=false` | [`artifact`](athanor_artifacts/fetch_fifo_err_unaligned_factored/) |
-| Native one-shot ablation | `ibex_fetch_fifo` | Frozen one-shot agents against the same FIFO optimization task | Same evidence bar after the raw answer; no Kairos loop or prior receipts | GPT-5.5 pilot captured; native-clean Opus 4.8 planned; no frontier claim | [`artifact`](athanor_artifacts/ibex_fetch_fifo_native_agent_ablation/) |
+| Native one-shot ablation | `ibex_fetch_fifo` | Frozen one-shot agents against the same FIFO optimization task | Same evidence bar after the raw answer; no Kairos loop or prior receipts | GPT-5.5 pilot captured; native-clean Opus 4.8 raw candidate captured (pending full replay); no frontier claim | [`artifact`](athanor_artifacts/ibex_fetch_fifo_native_agent_ablation/) |
 
 ## Latest ATH-2924 Timing-Route Replays
 
