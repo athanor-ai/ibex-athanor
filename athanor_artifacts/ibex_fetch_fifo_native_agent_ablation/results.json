@@ -53,14 +53,35 @@
       "lane_id": "opus48_quan_one_shot",
       "agent_type": "native_one_shot",
       "model_id": "opus-4.8",
-      "status": "planned",
-      "candidate_status": "not_run",
-      "native_clean_required": true,
-      "planned_invocation": "claude -p --safe-mode --model claude-opus-4-8 --permission-mode acceptEdits",
-      "strip_probe_required": true,
+      "status": "raw_candidate_captured",
+      "candidate_status": "pending_full_replay",
       "proposal_quality": "inconclusive",
-      "validation": {},
-      "verdict": "planned"
+      "native_clean": true,
+      "mechanism": "claude -p --safe-mode --model claude-opus-4-8 (OAuth-served; --dangerously-skip-permissions in an artifact-free /tmp checkout of rtl/ibex_fetch_fifo.sv at 8bd96601, athanor/ + artifacts stripped)",
+      "strip_probe": {
+        "required": true,
+        "passed": true,
+        "detail": "adversarial probe under --safe-mode in the run env returned no ibex 456->451 memory, no Athanor CLAUDE.md, no fleet hooks, and unknown asabi/fleet-agents/disk-alert-channel"
+      },
+      "raw_response_path": "raw/opus48_quan_one_shot_response.md",
+      "patch_path": "raw/opus48_quan_one_shot.patch",
+      "patch_extraction": "Raw response preserved verbatim. The agent's inline diff had a hunk line-count formatting error, so the candidate was re-emitted as a clean git diff of the agent's EXACT err_unaligned rewrite (3 comment lines + one-expression change); git apply --check passes on a pristine 8bd96601 rtl/ibex_fetch_fifo.sv.",
+      "native_self_report": {
+        "candidate": "S1: rewrite the err_unaligned entry[1]-invalid branch to reuse the existing `err` bypass signal (proven Boolean identity; exposes cross-fanout sharing that ABC local rewriting does not recover)",
+        "parse_elaboration": "verilator --lint-only -Wall PASS (exit 0, no warnings)",
+        "formal_equivalence": "yosys equiv_make + async2sync + equiv_simple -seq 5 + equiv_induct -seq 20 + equiv_status -assert -> EQUIV-PROVEN rc=0; controls: orig-vs-orig PROVEN, orig-vs-deliberately-broken FAIL (unproven $equiv cells)",
+        "cosimulation": "iverilog -g2012 miter, 200000 randomized cycles exercising clear_i/errors/handshake -> 0 mismatches",
+        "area_proxies": "mapped no-mux 491->490 (-1); mapped with-mux 263->261 (-2); AIG AND-nodes 700->698 (-2); word-level cells 74->72 (-2)",
+        "timing_proxy": "longest comb path (ltp -noff) 35/37 -> 35/37 (flat)",
+        "state_proxy": "register bits 133 -> 133 (flat)",
+        "self_characterization": "modest win (~1-2 gates, <1% area); RTL already well-optimized; rejected 4 cosmetic rewrites that ABC canonicalized to identical gate counts or that regressed the no-mux area proxy",
+        "run": "50 turns, ~26 min wall, oss-cad-suite (Yosys 0.45+139, ABC, eqy, Verilator 5.029, Icarus 11.0)"
+      },
+      "validation": {
+        "full_selected_replay": "not_run",
+        "scorer": "fetch_fifo_err_unaligned_factored packet scorer (area/timing/equiv/toggle/PDR) required before acceptance"
+      },
+      "verdict": "pending_full_replay"
     }
   ]
 }
