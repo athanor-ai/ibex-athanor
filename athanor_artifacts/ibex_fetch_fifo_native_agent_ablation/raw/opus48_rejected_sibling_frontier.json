@@ -1,0 +1,43 @@
+{
+  "artifact": "ibex_fetch_fifo_native_agent_ablation",
+  "record_type": "raw_frontier_candidate_selected_replay",
+  "boundary_note": "NOT the opus48_quan_one_shot lane final answer (that remains S1 / rejected_selected_area - the ablation measures the one-shot SHIPPED answer). This records a SELECTED-REPLAYED sibling from the one-shot raw REJECTED frontier, per Ronald ATH-2945 boundary. Verdict vocabulary is 'possible headroom / candidate-selection finding', NOT missed-by-Kairos / proposer regression.",
+  "lane_of_origin": "opus48_quan_one_shot",
+  "candidate_id": "opus48_frontier_F_variant",
+  "provenance": "verbatim from the opus48_quan_one_shot raw response; agent-generated then agent-self-rejected in favor of S1 on its own no-mux gate proxy",
+  "expression": "assign err_unaligned = ((valid_q[1] ? err_q[1] : in_err_i) & ~unaligned_is_compressed) | (valid_q[1] ? err_q[0] : err);  // err = valid_q[0] ? err_q[0] : in_err_i (existing bypass)",
+  "packet_base": {
+    "repo": "athanor-ai/ibex-athanor",
+    "sha": "b9133c95",
+    "path": "athanor_artifacts/fetch_fifo_err_unaligned_factored/",
+    "note": "packet recovered from git history; not on current master"
+  },
+  "instrument_controls": "reference-as-is reproduced liberty 456->451; S1 substituted reproduced liberty 456->456 + generic +1 - both match the authoritative packet, so the substitute-and-replay instrument is validated. YOSYS oss-cad-suite-20260630, sky130_fd_sc_hd__tt_025C_1v80.lib.",
+  "axes_run": {
+    "equivalence": {
+      "method": "exhaustive truth-table over all 64 inputs {valid_q[0],valid_q[1],err_q[0],err_q[1],in_err_i,unaligned_is_compressed}",
+      "result": "0 mismatches -> COMBINATIONALLY EQUIVALENT, invariant-free. Complete proof for a pure combinational output (err_unaligned feeds out_err_o combinationally).",
+      "relation_aware_seq_miter": "FAILED for F-variant, but that miter is candidate-SPECIFIC (authored for the reference form internal structure); not a valid equivalence verdict for a structurally-different candidate. The exhaustive truth-table is authoritative here."
+    },
+    "area": {
+      "generic_cells": "396 gold -> 393 (-3)",
+      "liberty_cells": "456 gold -> 451 (-5)",
+      "vs_kairos_reference": "liberty TIES (both 451); generic BEATS (393 vs 395)"
+    },
+    "timing": {
+      "gate_ns": 6.32,
+      "gold_ns": 6.32,
+      "wns_ns": 0,
+      "tns_ns": 0,
+      "result": "flat, no regression"
+    }
+  },
+  "axes_not_run": {
+    "sby_abc_pdr": "not_run. A-priori: F-variant is combinationally equal to gold on the only changed signal (a combinational output), so reachable-state behavior is identical to gold and the reference PDR pass should carry - but this was NOT executed for F-variant.",
+    "toggle": "not_emitted. The packet replay_toggle only sums the reference candidate-specific gold.saif/gate.saif; a sibling needs regenerated SAIF (Dexter caveat)."
+  },
+  "acceptance_axes_parity": "PARTIAL vs the reference packet: equivalence (stronger method) + area + timing RAN; relation-seq-miter + PDR + toggle did NOT run to the reference full pipeline. Do NOT treat as an accepted candidate.",
+  "verdict_vocabulary": "possible_headroom_candidate_selection_finding",
+  "finding": "The one-shot raw frontier contained F-variant, whose selected area TIES the Kairos liberty result (451) and BEATS generic (393 vs 395) with flat timing and exhaustive combinational equivalence, while the one-shot SHIPPED S1 (rejected_selected_area). Exposes a candidate-SELECTION / self-proxy-calibration gap in the native one-shot and possible orchestrator headroom on generic. NOT a confirmed missed-by-Kairos until F-variant clears the reference full acceptance pipeline (relation/PDR/toggle).",
+  "produced_by": "quan (qa), ATH-2945 worked-example lineage"
+}
