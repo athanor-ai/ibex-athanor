@@ -36,11 +36,12 @@
       "lane_id": "opus48_quan_one_shot",
       "model_id": "opus-4.8",
       "launcher": "quan",
-      "status": "planned",
+      "status": "raw_candidate_captured",
       "same_prompt_sha256": true,
       "native_clean_required": true,
       "raw_response_path": "raw/opus48_quan_one_shot_response.md",
-      "patch_path": "raw/opus48_quan_one_shot.patch"
+      "patch_path": "raw/opus48_quan_one_shot.patch",
+      "strip_probe_passed": true
     }
   ],
   "rules": {
@@ -71,7 +72,15 @@
     "athanor_artifact_dirs_hidden": true,
     "kairos_orchestration_unavailable": true,
     "score_after_raw_response": true,
-    "recommended_claude_invocation": "claude -p --bare --model <model>"
+    "recommended_claude_invocation": "claude -p --safe-mode --model claude-opus-4-8 --permission-mode acceptEdits",
+    "auth_path": "OAuth subscription allowed only through safe-mode; no API key required",
+    "baseline_class": "native Claude Code model-pinned one-shot, not pure API/no-system-prompt",
+    "native_clean_caveats": [
+      "OAuth-served native Claude Code Opus 4.8 (same subscription as the Kairos arm), not a pure API/no-system-prompt baseline",
+      "Admin policy settings still apply but must probe clean",
+      "Draws on the Claude Code subscription, not an API budget"
+    ],
+    "strip_probe_required": true
   },
   "candidate_quality_vocabulary": {
     "verified_win": "Full Athanor replay accepted the candidate.",
