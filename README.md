@@ -4,6 +4,27 @@ Ibex is a real open-source 32-bit RISC-V CPU core. This fork publishes Athanor
 Ibex optimization results. Every promoted row binds the exact RTL candidate to
 metrics, proof or equivalence, activity checks, and replayable artifacts.
 
+## Customer Summary
+
+- **Accepted public evidence:** five promoted artifacts: two whole-core
+  `ibex_top` rows and three module-local rows. Whole-core claims are made only
+  where the package carries an `ibex_top` receipt.
+- **Whole-core reach:** `ibex_top / no_bp_prefetch_direct` improves selected
+  toolchain area from `108441.5040` to `108373.9392`, keeps toggle activity
+  flat at `311729 -> 311729`, and carries `1956/1956` Yosys equivalence plus
+  hosted OSS-FV/cold-review evidence.
+- **Second top-level row:** `ibex_if_stage / expanded_predicate_factor` reaches
+  `ibex_top` with area `108428.9920 -> 108397.7120`, flat toggle activity, and
+  cold replay.
+- **Module-local timing result:** `ibex_multdiv_slow` improves max data-arrival
+  from `8.13 ns` to `7.25 ns` with flat toggle activity and full formal replay.
+- **Sequential proof coverage:** `ibex_fetch_fifo / err_unaligned_factored`
+  carries relation-aware temporal induction and SBY/ABC PDR receipts, so the
+  Ibex story is not only combinational equivalence.
+- **Claim guard:** these are selected-toolchain, hash-bound, replayable
+  receipts. They do not claim Synopsys/Cadence signoff, workload power, place
+  and route closure, or additive whole-core benefit from module-local rows.
+
 ## Status
 
 | Field | Status |
