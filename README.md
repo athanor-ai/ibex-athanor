@@ -31,6 +31,18 @@ bwlogic_or_from_xor_and` as a timing tradeoff, `ibex_branch_predict /
 candidate2` as an area reject, and the native-agent ablation as benchmark
 evidence rather than a frontier claim.
 
+## Formal Verification Map
+
+The package directory named in each row is the proof entry point. Methods not
+listed in that package are not part of its public claim.
+
+| Evidence | Where | Boundary |
+| --- | --- | --- |
+| Lean receipt records | `athanor/ppa_frontier/*/lean_receipt.json` | Auxiliary receipt records for named frontier packages; not a whole-core claim unless the row says `ibex_top`. |
+| Yosys equivalence | Package `replay_equiv.sh`, `.ys`, and proof logs | Equivalence for the exact module or top-level subject named by the package. |
+| Temporal induction / SBY ABC PDR | `fetch_fifo_err_unaligned_factored/` and `sby_abc_pdr_initzero/` | Fetch-FIFO relation proof only; the bad mutant must fail. |
+| Hosted OSS-FV / subject binding | Top-level receipt plus `athanor/check_formal_subject_binding.py` | Whole-core wording is limited to the exact `ibex_top` receipt. |
+
 ## Evidence Bar
 
 A promoted row requires:
