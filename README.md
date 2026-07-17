@@ -1,13 +1,12 @@
-# Athanor Ibex Evidence Surface
+# Athanor Ibex Results
 
-Ibex is a real open-source 32-bit RISC-V CPU core. This fork is Athanor's public
-evidence surface for Ibex optimization work: every promoted row must bind the
-exact RTL candidate to metrics, proof or equivalence, activity checks, and
-replayable artifacts.
+Ibex is a real open-source 32-bit RISC-V CPU core. This fork publishes Athanor
+Ibex optimization results. Every promoted row binds the exact RTL candidate to
+metrics, proof or equivalence, activity checks, and replayable artifacts.
 
 ## Status
 
-| Field | Current read |
+| Field | Status |
 | --- | --- |
 | Core | lowRISC Ibex |
 | Evidence level | Five promoted artifacts: two whole-core rows and three module-local rows |
