@@ -4,7 +4,7 @@ Ibex is a real open-source 32-bit RISC-V CPU core. This fork publishes Athanor
 Ibex optimization results. Every promoted row binds the exact RTL candidate to
 metrics, proof or equivalence, activity checks, and replayable artifacts.
 
-## Customer Summary
+## Optimization Summary
 
 - **Accepted public evidence:** five promoted artifacts: two whole-core
   `ibex_top` rows and three module-local rows. Whole-core claims are made only
