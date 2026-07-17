@@ -23,6 +23,17 @@ metrics, proof or equivalence, activity checks, and replayable artifacts.
 | `ibex_multdiv_fast / greater_equal_xor_shape` | Module-local | Cell metric flat `3306 -> 3306`; max delay `10.85ns -> 10.57ns` | Toggle flat `7657 -> 7657`; Yosys equivalence `772/772` | [`multdiv_fast_greater_equal_xor_shape`](athanor_artifacts/multdiv_fast_greater_equal_xor_shape/) |
 | `ibex_fetch_fifo / err_unaligned_factored` | Module-local | Generic cells `396 -> 395`; liberty cells `456 -> 451`; timing flat at `6.32ns` | SAIF transition-count flat `34031 -> 34031`; relation-aware temporal induction and SBY/ABC PDR close; bad mutant fails | [`fetch_fifo_err_unaligned_factored`](athanor_artifacts/fetch_fifo_err_unaligned_factored/) |
 
+## Proofs And Receipts
+
+Proofs and replay receipts live inside the package linked from each row.
+
+| Evidence | Where to look |
+| --- | --- |
+| Yosys equivalence | Package-local `equiv_yosys66.ys`, `replay_equiv_yosys66.ys`, `top_level_first/equiv.ys`, and matching `.log` files |
+| Temporal induction / SBY PDR | `fetch_fifo_err_unaligned_factored/bounded_k*.log`, `relation_aware_seq_miter_manifest.json`, and `sby_abc_pdr_initzero/` |
+| Activity and replay | `toggle_convention_receipt.json`, `top_level_first_receipt.json`, `ath2924_public_replay_receipt.json`, `SHA256SUMS`, and `python3 athanor/verify_public_receipts.py` |
+| Lean / EBMC / CEGAR | Not claimed by these promoted rows unless a package explicitly carries that method's receipt |
+
 ## Evidence Ledger
 
 Rejected, historical, and benchmark packages remain visible because they teach
