@@ -27,3 +27,6 @@ jobs:
 
       - name: Verify public receipt manifests
         run: python3 athanor/verify_public_receipts.py
+
+      - name: Public README contract
+        run: python3 athanor/check_public_readme.py
