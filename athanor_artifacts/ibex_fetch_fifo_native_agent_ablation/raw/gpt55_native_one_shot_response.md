@@ -39,7 +39,7 @@ the measured top-entry register enable activity.
 PASS: located target:
 
 ```bash
-find /workdir -path '*/rtl/ibex_fetch_fifo.sv' -print
+find <local> -path '*/rtl/ibex_fetch_fifo.sv' -print
 ```
 
 PASS: inspected only target RTL:

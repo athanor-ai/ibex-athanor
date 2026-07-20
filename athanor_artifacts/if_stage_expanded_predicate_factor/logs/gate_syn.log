@@ -27,7 +27,7 @@
        +---------------------------------+
 
 =================== Flow Vars ===================
-Path to cell library: /workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib
+Path to cell library: <local>/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib
 top module: ibex_top (default)
 Output directory for synthesis: syn_out/dexter_gate_if_expanded_factor
 Pre-mapping netlist out: ./syn_out/dexter_gate_if_expanded_factor/generated/ibex_top.pre_map.v (default)
@@ -59,7 +59,7 @@ clock period: 4000.0 ps
  \----------------------------------------------------------------------------/
  Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
 
-1. Executing Liberty frontend: /workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib
+1. Executing Liberty frontend: <local>/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib
 Imported 428 cell types from liberty file.
 
 2. Executing Verilog-2005 frontend: ./rtl/prim_clock_gating.v
@@ -7374,8 +7374,8 @@ Optimizing module ibex_top.
 
 39.23. Executing TECHMAP pass (map to technology primitives).
 
-39.23.1. Executing Verilog-2005 frontend: /workdir/_tools/oss-cad-suite-20260630/lib/../share/yosys/techmap.v
-Parsing Verilog input from `/workdir/_tools/oss-cad-suite-20260630/lib/../share/yosys/techmap.v' to AST representation.
+39.23.1. Executing Verilog-2005 frontend: <local>/_tools/oss-cad-suite-20260630/lib/../share/yosys/techmap.v
+Parsing Verilog input from `<local>/_tools/oss-cad-suite-20260630/lib/../share/yosys/techmap.v' to AST representation.
 Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
 Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
 Generating RTLIL representation for module `\_90_simplemap_logic_ops'.

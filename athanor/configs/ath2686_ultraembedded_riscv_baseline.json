@@ -5,7 +5,7 @@
   "design": {
     "id": "ultraembedded_riscv",
     "source_url": "https://github.com/ultraembedded/riscv",
-    "local_repo_path": "/workdir/oss-demo-targets/ultraembedded-riscv",
+    "local_repo_path": "<local>/oss-demo-targets/ultraembedded-riscv",
     "git_head": "7ae6f803e30f78c6ea3121e73c3adf50ff912730",
     "top": "riscv_core",
     "source_manifest_sha256": "78b23d2dfb243e6e8f6ecd4be5113f54856becb0975eb5efc004c74294897652",
@@ -15,7 +15,7 @@
   "toolchain": {
     "yosys": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)",
     "sta": "2.2.0",
-    "liberty_path": "/workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+    "liberty_path": "<local>/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
     "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
   },
   "selected_timing_flow_baseline": {

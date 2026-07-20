@@ -9,8 +9,8 @@ fi
 
 out_dir="$1"
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-core_root="${CV32E40P_ROOT:-/workdir/oss-demo-targets/cv32e40p}"
-default_yosys="/workdir/_tools/oss-cad-suite-20260630/bin/yosys"
+core_root="${CV32E40P_ROOT:-<local>/oss-demo-targets/cv32e40p}"
+default_yosys="<local>/_tools/oss-cad-suite-20260630/bin/yosys"
 if [ -n "${YOSYS:-}" ]; then
   yosys_bin="$YOSYS"
 elif [ -x "$default_yosys" ]; then

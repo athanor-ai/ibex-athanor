@@ -8,7 +8,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 out_dir="$1"
-source_file="${PICORV32_SOURCE:-/workdir/oss-demo-targets/picorv32/picorv32.v}"
+source_file="${PICORV32_SOURCE:-<local>/oss-demo-targets/picorv32/picorv32.v}"
 top="${PICORV32_TOP:-picorv32}"
 liberty="${LR_SYNTH_CELL_LIBRARY_PATH:?LR_SYNTH_CELL_LIBRARY_PATH is required}"
 enable_fast_mul="${PICORV32_ENABLE_FAST_MUL:-1}"

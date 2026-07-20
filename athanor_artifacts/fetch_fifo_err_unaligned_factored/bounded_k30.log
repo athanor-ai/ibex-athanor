@@ -6,10 +6,10 @@
  \----------------------------------------------------------------------------/
  Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)
 
--- Running command `read_verilog -sv -DFORMAL=0 "/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v"; hierarchy -top ibex_fetch_fifo; proc; memory; async2sync; flatten; opt; rename ibex_fetch_fifo __kairos_gold_sat; design -save __kairos_gold_sat_design; design -reset; read_verilog -sv -DFORMAL=0 "/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v"; hierarchy -top ibex_fetch_fifo; proc; memory; async2sync; flatten; opt; rename ibex_fetch_fifo __kairos_gate_sat; design -copy-from __kairos_gold_sat_design __kairos_gold_sat; miter -equiv __kairos_gold_sat __kairos_gate_sat miter; flatten miter; opt; sat -seq 30 -set-init-zero -prove trigger 0 -show-ports miter' --
+-- Running command `read_verilog -sv -DFORMAL=0 "<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v"; hierarchy -top ibex_fetch_fifo; proc; memory; async2sync; flatten; opt; rename ibex_fetch_fifo __kairos_gold_sat; design -save __kairos_gold_sat_design; design -reset; read_verilog -sv -DFORMAL=0 "<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v"; hierarchy -top ibex_fetch_fifo; proc; memory; async2sync; flatten; opt; rename ibex_fetch_fifo __kairos_gate_sat; design -copy-from __kairos_gold_sat_design __kairos_gold_sat; miter -equiv __kairos_gold_sat __kairos_gate_sat miter; flatten miter; opt; sat -seq 30 -set-init-zero -prove trigger 0 -show-ports miter' --
 
-1. Executing Verilog-2005 frontend: /workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v
-Parsing SystemVerilog input from `/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v' to AST representation.
+1. Executing Verilog-2005 frontend: <local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v
+Parsing SystemVerilog input from `<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v' to AST representation.
 Generating RTLIL representation for module `\ibex_fetch_fifo'.
 Successfully finished Verilog frontend.
 
@@ -25,12 +25,12 @@ Removed 0 unused modules.
 3. Executing PROC pass (convert processes to netlists).
 
 3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
 Cleaned up 1 empty switch.
 
 3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
-Marked 1 switch rules as full_case in process $proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48 in module ibex_fetch_fifo.
-Marked 2 switch rules as full_case in process $proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29 in module ibex_fetch_fifo.
+Marked 1 switch rules as full_case in process $proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48 in module ibex_fetch_fifo.
+Marked 2 switch rules as full_case in process $proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29 in module ibex_fetch_fifo.
 Removed a total of 0 dead cases.
 
 3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
@@ -40,28 +40,28 @@ Promoted 5 assignments to connections.
 3.4. Executing PROC_INIT pass (extract init attributes).
 
 3.5. Executing PROC_ARST pass (detect async resets in processes).
-Found async reset \rst_ni in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48'.
+Found async reset \rst_ni in `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48'.
 
 3.6. Executing PROC_ROM pass (convert switches to ROMs).
 Converted 0 switches.
 <suppressed ~6 debug messages>
 
 3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$81'.
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$81'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
      1/2: $0\err_q[2:2]
      2/2: $0\rdata_q[95:64]
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
      1/2: $0\err_q[1:1]
      2/2: $0\rdata_q[63:32]
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
      1/2: $0\err_q[0:0]
      2/2: $0\rdata_q[31:0]
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$50'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$50'.
      1/1: $0\instr_addr_q[30:0]
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48'.
      1/1: $0\valid_q[2:0]
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
      1/5: $2\out_valid_o[0:0]
      2/5: $1\out_valid_o[0:0]
      3/5: $1\out_err_plus2_o[0:0]
@@ -69,45 +69,45 @@ Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-
      5/5: $1\out_rdata_o[31:0]
 
 3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
-No latch inferred for signal `\ibex_fetch_fifo.\_sv2v_0' from process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$81'.
-No latch inferred for signal `\ibex_fetch_fifo.\out_valid_o' from process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
-No latch inferred for signal `\ibex_fetch_fifo.\out_rdata_o' from process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
-No latch inferred for signal `\ibex_fetch_fifo.\out_err_o' from process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
-No latch inferred for signal `\ibex_fetch_fifo.\out_err_plus2_o' from process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+No latch inferred for signal `\ibex_fetch_fifo.\_sv2v_0' from process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$81'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_valid_o' from process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_rdata_o' from process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_err_o' from process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_err_plus2_o' from process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
 
 3.9. Executing PROC_DFF pass (convert process syncs to FFs).
-Creating register for signal `\ibex_fetch_fifo.\rdata_q [95:64]' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
+Creating register for signal `\ibex_fetch_fifo.\rdata_q [95:64]' using process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
   created $dff cell `$procdff$114' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\err_q [2]' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
+Creating register for signal `\ibex_fetch_fifo.\err_q [2]' using process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
   created $dff cell `$procdff$115' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\rdata_q [63:32]' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
+Creating register for signal `\ibex_fetch_fifo.\rdata_q [63:32]' using process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
   created $dff cell `$procdff$116' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\err_q [1]' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
+Creating register for signal `\ibex_fetch_fifo.\err_q [1]' using process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
   created $dff cell `$procdff$117' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\rdata_q [31:0]' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
+Creating register for signal `\ibex_fetch_fifo.\rdata_q [31:0]' using process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
   created $dff cell `$procdff$118' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\err_q [0]' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
+Creating register for signal `\ibex_fetch_fifo.\err_q [0]' using process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
   created $dff cell `$procdff$119' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\instr_addr_q' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$50'.
+Creating register for signal `\ibex_fetch_fifo.\instr_addr_q' using process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$50'.
   created $dff cell `$procdff$120' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\valid_q' using process `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48'.
+Creating register for signal `\ibex_fetch_fifo.\valid_q' using process `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48'.
   created $adff cell `$procdff$125' with positive edge clock and positive level reset.
 
 3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
 
 3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$81'.
-Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
-Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
-Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
-Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$50'.
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$50'.
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48'.
-Found and cleaned up 2 empty switches in `\ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$81'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$80'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$79'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$78'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$50'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$50'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$48'.
+Found and cleaned up 2 empty switches in `\ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$29'.
 Cleaned up 6 empty switches.
 
 3.12. Executing OPT_EXPR pass (perform const folding).
@@ -231,8 +231,8 @@ Optimizing module ibex_fetch_fifo.
 7.16. Finished fast OPT passes. (There is nothing left to do.)
 Renaming module \ibex_fetch_fifo to \__kairos_gold_sat.
 
-8. Executing Verilog-2005 frontend: /workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v
-Parsing SystemVerilog input from `/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v' to AST representation.
+8. Executing Verilog-2005 frontend: <local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v
+Parsing SystemVerilog input from `<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v' to AST representation.
 Generating RTLIL representation for module `\ibex_fetch_fifo'.
 Successfully finished Verilog frontend.
 
@@ -248,12 +248,12 @@ Removed 0 unused modules.
 10. Executing PROC pass (convert processes to netlists).
 
 10.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
 Cleaned up 1 empty switch.
 
 10.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
-Marked 1 switch rules as full_case in process $proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184 in module ibex_fetch_fifo.
-Marked 2 switch rules as full_case in process $proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165 in module ibex_fetch_fifo.
+Marked 1 switch rules as full_case in process $proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184 in module ibex_fetch_fifo.
+Marked 2 switch rules as full_case in process $proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165 in module ibex_fetch_fifo.
 Removed a total of 0 dead cases.
 
 10.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
@@ -263,28 +263,28 @@ Promoted 5 assignments to connections.
 10.4. Executing PROC_INIT pass (extract init attributes).
 
 10.5. Executing PROC_ARST pass (detect async resets in processes).
-Found async reset \rst_ni in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184'.
+Found async reset \rst_ni in `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184'.
 
 10.6. Executing PROC_ROM pass (convert switches to ROMs).
 Converted 0 switches.
 <suppressed ~6 debug messages>
 
 10.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$217'.
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$217'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
      1/2: $0\err_q[2:2]
      2/2: $0\rdata_q[95:64]
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
      1/2: $0\err_q[1:1]
      2/2: $0\rdata_q[63:32]
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
      1/2: $0\err_q[0:0]
      2/2: $0\rdata_q[31:0]
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$186'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$186'.
      1/1: $0\instr_addr_q[30:0]
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184'.
      1/1: $0\valid_q[2:0]
-Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+Creating decoders for process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
      1/5: $2\out_valid_o[0:0]
      2/5: $1\out_valid_o[0:0]
      3/5: $1\out_err_plus2_o[0:0]
@@ -292,45 +292,45 @@ Creating decoders for process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ro
      5/5: $1\out_rdata_o[31:0]
 
 10.8. Executing PROC_DLATCH pass (convert process syncs to latches).
-No latch inferred for signal `\ibex_fetch_fifo.\_sv2v_0' from process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$217'.
-No latch inferred for signal `\ibex_fetch_fifo.\out_valid_o' from process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
-No latch inferred for signal `\ibex_fetch_fifo.\out_rdata_o' from process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
-No latch inferred for signal `\ibex_fetch_fifo.\out_err_o' from process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
-No latch inferred for signal `\ibex_fetch_fifo.\out_err_plus2_o' from process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+No latch inferred for signal `\ibex_fetch_fifo.\_sv2v_0' from process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$217'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_valid_o' from process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_rdata_o' from process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_err_o' from process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+No latch inferred for signal `\ibex_fetch_fifo.\out_err_plus2_o' from process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
 
 10.9. Executing PROC_DFF pass (convert process syncs to FFs).
-Creating register for signal `\ibex_fetch_fifo.\rdata_q [95:64]' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
+Creating register for signal `\ibex_fetch_fifo.\rdata_q [95:64]' using process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
   created $dff cell `$procdff$250' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\err_q [2]' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
+Creating register for signal `\ibex_fetch_fifo.\err_q [2]' using process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
   created $dff cell `$procdff$251' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\rdata_q [63:32]' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
+Creating register for signal `\ibex_fetch_fifo.\rdata_q [63:32]' using process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
   created $dff cell `$procdff$252' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\err_q [1]' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
+Creating register for signal `\ibex_fetch_fifo.\err_q [1]' using process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
   created $dff cell `$procdff$253' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\rdata_q [31:0]' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
+Creating register for signal `\ibex_fetch_fifo.\rdata_q [31:0]' using process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
   created $dff cell `$procdff$254' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\err_q [0]' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
+Creating register for signal `\ibex_fetch_fifo.\err_q [0]' using process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
   created $dff cell `$procdff$255' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\instr_addr_q' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$186'.
+Creating register for signal `\ibex_fetch_fifo.\instr_addr_q' using process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$186'.
   created $dff cell `$procdff$256' with positive edge clock.
-Creating register for signal `\ibex_fetch_fifo.\valid_q' using process `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184'.
+Creating register for signal `\ibex_fetch_fifo.\valid_q' using process `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184'.
   created $adff cell `$procdff$261' with positive edge clock and positive level reset.
 
 10.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
 
 10.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$217'.
-Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
-Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
-Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
-Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$186'.
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$186'.
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184'.
-Found and cleaned up 2 empty switches in `\ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
-Removing empty process `ibex_fetch_fifo.$proc$/workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:165$217'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$216'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$215'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:157$214'.
+Found and cleaned up 1 empty switch in `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$186'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:102$186'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:136$184'.
+Found and cleaned up 2 empty switches in `\ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
+Removing empty process `ibex_fetch_fifo.$proc$<local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/_sv2v_yosys/top=ibex_fetch_f/prim_assert_v2001.v:70$165'.
 Cleaned up 6 empty switches.
 
 10.12. Executing OPT_EXPR pass (perform const folding).

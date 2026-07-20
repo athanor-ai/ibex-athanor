@@ -37,7 +37,7 @@ Why it's a real win and not synthesis noise: `err` is already used elsewhere (al
 
 All hard-constrained behaviours (interface, params, reset, `clear_i`, ready/valid, compressed alignment, unaligned handling, `err`/`err_plus2`) are preserved — the edit only rewrites one combinational expression into a provably-equal one, changing no register, enable, or output function.
 
-## Commands run and results (toolchain: oss-cad-suite `/workdir/oss-cad-suite` — Yosys 0.45+139, ABC, `eqy`, Verilator 5.029, Icarus 11.0)
+## Commands run and results (toolchain: oss-cad-suite `<local>/oss-cad-suite` — Yosys 0.45+139, ABC, `eqy`, Verilator 5.029, Icarus 11.0)
 
 **1. Parse / elaborate** — `verilator --lint-only -sv -Wall -Ivendor/lowrisc_ip/ip/prim/rtl -Irtl --top-module ibex_fetch_fifo rtl/ibex_fetch_fifo.sv` (real `prim_assert.sv`) → **PASS, exit 0, no warnings**. Yosys reads/elaborates it as well.
 

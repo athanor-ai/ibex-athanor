@@ -1,7 +1,7 @@
 {
   "core_name": "ultraembedded_riscv_core",
   "top_module": "riscv_core",
-  "patch_root": "/workdir/oss-demo-targets/ultraembedded-riscv",
+  "patch_root": "<local>/oss-demo-targets/ultraembedded-riscv",
   "syn_script": "syn/ultraembedded_riscv_yosys66.sh",
   "syn_out_root": "syn_out",
   "area_report_glob": "reports/area.rpt",
@@ -9,15 +9,15 @@
   "generated_artifact_globs": ["generated/*.v", "generated/*.ys", "generated/*.tcl"],
   "timing_groups": ["overall", "reg2reg", "reg2out", "in2reg", "in2out"],
   "tool_pins": {
-    "oss_cad_suite": "/workdir/_tools/oss-cad-suite-20260630",
+    "oss_cad_suite": "<local>/_tools/oss-cad-suite-20260630",
     "flow": "yosys66",
-    "source": "/workdir/oss-demo-targets/ultraembedded-riscv"
+    "source": "<local>/oss-demo-targets/ultraembedded-riscv"
   },
   "env": {
-    "PATH_PREPEND": "/workdir/_tools/oss-cad-suite-20260630/bin:/workdir/.local/bin",
-    "LR_SYNTH_CELL_LIBRARY_PATH": "/workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+    "PATH_PREPEND": "<local>/_tools/oss-cad-suite-20260630/bin:<local>/.local/bin",
+    "LR_SYNTH_CELL_LIBRARY_PATH": "<local>/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
     "LR_SYNTH_CELL_LIBRARY_NAME": "sky130_fd_sc_hd",
-    "ULTRAEMBEDDED_RISCV_ROOT": "/workdir/oss-demo-targets/ultraembedded-riscv",
+    "ULTRAEMBEDDED_RISCV_ROOT": "<local>/oss-demo-targets/ultraembedded-riscv",
     "ULTRAEMBEDDED_RISCV_CLK_PERIOD_NS": "10",
     "ULTRAEMBEDDED_RISCV_IO_DELAY_NS": "1.0"
   },

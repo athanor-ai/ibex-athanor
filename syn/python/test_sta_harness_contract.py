@@ -145,7 +145,7 @@ def test_cv32e40p_idstage_hazard_tail_profile_is_bounded_no_claim() -> None:
 def test_cv32e40p_idstage_fullcore_noabc_profile_is_guarded_no_claim() -> None:
     text = read_repo_file("syn/cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.sh")
 
-    assert "/workdir/_tools/oss-cad-suite-20260630/bin/yosys" in text
+    assert "<local>/_tools/oss-cad-suite-20260630/bin/yosys" in text
     assert 'expected_yosys="Yosys 0.66+181"' in text
     assert 'expected_sv2v="sv2v v0.0.13"' in text
     assert "Unexpected Yosys version" in text

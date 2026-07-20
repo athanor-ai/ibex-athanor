@@ -8,7 +8,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 out_dir="$1"
-serv_root="${SERV_ROOT:-/workdir/oss-demo-targets/serv}"
+serv_root="${SERV_ROOT:-<local>/oss-demo-targets/serv}"
 top="${SERV_TOP:-serv_synth_wrapper}"
 liberty="${LR_SYNTH_CELL_LIBRARY_PATH:?LR_SYNTH_CELL_LIBRARY_PATH is required}"
 pre_register="${SERV_PRE_REGISTER:-1}"

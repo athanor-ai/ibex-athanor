@@ -2,21 +2,21 @@
   "schema": "athanor.ath2924.timing_conversion_replay.v1",
   "created_at": "2026-07-12T01:49:40Z",
   "attempt": {
-    "attempt_dir": "/workdir/_tmp/dexter-ath2924-multdiv-timing-conversion-20260712T014704Z",
+    "attempt_dir": "<local>/_tmp/dexter-ath2924-multdiv-timing-conversion-20260712T014704Z",
     "started_at": "2026-07-12T01:47:04Z",
-    "source_package": "/workdir/_tmp/dexter-ibex-gpt55-target-multdiv-20260711T1518/athanor_artifacts/multdiv_slow_greater_equal_xor_shape",
+    "source_package": "<local>/_tmp/dexter-ibex-gpt55-target-multdiv-20260711T1518/athanor_artifacts/multdiv_slow_greater_equal_xor_shape",
     "main_head": "ee4ed4df8f96eb7536cd013f4e46508d54c4b95f",
     "module": "ibex_multdiv_slow",
     "candidate": "greater_equal_xor_shape"
   },
   "tools": {
     "yosys": {
-      "path": "/workdir/_tools/oss-cad-suite-20260630/bin/yosys",
+      "path": "<local>/_tools/oss-cad-suite-20260630/bin/yosys",
       "sha256": "7c3e3396b38c129dd7485be5a0a0f0da8e495a94c8fd486059e3bea043a588d6",
       "version": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)"
     },
     "abc": {
-      "path": "/workdir/_tools/oss-cad-suite-20260630/libexec/yosys-abc",
+      "path": "<local>/_tools/oss-cad-suite-20260630/libexec/yosys-abc",
       "sha256": "13628867b58b6d917fb087b48d6e180edcd18f031f3463752872285f4505e154"
     },
     "opensta": {
