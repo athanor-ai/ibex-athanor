@@ -18,11 +18,11 @@
     },
     "packet/SHA256SUMS": {
       "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/SHA256SUMS",
-      "sha256": "37310e32affcf2d2f84eeb56931d39b44b2534da96db59e0146f7ffb512f9a81"
+      "sha256": "275f2893e7091a3609c7368a8f8efb8adeb8736069173261ac7bb119f06faff0"
     },
     "packet/SOURCE_DIFF.patch": {
       "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/SOURCE_DIFF.patch",
-      "sha256": "e44ee66e78b87e0333f6220f9a4a46513822db41eccb4414cc3239171e4f744d"
+      "sha256": "d46bd76b69043f3d0f1509ff4f72aa4c4b1d92c1dc29020e740d727d81acdcaf"
     },
     "packet/area_yosys66_packet.json": {
       "path": "../../../athanor_artifacts/fetch_fifo_err_unaligned_factored/area_yosys66_packet.json",
