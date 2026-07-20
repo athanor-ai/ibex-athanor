@@ -8,7 +8,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 out_dir="$1"
-core_root="${ULTRAEMBEDDED_RISCV_ROOT:-/workdir/oss-demo-targets/ultraembedded-riscv}"
+core_root="${ULTRAEMBEDDED_RISCV_ROOT:-<local>/oss-demo-targets/ultraembedded-riscv}"
 top="${ULTRAEMBEDDED_RISCV_TOP:-riscv_core}"
 liberty="${LR_SYNTH_CELL_LIBRARY_PATH:?LR_SYNTH_CELL_LIBRARY_PATH is required}"
 clk_period="${ULTRAEMBEDDED_RISCV_CLK_PERIOD_NS:-10}"

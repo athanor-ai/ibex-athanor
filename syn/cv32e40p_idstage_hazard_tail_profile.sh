@@ -9,7 +9,7 @@ fi
 
 out_dir="$1"
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-core_root="${CV32E40P_ROOT:-/workdir/oss-demo-targets/cv32e40p}"
+core_root="${CV32E40P_ROOT:-<local>/oss-demo-targets/cv32e40p}"
 yosys_bin="${YOSYS:-yosys}"
 sv2v_bin="${SV2V:-sv2v}"
 recon_script="$repo_root/syn/cv32e40p_recon.sh"

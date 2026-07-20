@@ -9,9 +9,9 @@
     "method": "temporary selected-toolchain replay packet derived from the public fetch_fifo_err_unaligned_factored packet with only the gate-side err_unaligned expression replaced by the Opus S1 candidate"
   },
   "toolchain": {
-    "yosys": "/workdir/_tools/oss-cad-suite-20260630/bin/yosys",
+    "yosys": "<local>/_tools/oss-cad-suite-20260630/bin/yosys",
     "yosys_version": "Yosys 0.66+181",
-    "sby": "/workdir/_tools/oss-cad-suite-20260630/bin/sby",
+    "sby": "<local>/_tools/oss-cad-suite-20260630/bin/sby",
     "sta": "/usr/local/bin/sta",
     "liberty": "sky130_fd_sc_hd__tt_025C_1v80.lib"
   },

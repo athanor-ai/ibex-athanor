@@ -167,7 +167,7 @@
   },
   "toolchain": {
     "liberty": {
-      "path": "/workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+      "path": "<local>/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
       "sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
     },
     "opensta": {
@@ -177,16 +177,16 @@
     },
     "selected_toolchain_id": "yosys_0_66_181_oss_cad_suite_2026_06_30",
     "sv2v": {
-      "path": "/workdir/.local/bin/sv2v",
+      "path": "<local>/.local/bin/sv2v",
       "sha256": "b80a8ac6212aa72a196d9d6129cda35f16dbfa799ec61848c46321f845b6b635",
       "version": "sv2v v0.0.13"
     },
     "synth_env": {
       "LR_SYNTH_CELL_LIBRARY_NAME": "nangate",
-      "LR_SYNTH_CELL_LIBRARY_PATH": "/workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib"
+      "LR_SYNTH_CELL_LIBRARY_PATH": "<local>/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib"
     },
     "yosys": {
-      "path": "/workdir/_tools/oss-cad-suite-20260630/bin/yosys",
+      "path": "<local>/_tools/oss-cad-suite-20260630/bin/yosys",
       "sha256": "7c3e3396b38c129dd7485be5a0a0f0da8e495a94c8fd486059e3bea043a588d6",
       "version": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)"
     }

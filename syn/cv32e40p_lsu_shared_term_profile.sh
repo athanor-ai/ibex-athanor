@@ -8,7 +8,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 out_dir="$1"
-core_root="${CV32E40P_ROOT:-/workdir/oss-demo-targets/cv32e40p}"
+core_root="${CV32E40P_ROOT:-<local>/oss-demo-targets/cv32e40p}"
 yosys_bin="${YOSYS:-yosys}"
 sv2v_bin="${SV2V:-sv2v}"
 

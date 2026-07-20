@@ -178,7 +178,7 @@
   },
   "tool_pins": {
     "flow": "yosys66",
-    "oss_cad_suite": "/workdir/_tools/oss-cad-suite-20260630",
-    "sv2v": "/workdir/.local/bin/sv2v"
+    "oss_cad_suite": "<local>/_tools/oss-cad-suite-20260630",
+    "sv2v": "<local>/.local/bin/sv2v"
   }
 }
