@@ -37,7 +37,7 @@ $SV2V -D SYNTHESIS \
   rtl/ibex_prefetch_buffer.sv \
   rtl/ibex_compressed_decoder.sv \
   rtl/ibex_if_stage.sv \
-  > /tmp/if_stage_gold.v
+  > <local-tmp>/if_stage_gold.v
 
 git apply athanor_artifacts/if_stage_expanded_predicate_factor/SOURCE_DIFF.patch
 
@@ -49,7 +49,7 @@ $SV2V -D SYNTHESIS \
   rtl/ibex_prefetch_buffer.sv \
   rtl/ibex_compressed_decoder.sv \
   rtl/ibex_if_stage.sv \
-  > /tmp/if_stage_gate.v
+  > <local-tmp>/if_stage_gate.v
 ```
 
 The packaged artifact hashes are:

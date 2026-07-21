@@ -19,7 +19,7 @@
   },
   "bounded_frontend_receipt": {
     "description": "CV32E40P SystemVerilog conversion plus Yosys hierarchy/proc/opt/fsm/memory frontend only. This intentionally stops before dfflibmap/ABC/STA because full selected-flow mapping exceeded the cheap scout budget in the scratch run.",
-    "local_artifact_dir": "/tmp/dexter-ath2686-cv32e40p-rerun",
+    "local_artifact_dir": "<local-tmp>/dexter-ath2686-cv32e40p-rerun",
     "artifacts": {
       "sv2v_wrapper_sha256": "60c4ab6801e6de4f3fd8f54c5fe2df00e740423edba68d81b5873f57b24ee232",
       "frontend_netlist_sha256": "d05e0e5750f290550d8840672a92caf224c3d155923ba54c85296ab4d96e18f0",

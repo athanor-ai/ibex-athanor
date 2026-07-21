@@ -25,7 +25,7 @@
       "version": "OpenSTA 2.2.0"
     },
     "liberty": {
-      "path": "/tmp/ak-dexter-main-ee4/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+      "path": "<local-tmp>/ak-dexter-main-ee4/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
       "sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
     }
   },

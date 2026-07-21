@@ -21,7 +21,7 @@
     "yosys_area": 32313.4912,
     "mapped_netlist_sha256": "f177db141638d3af553697820bc3a2aeddc775f78b7973529d1ba8d7a388357e",
     "yosys_log_sha256": "b03d144095c2a202cb7f9f5cdf11c5114f68c05acba9ec350068e06d9a83476f",
-    "local_artifact_dir": "/tmp/ath2686_picorv32_baseline"
+    "local_artifact_dir": "<local-tmp>/ath2686_picorv32_baseline"
   },
   "selected_m_extension_baseline": {
     "description": "PicoRV32 selected-flow probe with ENABLE_FAST_MUL=1 and ENABLE_DIV=1. This is a baseline for residual detector reconnaissance, not an optimization claim.",
@@ -32,7 +32,7 @@
     "yosys_area": 32880.2848,
     "mapped_netlist_sha256": "23ad98f63d4bfc34b1294e5eed235b0a483a33c9bd4d9474f08fb3cdd94a811f",
     "yosys_log_sha256": "934b7b59d1f23598d45928ddd984d5cb52cf13a958372daa83cd1cd806c03063",
-    "local_artifact_dir": "/tmp/ath2686_picorv32_mext_baseline"
+    "local_artifact_dir": "<local-tmp>/ath2686_picorv32_mext_baseline"
   },
   "selected_timing_flow_baseline": {
     "description": "Flattened selected-flow area/timing baseline emitted by syn/picorv32_yosys66.sh. This is the comparator shape for top-level-first cheap gates, not an optimization claim.",
@@ -60,7 +60,7 @@
       "in2reg_timing_csv_sha256": "5cec54ed204c6082713ff37b73e57353413a6ec785ac5d560dac14d65ccc99f3",
       "in2out_timing_csv_sha256": "c6a9550084514429356e2b3cf73424092b201f407e2f5a6b65a8cf1459c19445"
     },
-    "local_artifact_dir": "/tmp/ath2686_picorv32_selected_flow_script"
+    "local_artifact_dir": "<local-tmp>/ath2686_picorv32_selected_flow_script"
   },
   "selected_flow_detector_recon": {
     "status": "no_spend_ready_candidate",

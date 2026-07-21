@@ -234,7 +234,7 @@ Generate the testplan table in HTML to a file:
 ```console
 $ ./util/dvsim/testplanner.py \
     util/dvsim/examples/testplanner/foo_testplan.hjson \
-    -o /tmp/foo_testplan_table.html
+    -o <local-tmp>/foo_testplan_table.html
 ```
 
 Generate simulation result tables in HTML to stdout:
@@ -269,7 +269,7 @@ Generate simulation result tables in HTML to a file:
 $ ./util/dvsim/testplanner.py \
     util/dvsim/examples/testplanner/foo_testplan.hjson \
     -s util/dvsim/examples/testplanner/foo_sim_results.hjson \
-    -o /tmp/foo_sim_results.html
+    -o <local-tmp>/foo_sim_results.html
 ```
 
 ### APIs for external tools
