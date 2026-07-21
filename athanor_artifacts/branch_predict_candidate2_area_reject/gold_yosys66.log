@@ -212,8 +212,8 @@ Optimizing module ibex_branch_predict.
 
 7. Executing TECHMAP pass (map to technology primitives).
 
-7.1. Executing Verilog-2005 frontend: /workdir/_tools/oss-cad-suite-20260630/lib/../share/yosys/techmap.v
-Parsing Verilog input from `/workdir/_tools/oss-cad-suite-20260630/lib/../share/yosys/techmap.v' to AST representation.
+7.1. Executing Verilog-2005 frontend: <local>/_tools/oss-cad-suite-20260630/lib/../share/yosys/techmap.v
+Parsing Verilog input from `<local>/_tools/oss-cad-suite-20260630/lib/../share/yosys/techmap.v' to AST representation.
 Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
 Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
 Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
@@ -386,7 +386,7 @@ ABC: UC Berkeley, ABC 1.01 (compiled Jun 30 2026 04:50:19)
 ABC: abc 01> empty
 ABC: abc 01> source <abc-temp-dir>/abc.script
 ABC: + read_blif <abc-temp-dir>/input.blif
-ABC: + read_scl /tmp/yosys-liberty-scl-cache/yosys_merged_eebea61a.scl
+ABC: + read_scl <local-tmp>/yosys-liberty-scl-cache/yosys_merged_eebea61a.scl
 ABC: Warning: Detected 9 multi-output cells (for example, "sky130_fd_sc_hd__fa_1").
 ABC: + strash
 ABC: + &get -n

@@ -5,7 +5,7 @@
   "design": {
     "id": "cv32e40p",
     "source_url": "https://github.com/openhwgroup/cv32e40p",
-    "local_repo_path": "/workdir/oss-demo-targets/cv32e40p",
+    "local_repo_path": "<local>/oss-demo-targets/cv32e40p",
     "git_head": "6033d2b1be3295ec774d17ac4cf226faacfdeb08",
     "top": "cv32e40p_wrapper",
     "module": "cv32e40p_id_stage"
@@ -13,7 +13,7 @@
   "toolchain": {
     "sv2v": "sv2v v0.0.13",
     "yosys": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)",
-    "yosys_binary": "/workdir/_tools/oss-cad-suite-20260630/bin/yosys",
+    "yosys_binary": "<local>/_tools/oss-cad-suite-20260630/bin/yosys",
     "yosys_command": "synth -top cv32e40p_wrapper -noabc; stat",
     "version_guard": "syn/cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.sh exits before evidence emission unless Yosys starts with 'Yosys 0.66+181' and sv2v equals 'sv2v v0.0.13'."
   },
@@ -35,7 +35,7 @@
   },
   "whole_core_noabc_profile": {
     "script": "syn/cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.sh",
-    "local_artifact_dir": "/tmp/ath2686_cv32e40p_idstage_hazard_tail_noabc_fresh",
+    "local_artifact_dir": "<local-tmp>/ath2686_cv32e40p_idstage_hazard_tail_noabc_fresh",
     "baseline_cells": 40858,
     "gate_cells": 40852,
     "cell_delta": -6,

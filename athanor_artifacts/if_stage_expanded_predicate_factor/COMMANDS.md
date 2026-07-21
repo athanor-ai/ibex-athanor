@@ -27,7 +27,7 @@ top-level `ibex_top` flow instantiates `ibex_if_stage`.
 Use the same sv2v pin recorded in `top_level_ppa_yosys66.json`.
 
 ```bash
-export SV2V=/workdir/.local/bin/sv2v
+export SV2V=<local>/.local/bin/sv2v
 
 $SV2V -D SYNTHESIS \
   -I vendor/lowrisc_ip/ip/prim/rtl \
@@ -37,7 +37,7 @@ $SV2V -D SYNTHESIS \
   rtl/ibex_prefetch_buffer.sv \
   rtl/ibex_compressed_decoder.sv \
   rtl/ibex_if_stage.sv \
-  > /tmp/if_stage_gold.v
+  > <local-tmp>/if_stage_gold.v
 
 git apply athanor_artifacts/if_stage_expanded_predicate_factor/SOURCE_DIFF.patch
 
@@ -49,7 +49,7 @@ $SV2V -D SYNTHESIS \
   rtl/ibex_prefetch_buffer.sv \
   rtl/ibex_compressed_decoder.sv \
   rtl/ibex_if_stage.sv \
-  > /tmp/if_stage_gate.v
+  > <local-tmp>/if_stage_gate.v
 ```
 
 The packaged artifact hashes are:
@@ -69,7 +69,7 @@ Yosys.
 ```bash
 cd athanor_artifacts/if_stage_expanded_predicate_factor
 cp gate_expanded_predicate_factor.v gate.v
-/workdir/_tools/oss-cad-suite-20260630/bin/yosys -s equiv_yosys66.ys
+<local>/_tools/oss-cad-suite-20260630/bin/yosys -s equiv_yosys66.ys
 ```
 
 Expected result:
@@ -86,8 +86,8 @@ Run the baseline from a clean checkout, then apply `SOURCE_DIFF.patch` and run
 the gate.
 
 ```bash
-export PATH=/workdir/_tools/oss-cad-suite-20260630/bin:/workdir/.local/bin:/usr/local/bin:$PATH
-export LR_SYNTH_CELL_LIBRARY_PATH=/workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib
+export PATH=<local>/_tools/oss-cad-suite-20260630/bin:<local>/.local/bin:/usr/local/bin:$PATH
+export LR_SYNTH_CELL_LIBRARY_PATH=<local>/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib
 export LR_SYNTH_CELL_LIBRARY_NAME=nangate
 
 cd syn

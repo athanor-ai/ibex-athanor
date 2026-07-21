@@ -5,7 +5,7 @@
   "design": {
     "id": "serv",
     "source_url": "https://github.com/olofk/serv",
-    "local_repo_path": "/workdir/oss-demo-targets/serv",
+    "local_repo_path": "<local>/oss-demo-targets/serv",
     "git_head": "9baea86ff0e46e64b45342b9742898ed24e3c285",
     "top": "serv_synth_wrapper",
     "source_manifest_sha256": "916cb2d6f350f060e0fe7c021a6d38c74cc5ace213535298ac27875e9b7e94b3",
@@ -14,7 +14,7 @@
   "toolchain": {
     "yosys": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)",
     "sta": "2.2.0",
-    "liberty_path": "/workdir/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+    "liberty_path": "<local>/.main-6b922e97/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
     "liberty_sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
   },
   "selected_timing_flow_baseline": {

@@ -85,7 +85,7 @@ The selected M-extension baseline is `145644.6848` area with WNS groups
 `overall=-5.1590`, `reg2reg=-5.1590`, `reg2out=6.7483`, `in2reg=1.8232`,
 and `in2out=7.7694`.
 This is the area/timing half of the second-design harness only. Since PicoRV32
-currently lives outside this repository under `/workdir/oss-demo-targets`, the
+currently lives outside this repository under `<local>/oss-demo-targets`, the
 config sets `patch_root` to that checkout so `top_level_first.py` can apply and
 restore candidate patches there while keeping this repository clean. The
 receipt also preserves selected-flow generated artifacts (`picorv32_mapped.v`,

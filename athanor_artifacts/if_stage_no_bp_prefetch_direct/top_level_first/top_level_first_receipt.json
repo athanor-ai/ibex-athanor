@@ -120,7 +120,7 @@
     "Cold-replay via verify_public_receipts.py remains the independent acceptance gate."
   ],
   "core": "ibex_top",
-  "patch_root": "/tmp/dexter-ibex-current",
+  "patch_root": "<local-tmp>/dexter-ibex-current",
   "patch_root_commit": "d36df4f695d7407dc67ac83728640b46bff4201e",
   "schema": "athanor.top_level_first.v1",
   "stages": {
@@ -178,7 +178,7 @@
   },
   "tool_pins": {
     "flow": "yosys66",
-    "oss_cad_suite": "/workdir/_tools/oss-cad-suite-20260630",
-    "sv2v": "/workdir/.local/bin/sv2v"
+    "oss_cad_suite": "<local>/_tools/oss-cad-suite-20260630",
+    "sv2v": "<local>/.local/bin/sv2v"
   }
 }

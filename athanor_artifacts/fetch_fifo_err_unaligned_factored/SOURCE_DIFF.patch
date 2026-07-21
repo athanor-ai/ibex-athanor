@@ -1,5 +1,5 @@
---- /workdir/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/ibex_fetch_fifo.sv	2026-07-07 14:53:11.544940854 -0700
-+++ /workdir/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/ibex_fetch_fifo.sv	2026-07-07 15:07:46.508899789 -0700
+--- <local>/_tmp/ronald-ibex-fetch-fifo-discovery/rtl/ibex_fetch_fifo.sv	2026-07-07 14:53:11.544940854 -0700
++++ <local>/agent-handoffs/ronald/ibex_fetch_fifo_discovery/candidate_probe3_selected_toolchain/err_unaligned_factored_risky/ibex_fetch_fifo.sv	2026-07-07 15:07:46.508899789 -0700
 @@ -89,9 +89,9 @@
    // If entry[1] is not valid, and entry[0] is, an error can come from entry[0] or the incoming
    // data, unless the instruction in entry[0] is compressed

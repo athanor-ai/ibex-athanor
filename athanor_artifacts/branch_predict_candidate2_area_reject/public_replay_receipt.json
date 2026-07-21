@@ -66,11 +66,11 @@
   },
   "tool_hashes": {
     "abc": {
-      "path": "/workdir/_tools/oss-cad-suite-20260630/libexec/yosys-abc",
+      "path": "<local>/_tools/oss-cad-suite-20260630/libexec/yosys-abc",
       "sha256": "13628867b58b6d917fb087b48d6e180edcd18f031f3463752872285f4505e154"
     },
     "liberty": {
-      "path": "/tmp/ak-dexter-main-ee4/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
+      "path": "<local-tmp>/ak-dexter-main-ee4/src/kairos/data/liberty/sky130_fd_sc_hd__tt_025C_1v80.lib",
       "sha256": "ec0e1067a35c8bf20b11e58d1e8ac53326067e4dac84a125cc1b917a3518d0d9"
     },
     "opensta": {
@@ -79,7 +79,7 @@
       "version": "2.2.0"
     },
     "yosys": {
-      "path": "/workdir/_tools/oss-cad-suite-20260630/bin/yosys",
+      "path": "<local>/_tools/oss-cad-suite-20260630/bin/yosys",
       "sha256": "7c3e3396b38c129dd7485be5a0a0f0da8e495a94c8fd486059e3bea043a588d6",
       "version": "Yosys 0.66+181 (git sha1 afe6b18f2, Release, Clang /usr/bin/clang++ 18.1.8)"
     }
