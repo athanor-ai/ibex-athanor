@@ -191,3 +191,68 @@ def test_scanner_blocks_namespace_independent_of_valid_receipt_manifest(tmp_path
         "athanor_artifacts/SHA256SUMS": sums,
     })
     assert _has(block, "Kairos namespace"), block
+
+
+# --- span-bound exemptions (Dexter verdict, ibex #53) -----------------------
+
+_ABLATION_DIR = "athanor_artifacts/ibex_fetch_fifo_native_agent_ablation/"
+_CONV_ID = "kai" + "ros.ibex.toggle.control_path.v1"
+
+
+def test_ai_tool_inside_ablation_subtree_is_exempt(tmp_path):
+    content = "launched via " + TOOL + " Code one-shot\n"
+    block, warn, _ = _scan(tmp_path, {_ABLATION_DIR + "README.md": content})
+    assert not _has(block, "AI-tool name"), block
+
+
+def test_ai_vendor_inside_ablation_subtree_is_exempt(tmp_path):
+    content = "OAuth-served " + VENDOR + " subscription\n"
+    block, warn, _ = _scan(tmp_path, {_ABLATION_DIR + "notes.md": content})
+    assert not _has(block, "AI-vendor name"), block
+
+
+def test_ai_footer_outside_ablation_still_blocks(tmp_path):
+    content = "// " + FOOTER + "\n"
+    block, warn, _ = _scan(tmp_path, {"athanor/other.md": content})
+    assert _has(block, "AI-tool authorship footer"), block
+
+
+def test_fleet_identifier_inside_ablation_still_blocks(tmp_path):
+    content = "see " + WD + "/fleet for details\n"
+    block, warn, _ = _scan(tmp_path, {_ABLATION_DIR + "readme.md": content})
+    assert _has(block, "workdir"), block
+
+
+def test_secret_token_inside_ablation_still_blocks(tmp_path):
+    content = "key: ghp_" + "A" * 30 + "\n"
+    block, warn, _ = _scan(tmp_path, {_ABLATION_DIR + "config.json": content})
+    assert _has(block, "GitHub token"), block
+
+
+def test_convention_id_at_exact_path_is_exempt(tmp_path):
+    content = '"convention_id": "' + _CONV_ID + '"\n'
+    block, warn, _ = _scan(tmp_path, {
+        "athanor_artifacts/if_stage_expanded_predicate_factor/receipt.json": content,
+    })
+    assert not _has(block, "Kairos namespace"), block
+
+
+def test_convention_id_at_toolchain_policy_is_exempt(tmp_path):
+    content = '"id": "' + _CONV_ID + '"\n'
+    block, warn, _ = _scan(tmp_path, {"athanor/toolchain_policy.json": content})
+    assert not _has(block, "Kairos namespace"), block
+
+
+def test_different_kairos_namespace_at_convention_path_still_blocks(tmp_path):
+    different_ns = "kai" + "ros.ibex.OTHER_protocol.v2"
+    content = '"convention_id": "' + different_ns + '"\n'
+    block, warn, _ = _scan(tmp_path, {
+        "athanor_artifacts/if_stage_expanded_predicate_factor/receipt.json": content,
+    })
+    assert _has(block, "Kairos namespace"), block
+
+
+def test_convention_id_at_non_exempt_path_still_blocks(tmp_path):
+    content = '"convention_id": "' + _CONV_ID + '"\n'
+    block, warn, _ = _scan(tmp_path, {"athanor/other_file.json": content})
+    assert _has(block, "Kairos namespace"), block

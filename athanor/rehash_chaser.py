@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ATH-3133 rehash-chaser: given changed files, find and update ALL hash bindings.
 
-After a scrub changes file content (e.g. replacing /workdir or /tmp paths), every
+After a scrub changes file content (e.g. replacing internal paths), every
 SHA256SUMS and manifest.json that transitively binds those files must be updated.
 Three manual chases (ibex #54, openc910 #74, cv32e40p #20) proved this is a
 multi-layer problem:

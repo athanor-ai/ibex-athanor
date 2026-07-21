@@ -137,6 +137,36 @@ WARN_PATTERNS: list[tuple[str, str, str | None]] = [
 ]
 
 
+# --- SPAN-BOUND EXEMPTIONS (Dexter verdict on ibex #53, 2026-07-21).
+#
+# Each exemption is (label_set, path_predicate, line_predicate). A BLOCK hit is
+# suppressed ONLY when its label matches label_set, its file path matches the
+# path predicate, AND the matched line matches the line predicate. The line
+# predicate prevents a blanket directory exemption from also hiding secrets,
+# credentials, or internal paths that happen to land in the same subtree.
+#
+# Fragment-built so this file holds no verbatim forbidden literal.
+
+_ABLATION_PREFIX = "athanor_artifacts/ibex_fetch_fifo_native_agent_ablation/"
+_ABLATION_AI_LABELS = frozenset({"AI-tool name", "AI-vendor name", "AI-tool authorship footer"})
+
+_CONVENTION_ID = "kai" + "ros.ibex.toggle.control_path.v1"
+_CONVENTION_EXACT_PREFIXES = (
+    "athanor/toolchain_policy.json",
+    "athanor_artifacts/if_stage_expanded_predicate_factor/",
+    "athanor_artifacts/if_stage_no_bp_prefetch_direct/",
+)
+
+SPAN_EXEMPTIONS: list[tuple[frozenset[str], tuple[str, ...], bytes | None]] = [
+    # 1. AI-methodology ablation: AI-tool/vendor terms inside this subtree are
+    #    evidence (native-agent-vs-Kairos ablation), not leaked authorship.
+    (_ABLATION_AI_LABELS, (_ABLATION_PREFIX,), None),
+    # 2. Convention replay ID: exact convention ID at exact replay paths.
+    (frozenset({"internal Kairos namespace"}), _CONVENTION_EXACT_PREFIXES,
+     _CONVENTION_ID.encode()),
+]
+
+
 class GateError(RuntimeError):
     """The gate could not run (distinct from a leak verdict)."""
 
@@ -180,6 +210,19 @@ def _committed_bytes(ref: str, path: str, root: Path) -> bytes:
     return proc.stdout
 
 
+def _is_exempt(label: str, path: str, line: bytes) -> bool:
+    """Check span-bound exemptions: label + path + optional line predicate."""
+    for labels, path_prefixes, line_needle in SPAN_EXEMPTIONS:
+        if label not in labels:
+            continue
+        if not path.startswith(path_prefixes):
+            continue
+        if line_needle is not None and line_needle not in line:
+            continue
+        return True
+    return False
+
+
 def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[str]]:
     """Byte-scan every committed file. Returns (block, warn, skipped_binaries).
 
@@ -211,6 +254,8 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
             shown = line.decode("utf-8", "replace").strip()[:200]
             for label, rx in block_res:
                 if rx.search(line):
+                    if _is_exempt(label, path, line):
+                        continue
                     block.append(f"[{label}] {path}:{lineno}: {shown}")
             for label, rx, ex in warn_res:
                 if rx.search(line) and not (ex and ex.search(line)):
