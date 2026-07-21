@@ -1,0 +1,78 @@
+name: export-safety
+
+# ATH-3125 Fix B: fail-closed export-safety LEAK GATE for this PUBLIC fork,
+# ported from openc910-athanor (ATH-2960 lineage). LEAK GATE ONLY — the
+# receipt-verifier / README / replay-env checks stay in this repo's existing
+# "Athanor public receipt verifier" workflow (no duplication).
+# Scans the committed tree on PR/push AND every event that can ADD text to
+# the public surfaces (PR body edits, conversation + review comments).
+# Intended to be a REQUIRED status check (branch protection = founder console).
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+  issue_comment:
+    types: [created, edited]
+  pull_request_review_comment:
+    types: [created, edited]
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: read
+
+jobs:
+  export-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history for committed-tree scan)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Committed-tree scan only runs where the tree can change (PR / push).
+      # Comment events do not change the tree; on those the checkout is the
+      # default branch, so a committed-tree scan there would be misleading.
+      - name: Export-safety gate (committed-tree leak scan)
+        if: github.event_name == 'pull_request' || github.event_name == 'push'
+        run: python3 athanor/export_safety_gate.py --ref HEAD
+
+      # Export-safety GATE bites (the leak-scanner is subject-under-test):
+      # a mutation to the gate patterns REDS in CI instead of passing silently.
+      - name: Verify export-safety gate bites (regression protection for the leak scanner)
+        if: github.event_name == 'pull_request' || github.event_name == 'push'
+        run: |
+          python3 -m pip install --quiet pytest
+          PYTHONPATH=. python3 -m pytest -q tests/test_export_safety_gate.py
+
+      # PR body + review/issue comments are public surfaces the committed-tree
+      # scan cannot see. Scan them with the SAME BLOCK_ALWAYS set (single source
+      # of truth: export_safety_gate.py --scan-text). Two-layer input so an
+      # API-sweep failure can never MASK the triggering surface; text passed via
+      # env, never interpolated into the shell (injection-safe).
+      - name: Export-safety PR-text scan (body + conversation + review comments)
+        if: >
+          github.event_name == 'pull_request' ||
+          (github.event_name == 'issue_comment' && github.event.issue.pull_request) ||
+          github.event_name == 'pull_request_review_comment'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number || github.event.issue.number }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: |
+          {
+            printf '%s\n' "$PR_BODY"
+            printf '%s\n' "$COMMENT_BODY"
+            gh api "repos/$REPO/pulls/$PR" --jq '.body' 2>/dev/null || true
+            gh api "repos/$REPO/issues/$PR/comments" --jq '.[].body' 2>/dev/null || true
+            gh api "repos/$REPO/pulls/$PR/comments" --jq '.[].body' 2>/dev/null || true
+          } | python3 athanor/export_safety_gate.py --scan-text

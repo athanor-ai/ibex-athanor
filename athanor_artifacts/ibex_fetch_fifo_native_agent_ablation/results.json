@@ -61,7 +61,7 @@
       "strip_probe": {
         "required": true,
         "passed": true,
-        "detail": "adversarial probe under --safe-mode in the run env returned no ibex 456->451 memory, no Athanor CLAUDE.md, no fleet hooks, and unknown asabi/fleet-agents/disk-alert-channel"
+        "detail": "adversarial probe under --safe-mode in the run env returned no ibex 456->451 memory, no Athanor tool config, no fleet hooks, and unknown internal fleet identifiers"
       },
       "raw_response_path": "raw/opus48_quan_one_shot_response.md",
       "patch_path": "raw/opus48_quan_one_shot.patch",
