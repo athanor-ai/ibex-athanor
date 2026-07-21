@@ -35,7 +35,7 @@
   },
   "whole_core_noabc_profile": {
     "script": "syn/cv32e40p_idstage_hazard_tail_fullcore_noabc_profile.sh",
-    "local_artifact_dir": "/tmp/ath2686_cv32e40p_idstage_hazard_tail_noabc_fresh",
+    "local_artifact_dir": "<local-tmp>/ath2686_cv32e40p_idstage_hazard_tail_noabc_fresh",
     "baseline_cells": 40858,
     "gate_cells": 40852,
     "cell_delta": -6,

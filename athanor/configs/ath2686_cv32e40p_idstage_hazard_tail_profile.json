@@ -31,7 +31,7 @@
   },
   "bounded_profile": {
     "script": "syn/cv32e40p_idstage_hazard_tail_profile.sh",
-    "local_artifact_dir": "/tmp/ath2686_cv32e40p_idstage_hazard_tail_fresh",
+    "local_artifact_dir": "<local-tmp>/ath2686_cv32e40p_idstage_hazard_tail_fresh",
     "baseline_cells": 14959,
     "gate_cells": 14917,
     "cell_delta": -42,

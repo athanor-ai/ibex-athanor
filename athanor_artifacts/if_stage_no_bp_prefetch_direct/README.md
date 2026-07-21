@@ -127,11 +127,11 @@ Replay command:
 
 ```bash
 python3 athanor/top_level_first.py \
-  --patch /tmp/ibex_if_stage_no_bp_prefetch_direct.patch \
+  --patch <local-tmp>/ibex_if_stage_no_bp_prefetch_direct.patch \
   --core athanor/configs/ibex_top_yosys66.json \
   --candidate-name if_stage_no_bp_prefetch_direct_top_level \
   --unit ibex_if_stage \
-  --out /tmp/if_stage_no_bp_prefetch_direct_top_level \
+  --out <local-tmp>/if_stage_no_bp_prefetch_direct_top_level \
   --force-fresh
 ```
 
@@ -141,7 +141,7 @@ The temporary patch was generated from the bounded source delta in this package:
 diff -u --label a/rtl/ibex_if_stage.sv --label b/rtl/ibex_if_stage.sv \
   rtl/ibex_if_stage.sv \
   athanor_artifacts/if_stage_no_bp_prefetch_direct/gate_source.sv \
-  > /tmp/ibex_if_stage_no_bp_prefetch_direct.patch
+  > <local-tmp>/ibex_if_stage_no_bp_prefetch_direct.patch
 ```
 
 Current replay result:

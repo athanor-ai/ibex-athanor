@@ -29,7 +29,7 @@
     "yosys": "Yosys 0.66+142 (git sha1 fe8f29b5f, Release, Clang /usr/bin/clang++ 18.1.8)"
   },
   "bounded_profile": {
-    "local_artifact_dir": "/tmp/dexter-ath2686-cv32e40p-common-guard",
+    "local_artifact_dir": "<local-tmp>/dexter-ath2686-cv32e40p-common-guard",
     "baseline_cells": 1194,
     "gate_cells": 1194,
     "cell_delta": 0,

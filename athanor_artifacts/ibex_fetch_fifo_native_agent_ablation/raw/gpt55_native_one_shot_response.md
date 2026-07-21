@@ -64,20 +64,20 @@ command -v vvp
 PASS: lint final candidate:
 
 ```bash
-verilator --lint-only -Wall -Wno-DECLFILENAME -Wno-PINMISSING -Ivendor/lowrisc_ip/ip/prim/rtl -GNUM_REQS=2 -GResetAll=0 /tmp/ibex_fetch_fifo_baseline/ibex_fetch_fifo_cand.sv
+verilator --lint-only -Wall -Wno-DECLFILENAME -Wno-PINMISSING -Ivendor/lowrisc_ip/ip/prim/rtl -GNUM_REQS=2 -GResetAll=0 <local-tmp>/ibex_fetch_fifo_baseline/ibex_fetch_fifo_cand.sv
 ```
 
 PASS: formal prep, after stripping assertion macro use in scratch copies only:
 
 ```bash
-sv2v /tmp/ibex_fetch_fifo_baseline/orig_formal.sv /tmp/ibex_fetch_fifo_baseline/cand_formal.sv /tmp/ibex_fetch_fifo_baseline/equiv_top.sv > /tmp/ibex_fetch_fifo_baseline/equiv_all.v
-yosys -q -p 'read_verilog -formal /tmp/ibex_fetch_fifo_baseline/equiv_all.v; prep -top equiv_top; async2sync; opt; write_smt2 -wires /tmp/ibex_fetch_fifo_baseline/equiv.smt2'
+sv2v <local-tmp>/ibex_fetch_fifo_baseline/orig_formal.sv <local-tmp>/ibex_fetch_fifo_baseline/cand_formal.sv <local-tmp>/ibex_fetch_fifo_baseline/equiv_top.sv > <local-tmp>/ibex_fetch_fifo_baseline/equiv_all.v
+yosys -q -p 'read_verilog -formal <local-tmp>/ibex_fetch_fifo_baseline/equiv_all.v; prep -top equiv_top; async2sync; opt; write_smt2 -wires <local-tmp>/ibex_fetch_fifo_baseline/equiv.smt2'
 ```
 
 PASS: bounded equivalence, 20 cycles:
 
 ```bash
-yosys-smtbmc -s z3 -t 20 /tmp/ibex_fetch_fifo_baseline/equiv.smt2
+yosys-smtbmc -s z3 -t 20 <local-tmp>/ibex_fetch_fifo_baseline/equiv.smt2
 ```
 
 Result: `Status: PASSED`
@@ -85,7 +85,7 @@ Result: `Status: PASSED`
 PASS: temporal induction:
 
 ```bash
-yosys-smtbmc -s z3 -i -t 20 /tmp/ibex_fetch_fifo_baseline/equiv.smt2
+yosys-smtbmc -s z3 -i -t 20 <local-tmp>/ibex_fetch_fifo_baseline/equiv.smt2
 ```
 
 Result: `Temporal induction successful. Status: PASSED`
@@ -93,8 +93,8 @@ Result: `Temporal induction successful. Status: PASSED`
 PASS: Yosys synthesis area proxy:
 
 ```bash
-yosys -p 'read_verilog /tmp/ibex_fetch_fifo_baseline/orig_synth.v; chparam -set NUM_REQS 2 -set ResetAll 0 ibex_fetch_fifo_orig; synth -top ibex_fetch_fifo_orig; stat'
-yosys -p 'read_verilog /tmp/ibex_fetch_fifo_baseline/cand_synth.v; chparam -set NUM_REQS 2 -set ResetAll 0 ibex_fetch_fifo_cand; synth -top ibex_fetch_fifo_cand; stat'
+yosys -p 'read_verilog <local-tmp>/ibex_fetch_fifo_baseline/orig_synth.v; chparam -set NUM_REQS 2 -set ResetAll 0 ibex_fetch_fifo_orig; synth -top ibex_fetch_fifo_orig; stat'
+yosys -p 'read_verilog <local-tmp>/ibex_fetch_fifo_baseline/cand_synth.v; chparam -set NUM_REQS 2 -set ResetAll 0 ibex_fetch_fifo_cand; synth -top ibex_fetch_fifo_cand; stat'
 ```
 
 Result: unchanged totals, both `556` cells, `286` wires, `793` wire bits.
@@ -102,8 +102,8 @@ Result: unchanged totals, both `556` cells, `286` wires, `793` wire bits.
 PASS: Yosys timing proxy:
 
 ```bash
-yosys -p 'read_verilog /tmp/ibex_fetch_fifo_baseline/orig_synth.v; chparam -set NUM_REQS 2 -set ResetAll 0 ibex_fetch_fifo_orig; synth -top ibex_fetch_fifo_orig; ltp -noff'
-yosys -p 'read_verilog /tmp/ibex_fetch_fifo_baseline/cand_synth.v; chparam -set NUM_REQS 2 -set ResetAll 0 ibex_fetch_fifo_cand; synth -top ibex_fetch_fifo_cand; ltp -noff'
+yosys -p 'read_verilog <local-tmp>/ibex_fetch_fifo_baseline/orig_synth.v; chparam -set NUM_REQS 2 -set ResetAll 0 ibex_fetch_fifo_orig; synth -top ibex_fetch_fifo_orig; ltp -noff'
+yosys -p 'read_verilog <local-tmp>/ibex_fetch_fifo_baseline/cand_synth.v; chparam -set NUM_REQS 2 -set ResetAll 0 ibex_fetch_fifo_cand; synth -top ibex_fetch_fifo_cand; ltp -noff'
 ```
 
 Result: unchanged longest topological path, both length `13`.
@@ -111,8 +111,8 @@ Result: unchanged longest topological path, both length `13`.
 PASS: deterministic activity proxy:
 
 ```bash
-iverilog -g2012 -o /tmp/ibex_fetch_fifo_baseline/tb_activity.vvp /tmp/ibex_fetch_fifo_baseline/sim_modules.v /tmp/ibex_fetch_fifo_baseline/tb_activity.v
-vvp /tmp/ibex_fetch_fifo_baseline/tb_activity.vvp
+iverilog -g2012 -o <local-tmp>/ibex_fetch_fifo_baseline/tb_activity.vvp <local-tmp>/ibex_fetch_fifo_baseline/sim_modules.v <local-tmp>/ibex_fetch_fifo_baseline/tb_activity.v
+vvp <local-tmp>/ibex_fetch_fifo_baseline/tb_activity.vvp
 ```
 
 Result: `orig_entry_en2=3057 cand_entry_en2=1371 delta=1686`.
