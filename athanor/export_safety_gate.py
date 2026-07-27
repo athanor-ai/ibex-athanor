@@ -236,6 +236,24 @@ def _is_exempt(label: str, path: str, line: bytes) -> bool:
 # the handle scan (below).
 DENYLIST_REL = "athanor/fleet_handle_denylist.json"
 
+# The handle scan targets PUBLISHED CUSTOMER-ARTIFACT PROSE (ATH-3397): receipt /
+# certificate / README text a customer reads. Two deliberate boundaries:
+#
+#  * Positive file scope: only these artifact extensions are scanned for handles.
+#    A handle inside a build/replay LOG PATH (e.g. .log / .patch) is a DIFFERENT
+#    class -- named per-agent scratch dirs -- fixed at the producer (neutral
+#    paths + regenerate), never by editing the published log, which would break
+#    the reproducibility the packet exists to offer. Tracked as ATH-3415.
+#  * Enumerated path exemptions (NOT an extension rule): specific tooling files
+#    that are themselves .json/.md but are infra, not a customer surface. Each
+#    carries its reason so adding one is a visible decision, never a side effect.
+#    (The fork's tooling .py/.sh source is out of scope by the positive extension
+#    scope above -- attribution comments there are ordinary contributor bylines.)
+HANDLE_SCAN_ARTIFACT_EXTS: tuple[str, ...] = (".json", ".md")
+HANDLE_SCAN_EXEMPT_PATHS: dict[str, str] = {
+    DENYLIST_REL: "the denylist DATA file; holds every handle verbatim by design",
+}
+
 
 def _load_agent_handles(root: Path) -> list[str]:
     """Load the fork-local fleet-handle denylist and verify its integrity stamp.
@@ -309,15 +327,13 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
                     if _is_exempt(label, path, line):
                         continue
                     block.append(f"[{label}] {path}:{lineno}: {shown}")
-            # Agent-handle scan: PUBLISHED CUSTOMER ARTIFACTS only. Excluded:
-            #  - the denylist DATA file (holds the handles verbatim by design);
-            #  - tooling SOURCE (.py/.sh) -- attribution comments in the fork's
-            #    own scripts are open-source authorship, not a customer surface,
-            #    and scanning them would self-flag this gate's own comments.
-            # The customer consumes the receipt/cert/README/log artifacts; the
-            # scan targets those. (ATH-3397; log-path handle class tracked
-            # separately.)
-            if in_our_scope and path != DENYLIST_REL and not path.endswith((".py", ".sh")):
+            # Agent-handle scan: customer-artifact prose only (see the scope
+            # constants above). Positive extension scope + enumerated exemptions.
+            if (
+                in_our_scope
+                and path.endswith(HANDLE_SCAN_ARTIFACT_EXTS)
+                and path not in HANDLE_SCAN_EXEMPT_PATHS
+            ):
                 for label, rx in agent_res:
                     if rx.search(line):
                         block.append(f"[{label}] {path}:{lineno}: {shown}")
