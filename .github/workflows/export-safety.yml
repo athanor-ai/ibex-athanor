@@ -50,7 +50,9 @@ jobs:
         if: github.event_name == 'pull_request' || github.event_name == 'push'
         run: |
           python3 -m pip install --quiet pytest
-          PYTHONPATH=. python3 -m pytest -q tests/test_export_safety_gate.py
+          PYTHONPATH=. python3 -m pytest -q \
+            tests/test_export_safety_gate.py \
+            tests/test_ath3415_artifact_paths.py
 
       # PR body + review/issue comments are public surfaces the committed-tree
       # scan cannot see. Scan them with the SAME BLOCK_ALWAYS set (single source
