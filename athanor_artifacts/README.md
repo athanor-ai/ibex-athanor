@@ -29,3 +29,12 @@ convention to be complete and independently reviewed.
 | [`ibex_fetch_fifo_native_agent_ablation/`](ibex_fetch_fifo_native_agent_ablation/) | Benchmark ablation package: native one-shot agent lanes for `rtl/ibex_fetch_fifo.sv` compared against the accepted Kairos fetch-FIFO packet. Not a frontier claim. |
 | [`id_stage_no_wb_prio_assign/`](id_stage_no_wb_prio_assign/) | Rejected for promotion: area/timing/Yosys-equivalence signals are positive, but quick internal-VCD toggle smoke regresses +1.27%. |
 | [`load_store_unit_signext_factor/`](load_store_unit_signext_factor/) | Rejected for promotion: area/timing/Yosys-equivalence signals are positive, but deterministic LSU-local toggle replay regresses +1.79886%. |
+
+## Historical replay logs and internal directory names
+
+Some historical replay logs and source diffs in this tree contain internal
+working-directory names from the machines that produced them. They are left
+byte-unmodified on purpose: these files are SHA-pinned proof evidence, and
+rewriting published evidence would invalidate receipts a reader may already
+have checked. The packet producer no longer emits such names into hashed
+artifacts; historical packets are grandfathered explicitly rather than edited.
