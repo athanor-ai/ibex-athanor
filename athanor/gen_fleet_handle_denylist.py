@@ -67,36 +67,6 @@ KNOWN_ALT_HANDLES: tuple[str, ...] = (
 )
 
 
-def extract_non_agent_names(slack_post_source: str) -> list[str]:
-    """Person-name keys of ``_NON_AGENT_ROLES`` in the slack_post source.
-
-    ATH-3426 finding 2: roles.json is NOT the only internal identity list —
-    slack_post carries ``_NON_AGENT_ROLES`` (founders, customer contacts, and
-    new teammates registered there by builder #939). A denylist derived from
-    roles.json alone misses those person-handles, so a public packet crediting
-    one of them would pass the gate. asabi ruling 2026-07-27: union BOTH
-    sources here (the stopgap); the durable fix is one identity SSOT with a
-    kind field, tracked separately (Bob's).
-
-    Parsed via ast (never imported) so the generator has no side effects and
-    needs no importable path for a script without a .py extension.
-    """
-    import ast as _ast
-
-    tree = _ast.parse(slack_post_source)
-    for node in _ast.walk(tree):
-        if isinstance(node, _ast.Assign):
-            for target in node.targets:
-                if isinstance(target, _ast.Name) and target.id == "_NON_AGENT_ROLES":
-                    if not isinstance(node.value, _ast.Dict):
-                        raise ValueError("_NON_AGENT_ROLES is not a dict literal")
-                    return sorted(
-                        k.value.lower()
-                        for k in node.value.keys
-                        if isinstance(k, _ast.Constant) and isinstance(k.value, str)
-                    )
-    raise ValueError("_NON_AGENT_ROLES not found in the given slack_post source")
-
 
 def derive_handles(roles: dict, extra_names: list[str] | tuple[str, ...] = ()) -> list[str]:
     """Person-handles from the roster (role keys + rename aliases +
@@ -106,6 +76,12 @@ def derive_handles(roles: dict, extra_names: list[str] | tuple[str, ...] = ()) -
     names: set[str] = set(extra_names)
     names.update(KNOWN_ALT_HANDLES)
     for key in roles.get("roles", {}):
+        names.add(key)
+    # ATH-3427 (builder #943): humans (founders, teammates, external
+    # contacts) are now a section of roles.json — the identity SSOT — so
+    # they are read here instead of AST-parsing slack_post's derived
+    # _NON_AGENT_ROLES (which #943 turned from a dict literal into a call).
+    for key in roles.get("humans", {}):
         names.add(key)
     for alias in roles.get("_renames", {}):
         if not alias.startswith("_"):
@@ -142,10 +118,7 @@ def build(
         ),
         "source": {
             "repo": "athanor-builder",
-            "files": [
-                "tools/agent-handoff/roles.json",
-                "tools/agent-handoff/slack_post (_NON_AGENT_ROLES)",
-            ],
+            "files": ["tools/agent-handoff/roles.json (roles + humans + _renames)"],
             "commit": source_commit,
             "ref": source_ref,
         },
@@ -210,9 +183,9 @@ def main(argv: list[str] | None = None) -> int:
     commit = rp.stdout.strip()
 
     roles = json.loads(_git_show(args.source_repo, commit, "tools/agent-handoff/roles.json"))
-    slack_src = _git_show(args.source_repo, commit, "tools/agent-handoff/slack_post")
-    extra = extract_non_agent_names(slack_src)
-    payload = build(roles, extra, source_commit=commit, source_ref=args.source_ref)
+    # ATH-3427: roles.json is the single identity source now (roles + humans +
+    # _renames); the slack_post _NON_AGENT_ROLES AST-parse is retired.
+    payload = build(roles, source_commit=commit, source_ref=args.source_ref)
     Path(args.out).write_text(json.dumps(payload, indent=2) + "\n")
     print(
         f"wrote {args.out}: {len(payload['handles'])} handles, "

@@ -287,22 +287,24 @@ def test_derive_handles_excludes_role_keys_includes_persons():
     assert "platform" not in handles and "research" not in handles and _RK not in handles
 
 
-def test_non_agent_names_unioned_and_generic_founder_excluded():
+def test_derive_handles_reads_humans_section_from_roster():
+    # ATH-3427 (builder #943): humans (founders, teammates, external contacts)
+    # live in roles.json's `humans` section now; the generator reads them there
+    # instead of AST-parsing slack_post. A human handle must reach the denylist,
+    # and a generic role-word must not.
     gen = _load_gen()
-    src = ('_NON_AGENT_ROLES = {\n    "founder": "U0",\n'
-           f'    "{_H_B}": "U0",\n    "{_H_C}": "U1",\n}}\n')
-    extra = gen.extract_non_agent_names(src)
-    assert _H_B in extra and _H_C in extra and "founder" in extra  # raw keys
-    handles = gen.derive_handles({"roles": {"maurice": {}}, "_renames": {}}, extra)
-    assert _H_B in handles and _H_C in handles and "maurice" in handles
-    assert "founder" not in handles  # generic role-word filtered at derivation
-
-
-def test_extract_non_agent_names_fails_loud_when_absent():
-    gen = _load_gen()
-    with pytest.raises(ValueError):
-        gen.extract_non_agent_names("OTHER = {}\n")
-
+    name_a = "ai" + "dan"
+    name_b = "an" + "ton"
+    roles = {
+        "roles": {"platform": {}, "maurice": {}},
+        "humans": {name_a: {"slack_user_id": "U0"}, name_b: {"slack_user_id": "U1"},
+                   "founder": {"slack_user_id": "U2"}},
+        "_renames": {"perry": "platform"},
+    }
+    handles = gen.derive_handles(roles)
+    assert name_a in handles and name_b in handles  # humans reach the denylist
+    assert "maurice" in handles and "perry" in handles
+    assert "founder" not in handles and "platform" not in handles  # generics filtered
 
 def test_alt_handles_reach_the_derived_set():
     # asabi/Bob 2026-07-27: a denylist of canonical names does not catch a
@@ -315,33 +317,37 @@ def test_alt_handles_reach_the_derived_set():
 
 
 def test_generation_reads_declared_builder_commit_not_worktree(tmp_path):
+    # ATH-3427/#61: the generator reads roles.json (the single identity SSOT:
+    # roles + humans + _renames) at the DECLARED commit via git show, never the
+    # working tree — Dexter's hold, preserved through the single-source refactor.
     gen = _load_gen()
     builder = tmp_path / "builder"
     handoff = builder / "tools" / "agent-handoff"
     handoff.mkdir(parents=True)
     roles_path = handoff / "roles.json"
-    slack_post_path = handoff / "slack_post"
-    roles_path.write_text(json.dumps({"roles": {_H_A: {}, "research": {}}, "_renames": {}}))
-    slack_post_path.write_text(f'_NON_AGENT_ROLES = {{"{_H_B}": "U0"}}\n')
+    roles_path.write_text(json.dumps(
+        {"roles": {_H_A: {}, "research": {}}, "humans": {_H_B: {"slack_user_id": "U0"}},
+         "_renames": {}}))
     _git(["init", "-q"], builder)
     _git(["config", "user.email", "t@example.invalid"], builder)
     _git(["config", "user.name", "t"], builder)
-    _git(["add", "tools/agent-handoff/roles.json", "tools/agent-handoff/slack_post"], builder)
+    _git(["add", "tools/agent-handoff/roles.json"], builder)
     _git(["commit", "-q", "-m", "authority"], builder)
     commit = subprocess.check_output(["git", "-C", str(builder), "rev-parse", "HEAD"], text=True).strip()
 
-    roles_path.write_text(json.dumps({"roles": {"dirtyperson": {}, "research": {}}, "_renames": {}}))
-    slack_post_path.write_text(f'_NON_AGENT_ROLES = {{"{_H_C}": "U1"}}\n')
+    # dirty the working tree AFTER the commit — must be ignored
+    roles_path.write_text(json.dumps(
+        {"roles": {"dirtyperson": {}, "research": {}}, "humans": {_H_C: {"slack_user_id": "U1"}},
+         "_renames": {}}))
 
     out = tmp_path / "denylist.json"
     assert gen.main(["--source-repo", str(builder), "--source-ref", commit, "--out", str(out)]) == 0
     payload = json.loads(out.read_text())
+    assert _H_A in payload["handles"] and _H_B in payload["handles"]  # committed content
+    assert "dirtyperson" not in payload["handles"] and _H_C not in payload["handles"]  # worktree ignored
     assert payload["source"] == {
         "repo": "athanor-builder",
-        "files": [
-            "tools/agent-handoff/roles.json",
-            "tools/agent-handoff/slack_post (_NON_AGENT_ROLES)",
-        ],
+        "files": ["tools/agent-handoff/roles.json (roles + humans + _renames)"],
         "commit": commit,
         "ref": commit,
     }

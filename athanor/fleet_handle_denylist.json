@@ -3,10 +3,9 @@
   "source": {
     "repo": "athanor-builder",
     "files": [
-      "tools/agent-handoff/roles.json",
-      "tools/agent-handoff/slack_post (_NON_AGENT_ROLES)"
+      "tools/agent-handoff/roles.json (roles + humans + _renames)"
     ],
-    "commit": "ea0fbb23c9661b8a7ebe615f4ebfdfd1ba4dbd74",
+    "commit": "c4274a527bd38dd3c48be1e0f10ff222cddbb79e",
     "ref": "origin/main"
   },
   "handles": [
