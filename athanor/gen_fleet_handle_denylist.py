@@ -123,7 +123,12 @@ def stamp_for(handles: list[str]) -> str:
     return hashlib.sha256("\n".join(sorted(handles)).encode()).hexdigest()
 
 
-def build(roles: dict, extra_names: list[str] | tuple[str, ...] = ()) -> dict:
+def build(
+    roles: dict,
+    extra_names: list[str] | tuple[str, ...] = (),
+    source_commit: str = "",
+    source_ref: str = "",
+) -> dict:
     handles = derive_handles(roles, extra_names)
     return {
         "_doc": (
@@ -134,30 +139,84 @@ def build(roles: dict, extra_names: list[str] | tuple[str, ...] = ()) -> dict:
             "`handles` on every run (integrity); freshness vs the live roster is "
             "a fleet-level re-generation obligation."
         ),
-        "source": "athanor-builder tools/agent-handoff/roles.json (person-handles only)",
+        "source": {
+            "repo": "athanor-builder",
+            "files": [
+                "tools/agent-handoff/roles.json",
+                "tools/agent-handoff/slack_post (_NON_AGENT_ROLES)",
+            ],
+            "commit": source_commit,
+            "ref": source_ref,
+        },
         "handles": handles,
         "stamp": stamp_for(handles),
     }
 
 
+def _git_show(repo: str, commit: str, path: str) -> str:
+    """Read ``path`` at ``commit`` from the source repo via ``git show``.
+
+    Dexter's #61/#77 hold (2026-07-27): the previous CLI accepted arbitrary
+    filesystem paths, so a stale checkout produced a smaller handle set WITH a
+    valid stamp -- the stamp blessed stale input. The structural fix removes the
+    capability: this generator has NO file-path inputs for its sources; it can
+    only read blobs at an explicit resolved commit, and it records that commit
+    in the payload. A working tree cannot be an input at all.
+    """
+    import subprocess
+
+    proc = subprocess.run(
+        ["git", "-C", repo, "show", f"{commit}:{path}"],
+        capture_output=True, text=True,
+    )
+    if proc.returncode != 0:
+        raise SystemExit(
+            f"gen_fleet_handle_denylist: cannot read {path} at {commit[:12]} "
+            f"from {repo}: {proc.stderr.strip()}"
+        )
+    return proc.stdout
+
+
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description="Generate the fork fleet-handle denylist from roles.json")
-    ap.add_argument("--roles", required=True, help="path to the canonical roles.json roster")
+    ap = argparse.ArgumentParser(
+        description="Generate the fork fleet-handle denylist from the roster SSOT "
+        "(read via git show at an explicit commit -- a checkout cannot be an input)"
+    )
     ap.add_argument(
-        "--non-agent",
-        default=None,
-        help="path to the slack_post script; its _NON_AGENT_ROLES person-names "
-        "are unioned in (ATH-3426 finding 2 — roles.json alone misses them)",
+        "--source-repo", required=True,
+        help="path to a git clone of athanor-builder; sources are read from "
+        "--source-ref via git show, NEVER from the working tree",
+    )
+    ap.add_argument(
+        "--source-ref", default="origin/main",
+        help="ref in the source repo to read both identity sources at "
+        "(resolved to a commit and recorded in the payload)",
     )
     ap.add_argument("--out", required=True, help="output denylist json path")
     args = ap.parse_args(argv)
-    roles = json.loads(Path(args.roles).read_text())
-    extra: list[str] = []
-    if args.non_agent:
-        extra = extract_non_agent_names(Path(args.non_agent).read_text())
-    payload = build(roles, extra)
+
+    import subprocess
+
+    rp = subprocess.run(
+        ["git", "-C", args.source_repo, "rev-parse", "--verify", args.source_ref],
+        capture_output=True, text=True,
+    )
+    if rp.returncode != 0:
+        raise SystemExit(
+            f"gen_fleet_handle_denylist: cannot resolve {args.source_ref!r} in "
+            f"{args.source_repo}: {rp.stderr.strip()}"
+        )
+    commit = rp.stdout.strip()
+
+    roles = json.loads(_git_show(args.source_repo, commit, "tools/agent-handoff/roles.json"))
+    slack_src = _git_show(args.source_repo, commit, "tools/agent-handoff/slack_post")
+    extra = extract_non_agent_names(slack_src)
+    payload = build(roles, extra, source_commit=commit, source_ref=args.source_ref)
     Path(args.out).write_text(json.dumps(payload, indent=2) + "\n")
-    print(f"wrote {args.out}: {len(payload['handles'])} handles, stamp {payload['stamp'][:12]}")
+    print(
+        f"wrote {args.out}: {len(payload['handles'])} handles, "
+        f"stamp {payload['stamp'][:12]}, source {commit[:12]} ({args.source_ref})"
+    )
     return 0
 
 
