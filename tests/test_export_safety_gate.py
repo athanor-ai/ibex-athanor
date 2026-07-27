@@ -12,6 +12,7 @@ throwaway temp git repos, which is where we WANT them.
 """
 import hashlib
 import importlib.util
+import json
 import subprocess
 from pathlib import Path
 
@@ -311,3 +312,38 @@ def test_alt_handles_reach_the_derived_set():
     handles = gen.derive_handles({"roles": {}, "_renames": {}})
     assert ("aidan" + "by") in handles
     assert ("hongsk" + "sam") in handles
+
+
+def test_generation_reads_declared_builder_commit_not_worktree(tmp_path):
+    gen = _load_gen()
+    builder = tmp_path / "builder"
+    handoff = builder / "tools" / "agent-handoff"
+    handoff.mkdir(parents=True)
+    roles_path = handoff / "roles.json"
+    slack_post_path = handoff / "slack_post"
+    roles_path.write_text(json.dumps({"roles": {_H_A: {}, "research": {}}, "_renames": {}}))
+    slack_post_path.write_text(f'_NON_AGENT_ROLES = {{"{_H_B}": "U0"}}\n')
+    _git(["init", "-q"], builder)
+    _git(["config", "user.email", "t@example.invalid"], builder)
+    _git(["config", "user.name", "t"], builder)
+    _git(["add", "tools/agent-handoff/roles.json", "tools/agent-handoff/slack_post"], builder)
+    _git(["commit", "-q", "-m", "authority"], builder)
+    commit = subprocess.check_output(["git", "-C", str(builder), "rev-parse", "HEAD"], text=True).strip()
+
+    roles_path.write_text(json.dumps({"roles": {"dirtyperson": {}, "research": {}}, "_renames": {}}))
+    slack_post_path.write_text(f'_NON_AGENT_ROLES = {{"{_H_C}": "U1"}}\n')
+
+    out = tmp_path / "denylist.json"
+    assert gen.main(["--source-repo", str(builder), "--source-ref", commit, "--out", str(out)]) == 0
+    payload = json.loads(out.read_text())
+    assert payload["source"] == {
+        "repo": "athanor-builder",
+        "files": [
+            "tools/agent-handoff/roles.json",
+            "tools/agent-handoff/slack_post (_NON_AGENT_ROLES)",
+        ],
+        "commit": commit,
+        "ref": commit,
+    }
+    assert _H_A in payload["handles"] and _H_B in payload["handles"]
+    assert "dirtyperson" not in payload["handles"] and _H_C not in payload["handles"]

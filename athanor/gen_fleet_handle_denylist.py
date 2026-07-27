@@ -24,7 +24,8 @@ person-handles only by excluding the generic role-key set. A new person handle
 still auto-appears; a new generic role-key correctly does not get denied.
 
 Usage:
-  python3 athanor/gen_fleet_handle_denylist.py --roles <path/to/roles.json> \
+  python3 athanor/gen_fleet_handle_denylist.py \
+      --source-repo <path/to/athanor-builder> --source-ref <commit> \
       --out athanor/fleet_handle_denylist.json
 """
 
