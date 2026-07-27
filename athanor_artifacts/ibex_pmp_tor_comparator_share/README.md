@@ -7,6 +7,15 @@ lives in `athanor/ppa_frontier/ibex_pmp_tor_comparator_share/` (schema
 claim below restates that manifest and its receipt files; nothing here goes
 beyond what they state.
 
+Precedence (per the 2026-07-26 split-block ruling): for this block, which is
+split across both trees, the frontier manifest
+(`athanor/ppa_frontier/ibex_pmp_tor_comparator_share/manifest.json`) is the
+authoritative record of the claim, and this directory is the subordinate
+replay bundle. If the two trees' records ever disagree, the frontier manifest
+wins. Each tree's `SHA256SUMS` covers only its own files; file identity across
+trees is by path from each record root, never by basename (the two
+`COMMANDS.md` files are different documents).
+
 Status (verbatim from the manifest):
 `formal_pass_yosys66_area_positive_toggle_flat_propagation_delay_negative`,
 row contract `area_tradeoff_yosys66`. Per the manifest's own tradeoff note:
