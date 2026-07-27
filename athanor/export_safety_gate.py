@@ -14,7 +14,7 @@ It scans BYTES, not ``git grep``, on purpose: the packages mark ``*.log`` /
 silently SKIPS binary files -- so a token or key inside a ``*.pinned.log`` (the
 verbatim tool output where a real credential is likeliest to leak) would slip
 past a git-grep scan. Reading committed bytes and matching directly closes that
-gap regardless of ``.gitattributes``. (ATH-2960, blind spot caught by Perry on
+gap regardless of ``.gitattributes``. (ATH-2960, blind spot caught in review on
 PR #4.)
 
 Two tiers (customer-surface owner ruling, ATH-2960):
@@ -74,7 +74,7 @@ BLOCK_ALWAYS: list[tuple[str, str]] = [
     ("internal workdir path", "/work" + "dir"),
     ("cloud build username", "azure" + "user"),
     ("internal ops repo", "athanor-" + "kairos-runall"),
-    # Export-safety hardening (Quan): the internal project namespace used as a
+    # Export-safety hardening (review): the internal project namespace used as a
     # schema or module PATH -- e.g. a receipt "schema": "<ns>.<ticket>..." or a
     # "from <ns>.sub import ..." line. A public fork has no legitimate reason to
     # carry an internal module/schema path (owner ruling: BLOCK, fail-closed; any
@@ -86,7 +86,7 @@ BLOCK_ALWAYS: list[tuple[str, str]] = [
     ("internal Kairos namespace", r"(?<!athanor-)" + "kai" + r"ros\.[A-Za-z_]"),
     ("confidential customer name", r"[Nn][Vv][Ii][Dd][Ii][Aa]"),
     ("confidential customer name", r"[Aa][Nn][Nn][Aa][Pp][Uu][Rr][Nn][Aa]"),
-    # Export-safety hardening (asabi ruling 2026-07-15, ATH-2960 vendor-footer
+    # Export-safety hardening (review ruling 2026-07-15, ATH-2960 vendor-footer
     # class): AI-tool / vendor authorship markers. A bot's auto-generated
     # "Generated with <tool>" attribution footer -- and its "<vendor>.com"
     # co-author trailer -- is a public-surface tool/vendor-name reference on a
@@ -137,7 +137,7 @@ WARN_PATTERNS: list[tuple[str, str, str | None]] = [
 ]
 
 
-# --- SPAN-BOUND EXEMPTIONS (Dexter verdict on ibex #53, 2026-07-21).
+# --- SPAN-BOUND EXEMPTIONS (review verdict on ibex #53, 2026-07-21).
 #
 # Each exemption is (label_set, path_predicate, line_predicate). A BLOCK hit is
 # suppressed ONLY when its label matches label_set, its file path matches the

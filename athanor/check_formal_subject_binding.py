@@ -76,7 +76,7 @@ def _bind_targets_to_sources(
 ) -> None:
     """Bind each proven target back to a package source artifact (ATH-2764 fast-follow).
 
-    Authority (Ronald 2026-07-06): when the receipt carries a ``gate_sources`` map it is
+    Authority (review, 2026-07-06): when the receipt carries a ``gate_sources`` map it is
     authoritative and must bind every patch target exactly once, chaining
     ``checkout target sha == artifact file sha == artifact_hashes[artifact-path]``.
     Single-target legacy receipts may keep package-root ``gate_source.sv`` for now, but a
