@@ -301,3 +301,13 @@ def test_extract_non_agent_names_fails_loud_when_absent():
     gen = _load_gen()
     with pytest.raises(ValueError):
         gen.extract_non_agent_names("OTHER = {}\n")
+
+
+def test_alt_handles_reach_the_derived_set():
+    # asabi/Bob 2026-07-27: a denylist of canonical names does not catch a
+    # founder alt-handle; KNOWN_ALT_HANDLES is the ATH-3427 stopgap and must
+    # reach the derived set with no source-list entry.
+    gen = _load_gen()
+    handles = gen.derive_handles({"roles": {}, "_renames": {}})
+    assert ("aidan" + "by") in handles
+    assert ("hongsk" + "sam") in handles

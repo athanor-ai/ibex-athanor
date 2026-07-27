@@ -3,12 +3,17 @@
   "source": "athanor-builder tools/agent-handoff/roles.json (person-handles only)",
   "handles": [
     "aidan",
+    "aidanby",
+    "anton",
     "asabi",
     "bob",
     "cody",
     "dexter",
+    "emma",
+    "hongsksam",
     "lena",
     "maurice",
+    "melanie",
     "perry",
     "plat",
     "platypus",
@@ -17,5 +22,5 @@
     "sam",
     "todd"
   ],
-  "stamp": "50c5f3e0e3178486b8419daca599375a1ce9669ddd665a9e8f7e824e784e3fac"
+  "stamp": "958b724ff2e69ec82c381116cd497fc8886fa021482c6e240f80cb43d2dd315a"
 }
