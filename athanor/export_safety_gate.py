@@ -51,6 +51,8 @@ Exit codes:
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import re
 import subprocess
 import sys
@@ -223,6 +225,47 @@ def _is_exempt(label: str, path: str, line: bytes) -> bool:
     return False
 
 
+# --- Fleet-agent handle denylist (ATH-3397).
+#
+# Internal fleet-agent handles must not appear in published customer artifacts on
+# a public fork. The handle list is GENERATED from the roster SSOT (ATH-1343
+# roles.json) by athanor/gen_fleet_handle_denylist.py -- never hardcoded here, so
+# this gate's source holds no verbatim handle and cannot self-flag on its own scan
+# (the same fragment discipline the BLOCK lists use). The denylist DATA file
+# necessarily DOES hold the handles verbatim, so it is the one path excluded from
+# the handle scan (below).
+DENYLIST_REL = "athanor/fleet_handle_denylist.json"
+
+
+def _load_agent_handles(root: Path) -> list[str]:
+    """Load the fork-local fleet-handle denylist and verify its integrity stamp.
+
+    Fail-closed: a missing file, malformed json, absent stamp, or a stamp that
+    does not match the committed handles (a hand-edit that did not regenerate)
+    raises GateError -> the gate exits 2 (could-not-run) rather than silently
+    scanning with a tampered or empty denylist. This proves INTEGRITY only; a
+    correctly-stamped but stale copy still passes -- freshness against the live
+    roster is a fleet-level re-generation obligation, because a hash proves the
+    bytes are unchanged, never that they are current.
+    """
+    path = root / DENYLIST_REL
+    if not path.is_file():
+        raise GateError(f"fleet-handle denylist missing at {DENYLIST_REL} (fail-closed)")
+    try:
+        payload = json.loads(path.read_text())
+        handles = list(payload["handles"])
+        stamp = str(payload["stamp"])
+    except (ValueError, KeyError, TypeError) as exc:
+        raise GateError(f"fleet-handle denylist unreadable/malformed: {exc}")
+    expected = hashlib.sha256("\n".join(sorted(handles)).encode()).hexdigest()
+    if stamp != expected:
+        raise GateError(
+            "fleet-handle denylist stamp mismatch (hand-edited without "
+            f"regenerating?): stamp={stamp[:12]} expected={expected[:12]}"
+        )
+    return handles
+
+
 def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[str]]:
     """Byte-scan every committed file. Returns (block, warn, skipped_binaries).
 
@@ -235,6 +278,15 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
     warn_res = [
         (label, re.compile(pat.encode()), (re.compile(ex.encode()) if ex else None))
         for label, pat, ex in WARN_PATTERNS
+    ]
+    # Fleet-agent handles (ATH-3397), loaded + stamp-verified from the generated
+    # denylist. Word-boundary + case-insensitive so a handle like a short name
+    # does not fire mid-word. Scoped to OUR_ADDED_PREFIXES (our authored
+    # artifacts); upstream files that legitimately contain such a token are not
+    # our leak. The denylist DATA file is excluded in the loop below.
+    agent_res = [
+        ("internal fleet-agent handle", re.compile(rb"(?i)\b" + re.escape(h).encode() + rb"\b"))
+        for h in _load_agent_handles(root)
     ]
     block: list[str] = []
     warn: list[str] = []
@@ -257,6 +309,18 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
                     if _is_exempt(label, path, line):
                         continue
                     block.append(f"[{label}] {path}:{lineno}: {shown}")
+            # Agent-handle scan: PUBLISHED CUSTOMER ARTIFACTS only. Excluded:
+            #  - the denylist DATA file (holds the handles verbatim by design);
+            #  - tooling SOURCE (.py/.sh) -- attribution comments in the fork's
+            #    own scripts are open-source authorship, not a customer surface,
+            #    and scanning them would self-flag this gate's own comments.
+            # The customer consumes the receipt/cert/README/log artifacts; the
+            # scan targets those. (ATH-3397; log-path handle class tracked
+            # separately.)
+            if in_our_scope and path != DENYLIST_REL and not path.endswith((".py", ".sh")):
+                for label, rx in agent_res:
+                    if rx.search(line):
+                        block.append(f"[{label}] {path}:{lineno}: {shown}")
             for label, rx, ex in warn_res:
                 if rx.search(line) and not (ex and ex.search(line)):
                     warn.append(f"[{label}] {path}:{lineno}: {shown}")
