@@ -1,0 +1,21 @@
+{
+  "_doc": "Fleet-agent handles that must not appear in published customer artifacts on this public fork (ATH-3397). GENERATED from the roster SSOT roles.json (ATH-1343) by athanor/gen_fleet_handle_denylist.py -- do not hand-edit; regenerate. The gate verifies `stamp` against `handles` on every run (integrity); freshness vs the live roster is a fleet-level re-generation obligation.",
+  "source": "athanor-builder tools/agent-handoff/roles.json (person-handles only)",
+  "handles": [
+    "aidan",
+    "asabi",
+    "bob",
+    "cody",
+    "dexter",
+    "lena",
+    "maurice",
+    "perry",
+    "plat",
+    "platypus",
+    "quan",
+    "ronald",
+    "sam",
+    "todd"
+  ],
+  "stamp": "50c5f3e0e3178486b8419daca599375a1ce9669ddd665a9e8f7e824e784e3fac"
+}

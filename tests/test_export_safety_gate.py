@@ -256,3 +256,48 @@ def test_convention_id_at_non_exempt_path_still_blocks(tmp_path):
     content = '"convention_id": "' + _CONV_ID + '"\n'
     block, warn, _ = _scan(tmp_path, {"athanor/other_file.json": content})
     assert _has(block, "Kairos namespace"), block
+
+
+# --- ATH-3397 denylist-infra: roster-derivation tests (generator only; the
+# gate that CONSUMES the denylist rides the separate red-by-design PR #59).
+# Handles fragment-built per this file's convention.
+import importlib.util as _ilu
+
+_H_A = "qu" + "an"
+_H_B = "ai" + "dan"
+_H_C = "an" + "ton"
+_RK = "buil" + "der"
+
+
+def _load_gen():
+    gen_path = Path(__file__).resolve().parent.parent / "athanor" / "gen_fleet_handle_denylist.py"
+    spec = _ilu.spec_from_file_location("gen_fhd_infra", gen_path)
+    gen = _ilu.module_from_spec(spec)
+    spec.loader.exec_module(gen)
+    return gen
+
+
+def test_derive_handles_excludes_role_keys_includes_persons():
+    gen = _load_gen()
+    roles = {"roles": {"platform": {}, "maurice": {}, "research": {}},
+             "_renames": {"perry": "platform", _H_A: "qa", _RK: _RK}}
+    handles = gen.derive_handles(roles)
+    assert "perry" in handles and "maurice" in handles and _H_A in handles
+    assert "platform" not in handles and "research" not in handles and _RK not in handles
+
+
+def test_non_agent_names_unioned_and_generic_founder_excluded():
+    gen = _load_gen()
+    src = ('_NON_AGENT_ROLES = {\n    "founder": "U0",\n'
+           f'    "{_H_B}": "U0",\n    "{_H_C}": "U1",\n}}\n')
+    extra = gen.extract_non_agent_names(src)
+    assert _H_B in extra and _H_C in extra and "founder" in extra  # raw keys
+    handles = gen.derive_handles({"roles": {"maurice": {}}, "_renames": {}}, extra)
+    assert _H_B in handles and _H_C in handles and "maurice" in handles
+    assert "founder" not in handles  # generic role-word filtered at derivation
+
+
+def test_extract_non_agent_names_fails_loud_when_absent():
+    gen = _load_gen()
+    with pytest.raises(ValueError):
+        gen.extract_non_agent_names("OTHER = {}\n")
