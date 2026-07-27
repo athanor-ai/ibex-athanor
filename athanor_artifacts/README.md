@@ -30,11 +30,26 @@ convention to be complete and independently reviewed.
 | [`id_stage_no_wb_prio_assign/`](id_stage_no_wb_prio_assign/) | Rejected for promotion: area/timing/Yosys-equivalence signals are positive, but quick internal-VCD toggle smoke regresses +1.27%. |
 | [`load_store_unit_signext_factor/`](load_store_unit_signext_factor/) | Rejected for promotion: area/timing/Yosys-equivalence signals are positive, but deterministic LSU-local toggle replay regresses +1.79886%. |
 
-## Historical replay logs and internal directory names
+## Grandfathered identity strings in hashed artifacts
 
-Some historical replay logs and source diffs in this tree contain internal
-working-directory names from the machines that produced them. They are left
-byte-unmodified on purpose: these files are SHA-pinned proof evidence, and
-rewriting published evidence would invalidate receipts a reader may already
-have checked. The packet producer no longer emits such names into hashed
-artifacts; historical packets are grandfathered explicitly rather than edited.
+Some SHA-pinned artifacts in this repository's receipt trees contain internal
+identity strings from the environments and reviews that produced them. They are
+left byte-unmodified on purpose: rewriting published, hash-pinned evidence
+would invalidate receipts a reader may already have checked. The packet
+producer no longer emits such strings into hashed artifacts, and new packets
+get no exemption. The grandfathered classes, with a representative location
+each:
+
+1. Internal working-directory names in pinned replay logs, source diffs, and
+   config fields — e.g. `fetch_fifo_err_unaligned_factored/bounded_k16.log`,
+   `fetch_fifo_err_unaligned_factored/SOURCE_DIFF.patch`, and the
+   `local_artifact_dir` fields under `../athanor/configs/`.
+2. Internal reviewer attributions in certificate prose — e.g. the
+   `independent_verification.note` field of
+   `../athanor/ppa_frontier/ibex_pmp_tor_comparator_share/formal_cert.json`.
+3. Internal agent/model identifiers in packet and file names — e.g.
+   `ibex_fetch_fifo_native_agent_ablation/` and the files under its `raw/`.
+
+A machine-checked enumeration of the grandfathered set (one line per packet)
+ships with the labelling-honesty gate; this note is the human-readable
+disclosure of the classes it covers.
