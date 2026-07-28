@@ -47,7 +47,14 @@ jobs:
       # Export-safety GATE bites (the leak-scanner is subject-under-test):
       # a mutation to the gate patterns REDS in CI instead of passing silently.
       - name: Verify export-safety gate bites (regression protection for the leak scanner)
-        if: github.event_name == 'pull_request' || github.event_name == 'push'
+        # A checker's SELF-TESTS validate the INSTRUMENT; the gate's verdict is about the
+        # SUBJECT. GitHub's default step condition implies success(), so a failing gate
+        # skipped its own regression tests -- the tests could only run when the gate had
+        # nothing to report, and a gate that quietly broke could never be shown broken.
+        # !cancelled() rather than always(): same reach over a FAILED gate, without also
+        # running on a cancelled run. Must be a ${{ }} expression -- a bare leading '!'
+        # is a YAML tag indicator and the workflow then fails to PARSE, reporting nothing.
+        if: ${{ !cancelled() && (github.event_name == 'pull_request' || github.event_name == 'push') }}
         run: |
           python3 -m pip install --quiet pytest
           PYTHONPATH=. python3 -m pytest -q \
