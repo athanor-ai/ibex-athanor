@@ -51,6 +51,8 @@ Exit codes:
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import re
 import subprocess
 import sys
@@ -182,13 +184,11 @@ def _repo_root(start: Path) -> Path:
     return Path(proc.stdout.strip())
 
 
-# Genuine-binary asset extensions are skipped (a credential in a compiled asset
-# is far-fetched and scanning them yields garbage matches). Skips are REPORTED,
-# never silent -- text logs (*.pinned.log) are NOT skipped and are fully scanned.
-BINARY_ASSET_EXT = frozenset(
-    (".png", ".jpg", ".jpeg", ".gif", ".pdf", ".ico", ".zip", ".gz", ".tgz",
-     ".woff", ".woff2", ".ttf", ".eot", ".mp4", ".so", ".o", ".a", ".bin")
-)
+# BINARY IS A PROPERTY OF THE BYTES, NOT OF THE NAME. This was an extension list,
+# which is the same defect as the handle scan's own allow-list one layer down: an
+# ASCII file named .bin was skipped on its name while its contents were perfectly
+# scannable. A NUL byte decides, and nothing else. Skips are REPORTED with a
+# reason, never silent.
 
 
 def _committed_paths(ref: str, root: Path) -> list[str]:
@@ -223,7 +223,196 @@ def _is_exempt(label: str, path: str, line: bytes) -> bool:
     return False
 
 
-def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[str]]:
+# --- Fleet-agent handle denylist (ATH-3397).
+#
+# Internal fleet-agent handles must not appear in published customer artifacts on
+# a public fork. The handle list is GENERATED from the roster SSOT (ATH-1343
+# roles.json) by athanor/gen_fleet_handle_denylist.py -- never hardcoded here, so
+# this gate's source holds no verbatim handle and cannot self-flag on its own scan
+# (the same fragment discipline the BLOCK lists use). The denylist DATA file
+# necessarily DOES hold the handles verbatim, so it is the one path excluded from
+# the handle scan (below).
+DENYLIST_REL = "athanor/fleet_handle_denylist.json"
+
+# Truncation tripwire for the generated denylist (see _load_agent_handles).
+MIN_HANDLES = 8
+
+# The handle scan targets PUBLISHED CUSTOMER-ARTIFACT PROSE (ATH-3397): receipt /
+# certificate / README text a customer reads. Two deliberate boundaries:
+#
+#  * Positive file scope: only these artifact extensions are scanned for handles.
+#    A handle inside a build/replay LOG PATH (e.g. .log / .patch) is a DIFFERENT
+#    class -- named per-agent scratch dirs -- fixed at the producer (neutral
+#    paths + regenerate), never by editing the published log, which would break
+#    the reproducibility the packet exists to offer. Tracked as ATH-3415.
+#  * Enumerated path exemptions (NOT an extension rule): specific tooling files
+#    that are themselves .json/.md but are infra, not a customer surface. Each
+#    carries its reason so adding one is a visible decision, never a side effect.
+#    (The fork's tooling .py/.sh source is out of scope by the positive extension
+#    scope above -- attribution comments there are ordinary contributor bylines.)
+# ATH-3397 TIER STAGING (asabi ruling, openc910 fork-asymmetry): on a fork where
+# `export-safety` is a REQUIRED status context, a gate that reds by design can
+# never merge the PR that introduces it. So the handle scan lands at WARN — the
+# gate runs, NAMES every live instance in the log, and leaves the required
+# context green — then is PROMOTED to BLOCK after the scrub lands.
+#
+# The promotion is proven by EXERCISE, never inherited from WARN: by promotion
+# time the real population is zero, so a BLOCK tier that has never blocked
+# anything would look identical to one that cannot. See
+# test_block_tier_exits_nonzero_on_a_constructed_instance.
+HANDLE_FINDING_TIER = "warn"  # "warn" (staging) | "block" (enforcing)
+# NOTE the fork asymmetry: ibex master has NO required status checks, so this
+# gate lands ENFORCING and red-by-design against its live population, which is
+# the land-red-first evidence. openc910 requires export-safety, so its twin
+# stages at "warn" and is promoted after the scrub. Same code, different default,
+# and the difference is the ruleset rather than a judgement.
+
+# SCOPE IS DERIVED, NOT ENUMERATED (ported from the openc910 twin, #83 / 8edc85eb9).
+# This was an extension allow-list of (".json", ".md"), and it was declared TWICE
+# in this module -- the second shadowing the first, so editing the visible one
+# would have changed nothing. On the twin the same list inspected 15% of published
+# artifacts and reported clean over the rest. A derived byte probe finds live
+# handle rows in 14 files outside that scope here, including published logs and
+# a patch header.
+#
+# Every committed TEXT file under our authored prefixes is scanned, and anything
+# skipped is named here WITH ITS REASON, so an unknown or new file type is LOUD
+# rather than silently out of scope. Binary is decided by a NUL byte -- a
+# property of the bytes, not a guess from the name.
+HANDLE_SCAN_EXEMPT_PATHS: dict[str, str] = {
+    DENYLIST_REL: "the denylist DATA file; holds every handle verbatim by design",
+    "athanor/export_safety_gate.py":
+        "this gate; a detector necessarily contains the thing it detects, and "
+        "scrubbing it would disable the protection",
+    "athanor/gen_fleet_handle_denylist.py":
+        "the denylist GENERATOR; same reason -- it names the roster it derives from",
+}
+
+
+def _exempt_reason(path_key: str) -> str:
+    """The stated reason a path is not scanned, matched case-insensitively."""
+    for name, reason in HANDLE_SCAN_EXEMPT_PATHS.items():
+        if name.lower() == path_key:
+            return reason
+    return "unstated"
+
+# Lowered companions of the path constants, DERIVED once so the scan compares like
+# with like. Derived rather than hand-maintained — a second literal list would be
+# the duplicated-knowledge defect one layer over.
+_OUR_ADDED_PREFIXES_LOWER = tuple(x.lower() for x in OUR_ADDED_PREFIXES)
+_HANDLE_SCAN_EXEMPT_PATHS_LOWER = {x.lower() for x in HANDLE_SCAN_EXEMPT_PATHS}
+
+
+def _load_agent_handles(ref: str, root: Path) -> list[str]:
+    """Load the fork-local fleet-handle denylist and verify its integrity stamp.
+
+    Fail-closed: a missing file, malformed json, absent stamp, or a stamp that
+    does not match the committed handles (a hand-edit that did not regenerate)
+    raises GateError -> the gate exits 2 (could-not-run) rather than silently
+    scanning with a tampered or empty denylist. This proves INTEGRITY only; a
+    correctly-stamped but stale copy still passes -- freshness against the live
+    roster is a fleet-level re-generation obligation, because a hash proves the
+    bytes are unchanged, never that they are current.
+    """
+    # ATH-3397 (dexter, #59 re-read): the scan reads COMMITTED bytes at ``ref``, so
+    # the denylist must come from that SAME ref. Reading it from the working tree
+    # let the instrument's configuration and its subject come from different trees:
+    # emptying the working-tree denylist made committed leaks stop being reported,
+    # with nothing committed to show for it. Same class as reading a manifest from
+    # the host while probing an image — config and subject must be one object.
+    try:
+        raw = _committed_bytes(ref, DENYLIST_REL, root)
+    except Exception as exc:
+        raise GateError(
+            f"fleet-handle denylist unreadable at {ref}:{DENYLIST_REL} "
+            f"(fail-closed): {exc}"
+        )
+    if not raw:
+        raise GateError(
+            f"fleet-handle denylist missing from the committed tree at "
+            f"{ref}:{DENYLIST_REL} (fail-closed)"
+        )
+    try:
+        payload = json.loads(raw.decode("utf-8"))
+        raw_handles = payload["handles"]
+        # dexter (#59, narrowed): the container must be a LIST. A JSON *string*
+        # "abcdefgh" has len 8 and iterates into eight one-character "handles",
+        # each of which is a non-empty string — so it cleared both the floor and
+        # the entry check while compiling eight useless patterns.
+        if not isinstance(raw_handles, list):
+            raise GateError(
+                "fleet-handle denylist 'handles' must be a LIST (fail-closed): got "
+                f"{type(raw_handles).__name__}, which would iterate into characters"
+            )
+        handles = list(raw_handles)
+        stamp = str(payload["stamp"])
+        # a null/empty/non-string entry is a malformed denylist, not a handle: an
+        # empty string would compile to a pattern that matches nothing useful while
+        # still counting toward the floor.
+        if not all(isinstance(h, str) and h.strip() for h in handles):
+            raise GateError(
+                "fleet-handle denylist contains a non-string or empty handle "
+                "(fail-closed): every entry must be a non-empty string"
+            )
+        # dexter (#59/#76, third pass): the floor counted h.strip().casefold()
+        # while the loader RETURNED — and the scanner COMPILED — the untrimmed h.
+        # Eight distinct whitespace-wrapped names therefore cleared the floor while
+        # the compiled patterns matched nothing: the floor measured a DIFFERENT
+        # pattern set from the one that does the work. Entries must already be
+        # canonical, so the set the floor counts is the set the scanner compiles.
+        untrimmed = [h for h in handles if h != h.strip()]
+        if untrimmed:
+            raise GateError(
+                "fleet-handle denylist entries carry surrounding whitespace "
+                f"(fail-closed): {untrimmed[:3]!r} — entries must be canonical, or "
+                "the floor counts a different pattern set than the scan compiles"
+            )
+    except (ValueError, KeyError, TypeError) as exc:
+        raise GateError(f"fleet-handle denylist unreadable/malformed: {exc}")
+    # ATH-3397 (dexter, #59 review): a CORRECTLY STAMPED but EMPTY list passes the
+    # integrity check and compiles ZERO patterns — the gate then scans for nothing
+    # and reports clean. The stamp proves the file was not hand-edited; it says
+    # nothing about whether the file still has content. Truncation to empty (a bad
+    # regeneration, a merge that dropped the array, a partial write) is exactly the
+    # failure the stamp cannot see, so it is checked separately and fails CLOSED.
+    #
+    # MIN_HANDLES is a truncation tripwire, not a freshness check. It is set well
+    # below the derived set (19 at the time of writing) so an ordinary roster change
+    # never trips it, and high enough that a file gutted to one or two entries does.
+    # Freshness against the live roster remains a fleet-level regeneration
+    # obligation — a stamped but STALE list still passes here by construction.
+    # Integrity: the stamp is verified against the DECLARED payload, exactly as
+    # written in the file — never against the canonical form (see ORDER below).
+    expected = hashlib.sha256("\n".join(sorted(handles)).encode()).hexdigest()
+    if stamp != expected:
+        raise GateError(
+            "fleet-handle denylist stamp mismatch (hand-edited without "
+            f"regenerating?): stamp={stamp[:12]} expected={expected[:12]}"
+        )
+
+    # STRUCTURAL (asabi ruling): canonicalise ONCE, after the stamp check, and let
+    # the floor and the COMPILED PATTERNS consume the same list. Three fixes in a
+    # row were each locally correct and each left a gap between what was VALIDATED
+    # and what was USED — the shape invited it, because validation and enforcement
+    # read the same variable through different transformations. One list closes
+    # that shape rather than patching this instance.
+    #
+    # ORDER MATTERS: the stamp is verified against the DECLARED payload above,
+    # never against the canonical form. Canonicalising first would let someone
+    # alter whitespace without breaking the stamp — turning a fix for a bypass
+    # into a new bypass.
+    canonical = sorted({h.casefold() for h in handles})
+    if len(canonical) < MIN_HANDLES:
+        raise GateError(
+            f"fleet-handle denylist yields {len(canonical)} unique handle(s) from "
+            f"{len(handles)} entr(ies), below the truncation floor of {MIN_HANDLES} "
+            "(fail-closed): a correctly stamped but emptied, gutted or duplicated "
+            "denylist would leave this gate scanning for almost nothing"
+        )
+    return canonical
+
+
+def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[str], list[str], list[str], int]:
     """Byte-scan every committed file. Returns (block, warn, skipped_binaries).
 
     Scans BYTES rather than ``git grep`` so files marked ``binary`` in
@@ -236,19 +425,68 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
         (label, re.compile(pat.encode()), (re.compile(ex.encode()) if ex else None))
         for label, pat, ex in WARN_PATTERNS
     ]
+    # Fleet-agent handles (ATH-3397), loaded + stamp-verified from the generated
+    # denylist. Word-boundary + case-insensitive so a handle like a short name
+    # does not fire mid-word. Scoped to OUR_ADDED_PREFIXES (our authored
+    # artifacts); upstream files that legitimately contain such a token are not
+    # our leak. The denylist DATA file is excluded in the loop below.
+    if HANDLE_FINDING_TIER not in ("warn", "block"):
+        raise GateError(
+            f"HANDLE_FINDING_TIER is {HANDLE_FINDING_TIER!r} (fail-closed): must be "
+            "exactly 'warn' or 'block'."
+        )
+    agent_res = [
+        # ATH-3439 pattern ruling: \b is the wrong boundary because `_` is a word
+        # character, so \bquan\b misses quan_review / reviewer_quan — exactly how a
+        # handle lands in a receipt FIELD NAME. `_` and `-` are not [a-z] so those
+        # match; "quantum" and "banking" do not. Camel-embedded is a stated non-match.
+        ("internal fleet-agent handle",
+         re.compile(
+             rb"(?i)(?<![a-z])("
+             + b"|".join(re.escape(h).encode() for h in _load_agent_handles(ref, root))
+             + rb")(?![a-z])"
+         )),
+    ]
     block: list[str] = []
     warn: list[str] = []
+    # TWO CATEGORIES, NOT ONE LIST. A binary skip is GLOBAL -- that file is not
+    # byte-scanned for anything. A handle exemption is SCOPED -- the file IS
+    # byte-scanned for every other pattern and only sits out the handle scan.
+    # One list discarded that distinction and produced a denominator report that
+    # was false in both directions: it labelled exemptions as unscanned binaries,
+    # and it counted upstream NUL files that were never in the handle population.
     skipped: list[str] = []
+    handle_exempt: list[str] = []
+    handle_binary: list[str] = []
+    handle_scope = 0
     for path in _committed_paths(ref, root):
-        dot = path.rfind(".")
-        ext = path[dot:].lower() if dot >= 0 else ""
+        # STRUCTURAL: every DECISION consumes path_key, the normalised form; the
+        # raw path survives only for committed-byte lookup and DISPLAY.
+        path_key = path.lower()
+        # No extension is derived any more: scope is decided by CONTENT (a NUL
+        # byte) and by the named keep-set. Leaving `ext` computed-but-unused
+        # would be the compute-then-ignore family this file has produced before.
         data = _committed_bytes(ref, path, root)
-        if ext in BINARY_ASSET_EXT or b"\x00" in data:
-            skipped.append(path)
-            continue
         # Ambiguous host-path patterns fire only in files WE author; upstream's
         # own host paths (its .circleci etc.) are public-upstream content.
-        in_our_scope = path.startswith(OUR_ADDED_PREFIXES)
+        #
+        # SCOPE IS DECIDED BEFORE THE BINARY SKIP. Skipping first meant an
+        # AUTHORED binary vanished from the handle denominator entirely: it was
+        # named in the global binary list and never counted in the population it
+        # belongs to. The equation then balanced only because this corpus happens
+        # to contain no in-scope binaries -- correct by accident of the tree.
+        in_our_scope = path_key.startswith(_OUR_ADDED_PREFIXES_LOWER)
+        if in_our_scope:
+            # the HANDLE population: files this scan is responsible for
+            handle_scope += 1
+        if b"\x00" in data:
+            note = f"{path} (binary: contains a NUL byte)"
+            skipped.append(note)
+            if in_our_scope:
+                # A THIRD scoped category: in the population, not scanned, and
+                # not an exemption either -- it is unscannable.
+                handle_binary.append(note)
+            continue
         block_res = always_res + scoped_res if in_our_scope else always_res
         for lineno, line in enumerate(data.split(b"\n"), 1):
             shown = line.decode("utf-8", "replace").strip()[:200]
@@ -257,10 +495,27 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
                     if _is_exempt(label, path, line):
                         continue
                     block.append(f"[{label}] {path}:{lineno}: {shown}")
+            # Agent-handle scan: customer-artifact prose only (see the scope
+            # constants above). Positive extension scope + enumerated exemptions.
+            if in_our_scope and path_key in _HANDLE_SCAN_EXEMPT_PATHS_LOWER:
+                note = f"{path} (exempt: {_exempt_reason(path_key)})"
+                if note not in handle_exempt:
+                    handle_exempt.append(note)
+            elif in_our_scope:
+                for label, rx in agent_res:
+                    for _h in sorted({m.group(1).lower() for m in rx.finditer(line)}):
+                        # TIER-ROUTED. This appended to `block` unconditionally,
+                        # so HANDLE_FINDING_TIER was VALIDATED and then never
+                        # used -- warn and block produced identical output and
+                        # the staging tier did not stage. The guard above proved
+                        # the constant was well-formed, which is not the same as
+                        # proving it does anything.
+                        sink = block if HANDLE_FINDING_TIER == "block" else warn
+                        sink.append(f"[{label}] {path}:{lineno}: {shown}")
             for label, rx, ex in warn_res:
                 if rx.search(line) and not (ex and ex.search(line)):
                     warn.append(f"[{label}] {path}:{lineno}: {shown}")
-    return block, warn, skipped
+    return block, warn, skipped, handle_exempt, handle_binary, handle_scope
 
 
 def _run_receipt_verifier(root: Path) -> list[str]:
@@ -277,12 +532,12 @@ def _run_receipt_verifier(root: Path) -> list[str]:
     return []
 
 
-def run_gate(ref: str = "HEAD", start: Path | None = None) -> tuple[list[str], list[str], list[str]]:
+def run_gate(ref: str = "HEAD", start: Path | None = None) -> tuple[list[str], list[str], list[str], list[str], list[str], int]:
     """Return (block, warn, skipped_binaries). Raises GateError if it cannot run."""
     root = _repo_root(start or Path.cwd())
-    block, warn, skipped = _scan_committed(ref, root)
+    block, warn, skipped, handle_exempt, handle_binary, handle_scope = _scan_committed(ref, root)
     block.extend(_run_receipt_verifier(root))
-    return block, warn, skipped
+    return block, warn, skipped, handle_exempt, handle_binary, handle_scope
 
 
 def scan_text(text: str, source: str = "pr-text") -> list[str]:
@@ -357,13 +612,29 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     try:
-        block, warn, skipped = run_gate(ref=args.ref)
+        block, warn, skipped, handle_exempt, handle_binary, handle_scope = run_gate(ref=args.ref)
     except GateError as exc:
         print(f"GATE-ERROR: {exc}", file=sys.stderr)
         return 2
 
     if skipped:
-        print(f"INFO: {len(skipped)} genuine-binary file(s) not byte-scanned: {', '.join(skipped)}")
+        print(
+            f"INFO: {len(skipped)} file(s) not byte-scanned at all (binary): "
+            f"{', '.join(skipped)}"
+        )
+    # THE HANDLE DENOMINATOR, accounted for in full. The exempt files ARE
+    # byte-scanned for every other pattern; they only sit out the handle scan,
+    # so calling them "not byte-scanned" was false, and counting upstream NUL
+    # files here was counting a population this scan never owned.
+    print(
+        f"INFO: handle scan population {handle_scope} = "
+        f"{handle_scope - len(handle_exempt) - len(handle_binary)} scanned + "
+        f"{len(handle_exempt)} exempt + {len(handle_binary)} unscannable(binary)"
+    )
+    for note in handle_exempt:
+        print(f"  handle-exempt: {note}")
+    for note in handle_binary:
+        print(f"  handle-binary: {note}")
 
     if warn:
         print(f"WARN: {len(warn)} conscious-choice metadata finding(s) at {args.ref}:")
@@ -372,6 +643,22 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  warn: {line}")
         if len(shown) < len(warn):
             print(f"  ... {len(warn) - len(shown)} more (raise --warn-limit to see all)")
+
+        # UNCAPPED STAGED SECTION. WARN output is display-capped, and this fork has
+        # thousands of conscious-choice warnings, so routing staged handle findings
+        # into WARN alone buries them past the cap -- the staging tier would then
+        # report a population nobody can see, which is the whole thing it exists to
+        # do. Printed in full, separately, and only while staging.
+        if HANDLE_FINDING_TIER == "warn":
+            staged = [w for w in warn if w.startswith("[internal fleet-agent handle]")]
+            if staged:
+                print(
+                    f"\nSTAGED (ATH-3397): {len(staged)} fleet-agent handle "
+                    f"instance(s) at {args.ref} — REPORTED, not blocking. This tier "
+                    "is promoted to BLOCK once the scrub lands:"
+                )
+                for line in staged:
+                    print(f"  staged-handle: {line}")
 
     if block:
         print(

@@ -42,7 +42,7 @@ w("formal_cert.json", {
         "status": "pending_cross_vm",
         "note": "Single-instrument (author box) yosys 0.9 SAT miter: SUCCESS, non-vacuous. "
                 "Independent cross-VM replay of the comb-EC bites + area/toggle/propagation-delay "
-                "is required before acceptance (Quan/Ronald).",
+                "is required before acceptance.",
     },
 })
 
