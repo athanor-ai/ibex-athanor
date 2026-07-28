@@ -289,7 +289,17 @@ def _load_agent_handles(ref: str, root: Path) -> list[str]:
         )
     try:
         payload = json.loads(raw.decode("utf-8"))
-        handles = list(payload["handles"])
+        raw_handles = payload["handles"]
+        # dexter (#59, narrowed): the container must be a LIST. A JSON *string*
+        # "abcdefgh" has len 8 and iterates into eight one-character "handles",
+        # each of which is a non-empty string — so it cleared both the floor and
+        # the entry check while compiling eight useless patterns.
+        if not isinstance(raw_handles, list):
+            raise GateError(
+                "fleet-handle denylist 'handles' must be a LIST (fail-closed): got "
+                f"{type(raw_handles).__name__}, which would iterate into characters"
+            )
+        handles = list(raw_handles)
         stamp = str(payload["stamp"])
         # a null/empty/non-string entry is a malformed denylist, not a handle: an
         # empty string would compile to a pattern that matches nothing useful while
@@ -313,11 +323,17 @@ def _load_agent_handles(ref: str, root: Path) -> list[str]:
     # never trips it, and high enough that a file gutted to one or two entries does.
     # Freshness against the live roster remains a fleet-level regeneration
     # obligation — a stamped but STALE list still passes here by construction.
-    if len(handles) < MIN_HANDLES:
+    # dexter (#59, narrowed): count UNIQUE case-folded handles, not iterable
+    # entries — ["alpha"] * 8 cleared a length-8 floor while producing exactly one
+    # effective pattern. The floor is about how many distinct names the gate can
+    # actually catch.
+    unique = {h.strip().casefold() for h in handles}
+    if len(unique) < MIN_HANDLES:
         raise GateError(
-            f"fleet-handle denylist has {len(handles)} handle(s), below the "
-            f"truncation floor of {MIN_HANDLES} (fail-closed): a correctly stamped "
-            "but emptied or gutted denylist would make this gate scan for nothing"
+            f"fleet-handle denylist yields {len(unique)} unique handle(s) from "
+            f"{len(handles)} entr(ies), below the truncation floor of {MIN_HANDLES} "
+            "(fail-closed): a correctly stamped but emptied, gutted or duplicated "
+            "denylist would leave this gate scanning for almost nothing"
         )
     expected = hashlib.sha256("\n".join(sorted(handles)).encode()).hexdigest()
     if stamp != expected:

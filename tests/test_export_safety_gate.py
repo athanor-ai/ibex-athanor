@@ -479,3 +479,53 @@ def test_worktree_denylist_tamper_cannot_hide_committed_leaks(tmp_path):
     (root / esg.DENYLIST_REL).write_text(empty)
     assert esg._load_agent_handles(ref, root) == good  # committed content wins
 
+
+def test_denylist_container_must_be_a_list_not_a_string(tmp_path):
+    # dexter (#59): a JSON STRING "abcdefgh" has len 8 and iterates into eight
+    # one-character handles, each a non-empty string — clearing a naive floor
+    # while compiling nothing useful. Python duck typing hides it: every length
+    # and iteration behaves plausibly while measuring CHARACTERS.
+    import hashlib as _hl
+    body = json.dumps({"handles": "abcdefgh",
+                       "stamp": _hl.sha256("\n".join(sorted("abcdefgh")).encode()).hexdigest()})
+    ref, root = _repo_with_denylist(tmp_path, body)
+    with pytest.raises(esg.GateError):
+        esg._load_agent_handles(ref, root)
+
+
+def test_duplicate_handles_do_not_clear_the_floor(tmp_path):
+    # dexter (#59): ["alpha"] * 8 is eight entries and ONE effective pattern.
+    # The floor exists to prove distinct coverage, so it must count UNIQUE handles.
+    import hashlib as _hl
+    handles = ["alpha"] * esg.MIN_HANDLES
+    body = json.dumps({"handles": handles,
+                       "stamp": _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()})
+    ref, root = _repo_with_denylist(tmp_path, body)
+    with pytest.raises(esg.GateError):
+        esg._load_agent_handles(ref, root)
+
+
+def test_case_variants_are_not_distinct_handles(tmp_path):
+    # the same name in different cases is one pattern (the scan is case-insensitive).
+    import hashlib as _hl
+    handles = sorted({f"Alpha{i % 2}" for i in range(2)} | {"ALPHA0", "alpha1"})
+    body = json.dumps({"handles": handles,
+                       "stamp": _hl.sha256("\n".join(handles).encode()).hexdigest()})
+    ref, root = _repo_with_denylist(tmp_path, body)
+    with pytest.raises(esg.GateError):
+        esg._load_agent_handles(ref, root)
+
+
+def test_floor_boundary_min_minus_one_fails_and_min_passes(tmp_path):
+    # both sides of the boundary, so the floor cannot drift silently.
+    import hashlib as _hl
+    for n, should_pass in ((esg.MIN_HANDLES - 1, False), (esg.MIN_HANDLES, True)):
+        handles = sorted(f"person{i}" for i in range(n))
+        body = json.dumps({"handles": handles,
+                           "stamp": _hl.sha256("\n".join(handles).encode()).hexdigest()})
+        ref, root = _repo_with_denylist(tmp_path / f"n{n}", body)
+        if should_pass:
+            assert esg._load_agent_handles(ref, root) == handles
+        else:
+            with pytest.raises(esg.GateError):
+                esg._load_agent_handles(ref, root)
