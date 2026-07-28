@@ -309,6 +309,19 @@ def _load_agent_handles(ref: str, root: Path) -> list[str]:
                 "fleet-handle denylist contains a non-string or empty handle "
                 "(fail-closed): every entry must be a non-empty string"
             )
+        # dexter (#59/#76, third pass): the floor counted h.strip().casefold()
+        # while the loader RETURNED — and the scanner COMPILED — the untrimmed h.
+        # Eight distinct whitespace-wrapped names therefore cleared the floor while
+        # the compiled patterns matched nothing: the floor measured a DIFFERENT
+        # pattern set from the one that does the work. Entries must already be
+        # canonical, so the set the floor counts is the set the scanner compiles.
+        untrimmed = [h for h in handles if h != h.strip()]
+        if untrimmed:
+            raise GateError(
+                "fleet-handle denylist entries carry surrounding whitespace "
+                f"(fail-closed): {untrimmed[:3]!r} — entries must be canonical, or "
+                "the floor counts a different pattern set than the scan compiles"
+            )
     except (ValueError, KeyError, TypeError) as exc:
         raise GateError(f"fleet-handle denylist unreadable/malformed: {exc}")
     # ATH-3397 (dexter, #59 review): a CORRECTLY STAMPED but EMPTY list passes the
@@ -323,25 +336,35 @@ def _load_agent_handles(ref: str, root: Path) -> list[str]:
     # never trips it, and high enough that a file gutted to one or two entries does.
     # Freshness against the live roster remains a fleet-level regeneration
     # obligation — a stamped but STALE list still passes here by construction.
-    # dexter (#59, narrowed): count UNIQUE case-folded handles, not iterable
-    # entries — ["alpha"] * 8 cleared a length-8 floor while producing exactly one
-    # effective pattern. The floor is about how many distinct names the gate can
-    # actually catch.
-    unique = {h.strip().casefold() for h in handles}
-    if len(unique) < MIN_HANDLES:
-        raise GateError(
-            f"fleet-handle denylist yields {len(unique)} unique handle(s) from "
-            f"{len(handles)} entr(ies), below the truncation floor of {MIN_HANDLES} "
-            "(fail-closed): a correctly stamped but emptied, gutted or duplicated "
-            "denylist would leave this gate scanning for almost nothing"
-        )
+    # Integrity: the stamp is verified against the DECLARED payload, exactly as
+    # written in the file — never against the canonical form (see ORDER below).
     expected = hashlib.sha256("\n".join(sorted(handles)).encode()).hexdigest()
     if stamp != expected:
         raise GateError(
             "fleet-handle denylist stamp mismatch (hand-edited without "
             f"regenerating?): stamp={stamp[:12]} expected={expected[:12]}"
         )
-    return handles
+
+    # STRUCTURAL (asabi ruling): canonicalise ONCE, after the stamp check, and let
+    # the floor and the COMPILED PATTERNS consume the same list. Three fixes in a
+    # row were each locally correct and each left a gap between what was VALIDATED
+    # and what was USED — the shape invited it, because validation and enforcement
+    # read the same variable through different transformations. One list closes
+    # that shape rather than patching this instance.
+    #
+    # ORDER MATTERS: the stamp is verified against the DECLARED payload above,
+    # never against the canonical form. Canonicalising first would let someone
+    # alter whitespace without breaking the stamp — turning a fix for a bypass
+    # into a new bypass.
+    canonical = sorted({h.casefold() for h in handles})
+    if len(canonical) < MIN_HANDLES:
+        raise GateError(
+            f"fleet-handle denylist yields {len(canonical)} unique handle(s) from "
+            f"{len(handles)} entr(ies), below the truncation floor of {MIN_HANDLES} "
+            "(fail-closed): a correctly stamped but emptied, gutted or duplicated "
+            "denylist would leave this gate scanning for almost nothing"
+        )
+    return canonical
 
 
 def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[str]]:

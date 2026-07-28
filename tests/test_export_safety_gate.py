@@ -529,3 +529,33 @@ def test_floor_boundary_min_minus_one_fails_and_min_passes(tmp_path):
         else:
             with pytest.raises(esg.GateError):
                 esg._load_agent_handles(ref, root)
+
+
+def test_whitespace_wrapped_handles_fail_closed(tmp_path):
+    # dexter (#59/#76, third pass): the floor counted h.strip().casefold() while the
+    # loader returned — and the scanner compiled — the untrimmed h. Eight distinct
+    # whitespace-wrapped names cleared the floor while matching nothing, because the
+    # floor measured a DIFFERENT pattern set than the scan compiles.
+    import hashlib as _hl
+    wrapped = [f" name{i} " for i in range(esg.MIN_HANDLES)]
+    body = json.dumps({"handles": wrapped,
+                       "stamp": _hl.sha256("\n".join(sorted(wrapped)).encode()).hexdigest()})
+    ref, root = _repo_with_denylist(tmp_path, body)
+    with pytest.raises(esg.GateError):
+        esg._load_agent_handles(ref, root)
+
+
+def test_canonical_denylist_catches_the_bare_name_end_to_end(tmp_path):
+    # the other direction: a canonical MIN-sized list loads AND the compiled
+    # patterns actually catch the bare name in a customer artifact.
+    import hashlib as _hl
+    handles = sorted(f"name{i}" for i in range(esg.MIN_HANDLES))
+    files = {
+        esg.DENYLIST_REL: json.dumps(
+            {"handles": handles,
+             "stamp": _hl.sha256("\n".join(handles).encode()).hexdigest()}),
+        "athanor_artifacts/pkt/receipt.json": '{"reviewer": "name3"}\n',
+    }
+    block, _, _ = _scan(tmp_path, files)
+    assert _has(block, "fleet-agent handle")
+    assert _has(block, "receipt.json")
