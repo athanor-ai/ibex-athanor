@@ -304,8 +304,15 @@ def test_a_crlf_JSON_manifest_keeps_its_line_endings(tmp_path):
     after = manifest.read_bytes()
     assert failures == [], failures
     assert updates, "expected the manifest to be rehashed"
-    assert before.count(b"\r\n") == after.count(b"\r\n"), (
-        f"CRLF normalised: {before.count(b'\r\n')} -> {after.count(b'\r\n')}"
+    # Backslashes are computed OUTSIDE the f-string: a backslash inside an
+    # f-string expression is a SyntaxError before Python 3.12, and CI pins
+    # 3.11 while this box runs 3.12. It is a collection error, not a test
+    # failure -- the whole file fails to import, so every test in it silently
+    # stops existing rather than reporting red.
+    crlf_before = before.count(b"\r\n")
+    crlf_after = after.count(b"\r\n")
+    assert crlf_before == crlf_after, (
+        f"CRLF normalised: {crlf_before} -> {crlf_after}"
     )
     assert after == before.replace(_OLD.encode(), real.encode())
 
