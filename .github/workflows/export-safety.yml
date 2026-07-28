@@ -23,6 +23,24 @@ permissions:
   pull-requests: read
   issues: read
 
+# ATH-3443 class, dependency-resolution mechanism: a test result is a property
+# of (TREE x RESOLVED DEPENDENCIES), so an unpinned install makes a green
+# unreproducible -- the one thing a green is supposed to be. athanor-kairos
+# main went red with no code change when mcp 2.0.0 published against an
+# uncapped mcp>=1.0; this install had no bound of any kind.
+#
+# EXACT rather than a ceiling (asabi ruling): this fork carries published,
+# hash-bound, PUBLIC evidence whose test results are cited in receipts, and
+# "reproducible within a major" is not reproducible.
+#
+# DEFINED ONCE even though there is currently only ONE install site. The
+# single definition is not for today's count -- it is so that adding a second
+# site cannot introduce a second version string, which is how the openc910
+# twin ended up with five copies to keep in step. Bumping is editing this one
+# string. Verified before pinning: this suite runs 48 passed on 9.1.1.
+env:
+  PYTEST_PIN: "pytest==9.1.1"
+
 jobs:
   export-safety:
     runs-on: ubuntu-latest
@@ -49,7 +67,7 @@ jobs:
       - name: Verify export-safety gate bites (regression protection for the leak scanner)
         if: github.event_name == 'pull_request' || github.event_name == 'push'
         run: |
-          python3 -m pip install --quiet pytest
+          python3 -m pip install --quiet "$PYTEST_PIN"
           PYTHONPATH=. python3 -m pytest -q \
             tests/test_export_safety_gate.py \
             tests/test_ath3415_artifact_paths.py
