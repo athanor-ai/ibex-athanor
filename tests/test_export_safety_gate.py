@@ -54,11 +54,25 @@ def _git(args, cwd):
     subprocess.run(["git", *args], cwd=cwd, check=True, capture_output=True)
 
 
+def _first3(result):
+    """The three columns most tests care about, from the wider shipped tuple."""
+    return result[0], result[1], result[2]
+
+
+def _scan_full(tmp_path, files):
+    """All five columns: (block, warn, binary_skipped, handle_exempt, handle_scope)."""
+    _scan(tmp_path, files)
+    return esg._scan_committed("HEAD", tmp_path)
+
+
 def _scan(tmp_path, files):
     """Commit ``files`` (rel -> content) into a temp repo and byte-scan HEAD.
 
     Returns (block, warn, skipped) from the SHIPPED ``_scan_committed`` -- the
     exact path CI runs, isolated from the receipt verifier.
+
+    ``_scan_committed`` also returns the handle-exemption list and the handle
+    population; callers that care about those use ``_scan_full``.
     """
     files = dict(files)
     files.setdefault(esg.DENYLIST_REL, _denylist_json(_padded([_H_A, _H_B])))
@@ -72,7 +86,7 @@ def _scan(tmp_path, files):
         p.write_text(content)
         _git(["add", rel], tmp_path)
     _git(["commit", "-q", "-m", "fixture"], tmp_path)
-    return esg._scan_committed("HEAD", tmp_path)
+    return _first3(esg._scan_committed("HEAD", tmp_path))
 
 
 
@@ -714,3 +728,72 @@ def test_the_handle_scan_has_no_extension_allow_list():
             f"an extension allow-list is back in the gate ({dotted[:5]}); scope must "
             f"be derived -- every committed TEXT file, decided by content"
         )
+
+
+# --- ported behavioural witnesses from the openc910 twin (#83 / 8edc85eb9) -----
+
+
+def test_an_ascii_file_named_bin_is_scanned(tmp_path, monkeypatch):
+    """The extension allow-list is gone; binary is decided by a NUL byte. An
+    ASCII file named .bin is perfectly scannable and must be scanned. This is
+    the BEHAVIOURAL witness -- the AST test alone can be satisfied by a single
+    suffix condition rather than a collection."""
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "block")
+    block, _, _ = _scan(tmp_path, {
+        "athanor_artifacts/pkt/readable.bin": f"synthesis ran as {_H_A}\n"})
+    assert _has(block, "readable.bin"), block
+
+
+def test_a_handle_in_a_log_is_scanned(tmp_path, monkeypatch):
+    """.log carried the live exposure on both forks and was outside the old scope."""
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "block")
+    block, _, _ = _scan(tmp_path, {
+        "athanor_artifacts/pkt/run.log": f"read_verilog .scratch/{_H_A}_scout/d.v\n"})
+    assert _has(block, "run.log"), block
+
+
+def test_a_real_binary_is_skipped_and_NAMED(tmp_path):
+    """A genuine binary cannot be scanned -- that limitation is fine. It vanishing
+    from the denominator in silence is not."""
+    _scan(tmp_path, {"athanor_artifacts/pkt/real.bin": "PLACEHOLDER"})
+    (tmp_path / "athanor_artifacts" / "pkt" / "real.bin").write_bytes(b"\x00\x01\x02")
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, capture_output=True, check=False)
+    subprocess.run(["git", "-c", "user.email=t@t", "-c", "user.name=t",
+                    "commit", "-qm", "bin"], cwd=tmp_path, capture_output=True, check=False)
+    _b, _w, skipped, _exempt, _scope = esg._scan_committed("HEAD", tmp_path)
+    assert any("real.bin" in s and "NUL byte" in s for s in skipped), skipped
+
+
+def test_two_distinct_handles_on_one_line_give_two_rows(tmp_path, monkeypatch):
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "block")
+    block, _, _ = _scan(tmp_path, {
+        "athanor_artifacts/pkt/pair.md": f"reviewed by {_H_A} and {_H_B}\n"})
+    rows = [r for r in block if "pair.md" in r]
+    assert len(rows) == 2, rows
+
+
+def test_the_same_handle_twice_on_one_line_gives_one_row(tmp_path, monkeypatch):
+    """Distinct-per-line, not per-occurrence: the twin measured 399 vs 444 and
+    only one of those restores the original semantics."""
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "block")
+    block, _, _ = _scan(tmp_path, {
+        "athanor_artifacts/pkt/twice.md": f"{_H_A} and again {_H_A}\n"})
+    rows = [r for r in block if "twice.md" in r]
+    assert len(rows) == 1, rows
+
+
+def test_the_handle_denominator_accounts_for_its_whole_population(tmp_path):
+    """dexter: the INFO line claimed 'N genuine-binary files not byte-scanned'
+    while counting handle EXEMPTIONS (which ARE byte-scanned for every other
+    pattern) alongside upstream NUL files that were never in the handle
+    population. Two categories in one list, and a denominator that was false in
+    both directions."""
+    _b, _w, skipped, exempt, scope = _scan_full(tmp_path, {
+        "athanor_artifacts/pkt/a.md": "clean\n",
+        "athanor_artifacts/pkt/b.json": "{}\n",
+    })
+    assert scope == (scope - len(exempt)) + len(exempt)
+    assert scope >= 2, scope
+    # the denylist is in scope and exempt; it must appear in exempt, not skipped
+    assert any(esg.DENYLIST_REL in e for e in exempt), exempt
+    assert not any(esg.DENYLIST_REL in s for s in skipped), skipped

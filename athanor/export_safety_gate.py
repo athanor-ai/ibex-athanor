@@ -412,7 +412,7 @@ def _load_agent_handles(ref: str, root: Path) -> list[str]:
     return canonical
 
 
-def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[str]]:
+def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[str], list[str], int]:
     """Byte-scan every committed file. Returns (block, warn, skipped_binaries).
 
     Scans BYTES rather than ``git grep`` so files marked ``binary`` in
@@ -449,7 +449,15 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
     ]
     block: list[str] = []
     warn: list[str] = []
+    # TWO CATEGORIES, NOT ONE LIST. A binary skip is GLOBAL -- that file is not
+    # byte-scanned for anything. A handle exemption is SCOPED -- the file IS
+    # byte-scanned for every other pattern and only sits out the handle scan.
+    # One list discarded that distinction and produced a denominator report that
+    # was false in both directions: it labelled exemptions as unscanned binaries,
+    # and it counted upstream NUL files that were never in the handle population.
     skipped: list[str] = []
+    handle_exempt: list[str] = []
+    handle_scope = 0
     for path in _committed_paths(ref, root):
         # STRUCTURAL: every DECISION consumes path_key, the normalised form; the
         # raw path survives only for committed-byte lookup and DISPLAY.
@@ -464,6 +472,9 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
         # Ambiguous host-path patterns fire only in files WE author; upstream's
         # own host paths (its .circleci etc.) are public-upstream content.
         in_our_scope = path_key.startswith(_OUR_ADDED_PREFIXES_LOWER)
+        if in_our_scope:
+            # the HANDLE population: files this scan is responsible for
+            handle_scope += 1
         block_res = always_res + scoped_res if in_our_scope else always_res
         for lineno, line in enumerate(data.split(b"\n"), 1):
             shown = line.decode("utf-8", "replace").strip()[:200]
@@ -476,8 +487,8 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
             # constants above). Positive extension scope + enumerated exemptions.
             if in_our_scope and path_key in _HANDLE_SCAN_EXEMPT_PATHS_LOWER:
                 note = f"{path} (exempt: {_exempt_reason(path_key)})"
-                if note not in skipped:
-                    skipped.append(note)
+                if note not in handle_exempt:
+                    handle_exempt.append(note)
             elif in_our_scope:
                 for label, rx in agent_res:
                     for _h in sorted({m.group(1).lower() for m in rx.finditer(line)}):
@@ -492,7 +503,7 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
             for label, rx, ex in warn_res:
                 if rx.search(line) and not (ex and ex.search(line)):
                     warn.append(f"[{label}] {path}:{lineno}: {shown}")
-    return block, warn, skipped
+    return block, warn, skipped, handle_exempt, handle_scope
 
 
 def _run_receipt_verifier(root: Path) -> list[str]:
@@ -509,12 +520,12 @@ def _run_receipt_verifier(root: Path) -> list[str]:
     return []
 
 
-def run_gate(ref: str = "HEAD", start: Path | None = None) -> tuple[list[str], list[str], list[str]]:
+def run_gate(ref: str = "HEAD", start: Path | None = None) -> tuple[list[str], list[str], list[str], list[str], int]:
     """Return (block, warn, skipped_binaries). Raises GateError if it cannot run."""
     root = _repo_root(start or Path.cwd())
-    block, warn, skipped = _scan_committed(ref, root)
+    block, warn, skipped, handle_exempt, handle_scope = _scan_committed(ref, root)
     block.extend(_run_receipt_verifier(root))
-    return block, warn, skipped
+    return block, warn, skipped, handle_exempt, handle_scope
 
 
 def scan_text(text: str, source: str = "pr-text") -> list[str]:
@@ -589,13 +600,26 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     try:
-        block, warn, skipped = run_gate(ref=args.ref)
+        block, warn, skipped, handle_exempt, handle_scope = run_gate(ref=args.ref)
     except GateError as exc:
         print(f"GATE-ERROR: {exc}", file=sys.stderr)
         return 2
 
     if skipped:
-        print(f"INFO: {len(skipped)} genuine-binary file(s) not byte-scanned: {', '.join(skipped)}")
+        print(
+            f"INFO: {len(skipped)} file(s) not byte-scanned at all (binary): "
+            f"{', '.join(skipped)}"
+        )
+    # THE HANDLE DENOMINATOR, accounted for in full. The exempt files ARE
+    # byte-scanned for every other pattern; they only sit out the handle scan,
+    # so calling them "not byte-scanned" was false, and counting upstream NUL
+    # files here was counting a population this scan never owned.
+    print(
+        f"INFO: handle scan population {handle_scope} = "
+        f"{handle_scope - len(handle_exempt)} scanned + {len(handle_exempt)} exempt"
+    )
+    for note in handle_exempt:
+        print(f"  handle-exempt: {note}")
 
     if warn:
         print(f"WARN: {len(warn)} conscious-choice metadata finding(s) at {args.ref}:")
