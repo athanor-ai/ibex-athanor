@@ -95,7 +95,12 @@ def chase_and_rehash(repo: Path, changed_files: list[Path]) -> list[str]:
                 data = json.loads(manifest_path.read_text(encoding="utf-8"))
             except (json.JSONDecodeError, OSError):
                 continue
+            # Parsing is fine for FINDING which entries need a new hash. It is
+            # writing back a parsed structure that destroys the file. So the
+            # parse produces a list of (old, new) pairs and nothing else; the
+            # edit itself is applied to the original TEXT below.
             updated = False
+            pending: list[tuple[str, str]] = []
             for section in data.values():
                 if not isinstance(section, dict):
                     continue
@@ -107,7 +112,7 @@ def chase_and_rehash(repo: Path, changed_files: list[Path]) -> list[str]:
                         if ref.resolve() == changed.resolve():
                             actual = _sha256_file(ref)
                             if entry["sha256"] != actual:
-                                entry["sha256"] = actual
+                                pending.append((entry["sha256"], actual))
                                 actions.append(
                                     f"manifest rehashed {entry['path']} in "
                                     f"{manifest_path.relative_to(repo)}"
@@ -116,12 +121,51 @@ def chase_and_rehash(repo: Path, changed_files: list[Path]) -> list[str]:
                     except (OSError, ValueError):
                         continue
             if updated:
-                manifest_path.write_text(
-                    json.dumps(data, indent=2, ensure_ascii=False) + "\n",
-                    encoding="utf-8",
-                )
+                text = manifest_path.read_text(encoding="utf-8")
+                text, failures = _apply_hash_edits_textually(text, pending)
+                if failures:
+                    actions.extend(failures)
+                    continue  # refuse the file rather than write an ambiguous edit
+                manifest_path.write_text(text, encoding="utf-8")
 
     return actions
+
+
+def _apply_hash_edits_textually(text: str, edits: list[tuple[str, str]]):
+    """Replace each (old_sha, new_sha) IN THE TEXT. Never re-serialise.
+
+    A JSON round-trip is an edit to EVERY BYTE of the file, not to the field
+    you changed. ``json.dumps`` re-renders every value through Python's
+    repr, so a published manifest carrying ``0.00000000454`` comes back as
+    ``4.54e-09``: numerically equal, textually different, and the file is
+    hash-bound evidence a customer can re-verify. A one-field edit that
+    rewrites unrelated published values is a silent corruption of the record.
+
+    (This is not hypothetical. It happened on a real scrub: ten receipts
+    reformatted by a round-trip, caught only by diffing ONE file before
+    trusting the batch. The fix then was the same as the fix here -- edit the
+    text, and prove it with ``+N -0``.)
+
+    AMBIGUITY IS REFUSED, NOT GUESSED. Two entries can legitimately carry the
+    same sha256 (identical content at two paths). A blind string replace would
+    rewrite both while the caller intended one, so when an old hash does not
+    occur exactly once this returns a failure and the file is left untouched.
+    Returns (new_text, failures).
+    """
+    failures: list[str] = []
+    for old_sha, new_sha in edits:
+        if old_sha == new_sha:
+            continue
+        needle = f'"{old_sha}"'
+        n = text.count(needle)
+        if n != 1:
+            failures.append(
+                f"REFUSED: sha256 {old_sha[:12]} occurs {n} times in this manifest; "
+                f"a textual edit cannot bind to one entry. Resolve by hand."
+            )
+            continue
+        text = text.replace(needle, f'"{new_sha}"')
+    return text, failures
 
 
 def _changed_files_from_git(repo: Path) -> list[Path]:
