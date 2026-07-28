@@ -40,6 +40,60 @@ def _workflow_text() -> str:
     return WORKFLOW.read_text(encoding="utf-8")
 
 
+def test_the_token_appears_only_in_its_two_permitted_shapes():
+    """THE COMPLEMENT, and it closes the CLASS rather than the instances.
+
+    (bob, openc910 #87.) Round 1 counted the YAML form. Round 2 added the
+    shell form and `export`. Round 3 would have added `$GITHUB_ENV`:
+
+        echo "PYTEST_PIN=pytest==8.0.0" >> "$GITHUB_ENV"
+
+    which is the CANONICAL Actions mechanism for cross-step env, so it is at
+    least as accident-reachable as the others. And after that: `printf`,
+    `tee -a`, a composite action's `env`. **Enumerating spellings is the
+    maintained-list class we keep killing** -- three named forms is a list
+    waiting for a fourth.
+
+    So invert it. Every definition channel must CONTAIN THE TOKEN in order to
+    bind it. Therefore: the token may appear in exactly two shapes --
+
+        1. the one workflow-level YAML definition
+        2. "$PYTEST_PIN" referenced on a pip install line
+
+    -- and ANY other occurrence anywhere reds, whatever spelling someone
+    invents. That is derive-don't-enumerate applied to the guard itself.
+
+    Comment lines are excluded: a comment cannot bind a variable in either
+    YAML or shell, so it is not a definition channel. That exemption is
+    structural, not a convenience.
+    """
+    definition = re.compile(rf"^\s*{_PIN_VAR}\s*:\s*\S")
+    reference = re.compile(rf"pip\s+install\b.*\"\${_PIN_VAR}\"")
+
+    unexplained = []
+    definitions = 0
+    for i, line in enumerate(_workflow_text().splitlines(), 1):
+        if _PIN_VAR not in line:
+            continue
+        if line.lstrip().startswith("#"):
+            continue  # cannot bind anything
+        if definition.match(line):
+            definitions += 1
+        elif reference.search(line):
+            continue
+        else:
+            unexplained.append((i, line.strip()))
+
+    assert not unexplained, (
+        f"{_PIN_VAR} appears in a shape that is neither the workflow-level "
+        f"definition nor a pip-install reference. Any such occurrence can "
+        f"rebind the pin: {unexplained}"
+    )
+    assert definitions == 1, (
+        f"expected exactly 1 workflow-level definition, found {definitions}"
+    )
+
+
 def test_the_pin_is_defined_exactly_once_and_is_exact():
     """ONE definition, and `==` rather than `<` or `>=`.
 
