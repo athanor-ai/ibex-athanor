@@ -61,7 +61,7 @@ def _first3(result):
 
 
 def _scan_full(tmp_path, files):
-    """All five columns: (block, warn, binary_skipped, handle_exempt, handle_scope)."""
+    """All columns: (block, warn, binary_skipped, handle_exempt, handle_binary, handle_scope)."""
     _scan(tmp_path, files)
     return esg._scan_committed("HEAD", tmp_path)
 
@@ -761,7 +761,7 @@ def test_a_real_binary_is_skipped_and_NAMED(tmp_path):
     subprocess.run(["git", "add", "-A"], cwd=tmp_path, capture_output=True, check=False)
     subprocess.run(["git", "-c", "user.email=t@t", "-c", "user.name=t",
                     "commit", "-qm", "bin"], cwd=tmp_path, capture_output=True, check=False)
-    _b, _w, skipped, _exempt, _scope = esg._scan_committed("HEAD", tmp_path)
+    _b, _w, skipped, _exempt, _bin, _scope = esg._scan_committed("HEAD", tmp_path)
     assert any("real.bin" in s and "NUL byte" in s for s in skipped), skipped
 
 
@@ -789,12 +789,43 @@ def test_the_handle_denominator_accounts_for_its_whole_population(tmp_path):
     pattern) alongside upstream NUL files that were never in the handle
     population. Two categories in one list, and a denominator that was false in
     both directions."""
-    _b, _w, skipped, exempt, scope = _scan_full(tmp_path, {
+    _b, _w, skipped, exempt, _bin, scope = _scan_full(tmp_path, {
         "athanor_artifacts/pkt/a.md": "clean\n",
         "athanor_artifacts/pkt/b.json": "{}\n",
     })
-    assert scope == (scope - len(exempt)) + len(exempt)
+    assert scope == (scope - len(exempt) - len(_bin)) + len(exempt) + len(_bin)
     assert scope >= 2, scope
     # the denylist is in scope and exempt; it must appear in exempt, not skipped
     assert any(esg.DENYLIST_REL in e for e in exempt), exempt
     assert not any(esg.DENYLIST_REL in s for s in skipped), skipped
+
+
+def test_an_AUTHORED_binary_stays_in_the_handle_population(tmp_path):
+    """dexter: the binary skip `continue`d BEFORE scope was computed, so an
+    authored NUL file vanished from the handle denominator -- named in the global
+    binary list and counted in no population at all. The equation balanced only
+    because this corpus contains no in-scope binaries, which is correct by
+    accident of the tree rather than by construction.
+
+    A denominator test that plants only TEXT cannot see this class. This one
+    plants an authored binary and an upstream one, and pins BOTH directions.
+    """
+    _scan(tmp_path, {"athanor_artifacts/pkt/authored.bin": "PLACEHOLDER",
+                     "vendor/upstream/blob.bin": "PLACEHOLDER"})
+    for rel in ("athanor_artifacts/pkt/authored.bin", "vendor/upstream/blob.bin"):
+        (tmp_path / rel).write_bytes(b"\x00\x01binary\x00")
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, capture_output=True, check=False)
+    subprocess.run(["git", "-c", "user.email=t@t", "-c", "user.name=t",
+                    "commit", "-qm", "bins"], cwd=tmp_path, capture_output=True, check=False)
+    _b, _w, skipped, exempt, handle_binary, scope = esg._scan_committed("HEAD", tmp_path)
+
+    assert any("authored.bin" in x for x in handle_binary), (
+        "an AUTHORED binary must stay in the handle population as unscannable",
+        handle_binary)
+    assert not any("blob.bin" in x for x in handle_binary), (
+        "an UPSTREAM binary was never in the handle population", handle_binary)
+    assert any("blob.bin" in x for x in skipped), ("upstream binary must still be "
+                                                   "named globally", skipped)
+    scanned = scope - len(exempt) - len(handle_binary)
+    assert scanned + len(exempt) + len(handle_binary) == scope, (
+        scanned, exempt, handle_binary, scope)
