@@ -383,3 +383,137 @@ def test_the_cli_does_not_report_refusals_as_updates(tmp_path, capsys, monkeypat
     assert "binding(s) updated" not in out, (
         "the CLI claimed updates on a pure-refusal run: " + out
     )
+
+
+# ---------------------------------------------------------------------------
+# dexter's ibex #62 round-3 holds. Each is his construction, executed.
+# ---------------------------------------------------------------------------
+
+
+def _sha(path: Path) -> str:
+    """sha256 of a file's bytes, computed independently of the module under
+    test -- a helper that reused the module's own hasher could not catch the
+    module hashing the wrong bytes."""
+    import hashlib
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _nested_tree(root: Path) -> tuple[Path, Path, Path]:
+    """child leaf + child SHA256SUMS + PARENT SHA256SUMS binding the child sums.
+
+    This is the fetch_fifo topology dexter measured as live: parent sums bind
+    the child sums, so editing the child sums makes the parent stale.
+    """
+    child = root / "pkg"
+    child.mkdir(parents=True, exist_ok=True)
+    leaf = child / "data.log"
+    leaf.write_text("original\n", encoding="utf-8")
+    child_sums = child / "SHA256SUMS"
+    child_sums.write_text(f"{_sha(leaf)}  ./data.log\n", encoding="utf-8")
+    parent_sums = root / "SHA256SUMS"
+    parent_sums.write_text(f"{_sha(child_sums)}  ./pkg/SHA256SUMS\n", encoding="utf-8")
+    return leaf, child_sums, parent_sums
+
+
+def test_editing_a_child_sums_rehashes_its_PARENT(tmp_path: Path) -> None:
+    """HOLD 1. A single pass never chases the file it just planned.
+
+    The leaf bound green, the parent stayed stale, `failures` was empty, and a
+    SUCCESS RECEIPT was emitted over a tree that no longer verifies. A hash
+    correction is not a local edit -- it propagates, and the graph must be
+    closed to a fixed point before the first byte is written.
+    """
+    leaf, child_sums, parent_sums = _nested_tree(tmp_path)
+    leaf.write_text("changed\n", encoding="utf-8")
+
+    updates, failures = rc.chase_and_rehash(tmp_path, [leaf])
+    assert failures == [], failures
+
+    assert _sha(leaf) in child_sums.read_text(), "leaf binding not updated"
+    assert _sha(child_sums) in parent_sums.read_text(), (
+        "PARENT still binds the pre-edit child sums — the tree does not verify"
+    )
+
+
+def test_the_parent_is_bound_to_the_PLANNED_bytes_not_the_stale_disk(tmp_path: Path) -> None:
+    """Phase 1 writes nothing, so hashing the child sums from DISK would bind
+    the parent to a value that never exists once the write lands. Every hash in
+    the finished tree must match the file beside it."""
+    leaf, child_sums, parent_sums = _nested_tree(tmp_path)
+    leaf.write_text("changed\n", encoding="utf-8")
+    rc.chase_and_rehash(tmp_path, [leaf])
+
+    for sums, target in ((child_sums, leaf), (parent_sums, child_sums)):
+        recorded = sums.read_text().split("  ", 1)[0]
+        assert recorded == _sha(target), (
+            f"{sums.name} records {recorded[:12]} for {target.name}, "
+            f"which is {_sha(target)[:12]}"
+        )
+
+
+def test_a_writer_failure_MIDWAY_restores_every_target(tmp_path: Path) -> None:
+    """HOLD 2. Plan-time refusal is atomic in the case that never happens.
+
+    The failure that matters is midway: target 1 written, target 2 fails. That
+    left a half-updated chain on hash-bound evidence, which verifies against
+    nothing. Refusing before the first write does not address it.
+    """
+    leaf, child_sums, parent_sums = _nested_tree(tmp_path)
+    leaf.write_text("changed\n", encoding="utf-8")
+    before = {p: p.read_text() for p in (child_sums, parent_sums)}
+
+    real = rc._write_exact
+    calls = {"n": 0}
+
+    def explode(path: Path, text: str) -> None:
+        calls["n"] += 1
+        if calls["n"] == 2:          # first target lands, second fails
+            raise OSError("simulated writer failure on the second target")
+        real(path, text)
+
+    rc._write_exact = explode
+    try:
+        updates, failures = rc.chase_and_rehash(tmp_path, [leaf])
+    finally:
+        rc._write_exact = real
+
+    assert updates == [], "a failed run must claim no updates"
+    assert failures, "a midway writer failure must be reported"
+    for path, original in before.items():
+        assert path.read_text() == original, (
+            f"{path.name} was left modified after a failed run — the tree is "
+            f"half-updated and verifies against nothing"
+        )
+
+
+def test_an_unreadable_input_is_a_FAILURE_not_an_all_clear(tmp_path: Path) -> None:
+    """HOLD 3. `missing.log` was skipped and the CLI printed 'no stale bindings
+    found (all hashes current)' at rc 0.
+
+    Could-not-chase and nothing-to-chase are opposite verdicts, and only one of
+    them is a measurement. A request the tool never carried out must not render
+    as a clean tree.
+    """
+    _nested_tree(tmp_path)
+    updates, failures = rc.chase_and_rehash(
+        tmp_path, [tmp_path / "pkg" / "missing.log"])
+    assert updates == []
+    assert failures, "a missing input must be a failure, not silence"
+    assert any("not a readable file" in f for f in failures), failures
+
+
+def test_a_real_run_over_a_flat_package_still_succeeds(tmp_path: Path) -> None:
+    """NARROWNESS. None of the above may turn ordinary chasing into a refusal —
+    a tool that reds on its normal input gets removed from the pipeline."""
+    pkg = tmp_path / "pkg"
+    pkg.mkdir(parents=True)
+    leaf = pkg / "data.log"
+    leaf.write_text("original\n", encoding="utf-8")
+    sums = pkg / "SHA256SUMS"
+    sums.write_text(f"{_sha(leaf)}  ./data.log\n", encoding="utf-8")
+    leaf.write_text("changed\n", encoding="utf-8")
+
+    updates, failures = rc.chase_and_rehash(tmp_path, [leaf])
+    assert failures == [], failures
+    assert updates, "an ordinary stale binding must still be chased"
+    assert _sha(leaf) in sums.read_text()
