@@ -111,6 +111,32 @@ def test_a_noop_edit_is_not_an_edit():
     assert after == _manifest()
 
 
+def test_a_partial_edit_is_never_returned(tmp_path):
+    """ALL OR NOTHING, held by the HELPER not by caller discipline. (bob, #62.)
+
+    The chained shape ``[(A,B), (B,C)]`` applies A->B, which makes B occur
+    twice, so the second edit refuses -- and the earlier version returned the
+    string with the first edit already applied, alongside the failure. Both
+    callers happen to discard it, so nothing corrupted; but a helper whose
+    safety depends on every caller remembering to discard is a trap for the
+    next caller.
+
+    "Fail whole, or do not fail" is the rule this tool enforces on published
+    evidence. It has to hold in its own return value.
+    """
+    A, B, C = "a" * 64, "b" * 64, "c" * 64
+    text = f'{{"p":{{"sha256":"{A}"}},"q":{{"sha256":"{B}"}}}}'
+
+    out, failures = rc._apply_hash_edits_textually(text, [(A, B), (B, C)])
+
+    assert failures, "the chained edit should have been refused"
+    assert out == text, (
+        "a partially-edited string was returned; a caller that wrote it would "
+        "have corrupted the second entry"
+    )
+    assert A in out and B in out and C not in out
+
+
 def _sums_repo(tmp_path, sums_bytes):
     """A package carrying a SHA256SUMS with the given EXACT bytes."""
     pkg = tmp_path / "athanor_artifacts" / "pkg"

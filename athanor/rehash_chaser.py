@@ -180,7 +180,19 @@ def _apply_hash_edits_textually(text: str, edits: list[tuple[str, str]], quoted:
     rewrite both while the caller intended one, so when an old hash does not
     occur exactly once this returns a failure and the file is left untouched.
     Returns (new_text, failures).
+
+    ALL OR NOTHING. On any failure the ORIGINAL text is returned, never a
+    partially-edited one. Earlier this returned the text with the successful
+    edits already applied alongside the failure list -- safe only because both
+    callers happen to discard it on failure. A helper whose safety depends on
+    caller discipline is a trap for the next caller, and "fail whole or do not
+    fail" is the rule this tool exists to enforce on published evidence.
+
+    That case is reachable, not theoretical: bob's chained-edit shape
+    ``[(A,B), (B,C)]`` applies A->B, which makes B occur twice, so the second
+    edit refuses -- leaving one edit applied in the returned string.
     """
+    original = text
     failures: list[str] = []
     for old_sha, new_sha in edits:
         if old_sha == new_sha:
@@ -194,6 +206,8 @@ def _apply_hash_edits_textually(text: str, edits: list[tuple[str, str]], quoted:
             )
             continue
         text = text.replace(needle, f'"{new_sha}"' if quoted else new_sha)
+    if failures:
+        return original, failures
     return text, failures
 
 
