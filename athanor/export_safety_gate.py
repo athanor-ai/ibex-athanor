@@ -184,13 +184,11 @@ def _repo_root(start: Path) -> Path:
     return Path(proc.stdout.strip())
 
 
-# Genuine-binary asset extensions are skipped (a credential in a compiled asset
-# is far-fetched and scanning them yields garbage matches). Skips are REPORTED,
-# never silent -- text logs (*.pinned.log) are NOT skipped and are fully scanned.
-BINARY_ASSET_EXT = frozenset(
-    (".png", ".jpg", ".jpeg", ".gif", ".pdf", ".ico", ".zip", ".gz", ".tgz",
-     ".woff", ".woff2", ".ttf", ".eot", ".mp4", ".so", ".o", ".a", ".bin")
-)
+# BINARY IS A PROPERTY OF THE BYTES, NOT OF THE NAME. This was an extension list,
+# which is the same defect as the handle scan's own allow-list one layer down: an
+# ASCII file named .bin was skipped on its name while its contents were perfectly
+# scannable. A NUL byte decides, and nothing else. Skips are REPORTED with a
+# reason, never silent.
 
 
 def _committed_paths(ref: str, root: Path) -> list[str]:
@@ -252,11 +250,6 @@ MIN_HANDLES = 8
 #    carries its reason so adding one is a visible decision, never a side effect.
 #    (The fork's tooling .py/.sh source is out of scope by the positive extension
 #    scope above -- attribution comments there are ordinary contributor bylines.)
-HANDLE_SCAN_ARTIFACT_EXTS: tuple[str, ...] = (".json", ".md")
-HANDLE_SCAN_EXEMPT_PATHS: dict[str, str] = {
-    DENYLIST_REL: "the denylist DATA file; holds every handle verbatim by design",
-}
-
 # ATH-3397 TIER STAGING (asabi ruling, openc910 fork-asymmetry): on a fork where
 # `export-safety` is a REQUIRED status context, a gate that reds by design can
 # never merge the PR that introduces it. So the handle scan lands at WARN — the
@@ -267,17 +260,41 @@ HANDLE_SCAN_EXEMPT_PATHS: dict[str, str] = {
 # time the real population is zero, so a BLOCK tier that has never blocked
 # anything would look identical to one that cannot. See
 # test_block_tier_exits_nonzero_on_a_constructed_instance.
-HANDLE_FINDING_TIER = "block"  # "warn" (staging) | "block" (enforcing)
+HANDLE_FINDING_TIER = "warn"  # "warn" (staging) | "block" (enforcing)
 # NOTE the fork asymmetry: ibex master has NO required status checks, so this
 # gate lands ENFORCING and red-by-design against its live population, which is
 # the land-red-first evidence. openc910 requires export-safety, so its twin
 # stages at "warn" and is promoted after the scrub. Same code, different default,
 # and the difference is the ruleset rather than a judgement.
 
-HANDLE_SCAN_ARTIFACT_EXTS: tuple[str, ...] = (".json", ".md")
+# SCOPE IS DERIVED, NOT ENUMERATED (ported from the openc910 twin, #83 / 8edc85eb9).
+# This was an extension allow-list of (".json", ".md"), and it was declared TWICE
+# in this module -- the second shadowing the first, so editing the visible one
+# would have changed nothing. On the twin the same list inspected 15% of published
+# artifacts and reported clean over the rest. A derived byte probe finds live
+# handle rows in 14 files outside that scope here, including published logs and
+# a patch header.
+#
+# Every committed TEXT file under our authored prefixes is scanned, and anything
+# skipped is named here WITH ITS REASON, so an unknown or new file type is LOUD
+# rather than silently out of scope. Binary is decided by a NUL byte -- a
+# property of the bytes, not a guess from the name.
 HANDLE_SCAN_EXEMPT_PATHS: dict[str, str] = {
     DENYLIST_REL: "the denylist DATA file; holds every handle verbatim by design",
+    "athanor/export_safety_gate.py":
+        "this gate; a detector necessarily contains the thing it detects, and "
+        "scrubbing it would disable the protection",
+    "athanor/gen_fleet_handle_denylist.py":
+        "the denylist GENERATOR; same reason -- it names the roster it derives from",
 }
+
+
+def _exempt_reason(path_key: str) -> str:
+    """The stated reason a path is not scanned, matched case-insensitively."""
+    for name, reason in HANDLE_SCAN_EXEMPT_PATHS.items():
+        if name.lower() == path_key:
+            return reason
+    return "unstated"
 
 # Lowered companions of the path constants, DERIVED once so the scan compares like
 # with like. Derived rather than hand-maintained — a second literal list would be
@@ -424,8 +441,11 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
         # handle lands in a receipt FIELD NAME. `_` and `-` are not [a-z] so those
         # match; "quantum" and "banking" do not. Camel-embedded is a stated non-match.
         ("internal fleet-agent handle",
-         re.compile(rb"(?i)(^|[^a-z])" + re.escape(h).encode() + rb"([^a-z]|$)"))
-        for h in _load_agent_handles(ref, root)
+         re.compile(
+             rb"(?i)(?<![a-z])("
+             + b"|".join(re.escape(h).encode() for h in _load_agent_handles(ref, root))
+             + rb")(?![a-z])"
+         )),
     ]
     block: list[str] = []
     warn: list[str] = []
@@ -434,11 +454,12 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
         # STRUCTURAL: every DECISION consumes path_key, the normalised form; the
         # raw path survives only for committed-byte lookup and DISPLAY.
         path_key = path.lower()
-        dot = path_key.rfind(".")
-        ext = path_key[dot:] if dot >= 0 else ""
+        # No extension is derived any more: scope is decided by CONTENT (a NUL
+        # byte) and by the named keep-set. Leaving `ext` computed-but-unused
+        # would be the compute-then-ignore family this file has produced before.
         data = _committed_bytes(ref, path, root)
-        if ext in BINARY_ASSET_EXT or b"\x00" in data:
-            skipped.append(path)
+        if b"\x00" in data:
+            skipped.append(f"{path} (binary: contains a NUL byte)")
             continue
         # Ambiguous host-path patterns fire only in files WE author; upstream's
         # own host paths (its .circleci etc.) are public-upstream content.
@@ -453,14 +474,21 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
                     block.append(f"[{label}] {path}:{lineno}: {shown}")
             # Agent-handle scan: customer-artifact prose only (see the scope
             # constants above). Positive extension scope + enumerated exemptions.
-            if (
-                in_our_scope
-                and ext in HANDLE_SCAN_ARTIFACT_EXTS
-                and path_key not in _HANDLE_SCAN_EXEMPT_PATHS_LOWER
-            ):
+            if in_our_scope and path_key in _HANDLE_SCAN_EXEMPT_PATHS_LOWER:
+                note = f"{path} (exempt: {_exempt_reason(path_key)})"
+                if note not in skipped:
+                    skipped.append(note)
+            elif in_our_scope:
                 for label, rx in agent_res:
-                    if rx.search(line):
-                        block.append(f"[{label}] {path}:{lineno}: {shown}")
+                    for _h in sorted({m.group(1).lower() for m in rx.finditer(line)}):
+                        # TIER-ROUTED. This appended to `block` unconditionally,
+                        # so HANDLE_FINDING_TIER was VALIDATED and then never
+                        # used -- warn and block produced identical output and
+                        # the staging tier did not stage. The guard above proved
+                        # the constant was well-formed, which is not the same as
+                        # proving it does anything.
+                        sink = block if HANDLE_FINDING_TIER == "block" else warn
+                        sink.append(f"[{label}] {path}:{lineno}: {shown}")
             for label, rx, ex in warn_res:
                 if rx.search(line) and not (ex and ex.search(line)):
                     warn.append(f"[{label}] {path}:{lineno}: {shown}")
@@ -576,6 +604,22 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  warn: {line}")
         if len(shown) < len(warn):
             print(f"  ... {len(warn) - len(shown)} more (raise --warn-limit to see all)")
+
+        # UNCAPPED STAGED SECTION. WARN output is display-capped, and this fork has
+        # thousands of conscious-choice warnings, so routing staged handle findings
+        # into WARN alone buries them past the cap -- the staging tier would then
+        # report a population nobody can see, which is the whole thing it exists to
+        # do. Printed in full, separately, and only while staging.
+        if HANDLE_FINDING_TIER == "warn":
+            staged = [w for w in warn if w.startswith("[internal fleet-agent handle]")]
+            if staged:
+                print(
+                    f"\nSTAGED (ATH-3397): {len(staged)} fleet-agent handle "
+                    f"instance(s) at {args.ref} — REPORTED, not blocking. This tier "
+                    "is promoted to BLOCK once the scrub lands:"
+                )
+                for line in staged:
+                    print(f"  staged-handle: {line}")
 
     if block:
         print(

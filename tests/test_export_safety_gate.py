@@ -391,9 +391,15 @@ def test_generation_reads_declared_builder_commit_not_worktree(tmp_path):
 # landed via the infra split #61). ---
 
 
-def test_agent_handle_in_customer_artifact_prose_is_block(tmp_path):
+def test_agent_handle_in_customer_artifact_prose_is_block(tmp_path, monkeypatch):
     # A handle in receipt/cert prose is a customer-facing IP leak -> BLOCK.
     # Capitalised to match how the real instances read (e.g. "(Quan/Ronald)").
+    #
+    # The tier is PINNED here rather than inherited from the shipped default.
+    # This test is about DETECTION; which sink a finding lands in is the staging
+    # decision, and a detection test that silently depends on it breaks the
+    # moment staging changes while telling you nothing about the detector.
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "block")
     leak = '{"note":"cross-VM replay required (' + _H_A.capitalize() + ')"}\n'
     block, _, _ = _scan(tmp_path, {"athanor_artifacts/pkt/formal_cert.json": leak})
     assert _has(block, "fleet-agent handle")
@@ -546,9 +552,11 @@ def test_whitespace_wrapped_handles_fail_closed(tmp_path):
         esg._load_agent_handles(ref, root)
 
 
-def test_canonical_denylist_catches_the_bare_name_end_to_end(tmp_path):
+def test_canonical_denylist_catches_the_bare_name_end_to_end(tmp_path, monkeypatch):
     # the other direction: a canonical MIN-sized list loads AND the compiled
     # patterns actually catch the bare name in a customer artifact.
+    # Tier pinned: this is a DETECTION test, not a staging test.
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "block")
     import hashlib as _hl
     handles = sorted(f"name{i}" for i in range(esg.MIN_HANDLES))
     files = {
@@ -578,6 +586,31 @@ def test_both_valid_tiers_are_accepted(tmp_path, monkeypatch):
     for tier in ("warn", "block"):
         monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", tier)
         _scan(tmp_path / tier, {"athanor_artifacts/pkt/receipt.json": '{"r": "x"}\n'})
+
+
+def test_the_tier_actually_ROUTES_the_finding(tmp_path, monkeypatch):
+    """THE SELECTOR MUST SELECT.
+
+    dexter: under BOTH warn and block a constructed handle produced BLOCK=1,
+    WARN=0 -- the finding was appended to `block` unconditionally, so the tier
+    constant was validated and then ignored. test_both_valid_tiers_are_accepted
+    proved only that neither string raises, which is a different claim entirely:
+    it cannot distinguish a working selector from one that is never read.
+    """
+    handle = _H_A
+    tree = {"athanor_artifacts/pkt/receipt.json": '{"reviewer": "' + handle + '"}\n'}
+
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "block")
+    block_b, warn_b, _ = _scan(tmp_path / "b", tree)
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "warn")
+    block_w, warn_w, _ = _scan(tmp_path / "w", tree)
+
+    handle_rows = lambda rows: [r for r in rows if "fleet-agent handle" in r]
+    assert handle_rows(block_b) and not handle_rows(warn_b), (
+        "block tier must route the finding to BLOCK", block_b, warn_b)
+    assert handle_rows(warn_w) and not handle_rows(block_w), (
+        "warn tier must route the finding to WARN and leave BLOCK empty -- "
+        "otherwise staging does not stage", block_w, warn_w)
 
 
 def test_artifact_extension_match_is_case_insensitive(tmp_path, monkeypatch):
@@ -646,3 +679,38 @@ def test_handle_pattern_does_not_flag_ordinary_vocabulary(tmp_path, monkeypatch)
         block, _, _ = _scan(tmp_path / f"c{i}",
                             {"athanor_artifacts/pkt/notes.json": body + "\n"})
         assert not _has(block, "fleet-agent handle"), f"false positive on: {body}"
+
+
+def test_the_shipped_tier_is_staging_until_the_scope_is_clean():
+    """PIN THE SHIPPED CONFIGURATION.
+
+    Every other tier test monkeypatches, so none of them notices which tier
+    actually ships. The scope was just widened from an extension allow-list to a
+    derived one and the live population went from 33 to thousands, so BLOCK here
+    would enforce over a fork that has never been scrubbed at this scope --
+    the configuration asabi called worse than no gate. Flip this to "block" only
+    in the promotion PR, with the population at zero and a constructed bite.
+    """
+    assert esg.HANDLE_FINDING_TIER == "warn", (
+        "the ibex handle gate is enforcing; it may only do so once the derived "
+        "scope reports zero and the promotion carries a constructed-instance test"
+    )
+
+
+def test_the_handle_scan_has_no_extension_allow_list():
+    """BEHAVIOUR, NOT SPELLING. Asserting a retired symbol's absence passes on a
+    pure RENAME -- which is how BINARY_ASSET_EXT carried this class forward on
+    the twin. Rejects ANY collection of dotted extension literals."""
+    import ast
+    import re as _re
+
+    tree = ast.parse(Path(esg.__file__).read_text(encoding="utf-8"))
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.Set, ast.Tuple, ast.List)):
+            continue
+        lits = [e.value for e in node.elts if isinstance(e, ast.Constant)]
+        dotted = [x for x in lits if isinstance(x, str) and _re.fullmatch(r"\.[a-z0-9]{1,6}", x)]
+        assert len(dotted) < 3, (
+            f"an extension allow-list is back in the gate ({dotted[:5]}); scope must "
+            f"be derived -- every committed TEXT file, decided by content"
+        )
