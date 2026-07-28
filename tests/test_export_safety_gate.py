@@ -74,6 +74,21 @@ def _scan(tmp_path, files):
     return esg._scan_committed("HEAD", tmp_path)
 
 
+
+def _repo_with_denylist(tmp_path, payload_text):
+    """Commit ``payload_text`` as the denylist and return (ref, root)."""
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    _git(["init", "-q"], tmp_path)
+    _git(["config", "user.email", "t@example.invalid"], tmp_path)
+    _git(["config", "user.name", "t"], tmp_path)
+    p = tmp_path / esg.DENYLIST_REL
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(payload_text)
+    _git(["add", esg.DENYLIST_REL], tmp_path)
+    _git(["commit", "-q", "-m", "denylist"], tmp_path)
+    return "HEAD", tmp_path
+
+
 def _has(entries, needle):
     return any(needle in e for e in entries)
 
@@ -408,41 +423,59 @@ def test_tooling_py_source_is_out_of_handle_scope(tmp_path):
 
 
 def test_denylist_stamp_mismatch_fails_closed(tmp_path):
-    # A hand-edited denylist (handles changed, stamp not regenerated) must make
-    # the gate refuse to run rather than silently scan with a tampered set.
-    (tmp_path / esg.DENYLIST_REL).parent.mkdir(parents=True, exist_ok=True)
     bad = json.dumps({"handles": _padded([_H_A, _H_B]), "stamp": "0" * 64})
-    (tmp_path / esg.DENYLIST_REL).write_text(bad)
+    ref, root = _repo_with_denylist(tmp_path, bad)
     with pytest.raises(esg.GateError):
-        esg._load_agent_handles(tmp_path)
+        esg._load_agent_handles(ref, root)
 
 
 def test_missing_denylist_fails_closed(tmp_path):
+    _git(["init", "-q"], tmp_path)
+    _git(["config", "user.email", "t@example.invalid"], tmp_path)
+    _git(["config", "user.name", "t"], tmp_path)
+    (tmp_path / "x.txt").write_text("x")
+    _git(["add", "x.txt"], tmp_path)
+    _git(["commit", "-q", "-m", "no denylist"], tmp_path)
     with pytest.raises(esg.GateError):
-        esg._load_agent_handles(tmp_path)
+        esg._load_agent_handles("HEAD", tmp_path)
 
 
 def test_correctly_stamped_but_emptied_denylist_fails_closed(tmp_path):
     # dexter's #59 finding: the stamp proves the file was not hand-edited, NOT that
-    # it still has content. An empty (or gutted) handle list carrying a VALID stamp
-    # would compile zero patterns and make the gate scan for nothing — a vacuous
-    # green. It must fail closed instead.
+    # it still has content. Empty/gutted lists with VALID stamps compile zero
+    # patterns and make the gate scan for nothing — they must fail closed.
     import hashlib as _hl
-    for handles in ([], [_H_A], [_H_A, _H_B]):
-        p = tmp_path / esg.DENYLIST_REL
-        p.parent.mkdir(parents=True, exist_ok=True)
-        stamp = _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()
-        p.write_text(json.dumps({"handles": sorted(handles), "stamp": stamp}))
+    for i, handles in enumerate(([], [_H_A], [_H_A, _H_B])):
+        hs = sorted(handles)
+        body = json.dumps({"handles": hs,
+                           "stamp": _hl.sha256("\n".join(hs).encode()).hexdigest()})
+        ref, root = _repo_with_denylist(tmp_path / f"r{i}", body)
         with pytest.raises(esg.GateError):
-            esg._load_agent_handles(tmp_path)
+            esg._load_agent_handles(ref, root)
 
 
 def test_a_full_denylist_still_loads(tmp_path):
     # control: the truncation floor must not reject a normal derived set.
     import hashlib as _hl
     handles = sorted(f"person{i}" for i in range(esg.MIN_HANDLES + 3))
-    p = tmp_path / esg.DENYLIST_REL
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps({"handles": handles,
-                             "stamp": _hl.sha256("\n".join(handles).encode()).hexdigest()}))
-    assert esg._load_agent_handles(tmp_path) == handles
+    body = json.dumps({"handles": handles,
+                       "stamp": _hl.sha256("\n".join(handles).encode()).hexdigest()})
+    ref, root = _repo_with_denylist(tmp_path, body)
+    assert esg._load_agent_handles(ref, root) == handles
+
+
+def test_worktree_denylist_tamper_cannot_hide_committed_leaks(tmp_path):
+    # dexter's #59 re-read: the scan reads COMMITTED bytes at --ref, so the denylist
+    # must load from the SAME ref. Reading it from the working tree let anyone
+    # silence the gate by emptying an UNCOMMITTED file — config and subject from
+    # different trees.
+    import hashlib as _hl
+    good = _padded([_H_A, _H_B])
+    body = json.dumps({"handles": good,
+                       "stamp": _hl.sha256("\n".join(good).encode()).hexdigest()})
+    ref, root = _repo_with_denylist(tmp_path, body)
+    # now gut the WORKING TREE copy without committing it
+    empty = json.dumps({"handles": [], "stamp": _hl.sha256(b"").hexdigest()})
+    (root / esg.DENYLIST_REL).write_text(empty)
+    assert esg._load_agent_handles(ref, root) == good  # committed content wins
+

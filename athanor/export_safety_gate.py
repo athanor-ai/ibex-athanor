@@ -258,7 +258,7 @@ HANDLE_SCAN_EXEMPT_PATHS: dict[str, str] = {
 }
 
 
-def _load_agent_handles(root: Path) -> list[str]:
+def _load_agent_handles(ref: str, root: Path) -> list[str]:
     """Load the fork-local fleet-handle denylist and verify its integrity stamp.
 
     Fail-closed: a missing file, malformed json, absent stamp, or a stamp that
@@ -269,13 +269,36 @@ def _load_agent_handles(root: Path) -> list[str]:
     roster is a fleet-level re-generation obligation, because a hash proves the
     bytes are unchanged, never that they are current.
     """
-    path = root / DENYLIST_REL
-    if not path.is_file():
-        raise GateError(f"fleet-handle denylist missing at {DENYLIST_REL} (fail-closed)")
+    # ATH-3397 (dexter, #59 re-read): the scan reads COMMITTED bytes at ``ref``, so
+    # the denylist must come from that SAME ref. Reading it from the working tree
+    # let the instrument's configuration and its subject come from different trees:
+    # emptying the working-tree denylist made committed leaks stop being reported,
+    # with nothing committed to show for it. Same class as reading a manifest from
+    # the host while probing an image — config and subject must be one object.
     try:
-        payload = json.loads(path.read_text())
+        raw = _committed_bytes(ref, DENYLIST_REL, root)
+    except Exception as exc:
+        raise GateError(
+            f"fleet-handle denylist unreadable at {ref}:{DENYLIST_REL} "
+            f"(fail-closed): {exc}"
+        )
+    if not raw:
+        raise GateError(
+            f"fleet-handle denylist missing from the committed tree at "
+            f"{ref}:{DENYLIST_REL} (fail-closed)"
+        )
+    try:
+        payload = json.loads(raw.decode("utf-8"))
         handles = list(payload["handles"])
         stamp = str(payload["stamp"])
+        # a null/empty/non-string entry is a malformed denylist, not a handle: an
+        # empty string would compile to a pattern that matches nothing useful while
+        # still counting toward the floor.
+        if not all(isinstance(h, str) and h.strip() for h in handles):
+            raise GateError(
+                "fleet-handle denylist contains a non-string or empty handle "
+                "(fail-closed): every entry must be a non-empty string"
+            )
     except (ValueError, KeyError, TypeError) as exc:
         raise GateError(f"fleet-handle denylist unreadable/malformed: {exc}")
     # ATH-3397 (dexter, #59 review): a CORRECTLY STAMPED but EMPTY list passes the
@@ -325,7 +348,7 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
     # our leak. The denylist DATA file is excluded in the loop below.
     agent_res = [
         ("internal fleet-agent handle", re.compile(rb"(?i)\b" + re.escape(h).encode() + rb"\b"))
-        for h in _load_agent_handles(root)
+        for h in _load_agent_handles(ref, root)
     ]
     block: list[str] = []
     warn: list[str] = []
