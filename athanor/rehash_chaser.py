@@ -99,8 +99,15 @@ def chase_and_rehash(repo: Path, changed_files: list[Path]) -> list[str]:
             # writing back a parsed structure that destroys the file. So the
             # parse produces a list of (old, new) pairs and nothing else; the
             # edit itself is applied to the original TEXT below.
-            updated = False
+            # THE RECEIPT IS WRITTEN AFTER THE WRITE, NEVER DURING THE FIND.
+            # An earlier version appended "manifest rehashed X" here, in the
+            # discovery loop -- so on the REFUSAL path, where the file is
+            # deliberately left untouched, the returned receipt still claimed
+            # the rehash. A receipt that reports work the refusal prevented is
+            # the same overclaim class this tool exists to protect against,
+            # inside the tool. (bob, ibex #62.)
             pending: list[tuple[str, str]] = []
+            found: list[str] = []
             for section in data.values():
                 if not isinstance(section, dict):
                     continue
@@ -113,20 +120,22 @@ def chase_and_rehash(repo: Path, changed_files: list[Path]) -> list[str]:
                             actual = _sha256_file(ref)
                             if entry["sha256"] != actual:
                                 pending.append((entry["sha256"], actual))
-                                actions.append(
+                                found.append(
                                     f"manifest rehashed {entry['path']} in "
                                     f"{manifest_path.relative_to(repo)}"
                                 )
-                                updated = True
                     except (OSError, ValueError):
                         continue
-            if updated:
+            if pending:
                 text = manifest_path.read_text(encoding="utf-8")
                 text, failures = _apply_hash_edits_textually(text, pending)
                 if failures:
+                    # Refused: report ONLY the refusal. `found` is discarded --
+                    # nothing was written, so nothing may be claimed.
                     actions.extend(failures)
-                    continue  # refuse the file rather than write an ambiguous edit
+                    continue
                 manifest_path.write_text(text, encoding="utf-8")
+                actions.extend(found)
 
     return actions
 
