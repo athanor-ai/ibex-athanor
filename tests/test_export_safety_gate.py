@@ -1192,3 +1192,35 @@ def test_every_population_shape_renders_what_the_verdict_counts(
     )
     if staged and not blocks:
         assert f"{staged} of them staged" in verdict, verdict
+
+
+def test_ci_runs_the_test_directory_not_a_hand_listed_set():
+    """WIRING CONTRACT. This file pins byte-preservation and atomicity on
+    hash-bound published evidence -- and CI did not invoke it.
+
+    The workflow enumerated 2 of the 3 tracked test files, so all 51 tests
+    here had been executed only on a developer box while their results were
+    quoted as if CI had verified them. A corrected assertion in a file nothing
+    runs is the unwired-gate defect wearing a different hat.
+
+    Asserting the DIRECTORY is run is what makes every other test in this repo
+    load-bearing, so it lives here rather than anywhere else.
+    """
+    workflow = (
+        Path(__file__).resolve().parents[1]
+        / ".github" / "workflows" / "export-safety.yml"
+    ).read_text(encoding="utf-8")
+
+    # EXACT invocation, not a substring. "pytest -q tests/" is also a prefix of
+    # "pytest -q tests/test_export_safety_gate.py", so a substring check passes
+    # on precisely the enumeration it exists to forbid -- substring where a
+    # value was meant, which is the defect that produced this whole class.
+    invocations = [
+        line.strip() for line in workflow.splitlines() if "python3 -m pytest" in line
+    ]
+    assert invocations, "no pytest invocation found in the workflow"
+    assert any(line.endswith("pytest -q tests/") for line in invocations), (
+        "export-safety no longer runs the test DIRECTORY; a hand-listed set of "
+        f"test files goes stale silently and always toward running fewer. "
+        f"Found only: {invocations}"
+    )
