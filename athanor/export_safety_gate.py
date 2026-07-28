@@ -636,29 +636,72 @@ def main(argv: list[str] | None = None) -> int:
     for note in handle_binary:
         print(f"  handle-binary: {note}")
 
-    if warn:
-        print(f"WARN: {len(warn)} conscious-choice metadata finding(s) at {args.ref}:")
-        shown = warn if args.warn_limit == 0 else warn[: args.warn_limit]
-        for line in shown:
-            print(f"  warn: {line}")
-        if len(shown) < len(warn):
-            print(f"  ... {len(warn) - len(shown)} more (raise --warn-limit to see all)")
+    # PARTITION ONCE, and cap only the GENERIC half. The staged handle findings
+    # live in `warn` AND get their own uncapped section below, so slicing the
+    # WHOLE warn list printed some staged rows twice and counted 4768 visible
+    # rows as hidden: the verdict said "4881 not shown" when 118 were actually
+    # hidden. That is the twin's own 451-vs-367 miscount, reproduced here by a
+    # port that took the verdict wording and NOT the partition underneath it.
+    # (dexter, ibex #63 -- and I had flagged this exact risk in my freeze line,
+    # then dismissed it with a check that looked at the wrong function.)
+    #
+    # Every number below -- rows shown, rows withheld, and the verdict -- comes
+    # from THIS partition. Two independent counts of one population is the drift.
+    _HANDLE_PREFIX = "[internal fleet-agent handle]"
+    staged = (
+        [w for w in warn if w.startswith(_HANDLE_PREFIX)]
+        if HANDLE_FINDING_TIER == "warn"
+        else []
+    )
+    _staged_set = set(staged)
+    generic = [w for w in warn if w not in _staged_set]
+    shown_generic = generic if args.warn_limit == 0 else generic[: args.warn_limit]
+    withheld = len(generic) - len(shown_generic)
 
-        # UNCAPPED STAGED SECTION. WARN output is display-capped, and this fork has
-        # thousands of conscious-choice warnings, so routing staged handle findings
-        # into WARN alone buries them past the cap -- the staging tier would then
-        # report a population nobody can see, which is the whole thing it exists to
-        # do. Printed in full, separately, and only while staging.
-        if HANDLE_FINDING_TIER == "warn":
-            staged = [w for w in warn if w.startswith("[internal fleet-agent handle]")]
-            if staged:
-                print(
-                    f"\nSTAGED (ATH-3397): {len(staged)} fleet-agent handle "
-                    f"instance(s) at {args.ref} — REPORTED, not blocking. This tier "
-                    "is promoted to BLOCK once the scrub lands:"
-                )
-                for line in staged:
-                    print(f"  staged-handle: {line}")
+    if generic:
+        print(f"WARN: {len(generic)} conscious-choice metadata finding(s) at {args.ref}:")
+        for line in shown_generic:
+            print(f"  warn: {line}")
+        if withheld:
+            print(f"  ... {withheld} more (raise --warn-limit to see all)")
+
+
+    # UNCAPPED STAGED SECTION. WARN output is display-capped, and this fork has
+    # thousands of conscious-choice warnings, so routing staged handle findings
+    # into WARN alone buries them past the cap -- the staging tier would then
+    # report a population nobody can see, which is the whole thing it exists to
+    # do. Printed in full, separately, and only while staging.
+    #
+    # NOT NESTED UNDER `if generic:` (dexter, ibex #63 round 2). It was, so a
+    # STAGED-ONLY tree rendered NOTHING while the verdict still said '1 staged
+    # handle ... all named above'.
+    #
+    # AND IT MUST PRECEDE THE BLOCK-TIER `return 1` (bob, ibex #63 round 3).
+    # It did not, so a tree carrying BOTH a block leak and staged handles
+    # returned before rendering a single staged row: the tier whose entire
+    # purpose is visibility-while-staged went silent EXACTLY when the gate
+    # fired and someone was reading hardest. No verdict line lied, so nothing
+    # in the output pointed at it.
+    #
+    # THIRD TIME IN THIS PR THAT THE FIXTURE WAS THE HOLE, and the third is
+    # the one that proves the shape: round 1's fixtures always planted generic
+    # rows; round 2's parametrize added the generic axis but every case was
+    # block-free; so the population shape space was (generic x staged) when
+    # the renderer's behaviour actually depends on (generic x staged x BLOCK).
+    # An axis a fixture never varies is an axis its assertions cannot see,
+    # however many cases it enumerates along the others.
+    if HANDLE_FINDING_TIER == "warn":
+        # `staged` is the SAME list computed in the partition above --
+        # deliberately not recomputed. A second derivation of one
+        # population is what let the row display and the count disagree.
+        if staged:
+            print(
+                f"\nSTAGED (ATH-3397): {len(staged)} fleet-agent handle "
+                f"instance(s) at {args.ref} — REPORTED, not blocking. This tier "
+                "is promoted to BLOCK once the scrub lands:"
+            )
+            for line in staged:
+                print(f"  staged-handle: {line}")
 
     if block:
         print(
@@ -675,7 +718,32 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 1
 
-    print(f"\nOK: export-safety gate clean at {args.ref} (0 BLOCK; {len(warn)} WARN).")
+    # "CLEAN" IS A CLAIM ABOUT THE TREE; "0 BLOCK" IS A FACT ABOUT THE TIER.
+    # These are not the same sentence, and the old line said the first while
+    # measuring the second -- on this fork it printed "gate clean" over 4921
+    # WARN findings, including live internal fleet-agent handles and internal
+    # ticket ids, on a PUBLIC repo. Accurate about what it measured, false
+    # about what it claimed: the exact defect this gate exists to catch, in
+    # the gate's own summary line, and the line a reader is most likely to
+    # quote.
+    #
+    # A verdict may only use the word CLEAN when there is nothing to report.
+    #
+    # Ported from the openc910 twin (#86, merged 7f65d6e). I fixed it there
+    # and did not sweep here -- the seventh same-class-in-both-forks miss.
+    if warn:
+        detail = f"; {len(staged)} of them staged fleet-agent handles" if staged else ""
+        coverage = (
+            f"{withheld} not shown (raise --warn-limit)" if withheld else "all named above"
+        )
+        print(
+            f"\nOK (0 BLOCK): export-safety gate raised {len(warn)} WARN "
+            f"finding(s) at {args.ref}{detail}. NOT clean -- {coverage}. "
+            f"Exit 0 reflects the TIER, not the tree."
+        )
+        return 0
+
+    print(f"\nOK: export-safety gate clean at {args.ref} (0 BLOCK; 0 WARN).")
     return 0
 
 

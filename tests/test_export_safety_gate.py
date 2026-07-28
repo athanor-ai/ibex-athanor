@@ -13,6 +13,7 @@ throwaway temp git repos, which is where we WANT them.
 import hashlib
 import importlib.util
 import json
+import re
 import subprocess
 from pathlib import Path
 
@@ -829,3 +830,365 @@ def test_an_AUTHORED_binary_stays_in_the_handle_population(tmp_path):
     scanned = scope - len(exempt) - len(handle_binary)
     assert scanned + len(exempt) + len(handle_binary) == scope, (
         scanned, exempt, handle_binary, scope)
+
+
+def _repo_with_a_live_handle_instance(tmp_path):
+    """Commit a denylist plus a customer artifact containing one of its handles."""
+    import hashlib as _hl
+    handles = _padded([_H_A, _H_B])
+    files = {
+        esg.DENYLIST_REL: json.dumps(
+            {"handles": handles,
+             "stamp": _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()}),
+        "athanor_artifacts/pkt/receipt.json": '{"reviewer": "' + _H_A + '"}\n',
+    }
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    _git(["init", "-q"], tmp_path)
+    _git(["config", "user.email", "t@example.invalid"], tmp_path)
+    _git(["config", "user.name", "t"], tmp_path)
+    for rel, content in files.items():
+        p = tmp_path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content)
+        _git(["add", rel], tmp_path)
+    _git(["commit", "-q", "-m", "live instance"], tmp_path)
+    return tmp_path
+
+
+_AFFIRMATIVE_CLEAN = "gate clean at"
+
+
+def _repo_with_many_generic_warnings(tmp_path, count):
+    """Commit ``count`` distinct GENERIC (non-handle) WARN findings.
+
+    Generic on purpose: the staged handle section is uncapped, so only generic
+    findings exercise --warn-limit, which is the path whose coverage claim is
+    under test.
+    """
+    import hashlib as _hl
+    handles = _padded([_H_A, _H_B])
+    files = {
+        esg.DENYLIST_REL: json.dumps(
+            {"handles": handles,
+             "stamp": _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()}),
+    }
+    for i in range(count):
+        files[f"athanor/notes_{i}.md"] = f"see {POINTER} internal repo, note {i}\n"
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    _git(["init", "-q"], tmp_path)
+    _git(["config", "user.email", "t@example.invalid"], tmp_path)
+    _git(["config", "user.name", "t"], tmp_path)
+    for rel, content in files.items():
+        p = tmp_path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content)
+        _git(["add", rel], tmp_path)
+    _git(["commit", "-q", "-m", "many warns"], tmp_path)
+    return tmp_path
+
+
+def _repo_with_no_findings(tmp_path):
+    """Same shape as above but the artifact cites NO handle -- nothing to report.
+
+    Deliberately identical in every other respect (same denylist, same paths, one
+    committed artifact) so the only variable between this and the live-instance
+    fixture is whether a finding exists.
+    """
+    import hashlib as _hl
+    handles = _padded([_H_A, _H_B])
+    files = {
+        esg.DENYLIST_REL: json.dumps(
+            {"handles": handles,
+             "stamp": _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()}),
+        "athanor_artifacts/pkt/receipt.json": '{"reviewer": "a-name-not-on-the-list"}\n',
+    }
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    _git(["init", "-q"], tmp_path)
+    _git(["config", "user.email", "t@example.invalid"], tmp_path)
+    _git(["config", "user.name", "t"], tmp_path)
+    for rel, content in files.items():
+        p = tmp_path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content)
+        _git(["add", rel], tmp_path)
+    _git(["commit", "-q", "-m", "no findings"], tmp_path)
+    return tmp_path
+
+
+def test_the_verdict_line_does_not_say_clean_while_reporting_findings(
+    tmp_path, monkeypatch, capsys
+):
+    """CLEAN is a claim about the TREE. 0 BLOCK is a fact about the TIER.
+
+    The summary line used to say ``gate clean`` whenever nothing reached BLOCK
+    tier -- so on the real c910 main it printed CLEAN while naming 412 live
+    fleet-agent-handle instances across 7 published artifacts on a PUBLIC fork.
+    Accurate about what it measured, false about what it claimed, in the gate
+    whose whole job is catching that, on the one line a reader quotes.
+
+    Exit code is NOT the subject here: rc==0 is correct at WARN tier and the
+    staging test above already pins it. This pins the WORD -- a verdict may use
+    CLEAN only when there is nothing to report.
+    """
+    root = _repo_with_a_live_handle_instance(tmp_path)
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "warn")
+    monkeypatch.setattr(esg, "_run_receipt_verifier", lambda root: [])
+    monkeypatch.chdir(root)
+    rc = esg.main(["--ref", "HEAD"])
+    combined = "".join(capsys.readouterr())
+
+    assert rc == 0, "tier behaviour must be unchanged: " + combined[-300:]
+    verdict = [ln for ln in combined.splitlines() if ln.startswith("OK")]
+    assert verdict, "no verdict line emitted: " + combined[-300:]
+    line = verdict[-1]
+
+    # The AFFIRMATIVE phrase, not the bare word. `"clean" in line` is true of
+    # "NOT clean" -- substring-where-a-value-was-meant, which this repo has now
+    # hit five times, once in the first draft of THIS test.
+    assert _AFFIRMATIVE_CLEAN not in line, (
+        "the verdict called the tree CLEAN while findings were reported above "
+        "it. That is the defect this gate exists to catch, in its own summary: "
+        + line
+    )
+    assert "NOT clean" in line, (
+        "the verdict must SAY it is not clean, not merely omit the claim -- an "
+        "omission reads as an oversight, a denial reads as a measurement: " + line
+    )
+    assert "WARN finding" in line, (
+        "the verdict must carry the COUNT it is reporting, not just a denial: "
+        + line
+    )
+
+
+def test_the_verdict_does_not_claim_coverage_the_display_cap_withheld(
+    tmp_path, monkeypatch, capsys
+):
+    """THE SAME OVERCLAIM ONE FIELD OVER, in the fix for the overclaim.
+
+    The first draft of the corrected verdict said "every finding is named
+    above" -- false whenever --warn-limit bites, which is the DEFAULT. I had
+    replaced a verdict that lied about CLEANLINESS with one that lied about
+    COVERAGE, while writing the change whose entire subject is verdicts that
+    claim more than they measured.
+
+    So this pins the second claim the way the test above pins the first: when
+    rows are withheld, the verdict must say how many, and it must not assert
+    completeness.
+    """
+    root = _repo_with_many_generic_warnings(tmp_path, count=5)
+    monkeypatch.setattr(esg, "_run_receipt_verifier", lambda root: [])
+    monkeypatch.chdir(root)
+    rc = esg.main(["--ref", "HEAD", "--warn-limit", "2"])
+    combined = "".join(capsys.readouterr())
+
+    assert rc == 0, combined[-300:]
+    verdict = [ln for ln in combined.splitlines() if ln.startswith("OK")][-1]
+    assert "not shown" in verdict, (
+        "the cap withheld findings and the verdict did not say so: " + verdict
+    )
+    assert "all named above" not in verdict, (
+        "the verdict claimed completeness the display did not deliver: " + verdict
+    )
+
+    # The withheld count must RECONCILE with the rows actually printed -- a
+    # number that does not add up is the miscount this change exists to fix.
+    shown = len([r for r in combined.splitlines() if r.strip().startswith("warn:")])
+    withheld = int(re.search(r"(\d+) not shown", verdict).group(1))
+    total = int(re.search(r"raised (\d+) WARN", verdict).group(1))
+    assert shown + withheld == total, (
+        f"shown {shown} + withheld {withheld} != reported total {total}; the "
+        "row display and the verdict are counting different populations"
+    )
+
+
+def test_the_verdict_line_still_says_clean_when_there_is_nothing_to_report(
+    tmp_path, monkeypatch, capsys
+):
+    """NARROWNESS CONTROL for the test above.
+
+    A check that forbids the word CLEAN unconditionally would pass the previous
+    test while destroying the verdict's only useful positive statement. So the
+    clean tree must still be ABLE to say clean -- otherwise the fix is just a
+    different false claim pointing the other way.
+    """
+    root = _repo_with_no_findings(tmp_path)
+    monkeypatch.setattr(esg, "_run_receipt_verifier", lambda root: [])
+    monkeypatch.chdir(root)
+    rc = esg.main(["--ref", "HEAD"])
+    combined = "".join(capsys.readouterr())
+
+    assert rc == 0, combined[-300:]
+    assert _AFFIRMATIVE_CLEAN in combined, (
+        "a tree with nothing to report must still be reportable as clean: "
+        + combined[-300:]
+    )
+
+
+def test_the_verdict_arithmetic_holds_on_a_MIXED_population(tmp_path, monkeypatch, capsys):
+    """THE FIXTURE GAP THAT LET THE PORT SHIP WRONG. (dexter, ibex #63.)
+
+    Every cap test here plants GENERIC warnings only. On a generic-only tree the
+    naive `len(warn) - min(limit, len(warn))` and the correct
+    `len(generic) - len(shown_generic)` are the SAME NUMBER -- so 67 tests passed
+    while the live verdict said "4881 not shown" with 118 actually hidden.
+
+    A cap test that cannot produce a mixed population cannot see a partition
+    defect. This one plants BOTH kinds and asserts the identity:
+
+        generic shown + staged shown + withheld == total
+
+    That is the twin's 451-vs-367 miscount, and I reproduced it by porting the
+    verdict WORDING without the partition underneath it.
+    """
+    import hashlib as _hl
+    import re as _re
+
+    handles = _padded([_H_A, _H_B])
+    files = {
+        esg.DENYLIST_REL: json.dumps(
+            {"handles": handles,
+             "stamp": _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()}),
+    }
+    # staged handle findings
+    for i in range(4):
+        files[f"athanor_artifacts/pkt/h{i}.md"] = f"reviewed by {_H_A}\n"
+    # generic (non-handle) warnings
+    for i in range(6):
+        files[f"athanor/notes_{i}.md"] = f"see {POINTER} internal repo, note {i}\n"
+
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    _git(["init", "-q"], tmp_path)
+    _git(["config", "user.email", "t@example.invalid"], tmp_path)
+    _git(["config", "user.name", "t"], tmp_path)
+    for rel, content in files.items():
+        p = tmp_path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content)
+        _git(["add", rel], tmp_path)
+    _git(["commit", "-q", "-m", "mixed"], tmp_path)
+
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "warn")
+    # A synthetic tree has no receipt verifier, so the gate fail-closes on THAT
+    # and never reaches the arithmetic under test -- a fixture artifact wearing
+    # the shape of a real failure. Neutralised the same way the tier tests do.
+    monkeypatch.setattr(esg, "_run_receipt_verifier", lambda root: [])
+    monkeypatch.chdir(tmp_path)
+    rc = esg.main(["--ref", "HEAD", "--warn-limit", "2"])
+    out = "".join(capsys.readouterr())
+
+    # A block leak fails the gate; that is correct and is NOT what this pins.
+    # What it pins is that failing does not silence the staged population.
+    assert rc == 0, out[-300:]
+    generic_rows = _re.findall(r"^  warn: (.*)$", out, _re.M)
+    staged_rows = _re.findall(r"^  staged-handle: (.*)$", out, _re.M)
+    verdict = [ln for ln in out.splitlines() if ln.startswith("OK")][-1]
+    total = int(_re.search(r"raised (\d+) WARN", verdict).group(1))
+    m = _re.search(r"(\d+) not shown", verdict)
+    withheld = int(m.group(1)) if m else 0
+
+    assert staged_rows, "the fixture produced no staged rows; it is generic-only again"
+    assert generic_rows, "the fixture produced no generic rows"
+    assert not (set(generic_rows) & set(staged_rows)), (
+        "a finding was rendered in BOTH sections; it is then counted as hidden "
+        "while visible: " + repr(sorted(set(generic_rows) & set(staged_rows))[:3])
+    )
+    assert len(generic_rows) + len(staged_rows) + withheld == total, (
+        f"shown {len(generic_rows)}+{len(staged_rows)} + withheld {withheld} "
+        f"!= total {total}; the verdict is counting a different population "
+        f"than the display"
+    )
+
+
+def _mixed_repo(tmp_path, generic, staged, blocks=0):
+    """A tree with exactly ``generic`` non-handle warnings, ``staged`` handle
+    findings, and ``blocks`` BLOCK-tier leaks.
+
+    Parameterised so the EMPTY-generic, EMPTY-staged AND the BLOCK-bearing
+    shapes are constructible. A fixture that always plants both cannot see a
+    renderer nested under the wrong condition; a fixture that NEVER plants a
+    block cannot see a renderer that runs after the block-tier ``return`` --
+    which is the axis this fixture was missing when it was written to close
+    the previous one (bob, ibex #63 round 3)."""
+    import hashlib as _hl
+    handles = _padded([_H_A, _H_B])
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    _git(["init", "-q"], tmp_path)
+    _git(["config", "user.email", "t@example.invalid"], tmp_path)
+    _git(["config", "user.name", "t"], tmp_path)
+    files = {esg.DENYLIST_REL: json.dumps(
+        {"handles": handles,
+         "stamp": _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()})}
+    for i in range(staged):
+        files[f"athanor_artifacts/pkt/h{i}.md"] = f"reviewed by {_H_A}\n"
+    for i in range(generic):
+        files[f"athanor/n{i}.md"] = f"see {POINTER} internal repo, note {i}\n"
+    for i in range(blocks):
+        # BLOCK_ALWAYS "internal workdir path", fragment-built so this test file
+        # never carries the verbatim marker its own gate scans for.
+        files[f"athanor_artifacts/pkt/b{i}.md"] = "/work" + "dir" + f"/x{i}\n"
+    for rel, content in files.items():
+        p = tmp_path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content)
+        _git(["add", rel], tmp_path)
+    _git(["commit", "-q", "-m", "mixed"], tmp_path)
+    return tmp_path
+
+
+@pytest.mark.parametrize(
+    "generic, staged, blocks",
+    [(0, 3, 0), (3, 0, 0), (3, 3, 0),
+     # THE BLOCK AXIS (bob, ibex #63 round 3). The staged section sat AFTER the
+     # block-tier `return 1`, so these three shapes rendered ZERO staged rows --
+     # the tier whose entire purpose is visibility-while-staged went silent in
+     # the one condition it was built for.
+     (0, 3, 1), (3, 3, 1), (3, 0, 1)],
+)
+def test_every_population_shape_renders_what_the_verdict_counts(
+    tmp_path, monkeypatch, capsys, generic, staged, blocks
+):
+    """THE STAGED RENDERER MUST NOT DEPEND ON THERE BEING GENERIC ROWS.
+
+    (dexter, ibex #63 round 2.) It was nested under ``if generic:``, so a
+    STAGED-ONLY tree rendered nothing at all while the verdict still reported
+    "1 staged handle ... all named above". 68 tests passed through it because
+    every cap fixture -- including the mixed-population one added for his
+    PREVIOUS hold -- always plants generic rows.
+
+    The assertion was never the problem. **A fixture that cannot produce the
+    empty-generic case cannot see a renderer gated on generic being non-empty.**
+    So this parameterises the shape and pins all three.
+    """
+    import re as _re
+
+    root = _mixed_repo(tmp_path, generic, staged, blocks)
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "warn")
+    monkeypatch.setattr(esg, "_run_receipt_verifier", lambda r: [])
+    monkeypatch.chdir(root)
+    rc = esg.main(["--ref", "HEAD"])
+    out = "".join(capsys.readouterr())
+
+    # A block leak fails the gate; that is correct and is NOT what this pins.
+    # What it pins is that FAILING DOES NOT SILENCE THE STAGED POPULATION.
+    assert rc == (1 if blocks else 0), out[-300:]
+    generic_rows = _re.findall(r"^  warn: ", out, _re.M)
+    staged_rows = _re.findall(r"^  staged-handle: ", out, _re.M)
+    block_rows = _re.findall(r"^  block: ", out, _re.M)
+    # On a BLOCK run the gate exits before the summary, so there is no OK line.
+    # Looking one up unconditionally is what made the block cases IndexError
+    # rather than report the render counts they were added to check.
+    verdicts = [ln for ln in out.splitlines() if ln.startswith("OK")]
+    verdict = verdicts[-1] if verdicts else "<no verdict line: BLOCK run>"
+
+    assert len(staged_rows) == staged, (
+        f"verdict-vs-render mismatch: fixture planted {staged} staged finding(s) "
+        f"and {len(staged_rows)} were rendered. Verdict line: {verdict}"
+    )
+    assert len(generic_rows) == generic, (
+        f"fixture planted {generic} generic finding(s), {len(generic_rows)} rendered"
+    )
+    assert len(block_rows) == blocks, (
+        f"fixture planted {blocks} block finding(s), {len(block_rows)} rendered"
+    )
+    if staged and not blocks:
+        assert f"{staged} of them staged" in verdict, verdict
