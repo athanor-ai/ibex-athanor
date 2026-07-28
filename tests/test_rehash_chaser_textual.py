@@ -517,3 +517,91 @@ def test_a_real_run_over_a_flat_package_still_succeeds(tmp_path: Path) -> None:
     assert failures == [], failures
     assert updates, "an ordinary stale binding must still be chased"
     assert _sha(leaf) in sums.read_text()
+
+
+# --- dexter's round-3 REREAD: the loop was not yet a fixed point -------------
+
+
+def test_a_parent_MANIFEST_binds_the_planned_child_not_stale_disk(tmp_path: Path) -> None:
+    """TOPOLOGY 1. The manifest branch hashed DISK while the sums branch used
+    the frontier's planned hash.
+
+    So a parent manifest bound the PRE-EDIT bytes of a child whose edit was
+    already planned — manifest and written child disagreed, `failures` empty.
+    One fix applied to one of two parent kinds is not a fixed point; it is a
+    fixed point on the branch I happened to read.
+    """
+    pkg = tmp_path / "pkg"
+    pkg.mkdir(parents=True)
+    leaf = pkg / "data.log"
+    leaf.write_text("original\n", encoding="utf-8")
+    child_sums = pkg / "SHA256SUMS"
+    child_sums.write_text(f"{_sha(leaf)}  ./data.log\n", encoding="utf-8")
+    # The discovery glob is athanor/ppa_frontier/<pkg>/manifest.json -- my
+    # first fixture put it at the repo root, so _find_all_manifests returned []
+    # and the test measured a manifest the planner never looked at.
+    mdir = tmp_path / "athanor" / "ppa_frontier" / "pkg"
+    mdir.mkdir(parents=True)
+    manifest = mdir / "manifest.json"
+    manifest.write_text(json.dumps(
+        {"frontier": {"child": {"path": "../../../pkg/SHA256SUMS",
+                                "sha256": _sha(child_sums)}}},
+        indent=2), encoding="utf-8")
+
+    leaf.write_text("changed\n", encoding="utf-8")
+    updates, failures = rc.chase_and_rehash(tmp_path, [leaf])
+    assert failures == [], failures
+
+    recorded = json.loads(manifest.read_text())["frontier"]["child"]["sha256"]
+    assert recorded == _sha(child_sums), (
+        f"manifest records {recorded[:12]} but the written child sums is "
+        f"{_sha(child_sums)[:12]} — bound to the pre-edit bytes"
+    )
+
+
+def test_an_unequal_depth_FAN_IN_re_enqueues_the_shared_parent(tmp_path: Path) -> None:
+    """TOPOLOGY 2. `seen_targets` was a REACHABILITY guard doing a CONVERGENCE job.
+
+    A shallow wave planned one edit to a shared parent and enqueued its hash; a
+    deeper wave added a SECOND edit to that same parent, and the visited-set
+    refused to re-enqueue it. The outer grandparent recorded the parent's
+    half-edited hash, `failures` empty, every success receipt emitted.
+
+    You may need to visit a node twice — not because you missed it, but because
+    its planned bytes changed after you hashed it. Termination is "no target's
+    complete planned bytes changed this pass", not "every target visited".
+    """
+    shallow = tmp_path / "a.log"
+    shallow.write_text("a-original\n", encoding="utf-8")
+    deep_dir = tmp_path / "deep"
+    deep_dir.mkdir()
+    deep_leaf = deep_dir / "b.log"
+    deep_leaf.write_text("b-original\n", encoding="utf-8")
+    deep_sums = deep_dir / "SHA256SUMS"
+    deep_sums.write_text(f"{_sha(deep_leaf)}  ./b.log\n", encoding="utf-8")
+
+    # ONE shared parent binding both the shallow leaf and the deeper sums:
+    # two edits arriving in different waves.
+    shared = tmp_path / "SHA256SUMS"
+    shared.write_text(
+        f"{_sha(shallow)}  ./a.log\n{_sha(deep_sums)}  ./deep/SHA256SUMS\n",
+        encoding="utf-8")
+    outer_dir = tmp_path / "outer"
+    outer_dir.mkdir()
+    outer = outer_dir / "SHA256SUMS"
+    outer.write_text(f"{_sha(shared)}  ../SHA256SUMS\n", encoding="utf-8")
+
+    shallow.write_text("a-changed\n", encoding="utf-8")
+    deep_leaf.write_text("b-changed\n", encoding="utf-8")
+    updates, failures = rc.chase_and_rehash(tmp_path, [shallow, deep_leaf])
+    assert failures == [], failures
+
+    assert _sha(deep_leaf) in deep_sums.read_text()
+    shared_text = shared.read_text()
+    assert _sha(shallow) in shared_text and _sha(deep_sums) in shared_text, (
+        "the shared parent did not receive BOTH waves' edits")
+    recorded = outer.read_text().split("  ", 1)[0]
+    assert recorded == _sha(shared), (
+        f"outer records {recorded[:12]} but the finished shared parent is "
+        f"{_sha(shared)[:12]} — re-enqueue never happened"
+    )

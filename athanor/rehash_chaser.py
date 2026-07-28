@@ -101,13 +101,24 @@ def _plan_rehash(repo: Path, changed_files: list[Path]):
     all_manifests = _find_all_manifests(repo)
 
     # path -> (is_json, [(old_sha, new_sha)], [receipt lines])
-    pending: dict[Path, tuple[bool, list, list]] = {}
+    # path -> (is_json, {original_hash: final_hash}, {original_hash: receipt})
+    pending: dict[Path, tuple[bool, dict, dict]] = {}
     failures: list[str] = []
 
     def _note(path: Path, is_json: bool, old: str, new: str, receipt: str) -> None:
-        entry = pending.setdefault(path, (is_json, [], []))
-        entry[1].append((old, new))
-        entry[2].append(receipt)
+        """Record ONE edit per (target, original-hash). REPLACE, never append.
+
+        Re-enqueueing a target whose planned bytes changed makes its parents
+        get noted again -- correctly, because the value they must record has
+        moved. Appending would leave the parent holding TWO edits with the same
+        `old` and different `new`, which the textual editor cannot bind: one
+        occurrence, two instructions. Keying on the ORIGINAL hash means the
+        second note supersedes the first, which is what "the parent must record
+        the child's FINAL planned bytes" actually means.
+        """
+        edits, receipts = pending.setdefault(path, (is_json, {}, {}))[1:]
+        edits[old] = new
+        receipts[old] = receipt
 
     # A SKIPPED INPUT IS A FAILURE, NOT SILENCE (dexter hold 3). A path that is
     # not a readable file cannot be chased, and continuing past it produced
@@ -174,9 +185,15 @@ def _plan_rehash(repo: Path, changed_files: list[Path]):
                         ref = manifest_dir / entry["path"]
                         try:
                             if ref.resolve() == changed.resolve():
-                                actual = _sha256_file(ref)
-                                if entry["sha256"] != actual:
-                                    _note(manifest_path, True, entry["sha256"], actual,
+                                # THE PLANNED HASH, NOT DISK (dexter, ibex #62 round-3 reread).
+                                # This branch called _sha256_file(ref) while the SUMS branch
+                                # used the frontier's `new_hash`, so a parent MANIFEST bound to
+                                # the PRE-EDIT bytes of a child whose edit was already planned:
+                                # manifest 5eb37a7d, written child caf02699, `failures` empty.
+                                # One fix applied to one of two parent kinds is not a fixed
+                                # point -- it is a fixed point on the branch I happened to read.
+                                if entry["sha256"] != new_hash:
+                                    _note(manifest_path, True, entry["sha256"], new_hash,
                                           f"manifest rehashed {entry['path']} in "
                                           f"{manifest_path.relative_to(repo)}")
                         except (OSError, ValueError):
@@ -190,7 +207,8 @@ def _plan_rehash(repo: Path, changed_files: list[Path]):
                 continue
             seen_targets.add(path)
             text = _read_exact(path)
-            edited, fails = _apply_hash_edits_textually(text, edits, quoted=is_json)
+            edited, fails = _apply_hash_edits_textually(
+                text, list(edits.items()), quoted=is_json)
             if fails:
                 continue  # reported below; do not chase an unbindable file
             frontier.append((path, _sha256_bytes(edited)))
@@ -198,11 +216,12 @@ def _plan_rehash(repo: Path, changed_files: list[Path]):
     plans: dict[Path, tuple[str, list]] = {}
     for path, (is_json, edits, receipts) in sorted(pending.items()):
         text = _read_exact(path)
-        edited, fails = _apply_hash_edits_textually(text, edits, quoted=is_json)
+        edited, fails = _apply_hash_edits_textually(
+            text, list(edits.items()), quoted=is_json)
         if fails:
             failures.extend(f"{path.relative_to(repo)}: {f}" for f in fails)
             continue
-        plans[path] = (edited, receipts)
+        plans[path] = (edited, [receipts[k] for k in sorted(receipts)])
     return plans, failures
 
 
