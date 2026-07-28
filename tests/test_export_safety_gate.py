@@ -13,6 +13,7 @@ throwaway temp git repos, which is where we WANT them.
 import hashlib
 import importlib.util
 import json
+import re
 import subprocess
 from pathlib import Path
 
@@ -829,3 +830,195 @@ def test_an_AUTHORED_binary_stays_in_the_handle_population(tmp_path):
     scanned = scope - len(exempt) - len(handle_binary)
     assert scanned + len(exempt) + len(handle_binary) == scope, (
         scanned, exempt, handle_binary, scope)
+
+
+def _repo_with_a_live_handle_instance(tmp_path):
+    """Commit a denylist plus a customer artifact containing one of its handles."""
+    import hashlib as _hl
+    handles = _padded([_H_A, _H_B])
+    files = {
+        esg.DENYLIST_REL: json.dumps(
+            {"handles": handles,
+             "stamp": _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()}),
+        "athanor_artifacts/pkt/receipt.json": '{"reviewer": "' + _H_A + '"}\n',
+    }
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    _git(["init", "-q"], tmp_path)
+    _git(["config", "user.email", "t@example.invalid"], tmp_path)
+    _git(["config", "user.name", "t"], tmp_path)
+    for rel, content in files.items():
+        p = tmp_path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content)
+        _git(["add", rel], tmp_path)
+    _git(["commit", "-q", "-m", "live instance"], tmp_path)
+    return tmp_path
+
+
+_AFFIRMATIVE_CLEAN = "gate clean at"
+
+
+def _repo_with_many_generic_warnings(tmp_path, count):
+    """Commit ``count`` distinct GENERIC (non-handle) WARN findings.
+
+    Generic on purpose: the staged handle section is uncapped, so only generic
+    findings exercise --warn-limit, which is the path whose coverage claim is
+    under test.
+    """
+    import hashlib as _hl
+    handles = _padded([_H_A, _H_B])
+    files = {
+        esg.DENYLIST_REL: json.dumps(
+            {"handles": handles,
+             "stamp": _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()}),
+    }
+    for i in range(count):
+        files[f"athanor/notes_{i}.md"] = f"see {POINTER} internal repo, note {i}\n"
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    _git(["init", "-q"], tmp_path)
+    _git(["config", "user.email", "t@example.invalid"], tmp_path)
+    _git(["config", "user.name", "t"], tmp_path)
+    for rel, content in files.items():
+        p = tmp_path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content)
+        _git(["add", rel], tmp_path)
+    _git(["commit", "-q", "-m", "many warns"], tmp_path)
+    return tmp_path
+
+
+def _repo_with_no_findings(tmp_path):
+    """Same shape as above but the artifact cites NO handle -- nothing to report.
+
+    Deliberately identical in every other respect (same denylist, same paths, one
+    committed artifact) so the only variable between this and the live-instance
+    fixture is whether a finding exists.
+    """
+    import hashlib as _hl
+    handles = _padded([_H_A, _H_B])
+    files = {
+        esg.DENYLIST_REL: json.dumps(
+            {"handles": handles,
+             "stamp": _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()}),
+        "athanor_artifacts/pkt/receipt.json": '{"reviewer": "a-name-not-on-the-list"}\n',
+    }
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    _git(["init", "-q"], tmp_path)
+    _git(["config", "user.email", "t@example.invalid"], tmp_path)
+    _git(["config", "user.name", "t"], tmp_path)
+    for rel, content in files.items():
+        p = tmp_path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content)
+        _git(["add", rel], tmp_path)
+    _git(["commit", "-q", "-m", "no findings"], tmp_path)
+    return tmp_path
+
+
+def test_the_verdict_line_does_not_say_clean_while_reporting_findings(
+    tmp_path, monkeypatch, capsys
+):
+    """CLEAN is a claim about the TREE. 0 BLOCK is a fact about the TIER.
+
+    The summary line used to say ``gate clean`` whenever nothing reached BLOCK
+    tier -- so on the real c910 main it printed CLEAN while naming 412 live
+    fleet-agent-handle instances across 7 published artifacts on a PUBLIC fork.
+    Accurate about what it measured, false about what it claimed, in the gate
+    whose whole job is catching that, on the one line a reader quotes.
+
+    Exit code is NOT the subject here: rc==0 is correct at WARN tier and the
+    staging test above already pins it. This pins the WORD -- a verdict may use
+    CLEAN only when there is nothing to report.
+    """
+    root = _repo_with_a_live_handle_instance(tmp_path)
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "warn")
+    monkeypatch.setattr(esg, "_run_receipt_verifier", lambda root: [])
+    monkeypatch.chdir(root)
+    rc = esg.main(["--ref", "HEAD"])
+    combined = "".join(capsys.readouterr())
+
+    assert rc == 0, "tier behaviour must be unchanged: " + combined[-300:]
+    verdict = [ln for ln in combined.splitlines() if ln.startswith("OK")]
+    assert verdict, "no verdict line emitted: " + combined[-300:]
+    line = verdict[-1]
+
+    # The AFFIRMATIVE phrase, not the bare word. `"clean" in line` is true of
+    # "NOT clean" -- substring-where-a-value-was-meant, which this repo has now
+    # hit five times, once in the first draft of THIS test.
+    assert _AFFIRMATIVE_CLEAN not in line, (
+        "the verdict called the tree CLEAN while findings were reported above "
+        "it. That is the defect this gate exists to catch, in its own summary: "
+        + line
+    )
+    assert "NOT clean" in line, (
+        "the verdict must SAY it is not clean, not merely omit the claim -- an "
+        "omission reads as an oversight, a denial reads as a measurement: " + line
+    )
+    assert "WARN finding" in line, (
+        "the verdict must carry the COUNT it is reporting, not just a denial: "
+        + line
+    )
+
+
+def test_the_verdict_does_not_claim_coverage_the_display_cap_withheld(
+    tmp_path, monkeypatch, capsys
+):
+    """THE SAME OVERCLAIM ONE FIELD OVER, in the fix for the overclaim.
+
+    The first draft of the corrected verdict said "every finding is named
+    above" -- false whenever --warn-limit bites, which is the DEFAULT. I had
+    replaced a verdict that lied about CLEANLINESS with one that lied about
+    COVERAGE, while writing the change whose entire subject is verdicts that
+    claim more than they measured.
+
+    So this pins the second claim the way the test above pins the first: when
+    rows are withheld, the verdict must say how many, and it must not assert
+    completeness.
+    """
+    root = _repo_with_many_generic_warnings(tmp_path, count=5)
+    monkeypatch.setattr(esg, "_run_receipt_verifier", lambda root: [])
+    monkeypatch.chdir(root)
+    rc = esg.main(["--ref", "HEAD", "--warn-limit", "2"])
+    combined = "".join(capsys.readouterr())
+
+    assert rc == 0, combined[-300:]
+    verdict = [ln for ln in combined.splitlines() if ln.startswith("OK")][-1]
+    assert "not shown" in verdict, (
+        "the cap withheld findings and the verdict did not say so: " + verdict
+    )
+    assert "all named above" not in verdict, (
+        "the verdict claimed completeness the display did not deliver: " + verdict
+    )
+
+    # The withheld count must RECONCILE with the rows actually printed -- a
+    # number that does not add up is the miscount this change exists to fix.
+    shown = len([r for r in combined.splitlines() if r.strip().startswith("warn:")])
+    withheld = int(re.search(r"(\d+) not shown", verdict).group(1))
+    total = int(re.search(r"raised (\d+) WARN", verdict).group(1))
+    assert shown + withheld == total, (
+        f"shown {shown} + withheld {withheld} != reported total {total}; the "
+        "row display and the verdict are counting different populations"
+    )
+
+
+def test_the_verdict_line_still_says_clean_when_there_is_nothing_to_report(
+    tmp_path, monkeypatch, capsys
+):
+    """NARROWNESS CONTROL for the test above.
+
+    A check that forbids the word CLEAN unconditionally would pass the previous
+    test while destroying the verdict's only useful positive statement. So the
+    clean tree must still be ABLE to say clean -- otherwise the fix is just a
+    different false claim pointing the other way.
+    """
+    root = _repo_with_no_findings(tmp_path)
+    monkeypatch.setattr(esg, "_run_receipt_verifier", lambda root: [])
+    monkeypatch.chdir(root)
+    rc = esg.main(["--ref", "HEAD"])
+    combined = "".join(capsys.readouterr())
+
+    assert rc == 0, combined[-300:]
+    assert _AFFIRMATIVE_CLEAN in combined, (
+        "a tree with nothing to report must still be reportable as clean: "
+        + combined[-300:]
+    )

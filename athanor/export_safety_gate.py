@@ -675,7 +675,35 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 1
 
-    print(f"\nOK: export-safety gate clean at {args.ref} (0 BLOCK; {len(warn)} WARN).")
+    # "CLEAN" IS A CLAIM ABOUT THE TREE; "0 BLOCK" IS A FACT ABOUT THE TIER.
+    # These are not the same sentence, and the old line said the first while
+    # measuring the second -- on this fork it printed "gate clean" over 4921
+    # WARN findings, including live internal fleet-agent handles and internal
+    # ticket ids, on a PUBLIC repo. Accurate about what it measured, false
+    # about what it claimed: the exact defect this gate exists to catch, in
+    # the gate's own summary line, and the line a reader is most likely to
+    # quote.
+    #
+    # A verdict may only use the word CLEAN when there is nothing to report.
+    #
+    # Ported from the openc910 twin (#86, merged 7f65d6e). I fixed it there
+    # and did not sweep here -- the seventh same-class-in-both-forks miss.
+    if warn:
+        staged_n = sum(1 for w in warn if w.startswith("[internal fleet-agent handle]"))
+        detail = f"; {staged_n} of them staged fleet-agent handles" if staged_n else ""
+        shown = len(warn) if args.warn_limit == 0 else min(args.warn_limit, len(warn))
+        withheld = len(warn) - shown
+        coverage = (
+            f"{withheld} not shown (raise --warn-limit)" if withheld else "all named above"
+        )
+        print(
+            f"\nOK (0 BLOCK): export-safety gate raised {len(warn)} WARN "
+            f"finding(s) at {args.ref}{detail}. NOT clean -- {coverage}. "
+            f"Exit 0 reflects the TIER, not the tree."
+        )
+        return 0
+
+    print(f"\nOK: export-safety gate clean at {args.ref} (0 BLOCK; 0 WARN).")
     return 0
 
 
