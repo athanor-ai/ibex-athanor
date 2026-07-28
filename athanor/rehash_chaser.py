@@ -57,36 +57,52 @@ def chase_and_rehash(repo: Path, changed_files: list[Path]) -> list[str]:
         # Layer 1+2: SHA256SUMS files (any that reference this file by any path form)
         for sums_path in all_sums:
             sums_dir = sums_path.parent
-            lines = sums_path.read_text(encoding="utf-8").splitlines()
-            updated = False
-            new_lines = []
-            for line in lines:
+            # newline="" DISABLES universal-newline translation. Path.read_text
+            # silently converts CRLF to LF on READ, so the carriage returns are
+            # gone before any edit happens and writing them back is impossible.
+            # A byte-preserving edit has to disable translation on BOTH sides.
+            with open(sums_path, "r", encoding="utf-8", newline="") as _fh:
+                sums_text = _fh.read()
+            # SAME DISCIPLINE AS THE MANIFEST LAYER: splitlines() to FIND, then
+            # edit the ORIGINAL TEXT to write. The old code rebuilt the file
+            # with "\n".join(new_lines) + "\n", which is a re-render, not an
+            # edit -- it silently normalised CRLF to LF (every line loses its
+            # carriage return) and added a trailing newline where the file had
+            # none. Both are byte changes on hash-bound evidence, which is the
+            # exact class this change exists to stop, in the same function.
+            # (quan, ibex #62, executed: CRLF 1->0 and trailing-newline
+            # False->True on a one-hash edit.)
+            sums_pending: list[tuple[str, str]] = []
+            sums_found: list[str] = []
+            for line in sums_text.splitlines():
                 if not line.strip() or line.startswith("#"):
-                    new_lines.append(line)
                     continue
                 parts = line.split("  ", 1)
                 if len(parts) != 2:
-                    new_lines.append(line)
                     continue
                 old_hash, ref_path = parts
-                # resolve the ref_path to an actual file
+                ref_path = ref_path.rstrip("\r")  # tolerate CRLF when RESOLVING
                 candidate = sums_dir / ref_path
                 if not candidate.is_file():
                     candidate = repo / ref_path
                 try:
-                    if candidate.resolve() == changed.resolve():
-                        if old_hash != new_hash:
-                            new_lines.append(f"{new_hash}  {ref_path}")
-                            actions.append(f"rehashed {ref_path} in {sums_path.relative_to(repo)}")
-                            updated = True
-                        else:
-                            new_lines.append(line)
-                    else:
-                        new_lines.append(line)
+                    if candidate.resolve() == changed.resolve() and old_hash != new_hash:
+                        sums_pending.append((old_hash, new_hash))
+                        sums_found.append(
+                            f"rehashed {ref_path} in {sums_path.relative_to(repo)}"
+                        )
                 except (OSError, ValueError):
-                    new_lines.append(line)
-            if updated:
-                sums_path.write_text("\n".join(new_lines) + "\n", encoding="utf-8")
+                    continue
+            if sums_pending:
+                edited, failures = _apply_hash_edits_textually(
+                    sums_text, sums_pending, quoted=False
+                )
+                if failures:
+                    actions.extend(failures)
+                    continue
+                with open(sums_path, "w", encoding="utf-8", newline="") as _fh:
+                    _fh.write(edited)
+                actions.extend(sums_found)
 
         # Layer 3: frontier manifests (JSON with sha256 fields + relative paths)
         for manifest_path in all_manifests:
@@ -140,8 +156,12 @@ def chase_and_rehash(repo: Path, changed_files: list[Path]) -> list[str]:
     return actions
 
 
-def _apply_hash_edits_textually(text: str, edits: list[tuple[str, str]]):
+def _apply_hash_edits_textually(text: str, edits: list[tuple[str, str]], quoted: bool = True):
     """Replace each (old_sha, new_sha) IN THE TEXT. Never re-serialise.
+
+    ``quoted`` selects the needle: JSON manifests carry the hash inside double
+    quotes, SHA256SUMS carries it bare. Both use the SAME occurrence-counting
+    discipline, so neither can bind to the wrong entry.
 
     A JSON round-trip is an edit to EVERY BYTE of the file, not to the field
     you changed. ``json.dumps`` re-renders every value through Python's
@@ -165,15 +185,15 @@ def _apply_hash_edits_textually(text: str, edits: list[tuple[str, str]]):
     for old_sha, new_sha in edits:
         if old_sha == new_sha:
             continue
-        needle = f'"{old_sha}"'
+        needle = f'"{old_sha}"' if quoted else old_sha
         n = text.count(needle)
         if n != 1:
             failures.append(
-                f"REFUSED: sha256 {old_sha[:12]} occurs {n} times in this manifest; "
+                f"REFUSED: sha256 {old_sha[:12]} occurs {n} times in this file; "
                 f"a textual edit cannot bind to one entry. Resolve by hand."
             )
             continue
-        text = text.replace(needle, f'"{new_sha}"')
+        text = text.replace(needle, f'"{new_sha}"' if quoted else new_sha)
     return text, failures
 
 
