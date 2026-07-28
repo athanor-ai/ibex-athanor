@@ -57,9 +57,14 @@ jobs:
         if: ${{ !cancelled() && (github.event_name == 'pull_request' || github.event_name == 'push') }}
         run: |
           python3 -m pip install --quiet pytest
-          PYTHONPATH=. python3 -m pytest -q \
-            tests/test_export_safety_gate.py \
-            tests/test_ath3415_artifact_paths.py
+          # RUN THE DIRECTORY, NOT AN ENUMERATION. A hand-listed set goes
+          # stale silently and always toward running FEWER: this listed 2 of
+          # the 3 tracked test files, so tests/test_rehash_chaser_textual.py
+          # -- 51 tests pinning byte-preservation and atomicity on hash-bound
+          # published evidence -- had NEVER been executed by CI. A corrected
+          # assertion in a file nothing runs is the unwired-gate defect
+          # wearing a different hat. Same fix as the openc910 twin (#84).
+          PYTHONPATH=. python3 -m pytest -q tests/
 
       # PR body + review/issue comments are public surfaces the committed-tree
       # scan cannot see. Scan them with the SAME BLOCK_ALWAYS set (single source
