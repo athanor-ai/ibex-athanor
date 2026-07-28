@@ -1095,3 +1095,71 @@ def test_the_verdict_arithmetic_holds_on_a_MIXED_population(tmp_path, monkeypatc
         f"!= total {total}; the verdict is counting a different population "
         f"than the display"
     )
+
+
+def _mixed_repo(tmp_path, generic, staged):
+    """A tree with exactly ``generic`` non-handle warnings and ``staged`` handle
+    findings. Parameterised so the EMPTY-generic and EMPTY-staged shapes are
+    constructible -- a fixture that always plants both cannot see a renderer
+    nested under the wrong condition."""
+    import hashlib as _hl
+    handles = _padded([_H_A, _H_B])
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    _git(["init", "-q"], tmp_path)
+    _git(["config", "user.email", "t@example.invalid"], tmp_path)
+    _git(["config", "user.name", "t"], tmp_path)
+    files = {esg.DENYLIST_REL: json.dumps(
+        {"handles": handles,
+         "stamp": _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()})}
+    for i in range(staged):
+        files[f"athanor_artifacts/pkt/h{i}.md"] = f"reviewed by {_H_A}\n"
+    for i in range(generic):
+        files[f"athanor/n{i}.md"] = f"see {POINTER} internal repo, note {i}\n"
+    for rel, content in files.items():
+        p = tmp_path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content)
+        _git(["add", rel], tmp_path)
+    _git(["commit", "-q", "-m", "mixed"], tmp_path)
+    return tmp_path
+
+
+@pytest.mark.parametrize("generic, staged", [(0, 3), (3, 0), (3, 3)])
+def test_every_population_shape_renders_what_the_verdict_counts(
+    tmp_path, monkeypatch, capsys, generic, staged
+):
+    """THE STAGED RENDERER MUST NOT DEPEND ON THERE BEING GENERIC ROWS.
+
+    (dexter, ibex #63 round 2.) It was nested under ``if generic:``, so a
+    STAGED-ONLY tree rendered nothing at all while the verdict still reported
+    "1 staged handle ... all named above". 68 tests passed through it because
+    every cap fixture -- including the mixed-population one added for his
+    PREVIOUS hold -- always plants generic rows.
+
+    The assertion was never the problem. **A fixture that cannot produce the
+    empty-generic case cannot see a renderer gated on generic being non-empty.**
+    So this parameterises the shape and pins all three.
+    """
+    import re as _re
+
+    root = _mixed_repo(tmp_path, generic, staged)
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "warn")
+    monkeypatch.setattr(esg, "_run_receipt_verifier", lambda r: [])
+    monkeypatch.chdir(root)
+    rc = esg.main(["--ref", "HEAD"])
+    out = "".join(capsys.readouterr())
+
+    assert rc == 0, out[-300:]
+    generic_rows = _re.findall(r"^  warn: ", out, _re.M)
+    staged_rows = _re.findall(r"^  staged-handle: ", out, _re.M)
+    verdict = [ln for ln in out.splitlines() if ln.startswith("OK")][-1]
+
+    assert len(staged_rows) == staged, (
+        f"verdict-vs-render mismatch: fixture planted {staged} staged finding(s) "
+        f"and {len(staged_rows)} were rendered. Verdict line: {verdict}"
+    )
+    assert len(generic_rows) == generic, (
+        f"fixture planted {generic} generic finding(s), {len(generic_rows)} rendered"
+    )
+    if staged:
+        assert f"{staged} of them staged" in verdict, verdict
