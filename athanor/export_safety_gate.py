@@ -236,6 +236,9 @@ def _is_exempt(label: str, path: str, line: bytes) -> bool:
 # the handle scan (below).
 DENYLIST_REL = "athanor/fleet_handle_denylist.json"
 
+# Truncation tripwire for the generated denylist (see _load_agent_handles).
+MIN_HANDLES = 8
+
 # The handle scan targets PUBLISHED CUSTOMER-ARTIFACT PROSE (ATH-3397): receipt /
 # certificate / README text a customer reads. Two deliberate boundaries:
 #
@@ -275,6 +278,24 @@ def _load_agent_handles(root: Path) -> list[str]:
         stamp = str(payload["stamp"])
     except (ValueError, KeyError, TypeError) as exc:
         raise GateError(f"fleet-handle denylist unreadable/malformed: {exc}")
+    # ATH-3397 (dexter, #59 review): a CORRECTLY STAMPED but EMPTY list passes the
+    # integrity check and compiles ZERO patterns — the gate then scans for nothing
+    # and reports clean. The stamp proves the file was not hand-edited; it says
+    # nothing about whether the file still has content. Truncation to empty (a bad
+    # regeneration, a merge that dropped the array, a partial write) is exactly the
+    # failure the stamp cannot see, so it is checked separately and fails CLOSED.
+    #
+    # MIN_HANDLES is a truncation tripwire, not a freshness check. It is set well
+    # below the derived set (19 at the time of writing) so an ordinary roster change
+    # never trips it, and high enough that a file gutted to one or two entries does.
+    # Freshness against the live roster remains a fleet-level regeneration
+    # obligation — a stamped but STALE list still passes here by construction.
+    if len(handles) < MIN_HANDLES:
+        raise GateError(
+            f"fleet-handle denylist has {len(handles)} handle(s), below the "
+            f"truncation floor of {MIN_HANDLES} (fail-closed): a correctly stamped "
+            "but emptied or gutted denylist would make this gate scan for nothing"
+        )
     expected = hashlib.sha256("\n".join(sorted(handles)).encode()).hexdigest()
     if stamp != expected:
         raise GateError(

@@ -36,6 +36,13 @@ VENDOR = "anthro" + "pic"                  # AI-vendor name
 FOOTER = "Generated with " + TOOL + " Code"  # the bot auto-attribution footer
 
 
+def _padded(handles):
+    """Fixture denylists must clear MIN_HANDLES (the truncation tripwire), so pad
+    with filler names that appear in no fixture content."""
+    filler = [f"fillerperson{i}" for i in range(esg.MIN_HANDLES)]
+    return sorted(set(list(handles) + filler))
+
+
 def _denylist_json(handles):
     """A denylist DATA file body with a correct integrity stamp for ``handles``."""
     import hashlib as _hl, json as _j
@@ -54,7 +61,7 @@ def _scan(tmp_path, files):
     exact path CI runs, isolated from the receipt verifier.
     """
     files = dict(files)
-    files.setdefault(esg.DENYLIST_REL, _denylist_json([_H_A, _H_B]))
+    files.setdefault(esg.DENYLIST_REL, _denylist_json(_padded([_H_A, _H_B])))
     _git(["init", "-q"], tmp_path)
     _git(["config", "user.email", "t@example.invalid"], tmp_path)
     _git(["config", "user.name", "t"], tmp_path)
@@ -404,7 +411,7 @@ def test_denylist_stamp_mismatch_fails_closed(tmp_path):
     # A hand-edited denylist (handles changed, stamp not regenerated) must make
     # the gate refuse to run rather than silently scan with a tampered set.
     (tmp_path / esg.DENYLIST_REL).parent.mkdir(parents=True, exist_ok=True)
-    bad = json.dumps({"handles": [_H_A, _H_B], "stamp": "0" * 64})
+    bad = json.dumps({"handles": _padded([_H_A, _H_B]), "stamp": "0" * 64})
     (tmp_path / esg.DENYLIST_REL).write_text(bad)
     with pytest.raises(esg.GateError):
         esg._load_agent_handles(tmp_path)
@@ -413,3 +420,29 @@ def test_denylist_stamp_mismatch_fails_closed(tmp_path):
 def test_missing_denylist_fails_closed(tmp_path):
     with pytest.raises(esg.GateError):
         esg._load_agent_handles(tmp_path)
+
+
+def test_correctly_stamped_but_emptied_denylist_fails_closed(tmp_path):
+    # dexter's #59 finding: the stamp proves the file was not hand-edited, NOT that
+    # it still has content. An empty (or gutted) handle list carrying a VALID stamp
+    # would compile zero patterns and make the gate scan for nothing — a vacuous
+    # green. It must fail closed instead.
+    import hashlib as _hl
+    for handles in ([], [_H_A], [_H_A, _H_B]):
+        p = tmp_path / esg.DENYLIST_REL
+        p.parent.mkdir(parents=True, exist_ok=True)
+        stamp = _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()
+        p.write_text(json.dumps({"handles": sorted(handles), "stamp": stamp}))
+        with pytest.raises(esg.GateError):
+            esg._load_agent_handles(tmp_path)
+
+
+def test_a_full_denylist_still_loads(tmp_path):
+    # control: the truncation floor must not reject a normal derived set.
+    import hashlib as _hl
+    handles = sorted(f"person{i}" for i in range(esg.MIN_HANDLES + 3))
+    p = tmp_path / esg.DENYLIST_REL
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps({"handles": handles,
+                             "stamp": _hl.sha256("\n".join(handles).encode()).hexdigest()}))
+    assert esg._load_agent_handles(tmp_path) == handles
