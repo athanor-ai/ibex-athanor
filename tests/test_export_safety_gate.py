@@ -1076,6 +1076,8 @@ def test_the_verdict_arithmetic_holds_on_a_MIXED_population(tmp_path, monkeypatc
     rc = esg.main(["--ref", "HEAD", "--warn-limit", "2"])
     out = "".join(capsys.readouterr())
 
+    # A block leak fails the gate; that is correct and is NOT what this pins.
+    # What it pins is that failing does not silence the staged population.
     assert rc == 0, out[-300:]
     generic_rows = _re.findall(r"^  warn: (.*)$", out, _re.M)
     staged_rows = _re.findall(r"^  staged-handle: (.*)$", out, _re.M)
@@ -1097,11 +1099,16 @@ def test_the_verdict_arithmetic_holds_on_a_MIXED_population(tmp_path, monkeypatc
     )
 
 
-def _mixed_repo(tmp_path, generic, staged):
-    """A tree with exactly ``generic`` non-handle warnings and ``staged`` handle
-    findings. Parameterised so the EMPTY-generic and EMPTY-staged shapes are
-    constructible -- a fixture that always plants both cannot see a renderer
-    nested under the wrong condition."""
+def _mixed_repo(tmp_path, generic, staged, blocks=0):
+    """A tree with exactly ``generic`` non-handle warnings, ``staged`` handle
+    findings, and ``blocks`` BLOCK-tier leaks.
+
+    Parameterised so the EMPTY-generic, EMPTY-staged AND the BLOCK-bearing
+    shapes are constructible. A fixture that always plants both cannot see a
+    renderer nested under the wrong condition; a fixture that NEVER plants a
+    block cannot see a renderer that runs after the block-tier ``return`` --
+    which is the axis this fixture was missing when it was written to close
+    the previous one (bob, ibex #63 round 3)."""
     import hashlib as _hl
     handles = _padded([_H_A, _H_B])
     tmp_path.mkdir(parents=True, exist_ok=True)
@@ -1115,6 +1122,10 @@ def _mixed_repo(tmp_path, generic, staged):
         files[f"athanor_artifacts/pkt/h{i}.md"] = f"reviewed by {_H_A}\n"
     for i in range(generic):
         files[f"athanor/n{i}.md"] = f"see {POINTER} internal repo, note {i}\n"
+    for i in range(blocks):
+        # BLOCK_ALWAYS "internal workdir path", fragment-built so this test file
+        # never carries the verbatim marker its own gate scans for.
+        files[f"athanor_artifacts/pkt/b{i}.md"] = "/work" + "dir" + f"/x{i}\n"
     for rel, content in files.items():
         p = tmp_path / rel
         p.parent.mkdir(parents=True, exist_ok=True)
@@ -1124,9 +1135,17 @@ def _mixed_repo(tmp_path, generic, staged):
     return tmp_path
 
 
-@pytest.mark.parametrize("generic, staged", [(0, 3), (3, 0), (3, 3)])
+@pytest.mark.parametrize(
+    "generic, staged, blocks",
+    [(0, 3, 0), (3, 0, 0), (3, 3, 0),
+     # THE BLOCK AXIS (bob, ibex #63 round 3). The staged section sat AFTER the
+     # block-tier `return 1`, so these three shapes rendered ZERO staged rows --
+     # the tier whose entire purpose is visibility-while-staged went silent in
+     # the one condition it was built for.
+     (0, 3, 1), (3, 3, 1), (3, 0, 1)],
+)
 def test_every_population_shape_renders_what_the_verdict_counts(
-    tmp_path, monkeypatch, capsys, generic, staged
+    tmp_path, monkeypatch, capsys, generic, staged, blocks
 ):
     """THE STAGED RENDERER MUST NOT DEPEND ON THERE BEING GENERIC ROWS.
 
@@ -1142,17 +1161,24 @@ def test_every_population_shape_renders_what_the_verdict_counts(
     """
     import re as _re
 
-    root = _mixed_repo(tmp_path, generic, staged)
+    root = _mixed_repo(tmp_path, generic, staged, blocks)
     monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "warn")
     monkeypatch.setattr(esg, "_run_receipt_verifier", lambda r: [])
     monkeypatch.chdir(root)
     rc = esg.main(["--ref", "HEAD"])
     out = "".join(capsys.readouterr())
 
-    assert rc == 0, out[-300:]
+    # A block leak fails the gate; that is correct and is NOT what this pins.
+    # What it pins is that FAILING DOES NOT SILENCE THE STAGED POPULATION.
+    assert rc == (1 if blocks else 0), out[-300:]
     generic_rows = _re.findall(r"^  warn: ", out, _re.M)
     staged_rows = _re.findall(r"^  staged-handle: ", out, _re.M)
-    verdict = [ln for ln in out.splitlines() if ln.startswith("OK")][-1]
+    block_rows = _re.findall(r"^  block: ", out, _re.M)
+    # On a BLOCK run the gate exits before the summary, so there is no OK line.
+    # Looking one up unconditionally is what made the block cases IndexError
+    # rather than report the render counts they were added to check.
+    verdicts = [ln for ln in out.splitlines() if ln.startswith("OK")]
+    verdict = verdicts[-1] if verdicts else "<no verdict line: BLOCK run>"
 
     assert len(staged_rows) == staged, (
         f"verdict-vs-render mismatch: fixture planted {staged} staged finding(s) "
@@ -1161,5 +1187,8 @@ def test_every_population_shape_renders_what_the_verdict_counts(
     assert len(generic_rows) == generic, (
         f"fixture planted {generic} generic finding(s), {len(generic_rows)} rendered"
     )
-    if staged:
+    assert len(block_rows) == blocks, (
+        f"fixture planted {blocks} block finding(s), {len(block_rows)} rendered"
+    )
+    if staged and not blocks:
         assert f"{staged} of them staged" in verdict, verdict

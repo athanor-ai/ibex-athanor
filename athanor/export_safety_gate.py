@@ -666,6 +666,43 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  ... {withheld} more (raise --warn-limit to see all)")
 
 
+    # UNCAPPED STAGED SECTION. WARN output is display-capped, and this fork has
+    # thousands of conscious-choice warnings, so routing staged handle findings
+    # into WARN alone buries them past the cap -- the staging tier would then
+    # report a population nobody can see, which is the whole thing it exists to
+    # do. Printed in full, separately, and only while staging.
+    #
+    # NOT NESTED UNDER `if generic:` (dexter, ibex #63 round 2). It was, so a
+    # STAGED-ONLY tree rendered NOTHING while the verdict still said '1 staged
+    # handle ... all named above'.
+    #
+    # AND IT MUST PRECEDE THE BLOCK-TIER `return 1` (bob, ibex #63 round 3).
+    # It did not, so a tree carrying BOTH a block leak and staged handles
+    # returned before rendering a single staged row: the tier whose entire
+    # purpose is visibility-while-staged went silent EXACTLY when the gate
+    # fired and someone was reading hardest. No verdict line lied, so nothing
+    # in the output pointed at it.
+    #
+    # THIRD TIME IN THIS PR THAT THE FIXTURE WAS THE HOLE, and the third is
+    # the one that proves the shape: round 1's fixtures always planted generic
+    # rows; round 2's parametrize added the generic axis but every case was
+    # block-free; so the population shape space was (generic x staged) when
+    # the renderer's behaviour actually depends on (generic x staged x BLOCK).
+    # An axis a fixture never varies is an axis its assertions cannot see,
+    # however many cases it enumerates along the others.
+    if HANDLE_FINDING_TIER == "warn":
+        # `staged` is the SAME list computed in the partition above --
+        # deliberately not recomputed. A second derivation of one
+        # population is what let the row display and the count disagree.
+        if staged:
+            print(
+                f"\nSTAGED (ATH-3397): {len(staged)} fleet-agent handle "
+                f"instance(s) at {args.ref} — REPORTED, not blocking. This tier "
+                "is promoted to BLOCK once the scrub lands:"
+            )
+            for line in staged:
+                print(f"  staged-handle: {line}")
+
     if block:
         print(
             f"\nFAIL: {len(block)} BLOCK-tier export-safety leak(s) at {args.ref}:",
@@ -680,31 +717,6 @@ def main(argv: list[str] | None = None) -> int:
             file=sys.stderr,
         )
         return 1
-
-    # UNCAPPED STAGED SECTION. WARN output is display-capped, and this fork has
-    # thousands of conscious-choice warnings, so routing staged handle findings
-    # into WARN alone buries them past the cap -- the staging tier would then
-    # report a population nobody can see, which is the whole thing it exists to
-    # do. Printed in full, separately, and only while staging.
-    #
-    # NOT NESTED UNDER `if generic:` (dexter, ibex #63 round 2). It was, so a
-    # STAGED-ONLY tree rendered NOTHING while the verdict still said '1 staged
-    # handle ... all named above'. 68 tests passed through it because every cap
-    # fixture -- including the mixed-population one I added for his PREVIOUS
-    # hold -- always plants generic rows. A fixture that cannot produce the
-    # empty-generic case cannot see this.
-    if HANDLE_FINDING_TIER == "warn":
-        # `staged` is the SAME list computed in the partition above --
-        # deliberately not recomputed. A second derivation of one
-        # population is what let the row display and the count disagree.
-        if staged:
-            print(
-                f"\nSTAGED (ATH-3397): {len(staged)} fleet-agent handle "
-                f"instance(s) at {args.ref} — REPORTED, not blocking. This tier "
-                "is promoted to BLOCK once the scrub lands:"
-            )
-            for line in staged:
-                print(f"  staged-handle: {line}")
 
     # "CLEAN" IS A CLAIM ABOUT THE TREE; "0 BLOCK" IS A FACT ABOUT THE TIER.
     # These are not the same sentence, and the old line said the first while
