@@ -12,6 +12,7 @@ throwaway temp git repos, which is where we WANT them.
 """
 import hashlib
 import importlib.util
+import json
 import subprocess
 from pathlib import Path
 
@@ -256,3 +257,99 @@ def test_convention_id_at_non_exempt_path_still_blocks(tmp_path):
     content = '"convention_id": "' + _CONV_ID + '"\n'
     block, warn, _ = _scan(tmp_path, {"athanor/other_file.json": content})
     assert _has(block, "Kairos namespace"), block
+
+
+# --- ATH-3397 denylist-infra: roster-derivation tests (generator only; the
+# gate that CONSUMES the denylist rides the separate red-by-design PR #59).
+# Handles fragment-built per this file's convention.
+import importlib.util as _ilu
+
+_H_A = "qu" + "an"
+_H_B = "ai" + "dan"
+_H_C = "an" + "ton"
+_RK = "buil" + "der"
+
+
+def _load_gen():
+    gen_path = Path(__file__).resolve().parent.parent / "athanor" / "gen_fleet_handle_denylist.py"
+    spec = _ilu.spec_from_file_location("gen_fhd_infra", gen_path)
+    gen = _ilu.module_from_spec(spec)
+    spec.loader.exec_module(gen)
+    return gen
+
+
+def test_derive_handles_excludes_role_keys_includes_persons():
+    gen = _load_gen()
+    roles = {"roles": {"platform": {}, "maurice": {}, "research": {}},
+             "_renames": {"perry": "platform", _H_A: "qa", _RK: _RK}}
+    handles = gen.derive_handles(roles)
+    assert "perry" in handles and "maurice" in handles and _H_A in handles
+    assert "platform" not in handles and "research" not in handles and _RK not in handles
+
+
+def test_derive_handles_reads_humans_section_from_roster():
+    # ATH-3427 (builder #943): humans (founders, teammates, external contacts)
+    # live in roles.json's `humans` section now; the generator reads them there
+    # instead of AST-parsing slack_post. A human handle must reach the denylist,
+    # and a generic role-word must not.
+    gen = _load_gen()
+    name_a = "ai" + "dan"
+    name_b = "an" + "ton"
+    roles = {
+        "roles": {"platform": {}, "maurice": {}},
+        "humans": {name_a: {"slack_user_id": "U0"}, name_b: {"slack_user_id": "U1"},
+                   "founder": {"slack_user_id": "U2"}},
+        "_renames": {"perry": "platform"},
+    }
+    handles = gen.derive_handles(roles)
+    assert name_a in handles and name_b in handles  # humans reach the denylist
+    assert "maurice" in handles and "perry" in handles
+    assert "founder" not in handles and "platform" not in handles  # generics filtered
+
+def test_alt_handles_reach_the_derived_set():
+    # asabi/Bob 2026-07-27: a denylist of canonical names does not catch a
+    # founder alt-handle; KNOWN_ALT_HANDLES is the ATH-3427 stopgap and must
+    # reach the derived set with no source-list entry.
+    gen = _load_gen()
+    handles = gen.derive_handles({"roles": {}, "_renames": {}})
+    assert ("aidan" + "by") in handles
+    assert ("hongsk" + "sam") in handles
+
+
+def test_generation_reads_declared_builder_commit_not_worktree(tmp_path):
+    # ATH-3427/#61: the generator reads roles.json (the single identity SSOT:
+    # roles + humans + _renames) at the DECLARED commit via git show, never the
+    # working tree — Dexter's hold, preserved through the single-source refactor.
+    gen = _load_gen()
+    builder = tmp_path / "builder"
+    handoff = builder / "tools" / "agent-handoff"
+    handoff.mkdir(parents=True)
+    roles_path = handoff / "roles.json"
+    roles_path.write_text(json.dumps(
+        {"roles": {_H_A: {}, "research": {}}, "humans": {_H_B: {"slack_user_id": "U0"}},
+         "_renames": {}}))
+    _git(["init", "-q"], builder)
+    _git(["config", "user.email", "t@example.invalid"], builder)
+    _git(["config", "user.name", "t"], builder)
+    _git(["add", "tools/agent-handoff/roles.json"], builder)
+    _git(["commit", "-q", "-m", "authority"], builder)
+    commit = subprocess.check_output(["git", "-C", str(builder), "rev-parse", "HEAD"], text=True).strip()
+
+    # dirty the working tree AFTER the commit — must be ignored
+    roles_path.write_text(json.dumps(
+        {"roles": {"dirtyperson": {}, "research": {}}, "humans": {_H_C: {"slack_user_id": "U1"}},
+         "_renames": {}}))
+
+    out = tmp_path / "denylist.json"
+    assert gen.main(["--source-repo", str(builder), "--source-ref", commit, "--out", str(out)]) == 0
+    payload = json.loads(out.read_text())
+    assert _H_A in payload["handles"] and _H_B in payload["handles"]  # committed content
+    assert "dirtyperson" not in payload["handles"] and _H_C not in payload["handles"]  # worktree ignored
+    assert payload["source"] == {
+        "repo": "athanor-builder",
+        "files": ["tools/agent-handoff/roles.json (roles + humans + _renames)"],
+        "commit": commit,
+        "ref": commit,
+    }
+    assert _H_A in payload["handles"] and _H_B in payload["handles"]
+    assert "dirtyperson" not in payload["handles"] and _H_C not in payload["handles"]
