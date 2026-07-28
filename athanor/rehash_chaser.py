@@ -40,90 +40,79 @@ def _find_all_manifests(repo: Path) -> list[Path]:
     return sorted(repo.glob("athanor/ppa_frontier/*/manifest.json"))
 
 
-def chase_and_rehash(repo: Path, changed_files: list[Path]) -> list[str]:
-    """Find every SHA256SUMS/manifest entry binding a changed file and update it.
+def _read_exact(path: Path) -> str:
+    """Read WITHOUT universal-newline translation.
 
-    Returns a list of human-readable actions taken (for receipts)."""
-    actions: list[str] = []
+    ``Path.read_text`` silently converts CRLF to LF on read, so carriage
+    returns are gone before any edit happens and cannot be written back. On a
+    surface whose whole claim is "these bytes hash to this value", any
+    transformation that preserves MEANING while changing BYTES is the bug --
+    which is the defect this tool exists to fix, so it must not use a call
+    that commits it. (dexter, ibex #62: a real CRLF manifest reported
+    "rehashed" while its CRLF count went 8 -> 0.)
+    """
+    with open(path, "r", encoding="utf-8", newline="") as fh:
+        return fh.read()
+
+
+def _write_exact(path: Path, text: str) -> None:
+    """Write WITHOUT newline translation. See _read_exact."""
+    with open(path, "w", encoding="utf-8", newline="") as fh:
+        fh.write(text)
+
+
+def _plan_rehash(repo: Path, changed_files: list[Path]):
+    """PHASE 1 -- PLAN. Compute every edit across every file and layer, and
+    touch nothing on disk.
+
+    Returns (plans, failures) where plans is {path: (new_text, [receipts])}.
+
+    Edits are grouped BY TARGET PATH before being applied, so two changed
+    files that both bind into one SHA256SUMS produce one coherent edit of that
+    file rather than two edits each computed against the original text.
+    """
     all_sums = _find_all_sums(repo)
     all_manifests = _find_all_manifests(repo)
+
+    # path -> (is_json, [(old_sha, new_sha)], [receipt lines])
+    pending: dict[Path, tuple[bool, list, list]] = {}
+
+    def _note(path: Path, is_json: bool, old: str, new: str, receipt: str) -> None:
+        entry = pending.setdefault(path, (is_json, [], []))
+        entry[1].append((old, new))
+        entry[2].append(receipt)
 
     for changed in changed_files:
         if not changed.is_file():
             continue
         new_hash = _sha256_file(changed)
-        basename = changed.name
 
-        # Layer 1+2: SHA256SUMS files (any that reference this file by any path form)
         for sums_path in all_sums:
             sums_dir = sums_path.parent
-            # newline="" DISABLES universal-newline translation. Path.read_text
-            # silently converts CRLF to LF on READ, so the carriage returns are
-            # gone before any edit happens and writing them back is impossible.
-            # A byte-preserving edit has to disable translation on BOTH sides.
-            with open(sums_path, "r", encoding="utf-8", newline="") as _fh:
-                sums_text = _fh.read()
-            # SAME DISCIPLINE AS THE MANIFEST LAYER: splitlines() to FIND, then
-            # edit the ORIGINAL TEXT to write. The old code rebuilt the file
-            # with "\n".join(new_lines) + "\n", which is a re-render, not an
-            # edit -- it silently normalised CRLF to LF (every line loses its
-            # carriage return) and added a trailing newline where the file had
-            # none. Both are byte changes on hash-bound evidence, which is the
-            # exact class this change exists to stop, in the same function.
-            # (quan, ibex #62, executed: CRLF 1->0 and trailing-newline
-            # False->True on a one-hash edit.)
-            sums_pending: list[tuple[str, str]] = []
-            sums_found: list[str] = []
-            for line in sums_text.splitlines():
+            for line in _read_exact(sums_path).splitlines():
                 if not line.strip() or line.startswith("#"):
                     continue
                 parts = line.split("  ", 1)
                 if len(parts) != 2:
                     continue
                 old_hash, ref_path = parts
-                ref_path = ref_path.rstrip("\r")  # tolerate CRLF when RESOLVING
+                ref_path = ref_path.rstrip("\r")
                 candidate = sums_dir / ref_path
                 if not candidate.is_file():
                     candidate = repo / ref_path
                 try:
                     if candidate.resolve() == changed.resolve() and old_hash != new_hash:
-                        sums_pending.append((old_hash, new_hash))
-                        sums_found.append(
-                            f"rehashed {ref_path} in {sums_path.relative_to(repo)}"
-                        )
+                        _note(sums_path, False, old_hash, new_hash,
+                              f"rehashed {ref_path} in {sums_path.relative_to(repo)}")
                 except (OSError, ValueError):
                     continue
-            if sums_pending:
-                edited, failures = _apply_hash_edits_textually(
-                    sums_text, sums_pending, quoted=False
-                )
-                if failures:
-                    actions.extend(failures)
-                    continue
-                with open(sums_path, "w", encoding="utf-8", newline="") as _fh:
-                    _fh.write(edited)
-                actions.extend(sums_found)
 
-        # Layer 3: frontier manifests (JSON with sha256 fields + relative paths)
         for manifest_path in all_manifests:
             manifest_dir = manifest_path.parent
             try:
-                data = json.loads(manifest_path.read_text(encoding="utf-8"))
+                data = json.loads(_read_exact(manifest_path))
             except (json.JSONDecodeError, OSError):
                 continue
-            # Parsing is fine for FINDING which entries need a new hash. It is
-            # writing back a parsed structure that destroys the file. So the
-            # parse produces a list of (old, new) pairs and nothing else; the
-            # edit itself is applied to the original TEXT below.
-            # THE RECEIPT IS WRITTEN AFTER THE WRITE, NEVER DURING THE FIND.
-            # An earlier version appended "manifest rehashed X" here, in the
-            # discovery loop -- so on the REFUSAL path, where the file is
-            # deliberately left untouched, the returned receipt still claimed
-            # the rehash. A receipt that reports work the refusal prevented is
-            # the same overclaim class this tool exists to protect against,
-            # inside the tool. (bob, ibex #62.)
-            pending: list[tuple[str, str]] = []
-            found: list[str] = []
             for section in data.values():
                 if not isinstance(section, dict):
                     continue
@@ -135,25 +124,52 @@ def chase_and_rehash(repo: Path, changed_files: list[Path]) -> list[str]:
                         if ref.resolve() == changed.resolve():
                             actual = _sha256_file(ref)
                             if entry["sha256"] != actual:
-                                pending.append((entry["sha256"], actual))
-                                found.append(
-                                    f"manifest rehashed {entry['path']} in "
-                                    f"{manifest_path.relative_to(repo)}"
-                                )
+                                _note(manifest_path, True, entry["sha256"], actual,
+                                      f"manifest rehashed {entry['path']} in "
+                                      f"{manifest_path.relative_to(repo)}")
                     except (OSError, ValueError):
                         continue
-            if pending:
-                text = manifest_path.read_text(encoding="utf-8")
-                text, failures = _apply_hash_edits_textually(text, pending)
-                if failures:
-                    # Refused: report ONLY the refusal. `found` is discarded --
-                    # nothing was written, so nothing may be claimed.
-                    actions.extend(failures)
-                    continue
-                manifest_path.write_text(text, encoding="utf-8")
-                actions.extend(found)
 
-    return actions
+    plans: dict[Path, tuple[str, list]] = {}
+    failures: list[str] = []
+    for path, (is_json, edits, receipts) in sorted(pending.items()):
+        text = _read_exact(path)
+        edited, fails = _apply_hash_edits_textually(text, edits, quoted=is_json)
+        if fails:
+            failures.extend(f"{path.relative_to(repo)}: {f}" for f in fails)
+            continue
+        plans[path] = (edited, receipts)
+    return plans, failures
+
+
+def chase_and_rehash(repo: Path, changed_files: list[Path]):
+    """Update every hash binding for ``changed_files``. ALL OR NOTHING.
+
+    Returns (updates, failures) -- both lists of human-readable lines.
+
+    TWO-PHASE, and the phases are the point (dexter, ibex #62). All-or-nothing
+    guarding a single helper call is not all-or-nothing across an INVOCATION:
+    a two-file chain used to write the first file, refuse the second, and
+    leave published evidence half-updated. No hash collision is required for
+    that -- identical content at different times is enough, so the trigger is
+    ordinary rather than adversarial.
+
+    ON HASH-BOUND PUBLISHED EVIDENCE A PARTIAL WRITE IS WORSE THAN A REFUSAL.
+    A refusal leaves a tree that still verifies. A half-updated chain leaves
+    one that verifies against nothing.
+
+    So: PLAN every edit across every file and layer, REFUSE BEFORE ANY WRITE
+    if any one of them cannot bind, and only then COMMIT.
+    """
+    plans, failures = _plan_rehash(repo, changed_files)
+    if failures:
+        return [], failures  # nothing written
+
+    updates: list[str] = []
+    for path, (text, receipts) in sorted(plans.items()):
+        _write_exact(path, text)
+        updates.extend(receipts)
+    return updates, failures
 
 
 def _apply_hash_edits_textually(text: str, edits: list[tuple[str, str]], quoted: bool = True):
@@ -240,11 +256,28 @@ def main() -> int:
             return 2
 
     print(f"rehash-chaser: chasing {len(changed)} changed file(s)...")
-    actions = chase_and_rehash(repo, changed)
-    if actions:
-        for a in actions:
-            print(f"  {a}")
-        print(f"rehash-chaser: {len(actions)} binding(s) updated")
+    updates, failures = chase_and_rehash(repo, changed)
+
+    # UPDATES AND FAILURES ARE STRUCTURALLY SEPARATE, so the summary cannot
+    # count one as the other. The old code had a single `actions` list and
+    # printed `len(actions)` as "binding(s) updated" -- on a refusal that
+    # printed REFUSED twice and then claimed 2 bindings updated, at exit 0.
+    # A refusal that exits zero and claims work is a receipt lying in three
+    # directions at once. (dexter, ibex #62.)
+    for f in failures:
+        print(f"  {f}", file=sys.stderr)
+    for u in updates:
+        print(f"  {u}")
+
+    if failures:
+        print(
+            f"rehash-chaser: REFUSED — {len(failures)} binding(s) could not be "
+            f"bound; NOTHING was written. Resolve by hand.",
+            file=sys.stderr,
+        )
+        return 1
+    if updates:
+        print(f"rehash-chaser: {len(updates)} binding(s) updated")
     else:
         print("rehash-chaser: no stale bindings found (all hashes current)")
     return 0

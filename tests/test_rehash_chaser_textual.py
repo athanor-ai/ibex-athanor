@@ -213,14 +213,14 @@ def test_a_refused_edit_reports_no_rehash_it_did_not_perform(tmp_path):
     }, indent=2) + "\n"
     manifest.write_text(before, encoding="utf-8")
 
-    actions = rc.chase_and_rehash(tmp_path, [logfile])
+    updates, failures = rc.chase_and_rehash(tmp_path, [logfile])
 
     assert manifest.read_text(encoding="utf-8") == before, (
         "the file was modified on the refusal path"
     )
-    assert any("REFUSED" in a for a in actions), actions
-    assert not any("manifest rehashed" in a for a in actions), (
-        "the receipt claimed a rehash that the refusal prevented: " + repr(actions)
+    assert any("REFUSED" in f for f in failures), failures
+    assert updates == [], (
+        "the receipt claimed a rehash that the refusal prevented: " + repr(updates)
     )
 
 
@@ -246,10 +246,11 @@ def test_the_real_entry_point_edits_a_manifest_on_disk_without_re_rendering(tmp_
     before = _manifest(old=_OLD)          # a stale hash, so there is work to do
     manifest.write_text(before, encoding="utf-8")
 
-    actions = rc.chase_and_rehash(tmp_path, [logfile])
+    updates, failures = rc.chase_and_rehash(tmp_path, [logfile])
 
     after = manifest.read_text(encoding="utf-8")
-    assert any("manifest rehashed" in a for a in actions), actions
+    assert failures == [], failures
+    assert any("manifest rehashed" in u for u in updates), updates
 
     b, a = before.splitlines(), after.splitlines()
     assert len(b) == len(a), "line count changed; the entry point re-rendered the file"
@@ -262,3 +263,116 @@ def test_the_real_entry_point_edits_a_manifest_on_disk_without_re_rendering(tmp_
 
     for survivor in ("0.00000000454", "1.2000000000000002e-11", "\\u00b5W"):
         assert survivor in after, f"{survivor} did not survive the real entry point"
+
+
+# ---------------------------------------------------------------------------
+# ENTRYPOINT-LEVEL CONTRACTS (dexter, ibex #62)
+#
+# The tests above all exercise HELPERS. All three of dexter's holds lived at
+# main() / chase_and_rehash() -- refusal, ordering and atomicity are properties
+# of ASSEMBLY, and a suite testing one layer below assembly cannot see them.
+# 48 helper tests passed while every one of the three was live.
+# ---------------------------------------------------------------------------
+
+
+def _crlf_manifest_repo(tmp_path):
+    fr = tmp_path / "athanor" / "ppa_frontier" / "c1"
+    fr.mkdir(parents=True)
+    (fr / "helper.log").write_text("x\n", encoding="utf-8")
+    body = (
+        '{\r\n  "s": {\r\n    "a": {\r\n      "path": "helper.log",\r\n'
+        '      "sha256": "%s"\r\n    }\r\n  }\r\n}\r\n' % _OLD
+    )
+    (fr / "manifest.json").write_bytes(body.encode())
+    return fr / "manifest.json", fr / "helper.log"
+
+
+def test_a_crlf_JSON_manifest_keeps_its_line_endings(tmp_path):
+    """HOLD 1. The manifest layer used universal-newline read_text/write_text.
+
+    A real CRLF manifest reported "rehashed" while its CRLF count went 8 -> 0:
+    the fix for byte-corruption corrupting bytes, one mechanism over. On a
+    surface whose claim is "these bytes hash to this value", any transformation
+    that preserves MEANING while changing BYTES is the bug.
+    """
+    manifest, logfile = _crlf_manifest_repo(tmp_path)
+    before = manifest.read_bytes()
+    real = rc._sha256_file(logfile)
+
+    updates, failures = rc.chase_and_rehash(tmp_path, [logfile])
+
+    after = manifest.read_bytes()
+    assert failures == [], failures
+    assert updates, "expected the manifest to be rehashed"
+    assert before.count(b"\r\n") == after.count(b"\r\n"), (
+        f"CRLF normalised: {before.count(b'\r\n')} -> {after.count(b'\r\n')}"
+    )
+    assert after == before.replace(_OLD.encode(), real.encode())
+
+
+def test_a_refusal_anywhere_writes_nothing_anywhere(tmp_path):
+    """HOLD 3. ATOMICITY ACROSS THE INVOCATION, not within one helper call.
+
+    Two packages, both binding a changed file. The second carries the same
+    stale hash twice, so its edit cannot bind. The old code wrote the first and
+    refused the second, leaving published evidence half-updated.
+
+    No hash collision is required -- identical content at different times is
+    enough, so the trigger is ordinary rather than adversarial. And on
+    hash-bound evidence a partial write is WORSE than a refusal: a refusal
+    leaves a tree that still verifies, a half-updated chain leaves one that
+    verifies against nothing.
+    """
+    a = tmp_path / "athanor_artifacts" / "p1"
+    b = tmp_path / "athanor_artifacts" / "p2"
+    a.mkdir(parents=True)
+    b.mkdir(parents=True)
+    log_a = a / "helper.log"
+    log_a.write_text("x\n", encoding="utf-8")
+    (a / "SHA256SUMS").write_text(f"{_OLD}  helper.log\n", encoding="utf-8")
+    log_b = b / "helper.log"
+    log_b.write_text("x\n", encoding="utf-8")
+    # same stale hash twice -> unbindable
+    (b / "SHA256SUMS").write_text(
+        f"{_OLD}  helper.log\n{_OLD}  copy.log\n", encoding="utf-8"
+    )
+
+    before_a = (a / "SHA256SUMS").read_bytes()
+    before_b = (b / "SHA256SUMS").read_bytes()
+
+    updates, failures = rc.chase_and_rehash(tmp_path, [log_a, log_b])
+
+    assert failures, "the unbindable file should have been refused"
+    assert updates == [], f"a refusal must not report updates: {updates}"
+    assert (a / "SHA256SUMS").read_bytes() == before_a, (
+        "the FIRST file was written even though a later file refused"
+    )
+    assert (b / "SHA256SUMS").read_bytes() == before_b
+
+
+def test_the_cli_does_not_report_refusals_as_updates(tmp_path, capsys, monkeypatch):
+    """HOLD 2. The CLI counted refusals as updates and exited 0.
+
+    It printed REFUSED twice and then "2 binding(s) updated" -- a refusal
+    exiting zero and claiming work is a receipt lying in three directions at
+    once. Updates and failures are now structurally separate, so the summary
+    cannot count one as the other.
+    """
+    pkg = tmp_path / "athanor_artifacts" / "pkg"
+    pkg.mkdir(parents=True)
+    logfile = pkg / "helper.log"
+    logfile.write_text("x\n", encoding="utf-8")
+    (pkg / "SHA256SUMS").write_text(
+        f"{_OLD}  helper.log\n{_OLD}  copy.log\n", encoding="utf-8"
+    )
+
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(rc.sys, "argv", ["rehash_chaser.py", str(logfile)])
+    rc_code = rc.main()
+    out = "".join(capsys.readouterr())
+
+    assert rc_code == 1, "a refusal must not exit 0"
+    assert "REFUSED" in out
+    assert "binding(s) updated" not in out, (
+        "the CLI claimed updates on a pure-refusal run: " + out
+    )
