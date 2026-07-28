@@ -257,6 +257,34 @@ HANDLE_SCAN_EXEMPT_PATHS: dict[str, str] = {
     DENYLIST_REL: "the denylist DATA file; holds every handle verbatim by design",
 }
 
+# ATH-3397 TIER STAGING (asabi ruling, openc910 fork-asymmetry): on a fork where
+# `export-safety` is a REQUIRED status context, a gate that reds by design can
+# never merge the PR that introduces it. So the handle scan lands at WARN — the
+# gate runs, NAMES every live instance in the log, and leaves the required
+# context green — then is PROMOTED to BLOCK after the scrub lands.
+#
+# The promotion is proven by EXERCISE, never inherited from WARN: by promotion
+# time the real population is zero, so a BLOCK tier that has never blocked
+# anything would look identical to one that cannot. See
+# test_block_tier_exits_nonzero_on_a_constructed_instance.
+HANDLE_FINDING_TIER = "block"  # "warn" (staging) | "block" (enforcing)
+# NOTE the fork asymmetry: ibex master has NO required status checks, so this
+# gate lands ENFORCING and red-by-design against its live population, which is
+# the land-red-first evidence. openc910 requires export-safety, so its twin
+# stages at "warn" and is promoted after the scrub. Same code, different default,
+# and the difference is the ruleset rather than a judgement.
+
+HANDLE_SCAN_ARTIFACT_EXTS: tuple[str, ...] = (".json", ".md")
+HANDLE_SCAN_EXEMPT_PATHS: dict[str, str] = {
+    DENYLIST_REL: "the denylist DATA file; holds every handle verbatim by design",
+}
+
+# Lowered companions of the path constants, DERIVED once so the scan compares like
+# with like. Derived rather than hand-maintained — a second literal list would be
+# the duplicated-knowledge defect one layer over.
+_OUR_ADDED_PREFIXES_LOWER = tuple(x.lower() for x in OUR_ADDED_PREFIXES)
+_HANDLE_SCAN_EXEMPT_PATHS_LOWER = {x.lower() for x in HANDLE_SCAN_EXEMPT_PATHS}
+
 
 def _load_agent_handles(ref: str, root: Path) -> list[str]:
     """Load the fork-local fleet-handle denylist and verify its integrity stamp.
@@ -385,23 +413,36 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
     # does not fire mid-word. Scoped to OUR_ADDED_PREFIXES (our authored
     # artifacts); upstream files that legitimately contain such a token are not
     # our leak. The denylist DATA file is excluded in the loop below.
+    if HANDLE_FINDING_TIER not in ("warn", "block"):
+        raise GateError(
+            f"HANDLE_FINDING_TIER is {HANDLE_FINDING_TIER!r} (fail-closed): must be "
+            "exactly 'warn' or 'block'."
+        )
     agent_res = [
-        ("internal fleet-agent handle", re.compile(rb"(?i)\b" + re.escape(h).encode() + rb"\b"))
+        # ATH-3439 pattern ruling: \b is the wrong boundary because `_` is a word
+        # character, so \bquan\b misses quan_review / reviewer_quan — exactly how a
+        # handle lands in a receipt FIELD NAME. `_` and `-` are not [a-z] so those
+        # match; "quantum" and "banking" do not. Camel-embedded is a stated non-match.
+        ("internal fleet-agent handle",
+         re.compile(rb"(?i)(^|[^a-z])" + re.escape(h).encode() + rb"([^a-z]|$)"))
         for h in _load_agent_handles(ref, root)
     ]
     block: list[str] = []
     warn: list[str] = []
     skipped: list[str] = []
     for path in _committed_paths(ref, root):
-        dot = path.rfind(".")
-        ext = path[dot:].lower() if dot >= 0 else ""
+        # STRUCTURAL: every DECISION consumes path_key, the normalised form; the
+        # raw path survives only for committed-byte lookup and DISPLAY.
+        path_key = path.lower()
+        dot = path_key.rfind(".")
+        ext = path_key[dot:] if dot >= 0 else ""
         data = _committed_bytes(ref, path, root)
         if ext in BINARY_ASSET_EXT or b"\x00" in data:
             skipped.append(path)
             continue
         # Ambiguous host-path patterns fire only in files WE author; upstream's
         # own host paths (its .circleci etc.) are public-upstream content.
-        in_our_scope = path.startswith(OUR_ADDED_PREFIXES)
+        in_our_scope = path_key.startswith(_OUR_ADDED_PREFIXES_LOWER)
         block_res = always_res + scoped_res if in_our_scope else always_res
         for lineno, line in enumerate(data.split(b"\n"), 1):
             shown = line.decode("utf-8", "replace").strip()[:200]
@@ -414,8 +455,8 @@ def _scan_committed(ref: str, root: Path) -> tuple[list[str], list[str], list[st
             # constants above). Positive extension scope + enumerated exemptions.
             if (
                 in_our_scope
-                and path.endswith(HANDLE_SCAN_ARTIFACT_EXTS)
-                and path not in HANDLE_SCAN_EXEMPT_PATHS
+                and ext in HANDLE_SCAN_ARTIFACT_EXTS
+                and path_key not in _HANDLE_SCAN_EXEMPT_PATHS_LOWER
             ):
                 for label, rx in agent_res:
                     if rx.search(line):

@@ -62,6 +62,7 @@ def _scan(tmp_path, files):
     """
     files = dict(files)
     files.setdefault(esg.DENYLIST_REL, _denylist_json(_padded([_H_A, _H_B])))
+    tmp_path.mkdir(parents=True, exist_ok=True)
     _git(["init", "-q"], tmp_path)
     _git(["config", "user.email", "t@example.invalid"], tmp_path)
     _git(["config", "user.name", "t"], tmp_path)
@@ -559,3 +560,89 @@ def test_canonical_denylist_catches_the_bare_name_end_to_end(tmp_path):
     block, _, _ = _scan(tmp_path, files)
     assert _has(block, "fleet-agent handle")
     assert _has(block, "receipt.json")
+
+
+def test_invalid_tier_fails_closed(tmp_path, monkeypatch):
+    # dexter (#76): HANDLE_FINDING_TIER="blok" routed 32 live findings into the warn
+    # bucket while the uncapped STAGED section (which runs only for exactly "warn")
+    # stayed silent — exit 0, "gate clean", 32 instances invisible. A typo on the
+    # one constant the promotion PR edits silently disabled the gate.
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "blok")
+    with pytest.raises(esg.GateError):
+        _scan(tmp_path, {"athanor_artifacts/pkt/receipt.json": '{"r": "' + _H_A + '"}\n'})
+
+
+def test_both_valid_tiers_are_accepted(tmp_path, monkeypatch):
+    # control: the guard must not reject the two legitimate values, or it would
+    # simply break the gate rather than harden it.
+    for tier in ("warn", "block"):
+        monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", tier)
+        _scan(tmp_path / tier, {"athanor_artifacts/pkt/receipt.json": '{"r": "x"}\n'})
+
+
+def test_artifact_extension_match_is_case_insensitive(tmp_path, monkeypatch):
+    # dexter (#76): the scan normalised `ext` to lower case and then ignored it,
+    # using path.endswith((".json",".md")) — so RECEIPT.JSON, a perfectly ordinary
+    # way to name a published artifact, was never scanned at all.
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "block")
+    for i, name in enumerate(("RECEIPT.JSON", "receipt.Json", "NOTES.MD", "notes.Md")):
+        block, _, _ = _scan(tmp_path / f"e{i}",
+                            {f"athanor_artifacts/pkt/{name}": '{"r": "' + _H_A + '"}\n'})
+        assert _has(block, "fleet-agent handle"), f"{name} was not scanned"
+
+
+def test_path_scope_decisions_are_case_insensitive(tmp_path, monkeypatch):
+    # THE FIFTH INSTANCE of the compute-then-ignore family (asabi: at four, the file
+    # needs a structural pass). Scope was decided on the RAW path, so
+    # Athanor_Artifacts/pkt/receipt.json escaped OUR_ADDED_PREFIXES and was never
+    # scanned at all. Every decision now consumes the normalised path_key; the raw
+    # path survives only for DISPLAY.
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "block")
+    for i, rel in enumerate((
+        "athanor_artifacts/pkt/receipt.json",
+        "Athanor_Artifacts/pkt/receipt.json",
+        "ATHANOR_ARTIFACTS/pkt/RECEIPT.JSON",
+    )):
+        block, _, _ = _scan(tmp_path / f"p{i}", {rel: '{"r": "' + _H_A + '"}\n'})
+        assert _has(block, "fleet-agent handle"), f"scope missed: {rel}"
+
+
+def test_findings_display_the_original_path_casing(tmp_path, monkeypatch):
+    # the raw path must still be what a reader sees, or the finding points at a file
+    # that does not exist. Normalise for DECISIONS, display the original.
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "block")
+    block, _, _ = _scan(tmp_path, {"Athanor_Artifacts/pkt/RECEIPT.JSON":
+                                   '{"r": "' + _H_A + '"}\n'})
+    assert any("Athanor_Artifacts/pkt/RECEIPT.JSON" in b for b in block), block
+
+
+def test_handle_pattern_catches_identifier_forms(tmp_path, monkeypatch):
+    # ATH-3439 pattern ruling applied here: `_` is a word character, so a \b-bounded
+    # handle MISSES quan_review / reviewer_quan / created_by_quan — which is exactly
+    # how a handle lands in a receipt field. These must all be caught.
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "block")
+    for body in ('{"n": "' + _H_A + '_review"}',
+                 '{"n": "reviewer_' + _H_A + '"}',
+                 '{"d": "' + _H_A + '-ath2686-run"}',
+                 '{"reviewer": "' + _H_A + '"}'):
+        block, _, _ = _scan(tmp_path / f"r{abs(hash(body))%9999}",
+                            {"athanor_artifacts/pkt/receipt.json": body + "\n"})
+        assert _has(block, "fleet-agent handle"), f"identifier form missed: {body}"
+
+
+def test_handle_pattern_does_not_flag_ordinary_vocabulary(tmp_path, monkeypatch):
+    # THE NEGATIVE HALF (asabi: a suite that only proves necessity cannot detect
+    # over-matching). A substring pattern would flag our own domain vocabulary —
+    # "memory banking" is RTL optimisation language on a hardware product. These
+    # must NOT be flagged, or the gate deletes the product's own words.
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "block")
+    clean = [
+        '{"note": "memory banking splits large memories"}',
+        '{"note": "adversarial thinking is required"}',
+        '{"note": "quantum quantity quantile"}',
+        '{"note": "the platform and plate and plating"}',
+    ]
+    for i, body in enumerate(clean):
+        block, _, _ = _scan(tmp_path / f"c{i}",
+                            {"athanor_artifacts/pkt/notes.json": body + "\n"})
+        assert not _has(block, "fleet-agent handle"), f"false positive on: {body}"
