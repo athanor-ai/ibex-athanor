@@ -111,6 +111,56 @@ def test_a_noop_edit_is_not_an_edit():
     assert after == _manifest()
 
 
+def _sums_repo(tmp_path, sums_bytes):
+    """A package carrying a SHA256SUMS with the given EXACT bytes."""
+    pkg = tmp_path / "athanor_artifacts" / "pkg"
+    pkg.mkdir(parents=True)
+    logfile = pkg / "helper.log"
+    logfile.write_text("content\n", encoding="utf-8")
+    (pkg / "SHA256SUMS").write_bytes(sums_bytes)
+    return pkg / "SHA256SUMS", logfile
+
+
+@pytest.mark.parametrize(
+    "label, sums",
+    [
+        ("lf-with-trailing-newline", (_OLD + "  helper.log\n").encode()),
+        ("crlf", (_OLD + "  helper.log\r\n").encode()),
+        ("no-trailing-newline", (_OLD + "  helper.log").encode()),
+        ("crlf-multiline", (_OLD + "  helper.log\r\n" + "b" * 64 + "  other.log\r\n").encode()),
+        ("mixed-lf-and-crlf", (_OLD + "  helper.log\r\n" + "b" * 64 + "  other.log\n").encode()),
+    ],
+)
+def test_the_sums_layer_changes_only_the_hash_bytes(tmp_path, label, sums):
+    """THE SAME INVARIANT, THE OTHER LAYER. (quan, ibex #62.)
+
+    The SHA256SUMS path rebuilt the file with ``"\\n".join(lines) + "\\n"``.
+    That is a re-render, not an edit: it normalised CRLF to LF and added a
+    trailing newline where the file had none -- byte changes on hash-bound
+    evidence, which is the exact class the manifest layer was just fixed for,
+    in the same function. The PR names SHA256SUMS in its own scope, so leaving
+    it re-serialising would have been a fix that did not cover its own surface.
+
+    ``Path.read_text`` performs universal-newline translation, so the carriage
+    returns were gone before any edit could happen. Byte preservation needs
+    translation disabled on BOTH the read and the write.
+    """
+    sums_path, logfile = _sums_repo(tmp_path, sums)
+    before = sums_path.read_bytes()
+    real_hash = rc._sha256_file(logfile)
+
+    rc.chase_and_rehash(tmp_path, [logfile])
+
+    after = sums_path.read_bytes()
+    assert after == before.replace(_OLD.encode(), real_hash.encode()), (
+        f"[{label}] the SHA256SUMS edit changed bytes other than the hash"
+    )
+    assert before.count(b"\r\n") == after.count(b"\r\n"), f"[{label}] CRLF normalised"
+    assert before.endswith(b"\n") == after.endswith(b"\n"), (
+        f"[{label}] trailing-newline state changed"
+    )
+
+
 def test_a_refused_edit_reports_no_rehash_it_did_not_perform(tmp_path):
     """THE RECEIPT MAY NOT CLAIM WORK THE REFUSAL PREVENTED. (bob, ibex #62.)
 
