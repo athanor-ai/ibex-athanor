@@ -144,7 +144,7 @@ def _plan_rehash(repo: Path, changed_files: list[Path]):
     frontier: list[tuple[Path, str]] = [
         (c, _sha256_file(c)) for c in changed_files if c.is_file()
     ]
-    seen_targets: set[Path] = set()
+    enqueued: dict[Path, str] = {}   # target -> planned-bytes hash last chased
 
     while frontier:
         wave, frontier = frontier, []
@@ -203,15 +203,30 @@ def _plan_rehash(repo: Path, changed_files: list[Path]):
         # itself changed, so whatever binds IT is stale. Hash the PLANNED
         # bytes -- disk still holds the pre-edit content.
         for path, (is_json, edits, receipts) in sorted(pending.items()):
-            if path in seen_targets:
-                continue
-            seen_targets.add(path)
+            # RE-ENQUEUE ON A CHANGED PLAN, NOT ONCE PER TARGET (dexter,
+            # round-3 reread). A visited-set is a REACHABILITY guard doing a
+            # CONVERGENCE job: correct for "have I reached this node", wrong for
+            # "has this node's input settled". An unequal-depth fan-in breaks it
+            # -- a shallow wave plans one edit to a shared parent and enqueues
+            # its hash, a deeper wave adds a SECOND edit, and the visited-set
+            # refuses to re-enqueue. The grandparent then records the parent's
+            # half-edited hash with every success receipt emitted.
+            #
+            # Termination is "no target's COMPLETE planned bytes changed this
+            # pass", which is what a fixed point means. Re-enqueueing is also
+            # what makes propagation TRANSITIVE: the grandparent is re-noted
+            # because its child re-entered the frontier, and so on upward until
+            # a pass produces no change.
             text = _read_exact(path)
             edited, fails = _apply_hash_edits_textually(
                 text, list(edits.items()), quoted=is_json)
             if fails:
                 continue  # reported below; do not chase an unbindable file
-            frontier.append((path, _sha256_bytes(edited)))
+            planned = _sha256_bytes(edited)
+            if enqueued.get(path) == planned:
+                continue  # this target's plan is unchanged since we last chased it
+            enqueued[path] = planned
+            frontier.append((path, planned))
 
     plans: dict[Path, tuple[str, list]] = {}
     for path, (is_json, edits, receipts) in sorted(pending.items()):
