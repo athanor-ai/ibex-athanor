@@ -109,3 +109,43 @@ def test_a_noop_edit_is_not_an_edit():
     after, failures = rc._apply_hash_edits_textually(_manifest(), [(_OLD, _OLD)])
     assert failures == []
     assert after == _manifest()
+
+
+def test_the_real_entry_point_edits_a_manifest_on_disk_without_re_rendering(tmp_path):
+    """DRIVES THE BINDING, not the helper.
+
+    Every test above calls ``_apply_hash_edits_textually`` directly. That proves
+    the helper is correct and proves NOTHING about whether ``chase_and_rehash``
+    actually routes through it -- a fix that lives in the caller is invisible to
+    a component-level probe, which is a defect I raised on someone else's PR an
+    hour before writing this file.
+
+    So this drives the shipped entry point against a real manifest on disk and
+    asserts the same +1 -1 property on the bytes it leaves behind.
+    """
+    frontier = tmp_path / "athanor" / "ppa_frontier" / "cand1"
+    frontier.mkdir(parents=True)
+    logfile = frontier / "helper.log"
+    logfile.write_text("synthesis log\n", encoding="utf-8")
+    real_hash = rc._sha256_file(logfile)
+
+    manifest = frontier / "manifest.json"
+    before = _manifest(old=_OLD)          # a stale hash, so there is work to do
+    manifest.write_text(before, encoding="utf-8")
+
+    actions = rc.chase_and_rehash(tmp_path, [logfile])
+
+    after = manifest.read_text(encoding="utf-8")
+    assert any("manifest rehashed" in a for a in actions), actions
+
+    b, a = before.splitlines(), after.splitlines()
+    assert len(b) == len(a), "line count changed; the entry point re-rendered the file"
+    differing = [i for i, (x, y) in enumerate(zip(b, a)) if x != y]
+    assert len(differing) == 1, (
+        f"expected exactly one changed line through the real entry point, got "
+        f"{len(differing)}: {[(b[i], a[i]) for i in differing]}"
+    )
+    assert real_hash in a[differing[0]]
+
+    for survivor in ("0.00000000454", "1.2000000000000002e-11", "\\u00b5W"):
+        assert survivor in after, f"{survivor} did not survive the real entry point"
