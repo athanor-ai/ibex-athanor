@@ -111,6 +111,43 @@ def test_a_noop_edit_is_not_an_edit():
     assert after == _manifest()
 
 
+def test_a_refused_edit_reports_no_rehash_it_did_not_perform(tmp_path):
+    """THE RECEIPT MAY NOT CLAIM WORK THE REFUSAL PREVENTED. (bob, ibex #62.)
+
+    The receipt line was appended in the DISCOVERY loop, before the edit was
+    attempted. So on the refusal path -- where the file is deliberately left
+    untouched -- the returned actions still said "manifest rehashed X". A
+    receipt reporting a write that never happened is the overclaim class this
+    tool exists to protect against, inside the tool.
+
+    Discovery is not performance. The receipt is written after the write.
+    """
+    frontier = tmp_path / "athanor" / "ppa_frontier" / "cand1"
+    frontier.mkdir(parents=True)
+    logfile = frontier / "helper.log"
+    logfile.write_text("synthesis log\n", encoding="utf-8")
+
+    # Two entries carrying the SAME stale hash -> the edit cannot bind -> refused.
+    manifest = frontier / "manifest.json"
+    before = json.dumps({
+        "frontier": {
+            "a": {"path": "helper.log", "sha256": _OLD},
+            "b": {"path": "helper.log", "sha256": _OLD},
+        }
+    }, indent=2) + "\n"
+    manifest.write_text(before, encoding="utf-8")
+
+    actions = rc.chase_and_rehash(tmp_path, [logfile])
+
+    assert manifest.read_text(encoding="utf-8") == before, (
+        "the file was modified on the refusal path"
+    )
+    assert any("REFUSED" in a for a in actions), actions
+    assert not any("manifest rehashed" in a for a in actions), (
+        "the receipt claimed a rehash that the refusal prevented: " + repr(actions)
+    )
+
+
 def test_the_real_entry_point_edits_a_manifest_on_disk_without_re_rendering(tmp_path):
     """DRIVES THE BINDING, not the helper.
 
