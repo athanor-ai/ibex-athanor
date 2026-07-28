@@ -636,13 +636,34 @@ def main(argv: list[str] | None = None) -> int:
     for note in handle_binary:
         print(f"  handle-binary: {note}")
 
-    if warn:
-        print(f"WARN: {len(warn)} conscious-choice metadata finding(s) at {args.ref}:")
-        shown = warn if args.warn_limit == 0 else warn[: args.warn_limit]
-        for line in shown:
+    # PARTITION ONCE, and cap only the GENERIC half. The staged handle findings
+    # live in `warn` AND get their own uncapped section below, so slicing the
+    # WHOLE warn list printed some staged rows twice and counted 4768 visible
+    # rows as hidden: the verdict said "4881 not shown" when 118 were actually
+    # hidden. That is the twin's own 451-vs-367 miscount, reproduced here by a
+    # port that took the verdict wording and NOT the partition underneath it.
+    # (dexter, ibex #63 -- and I had flagged this exact risk in my freeze line,
+    # then dismissed it with a check that looked at the wrong function.)
+    #
+    # Every number below -- rows shown, rows withheld, and the verdict -- comes
+    # from THIS partition. Two independent counts of one population is the drift.
+    _HANDLE_PREFIX = "[internal fleet-agent handle]"
+    staged = (
+        [w for w in warn if w.startswith(_HANDLE_PREFIX)]
+        if HANDLE_FINDING_TIER == "warn"
+        else []
+    )
+    _staged_set = set(staged)
+    generic = [w for w in warn if w not in _staged_set]
+    shown_generic = generic if args.warn_limit == 0 else generic[: args.warn_limit]
+    withheld = len(generic) - len(shown_generic)
+
+    if generic:
+        print(f"WARN: {len(generic)} conscious-choice metadata finding(s) at {args.ref}:")
+        for line in shown_generic:
             print(f"  warn: {line}")
-        if len(shown) < len(warn):
-            print(f"  ... {len(warn) - len(shown)} more (raise --warn-limit to see all)")
+        if withheld:
+            print(f"  ... {withheld} more (raise --warn-limit to see all)")
 
         # UNCAPPED STAGED SECTION. WARN output is display-capped, and this fork has
         # thousands of conscious-choice warnings, so routing staged handle findings
@@ -650,7 +671,9 @@ def main(argv: list[str] | None = None) -> int:
         # report a population nobody can see, which is the whole thing it exists to
         # do. Printed in full, separately, and only while staging.
         if HANDLE_FINDING_TIER == "warn":
-            staged = [w for w in warn if w.startswith("[internal fleet-agent handle]")]
+            # `staged` is the SAME list computed in the partition above --
+            # deliberately not recomputed. A second derivation of one
+            # population is what let the row display and the count disagree.
             if staged:
                 print(
                     f"\nSTAGED (ATH-3397): {len(staged)} fleet-agent handle "
@@ -689,10 +712,7 @@ def main(argv: list[str] | None = None) -> int:
     # Ported from the openc910 twin (#86, merged 7f65d6e). I fixed it there
     # and did not sweep here -- the seventh same-class-in-both-forks miss.
     if warn:
-        staged_n = sum(1 for w in warn if w.startswith("[internal fleet-agent handle]"))
-        detail = f"; {staged_n} of them staged fleet-agent handles" if staged_n else ""
-        shown = len(warn) if args.warn_limit == 0 else min(args.warn_limit, len(warn))
-        withheld = len(warn) - shown
+        detail = f"; {len(staged)} of them staged fleet-agent handles" if staged else ""
         coverage = (
             f"{withheld} not shown (raise --warn-limit)" if withheld else "all named above"
         )

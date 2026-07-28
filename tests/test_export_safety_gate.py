@@ -1022,3 +1022,76 @@ def test_the_verdict_line_still_says_clean_when_there_is_nothing_to_report(
         "a tree with nothing to report must still be reportable as clean: "
         + combined[-300:]
     )
+
+
+def test_the_verdict_arithmetic_holds_on_a_MIXED_population(tmp_path, monkeypatch, capsys):
+    """THE FIXTURE GAP THAT LET THE PORT SHIP WRONG. (dexter, ibex #63.)
+
+    Every cap test here plants GENERIC warnings only. On a generic-only tree the
+    naive `len(warn) - min(limit, len(warn))` and the correct
+    `len(generic) - len(shown_generic)` are the SAME NUMBER -- so 67 tests passed
+    while the live verdict said "4881 not shown" with 118 actually hidden.
+
+    A cap test that cannot produce a mixed population cannot see a partition
+    defect. This one plants BOTH kinds and asserts the identity:
+
+        generic shown + staged shown + withheld == total
+
+    That is the twin's 451-vs-367 miscount, and I reproduced it by porting the
+    verdict WORDING without the partition underneath it.
+    """
+    import hashlib as _hl
+    import re as _re
+
+    handles = _padded([_H_A, _H_B])
+    files = {
+        esg.DENYLIST_REL: json.dumps(
+            {"handles": handles,
+             "stamp": _hl.sha256("\n".join(sorted(handles)).encode()).hexdigest()}),
+    }
+    # staged handle findings
+    for i in range(4):
+        files[f"athanor_artifacts/pkt/h{i}.md"] = f"reviewed by {_H_A}\n"
+    # generic (non-handle) warnings
+    for i in range(6):
+        files[f"athanor/notes_{i}.md"] = f"see {POINTER} internal repo, note {i}\n"
+
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    _git(["init", "-q"], tmp_path)
+    _git(["config", "user.email", "t@example.invalid"], tmp_path)
+    _git(["config", "user.name", "t"], tmp_path)
+    for rel, content in files.items():
+        p = tmp_path / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content)
+        _git(["add", rel], tmp_path)
+    _git(["commit", "-q", "-m", "mixed"], tmp_path)
+
+    monkeypatch.setattr(esg, "HANDLE_FINDING_TIER", "warn")
+    # A synthetic tree has no receipt verifier, so the gate fail-closes on THAT
+    # and never reaches the arithmetic under test -- a fixture artifact wearing
+    # the shape of a real failure. Neutralised the same way the tier tests do.
+    monkeypatch.setattr(esg, "_run_receipt_verifier", lambda root: [])
+    monkeypatch.chdir(tmp_path)
+    rc = esg.main(["--ref", "HEAD", "--warn-limit", "2"])
+    out = "".join(capsys.readouterr())
+
+    assert rc == 0, out[-300:]
+    generic_rows = _re.findall(r"^  warn: (.*)$", out, _re.M)
+    staged_rows = _re.findall(r"^  staged-handle: (.*)$", out, _re.M)
+    verdict = [ln for ln in out.splitlines() if ln.startswith("OK")][-1]
+    total = int(_re.search(r"raised (\d+) WARN", verdict).group(1))
+    m = _re.search(r"(\d+) not shown", verdict)
+    withheld = int(m.group(1)) if m else 0
+
+    assert staged_rows, "the fixture produced no staged rows; it is generic-only again"
+    assert generic_rows, "the fixture produced no generic rows"
+    assert not (set(generic_rows) & set(staged_rows)), (
+        "a finding was rendered in BOTH sections; it is then counted as hidden "
+        "while visible: " + repr(sorted(set(generic_rows) & set(staged_rows))[:3])
+    )
+    assert len(generic_rows) + len(staged_rows) + withheld == total, (
+        f"shown {len(generic_rows)}+{len(staged_rows)} + withheld {withheld} "
+        f"!= total {total}; the verdict is counting a different population "
+        f"than the display"
+    )
