@@ -32,6 +32,12 @@ def _sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _sha256_bytes(text: str) -> str:
+    """Hash PLANNED content. Phase 1 writes nothing, so a planned file's hash
+    cannot come from disk -- disk still holds the pre-edit bytes."""
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
 def _find_all_sums(repo: Path) -> list[Path]:
     return sorted(repo.rglob("SHA256SUMS"))
 
@@ -70,68 +76,126 @@ def _plan_rehash(repo: Path, changed_files: list[Path]):
     Edits are grouped BY TARGET PATH before being applied, so two changed
     files that both bind into one SHA256SUMS produce one coherent edit of that
     file rather than two edits each computed against the original text.
+
+    ITERATED TO A FIXED POINT, NOT A SINGLE PASS (dexter, ibex #62 round 3).
+
+    Editing a child SHA256SUMS CHANGES THAT FILE, so any parent manifest or
+    parent SHA256SUMS binding it is now stale -- and a single pass never adds
+    the file it just planned to the set it chases. The leaf bound green, the
+    parent stayed stale, `failures` was empty, and a success receipt was
+    emitted over a tree that no longer verifies. This topology is LIVE in
+    fetch_fifo: frontier manifest -> child SHA256SUMS, and parent sums ->
+    child sums.
+
+    The new hash of a planned file must come from the PLANNED BYTES, not from
+    disk: in phase 1 nothing has been written, so `_sha256_file` would return
+    the OLD hash and the parent would be "updated" to a value that never
+    exists. `_sha256_bytes(planned_text)` is the only correct source.
+
+    This is the citation-closure lesson from ATH-3444 PR B, where correcting 13
+    citations invalidated 6 records that cited the corrected files: a hash
+    correction is not a local edit, it PROPAGATES, and the graph has to be
+    closed before the first byte is written.
     """
     all_sums = _find_all_sums(repo)
     all_manifests = _find_all_manifests(repo)
 
     # path -> (is_json, [(old_sha, new_sha)], [receipt lines])
     pending: dict[Path, tuple[bool, list, list]] = {}
+    failures: list[str] = []
 
     def _note(path: Path, is_json: bool, old: str, new: str, receipt: str) -> None:
         entry = pending.setdefault(path, (is_json, [], []))
         entry[1].append((old, new))
         entry[2].append(receipt)
 
+    # A SKIPPED INPUT IS A FAILURE, NOT SILENCE (dexter hold 3). A path that is
+    # not a readable file cannot be chased, and continuing past it produced
+    # "no stale bindings found (all hashes current)" at rc 0 over a request the
+    # tool never carried out. Could-not-chase and nothing-to-chase are opposite
+    # verdicts; only one of them is a measurement.
     for changed in changed_files:
         if not changed.is_file():
-            continue
-        new_hash = _sha256_file(changed)
-
-        for sums_path in all_sums:
-            sums_dir = sums_path.parent
-            for line in _read_exact(sums_path).splitlines():
-                if not line.strip() or line.startswith("#"):
-                    continue
-                parts = line.split("  ", 1)
-                if len(parts) != 2:
-                    continue
-                old_hash, ref_path = parts
-                ref_path = ref_path.rstrip("\r")
-                candidate = sums_dir / ref_path
-                if not candidate.is_file():
-                    candidate = repo / ref_path
-                try:
-                    if candidate.resolve() == changed.resolve() and old_hash != new_hash:
-                        _note(sums_path, False, old_hash, new_hash,
-                              f"rehashed {ref_path} in {sums_path.relative_to(repo)}")
-                except (OSError, ValueError):
-                    continue
-
-        for manifest_path in all_manifests:
-            manifest_dir = manifest_path.parent
             try:
-                data = json.loads(_read_exact(manifest_path))
-            except (json.JSONDecodeError, OSError):
-                continue
-            for section in data.values():
-                if not isinstance(section, dict):
-                    continue
-                for _key, entry in section.items():
-                    if not isinstance(entry, dict) or "sha256" not in entry or "path" not in entry:
+                shown = changed.relative_to(repo)
+            except ValueError:
+                shown = changed
+            failures.append(
+                f"{shown}: not a readable file, so its bindings could not be "
+                f"chased. This is NOT 'no stale bindings'."
+            )
+    if failures:
+        return {}, failures
+
+    # FIXED POINT. `frontier` is what still needs chasing; a file we PLAN to
+    # edit joins it, hashed from its planned bytes, because editing it makes
+    # every binding of IT stale in turn.
+    frontier: list[tuple[Path, str]] = [
+        (c, _sha256_file(c)) for c in changed_files if c.is_file()
+    ]
+    seen_targets: set[Path] = set()
+
+    while frontier:
+        wave, frontier = frontier, []
+        for changed, new_hash in wave:
+
+            for sums_path in all_sums:
+                sums_dir = sums_path.parent
+                for line in _read_exact(sums_path).splitlines():
+                    if not line.strip() or line.startswith("#"):
                         continue
-                    ref = manifest_dir / entry["path"]
+                    parts = line.split("  ", 1)
+                    if len(parts) != 2:
+                        continue
+                    old_hash, ref_path = parts
+                    ref_path = ref_path.rstrip("\r")
+                    candidate = sums_dir / ref_path
+                    if not candidate.is_file():
+                        candidate = repo / ref_path
                     try:
-                        if ref.resolve() == changed.resolve():
-                            actual = _sha256_file(ref)
-                            if entry["sha256"] != actual:
-                                _note(manifest_path, True, entry["sha256"], actual,
-                                      f"manifest rehashed {entry['path']} in "
-                                      f"{manifest_path.relative_to(repo)}")
+                        if candidate.resolve() == changed.resolve() and old_hash != new_hash:
+                            _note(sums_path, False, old_hash, new_hash,
+                                  f"rehashed {ref_path} in {sums_path.relative_to(repo)}")
                     except (OSError, ValueError):
                         continue
 
+            for manifest_path in all_manifests:
+                manifest_dir = manifest_path.parent
+                try:
+                    data = json.loads(_read_exact(manifest_path))
+                except (json.JSONDecodeError, OSError):
+                    continue
+                for section in data.values():
+                    if not isinstance(section, dict):
+                        continue
+                    for _key, entry in section.items():
+                        if not isinstance(entry, dict) or "sha256" not in entry or "path" not in entry:
+                            continue
+                        ref = manifest_dir / entry["path"]
+                        try:
+                            if ref.resolve() == changed.resolve():
+                                actual = _sha256_file(ref)
+                                if entry["sha256"] != actual:
+                                    _note(manifest_path, True, entry["sha256"], actual,
+                                          f"manifest rehashed {entry['path']} in "
+                                          f"{manifest_path.relative_to(repo)}")
+                        except (OSError, ValueError):
+                            continue
+
+        # FEED THE FRONTIER. Any target we have now planned an edit for is
+        # itself changed, so whatever binds IT is stale. Hash the PLANNED
+        # bytes -- disk still holds the pre-edit content.
+        for path, (is_json, edits, receipts) in sorted(pending.items()):
+            if path in seen_targets:
+                continue
+            seen_targets.add(path)
+            text = _read_exact(path)
+            edited, fails = _apply_hash_edits_textually(text, edits, quoted=is_json)
+            if fails:
+                continue  # reported below; do not chase an unbindable file
+            frontier.append((path, _sha256_bytes(edited)))
+
     plans: dict[Path, tuple[str, list]] = {}
-    failures: list[str] = []
     for path, (is_json, edits, receipts) in sorted(pending.items()):
         text = _read_exact(path)
         edited, fails = _apply_hash_edits_textually(text, edits, quoted=is_json)
@@ -165,10 +229,49 @@ def chase_and_rehash(repo: Path, changed_files: list[Path]):
     if failures:
         return [], failures  # nothing written
 
+    # PLAN-TIME REFUSAL IS NOT TRANSACTIONAL (dexter, ibex #62 round 3).
+    #
+    # Refusing before the first write covers the case where PLANNING fails. It
+    # does nothing for the case that actually happens: the second WRITE fails
+    # and the first has already landed. A constructed second-target writer
+    # failure left target 1 changed and target 2 stale -- a half-updated chain
+    # on hash-bound published evidence, which verifies against nothing.
+    #
+    # And `open(..., "w")` is not atomic even for ONE file: it truncates first,
+    # so a crash mid-write leaves a truncated manifest rather than either
+    # version. So: write each target to a sibling temp and os.replace it (a
+    # rename is atomic on the same filesystem), keep every original, and on any
+    # failure restore everything already replaced.
+    originals: dict[Path, str] = {path: _read_exact(path) for path in plans}
+    written: list[Path] = []
     updates: list[str] = []
-    for path, (text, receipts) in sorted(plans.items()):
-        _write_exact(path, text)
-        updates.extend(receipts)
+    try:
+        for path, (text, receipts) in sorted(plans.items()):
+            tmp = path.with_name(path.name + ".rehash-tmp")
+            _write_exact(tmp, text)
+            os.replace(tmp, path)
+            written.append(path)
+            updates.extend(receipts)
+    except Exception as exc:  # noqa: BLE001 -- any writer failure must roll back
+        for path in written:
+            try:
+                _write_exact(path, originals[path])
+            except OSError:
+                failures.append(
+                    f"{path.relative_to(repo)}: ROLLBACK FAILED after a write "
+                    f"error. This tree is half-updated and must be repaired by "
+                    f"hand before it is trusted."
+                )
+        tmp = locals().get("tmp")
+        if isinstance(tmp, Path) and tmp.exists():
+            try:
+                tmp.unlink()
+            except OSError:
+                pass
+        failures.append(
+            f"write failed after {len(written)} target(s); all restored: {exc}"
+        )
+        return [], failures
     return updates, failures
 
 
