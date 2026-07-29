@@ -1,7 +1,7 @@
 {
   "artifact": "ibex_fetch_fifo_native_agent_ablation",
   "record_type": "raw_frontier_candidate_selected_replay",
-  "boundary_note": "NOT the opus48_quan_one_shot lane final answer (that remains S1 / rejected_selected_area - the ablation measures the one-shot SHIPPED answer). This records a SELECTED-REPLAYED sibling from the one-shot raw REJECTED frontier, per Ronald ATH-2945 boundary. Verdict vocabulary is 'possible headroom / candidate-selection finding', NOT missed-by-Kairos / proposer regression.",
+  "boundary_note": "NOT the opus48_quan_one_shot lane final answer (that remains S1 / rejected_selected_area - the ablation measures the one-shot SHIPPED answer). This records a SELECTED-REPLAYED sibling from the one-shot raw REJECTED frontier, per ATH-2945 boundary. Verdict vocabulary is 'possible headroom / candidate-selection finding', NOT missed-by-Kairos / proposer regression.",
   "lane_of_origin": "opus48_quan_one_shot",
   "candidate_id": "opus48_frontier_F_variant",
   "provenance": "verbatim from the opus48_quan_one_shot raw response; agent-generated then agent-self-rejected in favor of S1 on its own no-mux gate proxy",

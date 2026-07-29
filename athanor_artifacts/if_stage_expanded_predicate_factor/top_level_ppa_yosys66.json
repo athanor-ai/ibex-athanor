@@ -47,7 +47,7 @@
   ],
   "cold_replay": {
     "classification": "verified",
-    "independent_verifier": "Quan",
+    "independent_verifier": "verified",
     "notes": [
       "Area and all recorded WNS groups reproduced to the recorded digits.",
       "Formal replay reproduced 1956/1956 proven $equiv cells.",

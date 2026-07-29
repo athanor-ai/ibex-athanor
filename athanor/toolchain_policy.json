@@ -164,7 +164,7 @@
     ],
     "selected_toggle_convention": {
         "id": "kairos.ibex.toggle.control_path.v1",
-        "status": "PROPOSED_dexter_2026-07-02_pending_ronald_signoff",
+        "status": "PROPOSED_2026-07-02_pending_signoff",
         "applies_to": [
             "ibex_if_stage"
         ],

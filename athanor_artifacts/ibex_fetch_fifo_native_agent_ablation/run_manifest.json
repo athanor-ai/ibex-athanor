@@ -25,7 +25,7 @@
     {
       "lane_id": "gpt55_native_one_shot",
       "model_id": "gpt-5.5",
-      "launcher": "dexter",
+      "launcher": "platform",
       "status": "raw_candidate_captured",
       "native_clean": false,
       "validity_class": "codex_one_shot_pilot_not_native_clean",
