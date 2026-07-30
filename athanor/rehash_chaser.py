@@ -54,7 +54,7 @@ def _read_exact(path: Path) -> str:
     surface whose whole claim is "these bytes hash to this value", any
     transformation that preserves MEANING while changing BYTES is the bug --
     which is the defect this tool exists to fix, so it must not use a call
-    that commits it. (dexter, ibex #62: a real CRLF manifest reported
+    that commits it. (reviewer, ibex #62: a real CRLF manifest reported
     "rehashed" while its CRLF count went 8 -> 0.)
     """
     with open(path, "r", encoding="utf-8", newline="") as fh:
@@ -77,7 +77,7 @@ def _plan_rehash(repo: Path, changed_files: list[Path]):
     files that both bind into one SHA256SUMS produce one coherent edit of that
     file rather than two edits each computed against the original text.
 
-    ITERATED TO A FIXED POINT, NOT A SINGLE PASS (dexter, ibex #62 round 3).
+    ITERATED TO A FIXED POINT, NOT A SINGLE PASS (reviewer, ibex #62 round 3).
 
     Editing a child SHA256SUMS CHANGES THAT FILE, so any parent manifest or
     parent SHA256SUMS binding it is now stale -- and a single pass never adds
@@ -120,7 +120,7 @@ def _plan_rehash(repo: Path, changed_files: list[Path]):
         edits[old] = new
         receipts[old] = receipt
 
-    # A SKIPPED INPUT IS A FAILURE, NOT SILENCE (dexter hold 3). A path that is
+    # A SKIPPED INPUT IS A FAILURE, NOT SILENCE (reviewer hold 3). A path that is
     # not a readable file cannot be chased, and continuing past it produced
     # "no stale bindings found (all hashes current)" at rc 0 over a request the
     # tool never carried out. Could-not-chase and nothing-to-chase are opposite
@@ -185,7 +185,7 @@ def _plan_rehash(repo: Path, changed_files: list[Path]):
                         ref = manifest_dir / entry["path"]
                         try:
                             if ref.resolve() == changed.resolve():
-                                # THE PLANNED HASH, NOT DISK (dexter, ibex #62 round-3 reread).
+                                # THE PLANNED HASH, NOT DISK (reviewer, ibex #62 round-3 reread).
                                 # This branch called _sha256_file(ref) while the SUMS branch
                                 # used the frontier's `new_hash`, so a parent MANIFEST bound to
                                 # the PRE-EDIT bytes of a child whose edit was already planned:
@@ -203,7 +203,7 @@ def _plan_rehash(repo: Path, changed_files: list[Path]):
         # itself changed, so whatever binds IT is stale. Hash the PLANNED
         # bytes -- disk still holds the pre-edit content.
         for path, (is_json, edits, receipts) in sorted(pending.items()):
-            # RE-ENQUEUE ON A CHANGED PLAN, NOT ONCE PER TARGET (dexter,
+            # RE-ENQUEUE ON A CHANGED PLAN, NOT ONCE PER TARGET (reviewer,
             # round-3 reread). A visited-set is a REACHABILITY guard doing a
             # CONVERGENCE job: correct for "have I reached this node", wrong for
             # "has this node's input settled". An unequal-depth fan-in breaks it
@@ -245,7 +245,7 @@ def chase_and_rehash(repo: Path, changed_files: list[Path]):
 
     Returns (updates, failures) -- both lists of human-readable lines.
 
-    TWO-PHASE, and the phases are the point (dexter, ibex #62). All-or-nothing
+    TWO-PHASE, and the phases are the point (reviewer, ibex #62). All-or-nothing
     guarding a single helper call is not all-or-nothing across an INVOCATION:
     a two-file chain used to write the first file, refuse the second, and
     leave published evidence half-updated. No hash collision is required for
@@ -263,7 +263,7 @@ def chase_and_rehash(repo: Path, changed_files: list[Path]):
     if failures:
         return [], failures  # nothing written
 
-    # PLAN-TIME REFUSAL IS NOT TRANSACTIONAL (dexter, ibex #62 round 3).
+    # PLAN-TIME REFUSAL IS NOT TRANSACTIONAL (reviewer, ibex #62 round 3).
     #
     # Refusing before the first write covers the case where PLANNING fails. It
     # does nothing for the case that actually happens: the second WRITE fails
@@ -341,7 +341,7 @@ def _apply_hash_edits_textually(text: str, edits: list[tuple[str, str]], quoted:
     caller discipline is a trap for the next caller, and "fail whole or do not
     fail" is the rule this tool exists to enforce on published evidence.
 
-    That case is reachable, not theoretical: bob's chained-edit shape
+    That case is reachable, not theoretical: a chained-edit shape
     ``[(A,B), (B,C)]`` applies A->B, which makes B occur twice, so the second
     edit refuses -- leaving one edit applied in the returned string.
     """
@@ -400,7 +400,7 @@ def main() -> int:
     # printed `len(actions)` as "binding(s) updated" -- on a refusal that
     # printed REFUSED twice and then claimed 2 bindings updated, at exit 0.
     # A refusal that exits zero and claims work is a receipt lying in three
-    # directions at once. (dexter, ibex #62.)
+    # directions at once. (reviewer, ibex #62.)
     for f in failures:
         print(f"  {f}", file=sys.stderr)
     for u in updates:

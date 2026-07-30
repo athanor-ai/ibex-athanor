@@ -52,7 +52,7 @@
     "decision": "Do not run detectors or selected-flow synthesis until a pinned generated CPU RTL artifact is created or imported."
   },
   "first_harness_work": [
-    "Provision or import a pinned VexRiscv generator output, preferably GenFull or GenSmallest unless Aidan chooses another deterministic configuration.",
+    "Provision or import a pinned VexRiscv generator output, preferably GenFull or GenSmallest unless the team lead chooses another deterministic configuration.",
     "Record the generator command, repo commit, generated RTL hash, and config class before detector replay.",
     "Add a selected-flow baseline script only after generated CPU RTL is present.",
     "Run source-only and selected-elaboration residual detector checks before any equivalence, toggle, or cold-replay spend."

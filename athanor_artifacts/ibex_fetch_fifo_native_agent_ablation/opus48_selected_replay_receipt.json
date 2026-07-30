@@ -1,8 +1,8 @@
 {
   "artifact": "ibex_fetch_fifo_native_agent_ablation",
-  "lane_id": "opus48_quan_one_shot",
+  "lane_id": "opus48_native_one_shot",
   "candidate": "S1: rewrite the err_unaligned entry[1]-invalid branch to reuse the existing err bypass signal",
-  "candidate_patch": "raw/opus48_quan_one_shot.patch",
+  "candidate_patch": "raw/opus48_native_one_shot.patch",
   "replay_basis": {
     "repo_sha": "8bd96601c0023de8bc5daa32759aae18505f9776",
     "reference_packet": "../fetch_fifo_err_unaligned_factored/",

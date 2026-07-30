@@ -4,7 +4,7 @@ assertion (athanor/verify_subject_binding.py).
 The RED-KNOWN case is the exact shape that produced the #31 off-subject green
 (head 12233fcf): the checkout carries the BASE RTL, the candidate rewrite lives
 only in SOURCE_DIFF.patch, and the patch was never applied. The assertion MUST
-red on that. These are also the green/red fixtures Bob's wiring-bite
+red on that. These are also the green/red fixtures the builder's wiring-bite
 meta-verifies the ci-formal steps against.
 """
 
