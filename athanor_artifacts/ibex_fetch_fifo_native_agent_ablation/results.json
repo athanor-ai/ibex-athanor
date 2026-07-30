@@ -50,7 +50,7 @@
       "verdict": "pending_full_replay"
     },
     {
-      "lane_id": "opus48_quan_one_shot",
+      "lane_id": "opus48_native_one_shot",
       "agent_type": "native_one_shot",
       "model_id": "opus-4.8",
       "status": "full_selected_replay_complete",
@@ -63,8 +63,8 @@
         "passed": true,
         "detail": "adversarial probe under --safe-mode in the run env returned no ibex 456->451 memory, no Athanor tool config, no fleet hooks, and unknown internal fleet identifiers"
       },
-      "raw_response_path": "raw/opus48_quan_one_shot_response.md",
-      "patch_path": "raw/opus48_quan_one_shot.patch",
+      "raw_response_path": "raw/opus48_native_one_shot_response.md",
+      "patch_path": "raw/opus48_native_one_shot.patch",
       "patch_extraction": "Raw response preserved verbatim. The agent's inline diff had a hunk line-count formatting error, so the candidate was re-emitted as a clean git diff of the agent's EXACT err_unaligned rewrite (3 comment lines + one-expression change); git apply --check passes on a pristine 8bd96601 rtl/ibex_fetch_fifo.sv.",
       "native_self_report": {
         "candidate": "S1: rewrite the err_unaligned entry[1]-invalid branch to reuse the existing `err` bypass signal (proven Boolean identity; exposes cross-fanout sharing that ABC local rewriting does not recover)",

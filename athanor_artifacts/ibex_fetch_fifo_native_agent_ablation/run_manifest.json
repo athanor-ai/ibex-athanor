@@ -25,7 +25,7 @@
     {
       "lane_id": "gpt55_native_one_shot",
       "model_id": "gpt-5.5",
-      "launcher": "dexter",
+      "launcher": "platform",
       "status": "raw_candidate_captured",
       "native_clean": false,
       "validity_class": "codex_one_shot_pilot_not_native_clean",
@@ -33,14 +33,14 @@
       "patch_path": "raw/gpt55_native_one_shot.patch"
     },
     {
-      "lane_id": "opus48_quan_one_shot",
+      "lane_id": "opus48_native_one_shot",
       "model_id": "opus-4.8",
-      "launcher": "quan",
+      "launcher": "<agent>",
       "status": "raw_candidate_captured",
       "same_prompt_sha256": true,
       "native_clean_required": true,
-      "raw_response_path": "raw/opus48_quan_one_shot_response.md",
-      "patch_path": "raw/opus48_quan_one_shot.patch",
+      "raw_response_path": "raw/opus48_native_one_shot_response.md",
+      "patch_path": "raw/opus48_native_one_shot.patch",
       "strip_probe_passed": true
     }
   ],

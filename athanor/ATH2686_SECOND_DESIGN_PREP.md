@@ -1,7 +1,7 @@
 # ATH-2686 Second-Design Prep
 
 Status: prep only. This file does not select the second design and does not
-claim any PPA result. It records the harness criteria and shortlist so Aidan can
+claim any PPA result. It records the harness criteria and shortlist so the team can
 choose the next target without losing the Ibex lessons from ATH-2699/ATH-2685.
 
 ## Why Pivot
@@ -47,7 +47,7 @@ ATH-2686 target:
 The machine-readable shortlist lives in
 [`configs/ath2686_candidate_cores.json`](configs/ath2686_candidate_cores.json).
 
-Current recommendation for first harness target, pending Aidan's choice:
+Current recommendation for first harness target, pending team lead's choice:
 PicoRV32. It is already available in the workspace, is compact enough for fast
 iteration, has native Yosys/formal hooks, and the source-only ATH-2685 detector
 finds a broad candidate set while correctly marking constant-prop rows as

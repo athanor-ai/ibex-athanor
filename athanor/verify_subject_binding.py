@@ -23,7 +23,7 @@ produced the off-subject green (checkout != candidate) cannot also satisfy the
 check.
 
 Homes/wiring (ci-formal.yml steps, the candidate-present precondition, and the
-subprocess wiring-bite) are Bob's slices under ATH-2764 / ATH-2699. This module
+subprocess wiring-bite) are the builder's slices under ATH-2764 / ATH-2699. This module
 is the formal-side assertion + its own green-known/red-known unit test.
 """
 
